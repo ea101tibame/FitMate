@@ -3,31 +3,34 @@ package com.lesson.model;
 import java.sql.Date;
 
 public class LessonVO implements java.io.Serializable{
-	private Integer lessno;
-	private Integer coano;
+	private String lessno;
+	private String coano;
 	private String lessname;
 	private Integer lessmax;
 	private Integer lessmin;
+	
 	private Integer lesscur;
-	private Integer lesstype;
+	private String lesstype;
 	private String lessloc;
 	private Integer lessprice;
 	private String lessdesc;
+	
 	private Date lessstart;
 	private Date lessend;
-	private Integer lesssta;
+	private String lesssta;
 	private Integer lesstimes;
+	private byte[] lesspic;
 	
-	public Integer getLessno() {
+	public String getLessno() {
 		return lessno;
 	}
-	public void setLessno(Integer lessno) {
+	public void setLessno(String lessno) {
 		this.lessno = lessno;
 	}
-	public Integer getCoano() {
+	public String getCoano() {
 		return coano;
 	}
-	public void setCoano(Integer coano) {
+	public void setCoano(String coano) {
 		this.coano = coano;
 	}
 	public String getLessname() {
@@ -54,10 +57,10 @@ public class LessonVO implements java.io.Serializable{
 	public void setLesscur(Integer lesscur) {
 		this.lesscur = lesscur;
 	}
-	public Integer getLesstype() {
+	public String getLesstype() {
 		return lesstype;
 	}
-	public void setLesstype(Integer lesstype) {
+	public void setLesstype(String lesstype) {
 		this.lesstype = lesstype;
 	}
 	public String getLessloc() {
@@ -90,10 +93,10 @@ public class LessonVO implements java.io.Serializable{
 	public void setLessend(Date lessend) {
 		this.lessend = lessend;
 	}
-	public Integer getLesssta() {
+	public String getLesssta() {
 		return lesssta;
 	}
-	public void setLesssta(Integer lesssta) {
+	public void setLesssta(String lesssta) {
 		this.lesssta = lesssta;
 	}
 	public Integer getLesstimes() {
@@ -102,5 +105,12 @@ public class LessonVO implements java.io.Serializable{
 	public void setLesstimes(Integer lesstimes) {
 		this.lesstimes = lesstimes;
 	}
-
+	public byte[] getLesspic() {
+		return lesspic;
+	}
+	public void setLesspic(byte[] lesspic) {
+		this.lesspic = lesspic;
+	}
+	
+	
 }

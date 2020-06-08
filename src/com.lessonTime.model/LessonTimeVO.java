@@ -3,14 +3,14 @@ package com.lessonTime.model;
 import java.sql.Date;
 
 public class LessonTimeVO  implements java.io.Serializable{
-	private Integer ltime_no;
+	private String ltime_no;
 	private Date ltime_date;
 	private Integer ltime_ss;
 	
-	public Integer getLtime_no() {
+	public String getLtime_no() {
 		return ltime_no;
 	}
-	public void setLtime_no(Integer ltime_no) {
+	public void setLtime_no(String ltime_no) {
 		this.ltime_no = ltime_no;
 	}
 	public Date getLtime_date() {
@@ -24,5 +24,7 @@ public class LessonTimeVO  implements java.io.Serializable{
 	}
 	public void setLtime_ss(Integer ltime_ss) {
 		this.ltime_ss = ltime_ss;
-	}	
+	}
+	
+
 }

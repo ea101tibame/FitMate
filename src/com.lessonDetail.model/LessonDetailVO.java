@@ -2,19 +2,21 @@ package com.lessonDetail.model;
 
 public class LessonDetailVO  implements java.io.Serializable{
 
-	private Integer lessno;
-	private Integer ltime_no;
+	private String lessno;
+	private String ltime_no;
 	
-	public Integer getLessno() {
+	public String getLessno() {
 		return lessno;
 	}
-	public void setLessno(Integer lessno) {
+	public void setLessno(String lessno) {
 		this.lessno = lessno;
 	}
-	public Integer getLtime_no() {
+	public String getLtime_no() {
 		return ltime_no;
 	}
-	public void setLtime_no(Integer ltime_no) {
+	public void setLtime_no(String ltime_no) {
 		this.ltime_no = ltime_no;
-	}	
+	}
+	
+	
 }
