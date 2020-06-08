@@ -1,33 +1,24 @@
 package com.lesson.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
+import org.json.*;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import com.mysql.jdbc.ResultSetMetaData;
+import test.expertise.model.ExpertiseVO;
 
 public class LessonDAO implements LessonDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "FITMATE";
+	String userid = "EA101G5";
 	String passwd = "123456";
 
-	private static final String INSERT_STMT = "INSERT INTO LESSON"
-			+ "VALUES ('L'||LPAD(to_char(LESSNO_seq.NEXTVAL), 3, '0'),?,?,?,? ,?,?,?,?,? ,?,?,?,?,?)";
-	private static final String UPDATE_STMT = "UPDATE LESSON SET LESSNAME =?, LESSMAX =?, LESSMIN =?, LESSTYPE =?, LESSLOC =?, LESSPRICE =? ,LESSDESC =? , LESSSTART =?,LESSEND =?,LESSSTA =?,LESSTIMES=? LESSPIC=? WHERE LESSNO =?";
+	private static final String INSERT_STMT = "INSERT INTO LESSON VALUES ('L'||LPAD(to_char(LESSNO_seq.NEXTVAL), 3, '0'),?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final String UPDATE_STMT = "UPDATE LESSON SET LESSNAME=?,LESSMAX=?,LESSMIN=?,LESSTYPE=?,LESSLOC=?,LESSPRICE=?,LESSDESC=?,LESSSTART=?,LESSEND=?,LESSSTA=?,LESSTIMES=?,LESSPIC=? WHERE LESSNO=?";
 	private static final String GET_TYPE_STMT = "SELECT * FROM LESSON WHERE LESSTYPE=?";
+	private static final String Get_ExpByExpno_STMT= "SELECT * FROM EXPERTISE WHERE EXPNO=?";
 	private static final String GET_ALL = "SELECT * FROM LESSON ";
-	private static final String GET_CoachAllLesson_STMT = "SELECT *FROM LESSON "
-			+ "JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO"
-			+ "JOIN LESSON_TIME  ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO" + "WHERE COANO=?";
+	private static final String GET_CoachAllLesson_STMT = "SELECT * FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 
 	@Override
 	public void insert(LessonVO lessonVO) {
@@ -39,23 +30,22 @@ public class LessonDAO implements LessonDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
-			//pstmt.setString(1, lessonVO.getLessno()); ¶€∞ ≤£•Õ
-			pstmt.setString(2, lessonVO.getCoano());
-			pstmt.setString(3, lessonVO.getLessname());
-			pstmt.setInt(4, lessonVO.getLessmax());
-			pstmt.setInt(5, lessonVO.getLessmin());
+			pstmt.setString(1, lessonVO.getCoano());
+			pstmt.setString(2, lessonVO.getLessname());
+			pstmt.setInt(3, lessonVO.getLessmax());
+			pstmt.setInt(4, lessonVO.getLessmin());
 
-			pstmt.setInt(6, lessonVO.getLesscur());
-			pstmt.setString(7, lessonVO.getLesstype());
-			pstmt.setString(8, lessonVO.getLessloc());
-			pstmt.setInt(9, lessonVO.getLessprice());
-			pstmt.setString(10, lessonVO.getLessdesc());
+			pstmt.setInt(5, lessonVO.getLesscur());
+			pstmt.setString(6, lessonVO.getLesstype());
+			pstmt.setString(7, lessonVO.getLessloc());
+			pstmt.setInt(8, lessonVO.getLessprice());
+			pstmt.setString(9, lessonVO.getLessdesc());
 
-			pstmt.setDate(11, lessonVO.getLessstart());
-			pstmt.setDate(12, lessonVO.getLessend());
-			pstmt.setString(13, lessonVO.getLesssta());
-			pstmt.setInt(14, lessonVO.getLesstimes());
-			pstmt.setBytes(15, lessonVO.getLesspic());
+			pstmt.setDate(10, lessonVO.getLessstart());
+			pstmt.setDate(11, lessonVO.getLessend());
+			pstmt.setString(12, lessonVO.getLesssta());
+			pstmt.setInt(13, lessonVO.getLesstimes());
+			pstmt.setBytes(14, lessonVO.getLesspic());
 
 			pstmt.executeUpdate();
 
@@ -108,7 +98,7 @@ public class LessonDAO implements LessonDAO_interface {
 			pstmt.setInt(11, lessonVO.getLesstimes());
 			pstmt.setBytes(12, lessonVO.getLesspic());
 
-			pstmt.setString(3, lessonVO.getLessno());
+			pstmt.setString(13, lessonVO.getLessno());
 
 			pstmt.executeUpdate();
 
@@ -139,8 +129,10 @@ public class LessonDAO implements LessonDAO_interface {
 	}
 
 	@Override
-	public LessonVO findLessonByLessonType(String lesstype) {
+	public List<LessonVO> findLessonByLessonType(String lesstype) {
+		List<LessonVO> list = new ArrayList<LessonVO>();
 		LessonVO lessonVO = null;
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -153,11 +145,9 @@ public class LessonDAO implements LessonDAO_interface {
 			pstmt.setString(1, lesstype);
 
 			rs = pstmt.executeQuery();
-
+			
 			while (rs.next()) {
-
 				lessonVO = new LessonVO();
-
 				lessonVO.setLessno(rs.getString("lessno"));
 				lessonVO.setCoano(rs.getString("coano"));
 				lessonVO.setLessname(rs.getString("lessname"));
@@ -175,6 +165,7 @@ public class LessonDAO implements LessonDAO_interface {
 				lessonVO.setLesssta(rs.getString("lesssta"));
 				lessonVO.setLesstimes(rs.getInt("lesstimes"));
 				lessonVO.setLesspic(rs.getBytes("lesspic"));
+				list.add(lessonVO);
 
 			}
 
@@ -209,9 +200,64 @@ public class LessonDAO implements LessonDAO_interface {
 			}
 		}
 
-		return lessonVO;
+		return list;
 	}
-
+	
+	@Override
+	public ExpertiseVO getExpByExpno(String expno) {
+		
+		ExpertiseVO expVO=null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+	
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(Get_ExpByExpno_STMT);
+			pstmt.setString(1, expno);
+			rs = pstmt.executeQuery();	
+			
+			while(rs.next()) {
+				expVO = new ExpertiseVO();
+				expVO.setExpno(rs.getString("expno"));
+				expVO.setExpdesc(rs.getString("expdesc"));
+			}
+			
+		}catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return expVO;
+	}
+	
 	@Override
 	public List<LessonVO> getAll() {
 		List<LessonVO> list = new ArrayList<LessonVO>();
@@ -302,14 +348,20 @@ public class LessonDAO implements LessonDAO_interface {
 			ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
 			int columnCount = metaData.getColumnCount();
 
-			// •Œ¶r¶Í±µ§U•˛≥°∏ÍÆ∆ ß‚®C§@µßJSONObject ∂Î∂iJSONArray
+			// ÊïôÁ∑¥‰∏ÄÂ†ÇË™≤Á®ã=‰∏ÄÂÄãJSONObject ÂÜçÊääÂÖ®ÈÉ®Â°ûÈÄ≤JSONArray
 			while (rs.next()) {
 				JSONObject oneLesson = new JSONObject();
+				
 				for (int i = 1; i <= columnCount; i++) {
-					String columnName = metaData.getColumnLabel(i);
-					String value = rs.getString(columnName);
 					try {
-						oneLesson.put(columnName, value);
+						oneLesson.put("lesson", rs.getString("lessno"));
+						oneLesson.put("lessname", rs.getString("lessname"));
+						oneLesson.put("lesscur", rs.getString("lesscur"));
+						oneLesson.put("lessprice", rs.getInt("lessprice"));
+						oneLesson.put("lesssta", rs.getString("lesssta"));
+						oneLesson.put("lesstimes", rs.getInt("lesstimes"));
+						oneLesson.put("ltime_date", rs.getDate("ltime_date"));
+						oneLesson.put("ltime_ss", rs.getInt("ltime_ss"));
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -352,27 +404,76 @@ public class LessonDAO implements LessonDAO_interface {
 	public static void main(String[] args) { 
 		LessonDAO dao = new LessonDAO();
 		
-		//∑sºW (¥˙∏’§£©Ò •i™≈™∫¥y≠z)
-		LessonVO testInsert = new LessonVO();
-		testInsert.setCoano("C004");
-		testInsert.setLessname("MVªR¡–");
-		testInsert.setLessmax(20);
-		testInsert.setLessmin(5);
-		testInsert.setLesscur(0);
-		testInsert.setLesstype("EXP004");
-		testInsert.setLessloc("§j¶w¥À™L§Ω∂È");
-		testInsert.setLessprice(2000);
-		//testInsert.setLessdesc(null);
-		testInsert.setLessstart(java.sql.Date.valueOf("2020-07-07"));
+		//Êñ∞Â¢û (Ê∏¨Ë©¶‰∏çÊîæ ÂèØÁ©∫ÁöÑÊèèËø∞)
+//		LessonVO testInsert = new LessonVO();
+//		//Ëá™ÁîüLESSNO
+//		testInsert.setCoano("C004");
+//		testInsert.setLessname("MVËàûËπà");
+//		testInsert.setLessmax(20);
+//		testInsert.setLessmin(5);
+//		
+//		testInsert.setLesscur(0);//ÊîπÂèØÁ©∫
+//		testInsert.setLesstype("EXP004");
+//		testInsert.setLessloc("Â§ßÂÆâÊ£ÆÊûóÂÖ¨Âúí");
+//		testInsert.setLessprice(2000);
+//		testInsert.setLessdesc(null);//ÊèèËø∞TEST
+//		
+//		testInsert.setLessstart(java.sql.Date.valueOf("2020-07-01"));
+//		testInsert.setLessend(java.sql.Date.valueOf("2020-07-10"));
+//		testInsert.setLesssta("Êú™ÊàêÂúò");
+//		testInsert.setLesstimes(10);
+//		testInsert.setLesspic(null);
+//		
+//		dao.insert(testInsert);
+//		System.out.println("Êñ∞Â¢ûÊàêÂäü");
 		
+		//‰øÆÊîπ (Ê∏¨Ë©¶Âè™ÊîπÁãÄÊÖãÁÇ∫‰∏ãÊû∂)
+//		LessonVO testUpdate = new LessonVO();
+//		testUpdate.setLessname("ÂúãÊ®ôËàûËπà");
+//		testUpdate.setLessmax(10);
+//		testUpdate.setLessmin(30);
+//		testUpdate.setLesstype("EXP004");
+//		testUpdate.setLessloc("Êò•Â§©ËàûËπà‰∏≠ÂøÉ");
+//		testUpdate.setLessprice(3000);
+//		testUpdate.setLessdesc("ÂúãÊ®ôËàûËπà~~");
+//		testUpdate.setLessstart(java.sql.Date.valueOf("2020-07-05"));
+//		testUpdate.setLessend(java.sql.Date.valueOf("2020-07-15"));
+//		testUpdate.setLesssta("ÊàêÂúòÊãâ");
+//		testUpdate.setLesstimes(15);
+//		testUpdate.setLessno("L012");
+//		
+//		dao.update(testUpdate);
+//		System.out.println("‰øÆÊîπÊàêÂäü");
 		
-		//≠◊ßÔ (¥˙∏’•ußÔ™¨∫A¨∞§U¨[)
+		//Áî®È°ûÂûãÊü•Ë©¢Ë™≤Á®ã
+//		List<LessonVO> testAll = dao.findLessonByLessonType("EXP003");
+//		for(LessonVO allTypeLesson:testAll) {
+//		System.out.println(allTypeLesson.getCoano());
+//		System.out.println(allTypeLesson.getLessname());
+//		System.out.println(allTypeLesson.getLesstype());
+//		}
 		
-		//•Œ√˛´¨¨d∏ﬂΩ“µ{
+		//Áî®È°ûÂûãÊü•Âá∫Ë©≥Ëø∞ÊèèËø∞
+//		ExpertiseVO testGetTypeDesc = dao.getExpByExpno("EXP002");
+//		System.out.println(testGetTypeDesc.getExpno());
+//		System.out.println(testGetTypeDesc.getExpdesc());
 		
-		//¨d∏ﬂ•˛≥°Ω“µ{
+		//Êü•Ë©¢ÂÖ®ÈÉ®Ë™≤Á®ã
+//		List<LessonVO> testAllLesson = dao.getAll();
+//		for(LessonVO allLesson:testAllLesson) {
+//			System.out.print(allLesson.getLessno()+",");
+//			System.out.print(allLesson.getCoano()+",");
+//			System.out.print(allLesson.getLessname()+",");
+//			System.out.print(allLesson.getLesstype()+",");
+//			System.out.println(allLesson.getLessprice()+",....");
+//			System.out.println("----------------");
+//		}				
 		
-		//¨d∏ﬂ¨Y±–Ωm™∫Ω“µ{∏Í∞T ¶L•XJSONArray
+		//Êü•Ë©¢ÊüêÊïôÁ∑¥ÁöÑË™≤Á®ãË≥áË®ä Âç∞Âá∫JSONArray
+		JSONArray allLessonArray = dao.getCoachAllLesson("C002");
+		System.out.println(allLessonArray);
 		
 	}
+
+
 }

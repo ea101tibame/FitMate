@@ -4,13 +4,17 @@ import java.util.*;
 
 import org.json.JSONArray;
 
+import test.expertise.model.ExpertiseVO;
+
 public interface LessonDAO_interface {
 	public void insert(LessonVO lessonVO);
-	public void update(LessonVO lessonVO);//³Æµù:¨S¦³§R°£ ¥uÅÜ§óª¬ºA¬°¤U¬[
-	/*¥ÎÃş«¬¬d¸ß½Òµ{*/
-	public LessonVO findLessonByLessonType(String lesstype);
-	/*¬d¸ß¥ş³¡½Òµ{ ½Òµ{Á`Äı*/
-	public List<LessonVO>getAll();
-	/*¬d¸ß¬Y±Ğ½mªº½Òµ{¸ê°T(¤@¹ï¦h)(¦^¶Ç¤@¦ê JSONArray ©ñ¤J½Òªí¥Î)*/
+	public void update(LessonVO lessonVO);//å‚™è¨»:æ²’æœ‰åˆªé™¤ åªè®Šæ›´ç‹€æ…‹ç‚ºä¸‹æ¶
+	/*æ­¤é‹å‹•ç¨®é¡æœ‰å¤šå°‘èª²ç¨‹ ç”¨é¡å‹æŸ¥*/
+	public List<LessonVO> findLessonByLessonType(String lesstype);
+	/*æŸ¥æ­¤é‹å‹•é¡å‹çš„è©³ç´°æè¿° è¦ç”¨åˆ°EXPERTISEçš„VO*/
+	public ExpertiseVO getExpByExpno(String expno);
+	/*æŸ¥è©¢å…¨éƒ¨èª²ç¨‹ èª²ç¨‹ç¸½è¦½*/
+	public List<LessonVO> getAll();
+	/*æŸ¥è©¢æŸæ•™ç·´çš„èª²ç¨‹è³‡è¨Š(ä¸€å°å¤š)(å›å‚³ä¸€ä¸² JSONArray æ”¾å…¥èª²è¡¨ç”¨)*/
 	public JSONArray getCoachAllLesson(String coano);
 }
