@@ -1,14 +1,16 @@
 package com.product_class.model;
 
-public class Product_classVO {
+import java.io.Serializable;
+
+public class Product_classVO implements Serializable{
 	
-	private int pclass_id;
+	private String pclass_id;
 	private String pclass_name;
 	
-	public int getPclass_id() {
+	public String getPclass_id() {
 		return pclass_id;
 	}
-	public void setPclass_id(int pclass_id) {
+	public void setPclass_id(String pclass_id) {
 		this.pclass_id = pclass_id;
 	}
 	public String getPclass_name() {

@@ -1,21 +1,22 @@
 package com.product_order_list.model;
 
-public class Product_order_listVO {
-	private int prodno;
-	private int pordno;
+import java.io.Serializable;
+
+public class Product_order_listVO implements Serializable{
+	private String prodno;
+	private String pordno;
 	private int pord_listqty;
-	private int pord_listPrice;
-	
-	public int getProdno() {
+	private int pord_listprice;
+	public String getProdno() {
 		return prodno;
 	}
-	public void setProdno(int prodno) {
+	public void setProdno(String prodno) {
 		this.prodno = prodno;
 	}
-	public int getPordno() {
+	public String getPordno() {
 		return pordno;
 	}
-	public void setPordno(int pordno) {
+	public void setPordno(String pordno) {
 		this.pordno = pordno;
 	}
 	public int getPord_listqty() {
@@ -24,11 +25,12 @@ public class Product_order_listVO {
 	public void setPord_listqty(int pord_listqty) {
 		this.pord_listqty = pord_listqty;
 	}
-	public int getPord_listPrice() {
-		return pord_listPrice;
+	public int getPord_listprice() {
+		return pord_listprice;
 	}
-	public void setPord_listPrice(int pord_listPrice) {
-		this.pord_listPrice = pord_listPrice;
+	public void setPord_listprice(int pord_listprice) {
+		this.pord_listprice = pord_listprice;
 	}
+	
 
 }

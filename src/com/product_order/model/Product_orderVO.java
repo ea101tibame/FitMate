@@ -1,24 +1,28 @@
 package com.product_order.model;
 
-public class Product_orderVO {
+import java.io.Serializable;
+
+public class Product_orderVO implements Serializable{
 	
-	private int pordno;
-	private int stuno;
+	private String pordno;
+	private String stuno;
 	private String porddate;
 	private int pordtotal;
 	private String pordadd;
-	private int pordsta;
+	private String pordsta;
+	private int fare;
 	
-	public int getPordno() {
+	
+	public String getPordno() {
 		return pordno;
 	}
-	public void setPordno(int pordno) {
+	public void setPordno(String pordno) {
 		this.pordno = pordno;
 	}
-	public int getStuno() {
+	public String getStuno() {
 		return stuno;
 	}
-	public void setStuno(int stuno) {
+	public void setStuno(String stuno) {
 		this.stuno = stuno;
 	}
 	public String getPorddate() {
@@ -39,11 +43,17 @@ public class Product_orderVO {
 	public void setPordadd(String pordadd) {
 		this.pordadd = pordadd;
 	}
-	public int getPordsta() {
+	public String getPordsta() {
 		return pordsta;
 	}
-	public void setPordsta(int pordsta) {
+	public void setPordsta(String pordsta) {
 		this.pordsta = pordsta;
+	}
+	public int getFare() {
+		return fare;
+	}
+	public void setFare(int fare) {
+		this.fare = fare;
 	}
 	
 	

@@ -1,20 +1,22 @@
 package com.sale_list_model;
 
-public class Sale_listVO {
-	private int sapro_no;
-	private int prodno;
+import java.io.Serializable;
+
+public class Sale_listVO implements Serializable{
+	private String sapro_no;
+	private String prodno;
 	private int sapro_price;
 	
-	public int getSapro_no() {
+	public String getSapro_no() {
 		return sapro_no;
 	}
-	public void setSapro_no(int sapro_no) {
+	public void setSapro_no(String sapro_no) {
 		this.sapro_no = sapro_no;
 	}
-	public int getProdno() {
+	public String getProdno() {
 		return prodno;
 	}
-	public void setProdno(int prodno) {
+	public void setProdno(String prodno) {
 		this.prodno = prodno;
 	}
 	public int getSapro_price() {

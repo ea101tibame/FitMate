@@ -9,10 +9,9 @@ public class ProductVO implements Serializable{
 	private String prodname;
 	private int prodprice;
 	private int prodqty;
-	private byte prodpic[];
-	private String prodesc;
+	private byte[] prodpic;
+	private String proddesc;
 	private String prodsta;
-	
 	public String getProdno() {
 		return prodno;
 	}
@@ -49,11 +48,11 @@ public class ProductVO implements Serializable{
 	public void setProdpic(byte[] prodpic) {
 		this.prodpic = prodpic;
 	}
-	public String getProdesc() {
-		return prodesc;
+	public String getProddesc() {
+		return proddesc;
 	}
-	public void setProdesc(String prodesc) {
-		this.prodesc = prodesc;
+	public void setProddesc(String proddesc) {
+		this.proddesc = proddesc;
 	}
 	public String getProdsta() {
 		return prodsta;
@@ -61,6 +60,9 @@ public class ProductVO implements Serializable{
 	public void setProdsta(String prodsta) {
 		this.prodsta = prodsta;
 	}
+	
+	
+
 
 	
 }

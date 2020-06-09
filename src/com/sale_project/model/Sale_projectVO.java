@@ -1,26 +1,29 @@
 package com.sale_project.model;
 
-public class Sale_projectVO {
-	private int sapro_no;
-	private String sapro_start;
-	private String sapro_end;
+import java.io.Serializable;
+import java.sql.Date;
+
+public class Sale_projectVO implements Serializable{
+	private String sapro_no;
+	private Date sapro_start;
+	private Date sapro_end;
 	
-	public int getSapro_no() {
+	public String getSapro_no() {
 		return sapro_no;
 	}
-	public void setSapro_no(int sapro_no) {
+	public void setSapro_no(String sapro_no) {
 		this.sapro_no = sapro_no;
 	}
-	public String getSapro_start() {
+	public Date getSapro_start() {
 		return sapro_start;
 	}
-	public void setSapro_start(String sapro_start) {
+	public void setSapro_start(Date sapro_start) {
 		this.sapro_start = sapro_start;
 	}
-	public String getSapro_end() {
+	public Date getSapro_end() {
 		return sapro_end;
 	}
-	public void setSapro_end(String sapro_end) {
+	public void setSapro_end(Date sapro_end) {
 		this.sapro_end = sapro_end;
 	}
 

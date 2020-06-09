@@ -1,20 +1,21 @@
 package com.product_fav.model;
 
-public class Product_favVO {
-	private int stuno;
-	private int prodno;
-	
-	public int getStuno() {
+import java.io.Serializable;
+
+public class Product_favVO implements Serializable{
+	private String stuno;
+	private String prodno;
+	public String getStuno() {
 		return stuno;
 	}
-	public void setStuno(int stuno) {
+	public void setStuno(String stuno) {
 		this.stuno = stuno;
 	}
-	public int getProdno() {
+	public String getProdno() {
 		return prodno;
 	}
-	public void setProdno(int prodno) {
+	public void setProdno(String prodno) {
 		this.prodno = prodno;
 	}
-	
+
 }

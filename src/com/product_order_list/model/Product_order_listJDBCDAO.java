@@ -1,23 +1,25 @@
-package com.product_class.model;
+package com.product_order_list.model;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Product_classJDBCDAO implements Product_classDAO_interface {
+import com.product_class.model.Product_classVO;
 
+public class Product_order_listJDBCDAO implements Product_order_listDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:49161:XE";
 	String userid = "EA101G5";
 	String passwd = "EA101G5";
 
-	private static final String INSERT_STMT = "INSERT INTO product_class(pclass_id,pclass_name)VALUES('PC'||LPAD(to_char(PRODUCT_CLASSseq.NEXTVAL), 3, '0'),?)";
-	private static final String UPDATE = "UPDATE PRODUCT_CLASS set pclass_name=? where pclass_id=?";
-	private static final String DELETE = "DELETE FROM PRODUCT_CLASS where pclass_id=?";
-	private static final String GET_ONE_STMT = "SELECT pclass_id,pclass_name from product_class where pclass_id=?";
-	private static final String GET_ALL_STMT = "SELECT pclass_id,pclass_name from product_class order by pclass_id";
+	private static final String INSERT_STMT = "INSERT INTO product_order_list(prodno,pordno,pord_listqty,pord_listprice)VALUES(?,?,?,?)";
+	private static final String UPDATE = "UPDATE product_order_list set pord_listqty=?,pord_listprice=? where prodno=? and pordno=?";
+	private static final String DELETE = "DELETE FROM product_order_list where prodno=? and pordno=?";
+	private static final String GET_PORDNO_STMT = "SELECT prodno,pordno,pord_listqty,pord_listprice from product_order_list where pordno=?";
+	private static final String GET_ALL_STMT = "SELECT * from product_order_list order by pordno";
 
 	@Override
-	public void insert(Product_classVO product_classVO) {
+	public void insert(Product_order_listVO product_order_listVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -26,7 +28,11 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
-			pstmt.setString(1, product_classVO.getPclass_name());
+			pstmt.setString(1, product_order_listVO.getProdno());
+			pstmt.setString(2, product_order_listVO.getPordno());
+			pstmt.setInt(3, product_order_listVO.getPord_listqty());
+			pstmt.setInt(4, product_order_listVO.getPord_listprice());
+
 			pstmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
@@ -51,8 +57,7 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 	}
 
 	@Override
-	public void update(Product_classVO product_classVO) {
-
+	public void update(Product_order_listVO product_order_listVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -60,8 +65,10 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
-			pstmt.setString(1, product_classVO.getPclass_name());
-			pstmt.setString(2, product_classVO.getPclass_id());
+			pstmt.setInt(1, product_order_listVO.getPord_listqty());
+			pstmt.setInt(2, product_order_listVO.getPord_listprice());
+			pstmt.setString(3, product_order_listVO.getProdno());
+			pstmt.setString(4, product_order_listVO.getPordno());
 
 			pstmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
@@ -87,7 +94,7 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 	}
 
 	@Override
-	public void delete(String pclass_id) {
+	public void delete(String prodno, String pordno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -96,7 +103,9 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(DELETE);
 
-			pstmt.setString(1, pclass_id);
+			pstmt.setString(1, prodno);
+			pstmt.setString(2, pordno);
+
 			pstmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
@@ -121,25 +130,29 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 
 	}
 
-	@Override
-	public Product_classVO findByPrimaryKey(String pclass_id) {
-		Product_classVO pcVO = null;
+	public List<Product_order_listVO> findByPordno(String pordno) {
+		
+		List<Product_order_listVO> list = new ArrayList<Product_order_listVO>();
+		Product_order_listVO polVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
+		
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(GET_ONE_STMT);
-
-			pstmt.setString(1, pclass_id);
+			pstmt = con.prepareStatement(GET_PORDNO_STMT);
+			pstmt.setString(1, pordno);
 			rs = pstmt.executeQuery();
-
+			
+			
 			while (rs.next()) {
-				pcVO = new Product_classVO();
-				pcVO.setPclass_id(rs.getString("pclass_id"));
-				pcVO.setPclass_name(rs.getString("pclass_name"));
+				polVO = new Product_order_listVO();
+				polVO.setProdno(rs.getString("prodno"));
+				polVO.setPordno(rs.getString("pordno"));
+				polVO.setPord_listqty(rs.getInt("pord_listqty"));
+				polVO.setPord_listprice(rs.getInt("pord_listprice"));
+				list.add(polVO);
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -169,13 +182,12 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 				}
 			}
 		}
-		return pcVO;
+		return list;
 	}
 
-	@Override
-	public List<Product_classVO> getAll() {
-		List<Product_classVO> list = new ArrayList<Product_classVO>();
-		Product_classVO pcVO = null;
+	public List<Product_order_listVO> getAll() {
+		List<Product_order_listVO> list = new ArrayList<Product_order_listVO>();
+		Product_order_listVO polVO = null;
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -189,10 +201,12 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				pcVO = new Product_classVO();
-				pcVO.setPclass_id(rs.getString("pclass_id"));
-				pcVO.setPclass_name(rs.getString("pclass_name"));
-				list.add(pcVO); // Store the row in the list
+				polVO = new Product_order_listVO();
+				polVO.setProdno(rs.getString("prodno"));
+				polVO.setPordno(rs.getString("pordno"));
+				polVO.setPord_listqty(rs.getInt("Pord_listqty"));
+				polVO.setPord_listprice(rs.getInt("pord_listprice"));
+				list.add(polVO);
 			}
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -227,28 +241,57 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 	}
 
 	public static void main(String[] args) {
-		Product_classJDBCDAO dao = new Product_classJDBCDAO();
+		Product_order_listJDBCDAO dao = new Product_order_listJDBCDAO();
 
-//		Product_classVO pcVO1=new Product_classVO();
-//		pcVO1.setPclass_name("父親節促銷");
-//		dao.insert(pcVO1);
-
-//		Product_classVO pcVO2=new Product_classVO();
-//		pcVO2.setPclass_id("PC001");
-//		pcVO2.setPclass_name("男士服飾");
-//		dao.update(pcVO2);
+//測試新增		
+//		Product_order_listVO polVO1 = new Product_order_listVO();
+//		polVO1.setProdno("P021");
+//		polVO1.setPordno("20200101-PO001");
+//		polVO1.setPord_listqty(1);
+//		polVO1.setPord_listprice(99);
 //		
-//		dao.delete("PC006");
+//		dao.insert(polVO1);
 
-//		Product_classVO pcVO2=dao.findByPrimaryKey("PC001");
-//		System.out.println(pcVO2.getPclass_id());
-//		System.out.println(pcVO2.getPclass_name());
+//測試修改
+//		Product_order_listVO polVO2 = new Product_order_listVO();
+//		polVO2.setPord_listqty(1);
+//		polVO2.setPord_listprice(10000);
+//		polVO2.setProdno("P021");
+//		polVO2.setPordno("20200101-PO001");
+//
+//		dao.update(polVO2);
 
-//		List<Product_classVO> list = dao.getAll();
-//		for (Product_classVO pcVO3 : list) {
-//			System.out.print(pcVO3.getPclass_id() + ",");
-//			System.out.print(pcVO3.getPclass_name() + ",");
+//測試刪除
+//		dao.delete("P021","20200101-PO001");
+
+		// 測試查全部
+//		List<Product_order_listVO> list = dao.getAll();
+//		for (Product_order_listVO polVO3 : list) {
+//			System.out.print(polVO3.getProdno() + " ");
+//			System.out.print(polVO3.getPordno() + " ");
+//			System.out.print(polVO3.getPord_listqty() + " ");
+//			System.out.print(polVO3.getPord_listprice() + " ");
+//			System.out.println();
+
+//		Product_order_listVO polVO5= dao.findByProdno("P005");
+//		List<Product_order_listVO> list2 =dao.findByProdno("P005");
+//		for(Product_order_listVO polVO5 :list2) {
+//			System.out.print(polVO5.getProdno() + " ");
+//			System.out.print(polVO5.getPordno() + " ");
+//			System.out.print(polVO5.getPord_listqty() + " ");
+//			System.out.print(polVO5.getPord_listprice() + " ");
 //			System.out.println();
 //		}
+		
+//測試從商品編號查詢商品
+		List<Product_order_listVO> list2 = dao.findByPordno("20200330-PO001");
+		for (Product_order_listVO polVO6 : list2) {
+			System.out.print(polVO6.getProdno() + ",");
+			System.out.print(polVO6.getPordno() + ",");
+			System.out.print(polVO6.getPord_listqty() + ",");
+			System.out.print(polVO6.getPord_listprice() + ",");
+			System.out.println();
+		}
+
 	}
 }
