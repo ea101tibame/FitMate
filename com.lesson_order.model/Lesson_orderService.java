@@ -11,7 +11,7 @@ public class Lesson_orderService {
 		dao = new Lesson_orderJDBCDAO();
 	}
 	
-	public Lesson_orderVO addLesson_order( String lord_sc, String lord_no, String stuno, String lessno) {
+	public Lesson_orderVO addLesson_order(String lord_no, String stuno, String lessno, Integer lord_sc) {
 		Lesson_orderVO lesson_orderVO = new Lesson_orderVO();
 	
 		lesson_orderVO.setLord_no(lord_no);

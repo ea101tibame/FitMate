@@ -18,7 +18,7 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 	String userid = "fitmate";
 	String passwd = "123456";
 	
-	private static final String INSERT_STMT = "INSERT INTO Lesson_order (LORD_NO, STUNO, LESSNO, LORD_SC) VALUES ( SEQ_LESSON_ORDER.NEXTVAL, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO Lesson_order (LORD_NO, STUNO, LESSNO, LORD_SC, LORD_TIME) VALUES ( to_char(sysdate,'yyyymmdd')||'-LO'||LPAD(to_char(SEQ_LESSON_ORDER.nextval), 3, '0'), ?, ?, ? ,?)";
 	private static final String DELETE = "DELETE FROM Lesson_order WHERE lord_no = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM Lesson_order";
 	private static final String GET_Lessno_STMT = "SELECT STUNO FROM Lesson_order WHERE LESSNO = ? ";
@@ -38,7 +38,8 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 			
 			pstmt.setString(1, Lesson_orderVO.getStuno());	
 			pstmt.setString(2, Lesson_orderVO.getLessno());		
-			pstmt.setString(3, Lesson_orderVO.getLord_no());		
+			pstmt.setInt(3, Lesson_orderVO.getLord_sc());
+			pstmt.setTimestamp(4, Lesson_orderVO.getLord_time());
 
 			pstmt.executeUpdate();
 
@@ -238,7 +239,7 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 			Lesson_orderVO.setLord_no(rs.getString("Lord_no"));
 			Lesson_orderVO.setLessno(rs.getString("stuno"));
 			Lesson_orderVO.setStuno(rs.getString("lessno"));
-			Lesson_orderVO.setLord_sc(rs.getString("Lord_sc"));
+			Lesson_orderVO.setLord_sc(rs.getInt("Lord_sc"));
 			list.add(Lesson_orderVO);			
 		}
 		// Handle any driver errors
@@ -282,14 +283,15 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 	public static void main(String[] args) {
 		Lesson_orderJDBCDAO dao = new Lesson_orderJDBCDAO();
 
-//		// 新增OK
-//		Lesson_orderVO Lesson_orderVO1 = new Lesson_orderVO();
-//
-//		Lesson_orderVO1.setStuno("S001");
-//		Lesson_orderVO1.setLessno("L003");
-//		Lesson_orderVO1.setLord_sc("0");
-//		dao.insert(Lesson_orderVO1);
-//		
+		// 新增OK
+		Lesson_orderVO Lesson_orderVO1 = new Lesson_orderVO();
+
+		Lesson_orderVO1.setStuno("S001");
+		Lesson_orderVO1.setLessno("L003");
+		Lesson_orderVO1.setLord_sc(1);//new Integer(0)
+		Lesson_orderVO1.setLord_time( new Timestamp(System.currentTimeMillis()));
+		dao.insert(Lesson_orderVO1);
+		
 //		
 		// 刪除OK
 //		dao.delete("21");
@@ -317,14 +319,15 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 		
 //
 //		// 查詢
-		List<Lesson_orderVO> list = dao.getAll();
-		for (Lesson_orderVO aLesson_orderVO : list) {
-			System.out.print(aLesson_orderVO.getLord_no() + ",");
-			System.out.print(aLesson_orderVO.getStuno() + ",");
-			System.out.print(aLesson_orderVO.getLessno() + ",");
-			System.out.print(aLesson_orderVO.getLord_sc() + ",");
-			System.out.println();
-		}
+//		List<Lesson_orderVO> list = dao.getAll();
+//		for (Lesson_orderVO aLesson_orderVO : list) {
+//			System.out.print(aLesson_orderVO.getLord_no() + ",");
+//			System.out.print(aLesson_orderVO.getStuno() + ",");
+//			System.out.print(aLesson_orderVO.getLessno() + ",");
+//			System.out.print(aLesson_orderVO.getLord_sc() + ",");
+//			System.out.print(aLesson_orderVO.getLord_time() + ",");
+//			System.out.println();
+//		}
 	}
 
 
