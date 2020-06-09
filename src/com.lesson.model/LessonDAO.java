@@ -7,7 +7,7 @@ import org.json.*;
 
 
 import test.expertise.model.ExpertiseVO;
-
+// 同時新增 時段跟明細
 public class LessonDAO implements LessonDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -17,20 +17,153 @@ public class LessonDAO implements LessonDAO_interface {
 	private static final String INSERT_STMT = "INSERT INTO LESSON VALUES ('L'||LPAD(to_char(LESSNO_seq.NEXTVAL), 3, '0'),?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = "UPDATE LESSON SET LESSNAME=?,LESSMAX=?,LESSMIN=?,LESSTYPE=?,LESSLOC=?,LESSPRICE=?,LESSDESC=?,LESSSTART=?,LESSEND=?,LESSSTA=?,LESSTIMES=?,LESSPIC=? WHERE LESSNO=?";
 	private static final String GET_TYPE_STMT = "SELECT * FROM LESSON WHERE LESSTYPE=?";
-	private static final String Get_ExpByExpno_STMT= "SELECT * FROM EXPERTISE WHERE EXPNO=?";
+	private static final String GET_ExpByExpno_STMT= "SELECT * FROM EXPERTISE WHERE EXPNO=?";
 	private static final String GET_ALL = "SELECT * FROM LESSON ";
 	private static final String GET_CoachAllLesson_STMT = "SELECT * FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
+	private static final String INSERT_LessonTime_STMT="INSERT INTO LESSON_TIME VALUES ('LT'||LPAD(to_char(LTIME_NO_seq.NEXTVAL), 3, '0'),?,?)";
+	private static final String INSERT_LessonDetail="INSERT INTO LESSON_DETAIL VALUES (?,?)";
+	private static final String GET_ALessonByLessno_STMT="SELECT * FROM LESSON WHERE LESSNO=?";
+	
+	
+	private static void addLessonTime(Connection con,String next_lessNo) {
+		PreparedStatement pstmt = null;
+		
+		try {
+/*
+			//想拿到課程堂數 再用日期去判斷+7日 變成循環每周 但  這個新增的 東西但尚未COMMIT拿不到
+//			LessonDAO dao = new LessonDAO();//新增完還未COMMIT 拿不到
+//			LessonVO les = dao.getALessonByLessno(next_lessNo);
+//			System.out.println("next_lessNo="+next_lessNo);
+//			System.out.println("lestimes="+les.getLesstimes());
+//			int Lesstimes = les.getLesstimes();
+//			System.out.println("Lesstimes="+Lesstimes);
+//			pstmt = con.prepareStatement(INSERT_LessonTime_STMT);
+//			
+//			for(int i=1;i<=Lesstimes;i++) {
+//			Date firsttime = new Date(2020-07-01);
+//			Long tmp = firsttime.getTime();
+//			Long weeksec = 7*24*60*60*1000L;
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//			String AllClassDay = sdf.format(new Date(tmp));;
+//				
+//			pstmt.setString(1,AllClassDay);//上課程日期
+//			
+//			pstmt.setInt(2, 1);//時段
+//			pstmt.executeUpdate();
+//			
+//			tmp =tmp+weeksec;
+			// 清空裡面參數，重覆使用已取得的PreparedStatement物件
+//			pstmt.clearParameters();
+//			}
+//			pstmt.setString(1,"2020-07-02");//上課程日期
+//			pstmt.setInt(2, 2);//時段			
+//			pstmt.executeUpdate();
+*/	
+			
+			String next_ltime_no = null;
+			String daystr = null;
+			String day[]= {"2020-06-06","2020-06-07","2020-06-08","2020-06-06","2020-06-09"};
+			for(int i = 0; i<day.length ;i++) {
+				String cols[] = {"LTIME_NO"};
+			
+			pstmt = con.prepareStatement(INSERT_LessonTime_STMT,cols);
+			daystr = day[i];
+			pstmt.setDate(1,java.sql.Date.valueOf(daystr));//上課程日期
+			pstmt.setInt(2, 1);//時段
+			
+			pstmt.executeUpdate();
+			
+			
+			// 清空裡面參數，重覆使用已取得的PreparedStatement物件
+			pstmt.clearParameters();
+
+			
+			// 取得對應的自增主鍵值
+			ResultSet rs = pstmt.getGeneratedKeys();//拿出pstmt = con.prepareStatement(INSERT_ORDER, cols);剛剛新增的訂單編號
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnCount = rsmd.getColumnCount();
+			if (columnCount!=0) {//游標往下
+				while (rs.next()){
+					for (int j = 1; j <= columnCount; j++) {
+					next_ltime_no = rs.getString(j);
+					System.out.println("自增主鍵值 = " + next_ltime_no + "(剛新增成功的時段編號)");
+					System.out.println("新增第"+(i+1)+"筆時間到"+next_ltime_no);
+					}
+				} 
+			} else {
+					System.out.println("未取得自增主鍵值");
+			}
+				rs.close();
+			
+				// 再同時新增課程明細		
+			addLessonDetail(con,next_lessNo,next_ltime_no);
+			}
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			try {
+				// 發生例外即進行rollback動作
+				con.rollback();//新增時段失敗 撤回
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			se.printStackTrace();
+			// Clean up JDBC resources
+		} finally {//先不能關連線  還要用!
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+	
+	private static void addLessonDetail(Connection con, String next_lessNo,String next_ltime_no) {
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = con.prepareStatement(INSERT_LessonDetail);
+			
+			pstmt.setString(1,next_lessNo);
+			pstmt.setString(2,next_ltime_no);
+			pstmt.executeUpdate();
+		} catch (SQLException se) {
+			try {
+				// 發生例外即進行rollback動作
+				con.rollback();//新增時段失敗 撤回
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			se.printStackTrace();
+			// Clean up JDBC resources
+		} finally {//先不能關連線 還要用!
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+		}
+	}
 	
 	@Override
 	public void insert(LessonVO lessonVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		String next_lessNo = null;
+		
 		try {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT_STMT);
-
+			// 1.設定於pstmt.executeUpdate()之前
+			con.setAutoCommit(false);//開始交易
+			// 先新增課程
+			String cols[] = {"LESSNO"};
+			pstmt = con.prepareStatement(INSERT_STMT,cols);
+			
 			pstmt.setString(1, lessonVO.getCoano());
 			pstmt.setString(2, lessonVO.getLessname());
 			pstmt.setInt(3, lessonVO.getLessmax());
@@ -49,7 +182,26 @@ public class LessonDAO implements LessonDAO_interface {
 			pstmt.setBytes(14, lessonVO.getLesspic());
 
 			pstmt.executeUpdate();
-		
+			
+			// 取得對應的自增主鍵值 LESSNO
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				next_lessNo = rs.getString(1);
+				System.out.println("自增主鍵值 = " + next_lessNo + "(剛新增成功的課程編號)");
+			} else {
+				System.out.println("未取得自增主鍵值");
+			}
+			rs.close();
+			
+			// 再同時新增課程時段內容
+			addLessonTime(con,next_lessNo);
+
+			pstmt.close();
+			con.commit();
+			con.setAutoCommit(true);//交易結束
+			System.out.println("Operation success!");
+						
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
@@ -129,7 +281,75 @@ public class LessonDAO implements LessonDAO_interface {
 		}
 
 	}
+	
+	@Override
+	public LessonVO getALessonByLessno(String lessno) {
+		
+		LessonVO lessonVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALessonByLessno_STMT);
+
+			pstmt.setString(1, lessno);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+			lessonVO = new LessonVO();
+				lessonVO.setCoano(rs.getString("coano"));
+				lessonVO.setLessname(rs.getString("lessname"));
+				lessonVO.setLessmax(rs.getInt("lessmax"));
+				lessonVO.setLessmin(rs.getInt("lessmin"));
+
+				lessonVO.setLesscur(rs.getInt("lesscur"));
+				lessonVO.setLesstype(rs.getString("lesstype"));
+				lessonVO.setLessloc(rs.getString("lessloc"));
+				lessonVO.setLessprice(rs.getInt("lessprice"));
+				lessonVO.setLessdesc(rs.getString("lessdesc"));
+
+				lessonVO.setLessstart(rs.getDate("lessstart"));
+				lessonVO.setLessend(rs.getDate("lessend"));
+				lessonVO.setLesssta(rs.getString("lesssta"));
+				lessonVO.setLesstimes(rs.getInt("lesstimes"));
+				lessonVO.setLesspic(rs.getBytes("lesspic"));
+			}
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+		return lessonVO;
+	}
+	
 	@Override
 	public List<LessonVO> findLessonByLessonType(String lesstype) {
 		List<LessonVO> list = new ArrayList<LessonVO>();
@@ -217,7 +437,7 @@ public class LessonDAO implements LessonDAO_interface {
 	
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(Get_ExpByExpno_STMT);
+			pstmt = con.prepareStatement(GET_ExpByExpno_STMT);
 			pstmt.setString(1, expno);
 			rs = pstmt.executeQuery();	
 			
@@ -422,50 +642,53 @@ public class LessonDAO implements LessonDAO_interface {
 	public static void main(String[] args) { 
 		LessonDAO dao = new LessonDAO();
 		
-		//新增 (測試不放 可空的描述)
-//		LessonVO testInsert = new LessonVO();
-//		//自生LESSNO
-//		testInsert.setCoano("C004");
-//		testInsert.setLessname("MV舞蹈");
-//		testInsert.setLessmax(20);
-//		testInsert.setLessmin(5);
-//		
-//		testInsert.setLesscur(0);//改可空
-//		testInsert.setLesstype("EXP004");
-//		testInsert.setLessloc("大安森林公園");
-//		testInsert.setLessprice(2000);
-//		testInsert.setLessdesc(null);//描述TEST
-//		
-//		testInsert.setLessstart(java.sql.Date.valueOf("2020-07-01"));
-//		testInsert.setLessend(java.sql.Date.valueOf("2020-07-10"));
-//		testInsert.setLesssta("未成團");
-//		testInsert.setLesstimes(10);
-//		try {
-//			byte[] pic = getPictureByteArray("WebContent/imgs/dance.jpg");
-//			testInsert.setLesspic(pic);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}		
-//		dao.insert(testInsert);
-//		System.out.println("新增成功");
+//		新增 (測試不放 可空的描述)
+		LessonVO testInsert = new LessonVO();
+		//自生LESSNO
+		testInsert.setCoano("C004");
+		testInsert.setLessname("MV舞蹈");
+		testInsert.setLessmax(20);
+		testInsert.setLessmin(5);
+		
+		testInsert.setLesscur(0);
+		testInsert.setLesstype("EXP004");
+		testInsert.setLessloc("大安森林公園");
+		testInsert.setLessprice(2000);
+		testInsert.setLessdesc(null);//描述TEST
+		
+		testInsert.setLessstart(java.sql.Date.valueOf("2020-07-01"));
+		testInsert.setLessend(java.sql.Date.valueOf("2020-07-10"));
+		testInsert.setLesssta("未成團");
+		testInsert.setLesstimes(10);
+		try {
+			byte[] pic = getPictureByteArray("WebContent/imgs/dance.jpg");
+			testInsert.setLesspic(pic);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+		dao.insert(testInsert);
 		
 		//修改 (測試只改狀態為下架)
-		LessonVO testUpdate = new LessonVO();
-		testUpdate.setLessname("國標舞蹈");
-		testUpdate.setLessmax(10);
-		testUpdate.setLessmin(30);
-		testUpdate.setLesstype("EXP004");
-		testUpdate.setLessloc("春天舞蹈中心");
-		testUpdate.setLessprice(3000);
-		testUpdate.setLessdesc("國標舞蹈~~");
-		testUpdate.setLessstart(java.sql.Date.valueOf("2020-07-05"));
-		testUpdate.setLessend(java.sql.Date.valueOf("2020-07-15"));
-		testUpdate.setLesssta("成團拉");
-		testUpdate.setLesstimes(15);
-		testUpdate.setLessno("L013");
-//		
-		dao.update(testUpdate);
-		System.out.println("修改成功");
+//		LessonVO testUpdate = new LessonVO();
+//		testUpdate.setLessname("國標舞蹈");
+//		testUpdate.setLessmax(10);
+//		testUpdate.setLessmin(30);
+//		testUpdate.setLesstype("EXP004");
+//		testUpdate.setLessloc("春天舞蹈中心");
+//		testUpdate.setLessprice(3000);
+//		testUpdate.setLessdesc("國標舞蹈~~");
+//		testUpdate.setLessstart(java.sql.Date.valueOf("2020-07-05"));
+//		testUpdate.setLessend(java.sql.Date.valueOf("2020-07-15"));
+//		testUpdate.setLesssta("成團拉");
+//		testUpdate.setLesstimes(15);
+//		testUpdate.setLessno("L013");
+////		
+//		dao.update(testUpdate);
+//		System.out.println("修改成功");
+		
+		//用課程編號查課程
+//		LessonVO test = dao.getALessonByLessno("L002");
+//		System.out.println(test.getLesstimes());
 		
 		//用類型查詢課程
 //		List<LessonVO> testAll = dao.findLessonByLessonType("EXP003");
@@ -476,9 +699,9 @@ public class LessonDAO implements LessonDAO_interface {
 //		}
 		
 		//用類型查出詳述描述
-		ExpertiseVO testGetTypeDesc = dao.getExpByExpno("EXP003");
-		System.out.println(testGetTypeDesc.getExpno());
-		System.out.println(testGetTypeDesc.getExpdesc());
+//		ExpertiseVO testGetTypeDesc = dao.getExpByExpno("EXP003");
+//		System.out.println(testGetTypeDesc.getExpno());
+//		System.out.println(testGetTypeDesc.getExpdesc());
 		
 		//查詢全部課程
 //		List<LessonVO> testAllLesson = dao.getAll();
@@ -496,6 +719,5 @@ public class LessonDAO implements LessonDAO_interface {
 //		System.out.println(allLessonArray);
 		
 	}
-
 
 }
