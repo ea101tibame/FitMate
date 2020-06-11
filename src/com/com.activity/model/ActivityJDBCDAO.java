@@ -2,6 +2,10 @@ package com.activity.model;
 
 import java.util.*;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.expertise.model.ExpertiseVO;
 
 import java.sql.*;
@@ -22,8 +26,9 @@ public class ActivityJDBCDAO implements ActivityDAO_interface {
 	private static final String GET_ONE_PSTMT = "SELECT actno,actname,actloc,to_char(actdate,'yyyy-mm-dd')actdate,actss,to_char(actstart,'yyyy-mm-dd')actstart,to_char(actend,'yyyy-mm-dd')actend,acttype,actprice,actmin,actmax,actcur,actdesc,actsta,actpic,stuno,coano FROM activity where actno = ?";
 	private static final String DELETE = "DELETE　FROM activity where actno = ?";
 	private static final String UPDATE = "UPDATE activity set actname=?,actloc=?,actdate=?,actss=?,actstart=?,actend=?,acttype=?,actprice=?,actmin=?,actmax=?,actcur=?,actdesc=?,actsta=?,actpic=?,stuno=?,coano=? where actno = ?";
-	private static final String GET_TYPE_PSTMT = "select * from expertise where expno=?";
-	
+	private static final String GET_TYPE_PSTMT = "SELECT * FROM expertise where expno=?";
+	private static final String GET_CoachAllActivity_PSTMT = "SELECT actno,actname,actloc,to_char(actdate,'yyyy-mm-dd')actdate,actss,acttype,actprice,actcur,actdesc,actsta,stuno FROM activity where coano=?";
+
 //	新增
 	@Override
 	public void insert(ActivityVO actVO) {
@@ -308,7 +313,8 @@ public class ActivityJDBCDAO implements ActivityDAO_interface {
 		}
 		return list;
 	}
-	//單一查詢 由專長編號找到專長描述
+
+	// 單一查詢 由專長編號找到專長描述
 	@Override
 	public ExpertiseVO findByExpertise(String expno) {
 		ExpertiseVO expVO = null;
@@ -316,31 +322,28 @@ public class ActivityJDBCDAO implements ActivityDAO_interface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_TYPE_PSTMT);
 			pstmt.setString(1, expno);
-			
-			
-			
+
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				expVO = new ExpertiseVO();
 				expVO.setExpno(rs.getString("expno"));
 				expVO.setExpdesc(rs.getString("expdesc"));
 			}
-			
-			
+
 			expVO.getExpdesc();
 			System.out.println(expVO.getExpdesc());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
-		}finally {
+		} finally {
 			if (rs != null) {
 				try {
 					rs.close();
@@ -363,17 +366,80 @@ public class ActivityJDBCDAO implements ActivityDAO_interface {
 				}
 			}
 		}
-		
 
 		return expVO;
 	}
-	
+
+	// 全部查詢 由教練編號找到全部活動放入課表(轉JSON格式)
 	@Override
-	public List<ActivityVO> getAllToCoachTable() {
-		
-		return null;
+	public JSONArray getAllToCoachTable(String coano) {
+		JSONArray allActivityArray = new JSONArray();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_CoachAllActivity_PSTMT);
+			pstmt.setString(1, coano);
+			rs = pstmt.executeQuery();
+
+			ResultSetMetaData metadata = (ResultSetMetaData) rs.getMetaData();
+			int columncount = metadata.getColumnCount();
+			while (rs.next()) {
+				JSONObject oneActivity = new JSONObject();
+				for (int i = 1; i <= columncount; i++) {
+
+					oneActivity.put("actno", rs.getString("actno"));
+					oneActivity.put("actname", rs.getString("actname"));
+					oneActivity.put("actloc", rs.getString("actloc"));
+					oneActivity.put("actdate", rs.getDate("actdate"));
+					oneActivity.put("actss", rs.getString("actss"));
+					oneActivity.put("acttype", rs.getString("acttype"));
+					oneActivity.put("actprice", rs.getString("actprice"));
+					oneActivity.put("actcur", rs.getString("actcur"));
+					oneActivity.put("actdesc", rs.getString("actdesc"));
+					oneActivity.put("actsta", rs.getString("actsta"));
+					oneActivity.put("stuno", rs.getString("stuno"));
+					allActivityArray.put(oneActivity);
+					
+				}
+			}
+
+		} catch (JSONException je) {
+			je.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return allActivityArray;
+
 	}
-	
 
 	public static byte[] getPictureByteArray(String path) throws IOException {
 		File file = new File(path);
@@ -446,7 +512,7 @@ public class ActivityJDBCDAO implements ActivityDAO_interface {
 //		System.out.println("刪除成功");
 
 //		查詢單筆測試
-//		ActivityVO actVO3 = dao.findByPrimaryKey("A001");
+//		ActivityVO actVO3 = dao.findByPrimaryKey("A011");
 //		System.out.print(actVO3.getActno() + ",");
 //		System.out.print(actVO3.getActname() + ",");
 //		System.out.print(actVO3.getActloc() + ",");
@@ -461,6 +527,7 @@ public class ActivityJDBCDAO implements ActivityDAO_interface {
 //		System.out.print(actVO3.getActcur() + ",");
 //		System.out.print(actVO3.getActdesc() + ",");
 //		System.out.print(actVO3.getActsta() + ",");
+//		System.out.print(actVO3.getActpic()+ ",");
 //		System.out.print(actVO3.getStuno() + ",");
 //		System.out.println(actVO3.getCoano() + ",");
 //		System.out.println("查詢單筆成功");
@@ -482,15 +549,22 @@ public class ActivityJDBCDAO implements ActivityDAO_interface {
 //			System.out.print(actVO4.getActcur() + ",");
 //			System.out.print(actVO4.getActdesc() + ",");
 //			System.out.print(actVO4.getActsta() + ",");
+//			System.out.println(actVO4.getActpic() + ",");
 //			System.out.print(actVO4.getStuno() + ",");
 //			System.out.println(actVO4.getCoano() + ",");
 //			System.out.println("查詢多筆成功");
 //		}
-		//單一查詢由專長編號找專長敘述
-		ExpertiseVO expVO1 = dao.findByExpertise("EXP001");
-		System.out.print(expVO1.getExpno());
-		System.out.println("單一查詢由專長編號找專長敘述成功");
+		// 單一查詢由專長編號找專長敘述
+//		ExpertiseVO expVO1 = dao.findByExpertise("EXP001");
+//		System.out.print(expVO1.getExpno());
+//		System.out.println("單一查詢由專長編號找專長敘述成功");
 		
-	}
+		// 由教練編號找到全部活動放入課表(轉JSON格式)測試
+		JSONArray allActivityArray  = dao.getAllToCoachTable("C002");
+		System.out.println(allActivityArray);
+//		System.out.println("由教練編號找到全部活動放入課表(轉JSON格式)成功");
+		}
+
+	
 
 }
