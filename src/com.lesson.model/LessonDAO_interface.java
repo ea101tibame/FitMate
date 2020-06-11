@@ -8,10 +8,13 @@ import test.expertise.model.ExpertiseVO;
 
 public interface LessonDAO_interface {
 	
-	public void insert(LessonVO lessonVO);
+	//新增課程同時 新增課程多筆時段 與課程明細 (交易)
+	public void insert(LessonVO lessonVO, JSONArray Alldate);
 	
-	public void update(LessonVO lessonVO);//備註:沒有刪除 只變更狀態為下架
+	//新課程內容  備註:沒有刪除 只變更狀態為下架 時段更改會到時段的dao不含時段
+	public void update(LessonVO lessonVO);
 	
+	//查單筆課程資訊 到課程詳情頁面
 	public LessonVO getALessonByLessno(String lessno);
 	
 	/*此運動種類有多少課程 用類型查*/

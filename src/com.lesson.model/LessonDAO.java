@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 import org.json.*;
 
+import com.lessonTime.model.LessonTimeDAO;
 
 import test.expertise.model.ExpertiseVO;
 // 同時新增 時段跟明細
@@ -29,36 +30,6 @@ public class LessonDAO implements LessonDAO_interface {
 		PreparedStatement pstmt = null;
 		
 		try {
-/*
-			//想拿到課程堂數 再用日期去判斷+7日 變成循環每周 但  這個新增的 東西但尚未COMMIT拿不到
-//			LessonDAO dao = new LessonDAO();//新增完還未COMMIT 拿不到
-//			LessonVO les = dao.getALessonByLessno(next_lessNo);
-//			System.out.println("next_lessNo="+next_lessNo);
-//			System.out.println("lestimes="+les.getLesstimes());
-//			int Lesstimes = les.getLesstimes();
-//			System.out.println("Lesstimes="+Lesstimes);
-//			pstmt = con.prepareStatement(INSERT_LessonTime_STMT);
-//			
-//			for(int i=1;i<=Lesstimes;i++) {
-//			Date firsttime = new Date(2020-07-01);
-//			Long tmp = firsttime.getTime();
-//			Long weeksec = 7*24*60*60*1000L;
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//			String AllClassDay = sdf.format(new Date(tmp));;
-//				
-//			pstmt.setString(1,AllClassDay);//上課程日期
-//			
-//			pstmt.setInt(2, 1);//時段
-//			pstmt.executeUpdate();
-//			
-//			tmp =tmp+weeksec;
-			// 清空裡面參數，重覆使用已取得的PreparedStatement物件
-//			pstmt.clearParameters();
-//			}
-//			pstmt.setString(1,"2020-07-02");//上課程日期
-//			pstmt.setInt(2, 2);//時段			
-//			pstmt.executeUpdate();
-*/	
 			
 			String next_ltime_no = null;
 			String daystr = null;
@@ -72,7 +43,6 @@ public class LessonDAO implements LessonDAO_interface {
 			pstmt.setInt(2, 1);//時段
 			
 			pstmt.executeUpdate();
-			
 			
 			// 清空裡面參數，重覆使用已取得的PreparedStatement物件
 			pstmt.clearParameters();
@@ -149,7 +119,9 @@ public class LessonDAO implements LessonDAO_interface {
 	}
 	
 	@Override
-	public void insert(LessonVO lessonVO) {
+	public void insert(LessonVO lessonVO, JSONArray Alldate) {
+		//判斷 有沒有重複到課程
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String next_lessNo = null;
@@ -195,7 +167,9 @@ public class LessonDAO implements LessonDAO_interface {
 			rs.close();
 			
 			// 再同時新增課程時段內容
-			addLessonTime(con,next_lessNo);
+			LessonTimeDAO LTdao = new LessonTimeDAO();
+			LTdao.insert(con, next_lessNo, Alldate);
+//			addLessonTime(con,next_lessNo);
 
 			pstmt.close();
 			con.commit();
@@ -639,7 +613,7 @@ public class LessonDAO implements LessonDAO_interface {
 		return baos.toByteArray();//就可以把圖片讀進來的位元資料 放進去BYTE陣列
 	}
 	
-	public static void main(String[] args) { 
+	public static void main(String[] args) throws JSONException { 
 		LessonDAO dao = new LessonDAO();
 		
 //		新增 (測試不放 可空的描述)
@@ -660,13 +634,32 @@ public class LessonDAO implements LessonDAO_interface {
 		testInsert.setLessend(java.sql.Date.valueOf("2020-07-10"));
 		testInsert.setLesssta("未成團");
 		testInsert.setLesstimes(10);
+		
+		JSONArray Alldate = new JSONArray();
+		JSONObject dates1 = new JSONObject();
+		dates1.put("2020-06-01","早上");
+		JSONObject dates2 = new JSONObject();
+		dates2.put("2020-06-02","早上");
+		JSONObject dates3 = new JSONObject();
+		dates3.put("2020-06-02","下午");
+		JSONObject dates4 = new JSONObject();
+		dates4.put("2020-06-04","晚上");
+		JSONObject dates5 = new JSONObject();
+		dates5.put("2020-06-05","晚上");
+		Alldate.put(dates1);
+		Alldate.put(dates2);
+		Alldate.put(dates3);
+		Alldate.put(dates4);
+		Alldate.put(dates5);
+		
+		
 		try {
 			byte[] pic = getPictureByteArray("WebContent/imgs/dance.jpg");
 			testInsert.setLesspic(pic);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
-		dao.insert(testInsert);
+		dao.insert(testInsert,Alldate);
 		
 		//修改 (測試只改狀態為下架)
 //		LessonVO testUpdate = new LessonVO();
