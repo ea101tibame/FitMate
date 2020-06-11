@@ -2,12 +2,15 @@ package com.lessonDetail.model;
 
 import java.util.List;
 
+import com.lesson.model.LessonVO;
+import com.lessonTime.model.LessonTimeVO;
+
+
 
 public interface LessonDetailDAO_interface {
 	 
-	//同時新增 
-     public void insert2 (LessonDetailVO LessonDetailVO , java.sql.Connection con);
-	
+	public void insert(LessonVO LessonVO,List<LessonTimeVO> list);
+	 
      public LessonDetailVO findAllTimesBylessno(String lessno);
      
      public List<LessonDetailVO> getAll();

@@ -30,7 +30,6 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 	private static final String DELETE_LessonDetail = "DELETE FROM LESSON_DETAIL where LTIME_NO =?";
 	private static final String DELETE_LessonTime = "DELETE FROM LESSON_TIME where LTIME_NO =?";	
 	private static final String GET_ONE="SELECT * FROM LESSON_TIME where LTIME_NO =?";
-		
 	private static final String GET_ALL="SELECT * FROM LESSON_TIME";
 	private static final String GET_CoachAlltimes = "SELECT LTIME_DATE,LTIME_SS FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 
@@ -122,72 +121,6 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 		}
 	}
 	
-	@Override
-	public void insertWithLessonDetail(LessonTimeVO LessonTimeVO, List<LessonDetailVO> list) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
-			
-			// 1●設定於 pstm.executeUpdate()之前
-    		con.setAutoCommit(false);
-    		
-    		// 先新增時段
-    		String cols[] = {"LTIME_NO"};
-			pstmt = con.prepareStatement(INSERT);
-			pstmt.setDate(1, LessonTimeVO.getLtime_date());
-			pstmt.setInt(2, LessonTimeVO.getLtime_ss());
-			pstmt.executeUpdate();
-
-			//拿到新的自增主鍵值
-			String next_ltime_no = null;
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {
-				next_ltime_no = rs.getString(1);
-				System.out.println("自增主鍵值= " + next_ltime_no +"(剛新增成功的時段編號)");
-			} else {
-				System.out.println("未取得自增主鍵值");
-			}
-			rs.close();
-			
-			// 再同時新增明細
-			LessonDetailJDBCDAO dao = new LessonDetailJDBCDAO();
-			System.out.println("list.size()-A="+list.size());
-			for (LessonDetailVO aLT : list) {
-				aLT.setLtime_no(new String(next_ltime_no));
-				dao.insert2(aLT,con);
-			}
-			
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-		
-	}
 	
 	@Override
 	public void delete(String ltime_no) {
@@ -435,21 +368,15 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 
 	public static void main(String[] args) {
 	LessonTimeJDBCDAO dao = new LessonTimeJDBCDAO();
-	
-	LessonTimeVO testInsert = new LessonTimeVO();
-	List<LessonDetailVO> list = new ArrayList<LessonDetailVO>();
-	
-	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-01"));
-	testInsert.setLtime_ss(0);
-	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
-	testInsert.setLtime_ss(1);
-	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-03"));
-	testInsert.setLtime_ss(2);
-	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-04"));
-	testInsert.setLtime_ss(0);
-	
-	dao.insertWithLessonDetail(testInsert, list);
-	System.out.println("新增成功");
+//	
+//	LessonTimeVO testInsert = new LessonTimeVO();
+//	
+//	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-01"));
+//	testInsert.setLtime_ss(0);
+//
+//	
+//	dao.insert(testInsert);
+//	System.out.println("新增成功");
 	
 //	LessonTimeVO testUpdate = new LessonTimeVO();
 //	testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
@@ -458,9 +385,9 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 //	dao.update(testUpdate);
 //	System.out.println("修改成功");
 	
-//	//失敗
-//	dao.delete("LT033");
-//	System.out.println("刪除成功");
+	//同時刪除
+	dao.delete("LT010");
+	System.out.println("刪除成功");
 	
 //	List<LessonTimeVO> list = dao.getAll();
 //		for (LessonTimeVO aLT : list) {

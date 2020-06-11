@@ -11,9 +11,6 @@ public interface LessonTimeDAO_inrterface {
 	
 	public void insert(LessonTimeVO LessonTimeVO);
 	
-	//同時新增時段與明細 (一次新增成功)
-    public void insertWithLessonDetail(LessonTimeVO LessonTimeVO , List<LessonDetailVO> list);
-	
 	public void update(LessonTimeVO LessonTimeVO);
 	 
 	public void delete(String ltime_no);
