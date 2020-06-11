@@ -1,22 +1,30 @@
 package com.lessonTime.model;
-import java.sql.Connection;
-import java.util.*;
+
+import java.util.List;
 
 import org.json.JSONArray;
 
+import com.lessonDetail.model.LessonDetailVO;
+
+
 public interface LessonTimeDAO_inrterface {
 	
-	//課程新增同時(交易期 同CON) 同步新增多時段
-	public void insert(Connection con,String next_lessNo,JSONArray Alldate);
+	public void insert(LessonTimeVO LessonTimeVO);
 	
-	//改單筆時段 列出這個課程的所有時段 讓他選他要的改的時段
-	public void update(String lessno);
+	//同時新增時段與明細 (一次新增成功)
+    public void insertWithLessonDetail(LessonTimeVO LessonTimeVO , List<LessonDetailVO> list);
+	
+	public void update(LessonTimeVO LessonTimeVO);
 	 
-	//刪除用時段來刪  列出這個課程的所有時段 讓他選他刪掉的時段
-	public void delete(String lessno);
+	public void delete(String ltime_no);
 	
+	//查單筆 時段
+	public LessonTimeVO findByPrimaryKey(String ltime_no);
+	
+	public List<LessonTimeVO> getAll();
 	//查詢此教練 所有課程與所有時段 送JSONArray到servlet去比對
 	public  JSONArray getCoachAllLesson(String coano);
+	
 	
 	
 }
