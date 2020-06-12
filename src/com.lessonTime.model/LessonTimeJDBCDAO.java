@@ -369,14 +369,21 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 	public static void main(String[] args) {
 	LessonTimeJDBCDAO dao = new LessonTimeJDBCDAO();
 //	
-//	LessonTimeVO testInsert = new LessonTimeVO();
-//	
-//	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-01"));
-//	testInsert.setLtime_ss(0);
-//
-//	
-//	dao.insert(testInsert);
-//	System.out.println("新增成功");
+	LessonTimeVO testInsert = new LessonTimeVO();
+	
+	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-01"));
+	testInsert.setLtime_ss(0);
+	dao.insert(testInsert);
+	
+	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
+	testInsert.setLtime_ss(0);
+	dao.insert(testInsert);
+	
+	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-03"));
+	testInsert.setLtime_ss(0);
+	dao.insert(testInsert);
+	
+	System.out.println("新增成功");
 	
 //	LessonTimeVO testUpdate = new LessonTimeVO();
 //	testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
@@ -386,9 +393,9 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 //	System.out.println("修改成功");
 	
 	//同時刪除
-	dao.delete("LT010");
-	System.out.println("刪除成功");
-	
+//	dao.delete("LT010");
+//	System.out.println("刪除成功");
+//	
 //	List<LessonTimeVO> list = dao.getAll();
 //		for (LessonTimeVO aLT : list) {
 //			System.out.print(aLT.getLtime_no() + ",");

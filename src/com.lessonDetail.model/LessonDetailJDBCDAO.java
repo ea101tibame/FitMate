@@ -11,17 +11,16 @@ import java.util.List;
 import com.lesson.model.LessonVO;
 import com.lessonTime.model.LessonTimeVO;
 
-public class LessonDetailJDBCDAO implements LessonDetailDAO_interface{
+public class LessonDetailJDBCDAO implements LessonDetailDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
 	String userid = "EA101G5";
 	String passwd = "123456";
-	
-	private static final String INSERT="INSERT INTO LESSON_DETAIL VALUES (?,?)";
-	private static final String GETONE_LessonAllTimes="SELECT lesson_detail.ltime_no,lesson_time.ltime_date,lesson_time.ltime_ss FROM LESSON_DETAIL JOIN LESSON_TIME ON LESSON_DETAIL.LTIME_NO=LESSON_TIME.LTIME_NO	WHERE LESSNO=?";
-	private static final String GETALL_LessonAllTimes="SELECT * FROM LESSON_DETAIL";
-	
-	
+
+	private static final String INSERT = "INSERT INTO LESSON_DETAIL VALUES (?,?)";
+	private static final String GETONE_LessonAllTimes = "SELECT * FROM LESSON_DETAIL JOIN LESSON_TIME ON LESSON_DETAIL.LTIME_NO=LESSON_TIME.LTIME_NO	WHERE LESSNO=?";
+	private static final String GETALL_LessonAllTimes = "SELECT * FROM LESSON_DETAIL";
+
 	@Override
 	public void insert(LessonVO LessonVO, List<LessonTimeVO> list) {
 		Connection con = null;
@@ -31,12 +30,14 @@ public class LessonDetailJDBCDAO implements LessonDetailDAO_interface{
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT);
-			for(LessonTimeVO LessonTimeVO:list) {
-				pstmt.setString(1,LessonVO.getLessno());
-				pstmt.setString(2,LessonTimeVO.getLtime_no());
+
+			for (LessonTimeVO LessonTimeVO : list) {
+				pstmt.setString(1, LessonVO.getLessno());
+				System.out.println(LessonVO.getLessno());
+				pstmt.setString(2, LessonTimeVO.getLtime_no());
+				System.out.println(LessonTimeVO.getLtime_no());
 				pstmt.executeUpdate();
 			}
-			
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
@@ -63,10 +64,11 @@ public class LessonDetailJDBCDAO implements LessonDetailDAO_interface{
 		}
 
 	}
+
 	@Override
-	public LessonDetailVO findAllTimesBylessno(String lessno) {
+	public List<LessonDetailVO> findAllTimesBylessno(String lessno) {
 		LessonDetailVO LessonDetailVO = null;
-		LessonTimeVO LessonTimeVO = null;
+		List<LessonDetailVO> list = new ArrayList<LessonDetailVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -82,23 +84,21 @@ public class LessonDetailJDBCDAO implements LessonDetailDAO_interface{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				
+
 				LessonDetailVO = new LessonDetailVO();
-				LessonTimeVO= new LessonTimeVO();
 				LessonDetailVO.setLessno(rs.getString("lessno"));
-				LessonTimeVO.setLtime_date(rs.getDate("ltime_date"));
-				LessonTimeVO.setLtime_ss(rs.getInt(ltime_ss));
-				
+				LessonDetailVO.setLtime_no(rs.getString("ltime_no"));
+				LessonDetailVO.setLtime_date(rs.getDate("ltime_date"));
+				LessonDetailVO.setLtime_ss(rs.getInt("ltime_ss"));
+				list.add(LessonDetailVO);
 			}
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
 			if (rs != null) {
@@ -123,95 +123,100 @@ public class LessonDetailJDBCDAO implements LessonDetailDAO_interface{
 				}
 			}
 		}
-		return LessonDetailVO;
-		
+		return list;
+
 	}
 
 	@Override
 	public List<LessonDetailVO> getAll() {
-		 List<LessonDetailVO> list = new  ArrayList<LessonDetailVO>();
-		 LessonDetailVO LessonDetailVO= null;
-		 Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
-			try {
+		List<LessonDetailVO> list = new ArrayList<LessonDetailVO>();
+		LessonDetailVO LessonDetailVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-				Class.forName(driver);
-				con = DriverManager.getConnection(url, userid, passwd);
-				pstmt = con.prepareStatement(GETALL_LessonAllTimes);
-				rs = pstmt.executeQuery();
+		try {
 
-				while (rs.next()) {
-					LessonDetailVO = new LessonDetailVO();
-					LessonDetailVO.setLessno(rs.getString("lessno"));
-					LessonDetailVO.setLtime_no(rs.getString("ltime_no"));
-					list.add(LessonDetailVO); // Store the row in the list
-				}
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GETALL_LessonAllTimes);
+			rs = pstmt.executeQuery();
 
-				// Handle any driver errors
-			} catch (ClassNotFoundException e) {
-				throw new RuntimeException("Couldn't load database driver. "
-						+ e.getMessage());
-				// Handle any SQL errors
-			} catch (SQLException se) {
-				throw new RuntimeException("A database error occured. "
-						+ se.getMessage());
-			} finally {
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (con != null) {
-					try {
-						con.close();
-					} catch (Exception e) {
-						e.printStackTrace(System.err);
-					}
+			while (rs.next()) {
+				LessonDetailVO = new LessonDetailVO();
+				LessonDetailVO.setLessno(rs.getString("lessno"));
+				LessonDetailVO.setLtime_no(rs.getString("ltime_no"));
+				list.add(LessonDetailVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
 				}
 			}
-		 return list;
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
 	}
+
 	public static void main(String[] args) {
 		LessonDetailJDBCDAO dao = new LessonDetailJDBCDAO();
-		
-		//失敗 無法一次增四筆
+
+		// 先新增一筆 時間 才可以放入
 //		LessonVO LessonVO = new LessonVO();
-//		LessonVO.setLessno("L002");
+//		LessonVO.setLessno("L010");
 //		
 //		List<LessonTimeVO> list = new ArrayList<LessonTimeVO>();
 //		LessonTimeVO LessonTimeVO = new LessonTimeVO();
-//		LessonTimeVO.setLtime_no("LT010");
+//		LessonTimeVO.setLtime_no("LT036");
 //		LessonTimeVO LessonTimeVO1 = new LessonTimeVO();
-//		LessonTimeVO1.setLtime_no("LT011");
+//		LessonTimeVO1.setLtime_no("LT037");
 //		LessonTimeVO LessonTimeVO2 = new LessonTimeVO();
-//		LessonTimeVO2.setLtime_no("LT012");
-//		LessonTimeVO LessonTimeVO3 = new LessonTimeVO();
-//		LessonTimeVO3.setLtime_no("LT013");
+//		LessonTimeVO2.setLtime_no("LT038");
 //		
 //		list.add(LessonTimeVO);
 //		list.add(LessonTimeVO1);
 //		list.add(LessonTimeVO2);
-//		list.add(LessonTimeVO3);
 //		
 //		
 //		dao.insert(LessonVO, list);
 //		System.out.println("新增成功");
-		
-		LessonDetailVO testFind = dao.findAllTimesBylessno("L001");
-		System.out.println(testFind.getLessno());
-		System.out.println(testFind.getLtime_no());
 
+//		List<LessonDetailVO> list = dao.getAll();
+//		for (LessonDetailVO aDT : list) {
+//			System.out.print(aDT.getLessno() + ",");
+//			System.out.print(aDT.getLtime_no() + ",");
+//			System.out.println();
+//		}
+		List<LessonDetailVO> testFind = dao.findAllTimesBylessno("L001");
+		for (LessonDetailVO aDT : testFind) {
+			System.out.println(aDT.getLessno() + ",");
+			System.out.println(aDT.getLtime_no() + ",");
+			System.out.println(aDT.getLtime_date() + ",");
+			System.out.println(aDT.getLtime_ss() + ",");
+		}
 	}
 
 }
