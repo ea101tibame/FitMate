@@ -74,7 +74,7 @@ public class LessonService {
 		return dao.getExpByExpno(expno);
 	}
 
-	public List<LessonVO> getAll() {
+	public List<LessonVO> getAllLesson() {
 		return dao.getAll();
 	}
 
