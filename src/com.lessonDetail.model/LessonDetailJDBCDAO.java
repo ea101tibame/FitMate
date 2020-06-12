@@ -185,24 +185,24 @@ public class LessonDetailJDBCDAO implements LessonDetailDAO_interface {
 		LessonDetailJDBCDAO dao = new LessonDetailJDBCDAO();
 
 		// 先新增一筆 時間 才可以放入
-//		LessonVO LessonVO = new LessonVO();
-//		LessonVO.setLessno("L010");
-//		
-//		List<LessonTimeVO> list = new ArrayList<LessonTimeVO>();
-//		LessonTimeVO LessonTimeVO = new LessonTimeVO();
-//		LessonTimeVO.setLtime_no("LT036");
-//		LessonTimeVO LessonTimeVO1 = new LessonTimeVO();
-//		LessonTimeVO1.setLtime_no("LT037");
-//		LessonTimeVO LessonTimeVO2 = new LessonTimeVO();
-//		LessonTimeVO2.setLtime_no("LT038");
-//		
-//		list.add(LessonTimeVO);
-//		list.add(LessonTimeVO1);
-//		list.add(LessonTimeVO2);
-//		
-//		
-//		dao.insert(LessonVO, list);
-//		System.out.println("新增成功");
+		LessonVO LessonVO = new LessonVO();
+		LessonVO.setLessno("L010");
+		
+		List<LessonTimeVO> list = new ArrayList<LessonTimeVO>();
+		LessonTimeVO LessonTimeVO = new LessonTimeVO();
+		LessonTimeVO.setLtime_no("LT036");
+		LessonTimeVO LessonTimeVO1 = new LessonTimeVO();
+		LessonTimeVO1.setLtime_no("LT037");
+		LessonTimeVO LessonTimeVO2 = new LessonTimeVO();
+		LessonTimeVO2.setLtime_no("LT038");
+		
+		list.add(LessonTimeVO);
+		list.add(LessonTimeVO1);
+		list.add(LessonTimeVO2);
+		
+		
+		dao.insert(LessonVO, list);
+		System.out.println("新增成功");
 
 //		List<LessonDetailVO> list = dao.getAll();
 //		for (LessonDetailVO aDT : list) {
@@ -210,13 +210,13 @@ public class LessonDetailJDBCDAO implements LessonDetailDAO_interface {
 //			System.out.print(aDT.getLtime_no() + ",");
 //			System.out.println();
 //		}
-		List<LessonDetailVO> testFind = dao.findAllTimesBylessno("L001");
-		for (LessonDetailVO aDT : testFind) {
-			System.out.println(aDT.getLessno() + ",");
-			System.out.println(aDT.getLtime_no() + ",");
-			System.out.println(aDT.getLtime_date() + ",");
-			System.out.println(aDT.getLtime_ss() + ",");
-		}
+//		List<LessonDetailVO> testFind = dao.findAllTimesBylessno("L001");
+//		for (LessonDetailVO aDT : testFind) {
+//			System.out.println(aDT.getLessno() + ",");
+//			System.out.println(aDT.getLtime_no() + ",");
+//			System.out.println(aDT.getLtime_date() + ",");
+//			System.out.println(aDT.getLtime_ss() + ",");
+//		}
 	}
 
 }
