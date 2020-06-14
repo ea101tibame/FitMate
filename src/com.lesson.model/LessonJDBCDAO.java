@@ -16,7 +16,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 	private static final String INSERT_STMT = "INSERT INTO LESSON VALUES ('L'||LPAD(to_char(LESSNO_seq.NEXTVAL), 3, '0'),?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = "UPDATE LESSON SET LESSNAME=?,LESSMAX=?,LESSMIN=?,LESSTYPE=?,LESSLOC=?,LESSPRICE=?,LESSDESC=?,LESSSTART=?,LESSEND=?,LESSSTA=?,LESSTIMES=?,LESSPIC=? WHERE LESSNO=?";
 	private static final String GET_TYPE_STMT = "SELECT * FROM LESSON WHERE LESSTYPE=?";
-	private static final String Get_ExpByExpno_STMT = "SELECT * FROM EXPERTISE WHERE EXPNO=?";
+	private static final String Get_ExpByExpno_STMT = "SELECT * FROM EXPERTISE";
 	private static final String GET_ALL = "SELECT * FROM LESSON ";
 	private static final String GET_CoachAllLesson_STMT = "SELECT * FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String Get_CoachLesson = "SELECT * FROM LESSON WHERE COANO=?";
@@ -205,9 +205,9 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 	}
 
 	@Override
-	public ExpertiseVO getExpByExpno(String expno) {
+	public List<ExpertiseVO> getAllExpByExpno() {
 
-		ExpertiseVO expVO = null;
+		List<ExpertiseVO> list = new ArrayList<ExpertiseVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -217,14 +217,14 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(Get_ExpByExpno_STMT);
-			pstmt.setString(1, expno);
 			rs = pstmt.executeQuery();
-
+			
 			while (rs.next()) {
-				expVO = new ExpertiseVO();
+				ExpertiseVO expVO = new ExpertiseVO();
 				expVO.setExpno(rs.getString("expno"));
 				expVO.setExpdesc(rs.getString("expdesc"));
-			}
+				list.add(expVO);
+			}                                                                                                                                                                              
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -254,7 +254,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 				}
 			}
 		}
-		return expVO;
+		return list;
 	}
 
 	@Override
@@ -458,9 +458,11 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //		}
 
 		// 用類型查出詳述描述
-//		ExpertiseVO testGetTypeDesc = dao.getExpByExpno("EXP002");
-//		System.out.println(testGetTypeDesc.getExpno());
-//		System.out.println(testGetTypeDesc.getExpdesc());
+		List<ExpertiseVO> testGetTypeDesc = dao.getAllExpByExpno();
+		for(ExpertiseVO allexp:testGetTypeDesc) {
+		System.out.println(allexp.getExpno());
+		System.out.println(allexp.getExpdesc());
+		}
 
 		// 查詢全部課程
 //		List<LessonVO> testAllLesson = dao.getAll();
@@ -477,15 +479,15 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //		JSONArray allLessonArray = dao.getCoachAllLesson("C002");
 //		System.out.println(allLessonArray);
 
-		List<LessonVO> CAllLesson = dao.getCoachLesson("C001");
-		for(LessonVO allLesson:CAllLesson) {
-			System.out.print(allLesson.getLessno()+",");
-			System.out.print(allLesson.getCoano()+",");
-			System.out.print(allLesson.getLessname()+",");
-			System.out.print(allLesson.getLesstype()+",");
-			System.out.println(allLesson.getLessprice()+",....");
-			System.out.println("----------------");
-		}			
+//		List<LessonVO> CAllLesson = dao.getCoachLesson("C001");
+//		for(LessonVO allLesson:CAllLesson) {
+//			System.out.print(allLesson.getLessno()+",");
+//			System.out.print(allLesson.getCoano()+",");
+//			System.out.print(allLesson.getLessname()+",");
+//			System.out.print(allLesson.getLesstype()+",");
+//			System.out.println(allLesson.getLessprice()+",....");
+//			System.out.println("----------------");
+//		}			
 		
 	}
 

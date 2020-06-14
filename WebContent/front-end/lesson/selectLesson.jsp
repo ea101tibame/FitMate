@@ -56,7 +56,7 @@
   }
 .innerpic {
 height:100px;
-width:auto;
+width:200px;
 }
 </style>
 </head>
@@ -229,6 +229,8 @@ width:auto;
 		</div>
 	</div>
 	<!-- ##### Blog Wrapper Area End ##### -->
+	
+
 
 	<!-- ##### Footer Area Start ##### -->
 	<footer class="footer_area">

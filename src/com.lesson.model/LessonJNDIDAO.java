@@ -28,7 +28,7 @@ public class LessonJNDIDAO implements LessonDAO_interface {
 	private static final String INSERT_STMT = "INSERT INTO LESSON VALUES ('L'||LPAD(to_char(LESSNO_seq.NEXTVAL), 3, '0'),?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = "UPDATE LESSON SET LESSNAME=?,LESSMAX=?,LESSMIN=?,LESSTYPE=?,LESSLOC=?,LESSPRICE=?,LESSDESC=?,LESSSTART=?,LESSEND=?,LESSSTA=?,LESSTIMES=?,LESSPIC=? WHERE LESSNO=?";
 	private static final String GET_TYPE_STMT = "SELECT * FROM LESSON WHERE LESSTYPE=?";
-	private static final String Get_ExpByExpno_STMT = "SELECT * FROM EXPERTISE WHERE EXPNO=?";
+	private static final String Get_ExpByExpno_STMT = "SELECT * FROM EXPERTISE";
 	private static final String GET_ALL = "SELECT * FROM LESSON ";
 	private static final String GET_CoachAllLesson_STMT = "SELECT * FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String Get_CoachLesson = "SELECT * FROM LESSON WHERE COANO=?";
@@ -208,25 +208,27 @@ public class LessonJNDIDAO implements LessonDAO_interface {
 	}
 
 	@Override
-	public ExpertiseVO getExpByExpno(String expno) {
+	public List<ExpertiseVO> getAllExpByExpno() {
 
-		ExpertiseVO expVO = null;
+		List<ExpertiseVO> list = new ArrayList<ExpertiseVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		try {
 
+
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(Get_ExpByExpno_STMT);
-			pstmt.setString(1, expno);
+			pstmt = con.prepareStatement(Get_ExpByExpno_STMT);
 			rs = pstmt.executeQuery();
-
+			
 			while (rs.next()) {
-				expVO = new ExpertiseVO();
+				ExpertiseVO expVO = new ExpertiseVO();
 				expVO.setExpno(rs.getString("expno"));
 				expVO.setExpdesc(rs.getString("expdesc"));
-			}
+				list.add(expVO);
+			}      
 
 
 			// Handle any SQL errors
@@ -255,7 +257,7 @@ public class LessonJNDIDAO implements LessonDAO_interface {
 				}
 			}
 		}
-		return expVO;
+		return list;
 	}
 
 	@Override

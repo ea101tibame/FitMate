@@ -70,8 +70,8 @@ public class LessonService {
 		return dao.findLessonByLessonType(lesstype);
 	}
 
-	public ExpertiseVO getExpByExpno(String expno) {
-		return dao.getExpByExpno(expno);
+	public List<ExpertiseVO> getAllExpByExpno() {
+		return dao.getAllExpByExpno();
 	}
 
 	public List<LessonVO> getAllLesson() {
