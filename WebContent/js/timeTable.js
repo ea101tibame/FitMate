@@ -165,52 +165,60 @@
     		var year = Y;//現在的年
     		var month = M;//現在的月 五月是4 要加回來
     		
-var monthFirstday = new Date(year,month,1);
+    		var monthFirstday = new Date(year,month,1);
     		console.log(monthFirstday);
     		var week = monthFirstday.getDay();//今天的星期
     		//時段tt 1.早上 2.下午 3.晚上
     		//JSON 多筆字串
- 			var datejson = `{"time":[{"yy":2020,"mm":6,"dd":10,"tt":1,"ss":"YOGA","href":"http://3.22.194.14/"},{"yy":2020,"mm":6,"dd":12,"tt":2,"ss":"YOGA","href":"http://google.com"},{"yy":2020,"mm":6,"dd":12,"tt":3,"ss":"BOXING","href":"http://3.22.194.14/"},{"yy":2020,"mm":6,"dd":14,"tt":3,"ss":"SURF","href":"http://3.22.194.14/"},{"yy":2020,"mm":7,"dd":14,"tt":2,"ss":"SURF","href":"http://3.22.194.14/"}]}`;
+ 			//var datejson = `{"time":[{"yy":2020,"mm":6,"dd":10,"tt":1,"ss":"YOGA","href":"http://3.22.194.14/"},{"yy":2020,"mm":6,"dd":12,"tt":2,"ss":"YOGA","href":"http://google.com"},{"yy":2020,"mm":6,"dd":12,"tt":3,"ss":"BOXING","href":"http://3.22.194.14/"},{"yy":2020,"mm":6,"dd":14,"tt":3,"ss":"SURF","href":"http://3.22.194.14/"},{"yy":2020,"mm":7,"dd":14,"tt":2,"ss":"SURF","href":"http://3.22.194.14/"}]}`;
+//    		var j ;
+//    		document.getElementById("jsonDates").innerHTML = j;
+    	;
+    		$(document).ready(function() {
+    			var obj = JSON.stringify($('#jsonDates').val());
+    			console.log(obj);
+    		});
+    		;
 
-			var oobj = JSON.parse(datejson);
-			var oobjarr = oobj.time;
-
-			var  objlength = oobjarr.length;//array length
-
- 			for(let i=0 ; i <objlength ; i++){
-  			
-  			if(oobjarr[i].yy === year && (oobjarr[i].mm-1) === month ){
-
-  			var dayinner = oobjarr[i].dd+week-1;// dayinner   (week+day-1);
-
-  			var iddotsul = "dotsul"+(dayinner);
-  			var idopenul = "openul"+(dayinner);
-  			var link = "\""+oobjarr[i].href+"\"";
-
-  				console.log(link);
-  				// console.log("<a href=\""+oobjarr[i].href"\"><p>"+oobjarr[i].ss+"</p></a>");
-  				switch(oobjarr[i].tt){
-  					case 1:
-  					$("#"+iddotsul).find("li").eq(0).attr("class", "orange");
-  					$("#"+idopenul).find("li").eq(0).attr("class", "orange l4 a1");
-					$("#"+idopenul).find("li").eq(0).html("<a href="+link+"><p>"+oobjarr[i].ss+"</p></a>");
-					$("#"+idopenul).find("li").eq(0).attr("title","查看詳情");
-  					  	break;
-  					case 2:
-  					$("#"+iddotsul).find("li").eq(1).attr("class", "orange");
-  					$("#"+idopenul).find("li").eq(1).attr("class", "orange l4 a1");
-					$("#"+idopenul).find("li").eq(1).html("<a href="+link+"><p>"+oobjarr[i].ss+"</p></a>");
-					$("#"+idopenul).find("li").eq(1).attr("title","查看詳情");
-  						break;
-  					case 3:
-  					$("#"+iddotsul).find("li").eq(2).attr("class", "orange");
-  					$("#"+idopenul).find("li").eq(2).attr("class", "orange l4 a1");
-					$("#"+idopenul).find("li").eq(2).html("<a href="+link+"><p>"+oobjarr[i].ss+"</p></a>");
-					$("#"+idopenul).find("li").eq(2).attr("title","查看詳情");
-  						break;
-  				}  				
-  			}
-    	}
+//			var oobj = JSON.parse(jsonDates);
+//			var oobjarr = oobj.time;
+//
+//			var  objlength = oobjarr.length;//array length
+//
+// 			for(let i=0 ; i <objlength ; i++){
+//  			
+//  			if(oobjarr[i].yy === year && (oobjarr[i].mm-1) === month ){
+//
+//  			var dayinner = oobjarr[i].dd+week-1;// dayinner   (week+day-1);
+//
+//  			var iddotsul = "dotsul"+(dayinner);
+//  			var idopenul = "openul"+(dayinner);
+//  			var link = "\""+oobjarr[i].href+"\"";
+//
+//  				console.log(link);
+//  				// console.log("<a href=\""+oobjarr[i].href"\"><p>"+oobjarr[i].ss+"</p></a>");
+//  				switch(oobjarr[i].tt){
+//  					case 1:
+//  					$("#"+iddotsul).find("li").eq(0).attr("class", "orange");
+//  					$("#"+idopenul).find("li").eq(0).attr("class", "orange l4 a1");
+//					$("#"+idopenul).find("li").eq(0).html("<a href="+link+"><p>"+oobjarr[i].ss+"</p></a>");
+//					$("#"+idopenul).find("li").eq(0).attr("title","查看詳情");
+//  					  	break;
+//  					case 2:
+//  					$("#"+iddotsul).find("li").eq(1).attr("class", "orange");
+//  					$("#"+idopenul).find("li").eq(1).attr("class", "orange l4 a1");
+//					$("#"+idopenul).find("li").eq(1).html("<a href="+link+"><p>"+oobjarr[i].ss+"</p></a>");
+//					$("#"+idopenul).find("li").eq(1).attr("title","查看詳情");
+//  						break;
+//  					case 3:
+//  					$("#"+iddotsul).find("li").eq(2).attr("class", "orange");
+//  					$("#"+idopenul).find("li").eq(2).attr("class", "orange l4 a1");
+//					$("#"+idopenul).find("li").eq(2).html("<a href="+link+"><p>"+oobjarr[i].ss+"</p></a>");
+//					$("#"+idopenul).find("li").eq(2).attr("title","查看詳情");
+//  						break;
+//  				}  				
+//  			}
+//    	}
     }	
 
  add();

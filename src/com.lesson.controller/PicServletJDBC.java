@@ -12,10 +12,13 @@ import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.UnavailableException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PicServletJDBC {
+public class PicServletJDBC extends HttpServlet {
+	
+	private static final long serialVersionUID = 1L;
 	Connection con;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -25,10 +28,15 @@ public class PicServletJDBC {
 		ServletOutputStream out = res.getOutputStream();
 
 		try {
+			String sql = "SELECT LESSPIC FROM LESSON WHERE LESSNO = ?";
 			Statement stmt = con.createStatement();
-			String coano=req.getParameter("C001");
-			ResultSet rs = stmt.executeQuery(
-				"SELECT LESSPIC FROM LESSON WHERE COANO ="+coano );
+			java.sql.PreparedStatement pstmt = con.prepareStatement(sql);
+			String lessno = req.getParameter("lessno");
+			pstmt.setString(1, lessno);
+			ResultSet rs = pstmt.executeQuery();
+			
+//			ResultSet rs = stmt.executeQuery(
+//				"SELECT LESSPIC FROM LESSON WHERE COANO ="+coano );
 
 			if (rs.next()) {
 				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("LESSPIC"));

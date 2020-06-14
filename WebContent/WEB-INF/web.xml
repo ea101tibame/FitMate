@@ -9,4 +9,24 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>LessonServlet</servlet-name>
+    <servlet-class>com.lesson.controller.LessonServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LessonServlet</servlet-name>
+    <url-pattern>/lesson/lesson.do</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+   	<servlet-name>PicServletJDBC</servlet-name>
+   	<servlet-class>com.lesson.controller.PicServletJDBC</servlet-class>
+   </servlet>
+   <servlet-mapping>
+   	<servlet-name>PicServletJDBC</servlet-name>
+   	<url-pattern>/lesson/PicServletJDBC.do</url-pattern>
+   </servlet-mapping>
+   
+   
 </web-app>

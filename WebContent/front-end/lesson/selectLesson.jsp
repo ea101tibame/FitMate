@@ -6,7 +6,7 @@
 
 <%
 	LessonService LessonService = new LessonService();
-	List<LessonVO> list = LessonService.getCoachLesson("C004");
+	List<LessonVO> list = LessonService.getCoachLesson("C001");
 	session.setAttribute("list",list);
 
 %>
@@ -54,7 +54,10 @@
   tr th{
   border: 2px solid black;
   }
-
+.innerpic {
+height:100px;
+width:auto;
+}
 </style>
 </head>
 
@@ -192,7 +195,7 @@
 			<td>${LessonVO.lessstart}</td>
 			<td>${LessonVO.lessend}</td>
 			<td>${LessonVO.lessdesc}</td>
-			<td><img src="PicServletJDBC.do?coano=C004"></td>
+			<td><img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${LessonVO.lessno}" class="innerpic"></td>
 			<%--拿到教練專長SVC再來
 			<td><c:forEach var="deptVO" items="${deptSvc.all}">
                     <c:if test="${empVO.deptno==deptVO.deptno}">
