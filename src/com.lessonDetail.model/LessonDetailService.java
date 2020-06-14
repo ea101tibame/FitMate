@@ -9,10 +9,10 @@ import com.lesson.model.LessonVO;
 import com.lessonTime.model.LessonTimeVO;
 
 public class LessonDetailService {
-	private LessonDetailJDBCDAO dao;
+	private LessonDetailDAO_interface dao;
 	
 	public LessonDetailService() {
-		dao = new LessonDetailJDBCDAO();
+		dao = new LessonDetailJDBCDAO();//之後轉JNDI
 	}
 //不確定能不能拿到LessonDetailVO
 	public LessonDetailVO addLessonDetail(String lessno,String ltime_no, Integer ltime_ss,java.sql.Date ltime_date) {

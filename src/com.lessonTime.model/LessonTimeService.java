@@ -9,7 +9,7 @@ public class LessonTimeService {
 	private LessonTimeDAO_inrterface dao;
 
 	public LessonTimeService() {
-		dao = new LessonTimeJDBCDAO();
+		dao = new LessonTimeJDBCDAO();//之後轉JNDI
 	}
 
 	public LessonTimeVO addLessonTime(String ltime_no, java.sql.Date ltime_date, Integer ltime_ss) {

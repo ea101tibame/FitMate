@@ -17,4 +17,6 @@ public interface LessonDAO_interface {
 	public List<LessonVO> getAll();
 	/*查詢某教練的課程資訊(一對多)(回傳一串 JSONArray 放入課表用)*/
 	public JSONArray getCoachAllLesson(String coano);
+	
+	public List<LessonVO> getCoachLesson(String coano);
 }

@@ -3,15 +3,27 @@ package com.lesson.model;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import org.json.*;
 
 import test.expertise.model.ExpertiseVO;
 
-public class LessonJDBCDAO implements LessonDAO_interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "EA101G5";
-	String passwd = "123456";
+public class LessonJNDIDAO implements LessonDAO_interface {
+	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String INSERT_STMT = "INSERT INTO LESSON VALUES ('L'||LPAD(to_char(LESSNO_seq.NEXTVAL), 3, '0'),?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = "UPDATE LESSON SET LESSNAME=?,LESSMAX=?,LESSMIN=?,LESSTYPE=?,LESSLOC=?,LESSPRICE=?,LESSDESC=?,LESSSTART=?,LESSEND=?,LESSSTA=?,LESSTIMES=?,LESSPIC=? WHERE LESSNO=?";
@@ -27,8 +39,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 		PreparedStatement pstmt = null;
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, lessonVO.getCoano());
@@ -51,9 +62,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
+		
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -82,8 +91,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 		PreparedStatement pstmt = null;
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
 
 			pstmt.setString(1, lessonVO.getLessname());
@@ -104,9 +112,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
+
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -139,8 +145,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_TYPE_STMT);
 
 			pstmt.setString(1, lesstype);
@@ -171,9 +176,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
+
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -214,8 +217,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(Get_ExpByExpno_STMT);
 			pstmt.setString(1, expno);
 			rs = pstmt.executeQuery();
@@ -226,8 +228,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 				expVO.setExpdesc(rs.getString("expdesc"));
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -267,8 +268,6 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -297,9 +296,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
+
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -337,8 +334,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_CoachAllLesson_STMT);
 
 			pstmt.setString(1, coano);
@@ -368,9 +364,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 				allLessonArray.put(oneLesson);
 			}
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
+
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -401,7 +395,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 	}
 
 	public static void main(String[] args) {
-		LessonJDBCDAO dao = new LessonJDBCDAO();
+		LessonJNDIDAO dao = new LessonJNDIDAO();
 //
 //		// 新增 (測試不放 可空的描述)
 //		LessonVO testInsert = new LessonVO();
@@ -515,8 +509,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(Get_CoachLesson);
 			pstmt.setString(1, coano);
 			rs = pstmt.executeQuery();
@@ -547,9 +540,6 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {

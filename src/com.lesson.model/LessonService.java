@@ -12,7 +12,7 @@ public class LessonService {
 	private LessonDAO_interface dao;
 	
 	public LessonService() {
-		dao = new LessonJDBCDAO();
+		dao = new LessonJDBCDAO();//之後轉JNDI
 	}
 
 	public LessonVO addLesson(String lessno,String coano,String lessname,Integer lessmax,Integer lessmin,Integer lesscur,String lesstype,String lessloc,Integer lessprice,String lessdesc,java.sql.Date lessstart,java.sql.Date lessend,String lesssta,Integer lesstimes,byte[] lesspic) {
@@ -80,6 +80,9 @@ public class LessonService {
 
 	public JSONArray getCoachAllLesson(String coano) {
 		return dao.getCoachAllLesson(coano);
+	}
+	public List<LessonVO> getCoachLesson(String coano) {
+		return dao.getCoachLesson(coano);
 	}
 	
 }
