@@ -11,26 +11,8 @@
     /* ---------------------------------------
     ##### - PLACE YOUR CUSTOM CSS HERE - #####
     --------------------------------------- */
-
-       #preview img{
-            width:500px;
-            height: auto;
-            border:2px solid #333;
-            margin: 25px 2px;
-            display: inline-block;
-        }
-        textarea{
-             width:650px;
-             height:200px;"
-        }
-        .nice-select {
-   
-   display: none !important;
+.regular-page-text p {
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 50px;
 }
-
-  .xdsoft_datetimepicker .xdsoft_datepicker {
-           width:  300px;   /* width:  300px; */
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-           height: 151px;   /* height:  151px; */
-  }

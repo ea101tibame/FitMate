@@ -12,7 +12,7 @@
     ##### - PLACE YOUR CUSTOM CSS HERE - #####
     --------------------------------------- */
 
-       #preview img{
+        #preview img{
             width:500px;
             height: auto;
             border:2px solid #333;
@@ -33,4 +33,9 @@
   }
   .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
            height: 151px;   /* height:  151px; */
+  }
+  
+  .innerpic{;
+  height:auto;
+  width:500px;
   }

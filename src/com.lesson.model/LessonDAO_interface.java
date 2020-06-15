@@ -19,4 +19,6 @@ public interface LessonDAO_interface {
 	public JSONArray getCoachAllLesson(String coano);
 	
 	public List<LessonVO> getCoachLesson(String coano);
+	
+	public LessonVO getOneByPK(String lessno);
 }

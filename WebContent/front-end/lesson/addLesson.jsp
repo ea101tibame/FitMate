@@ -3,11 +3,11 @@
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.lesson.model.*"%>
-<%@ page import="test.expertise.model.*" %>
+<%@ page import="test.expertise.model.*"%>
+<%@ page import="text.coach.model.*"%>
 
 <%
 	LessonVO LessonVO = (LessonVO) request.getAttribute("LessonVO");
-	List<ExpertiseVO> list = new LessonService().getAllExpByExpno();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +77,7 @@
 									<li><a href="index.html">個人資料</a></li>
 									<li><a href="coachTimeTable.jsp">查看課表</a></li>
 									<li><a href="addLesson.jsp">建立課程</a></li>
-									<li><a href=".html">修改課程</a></li>
+									<li><a href="selectLesson.jsp">查看課程</a></li>
 									<li><a href=".html">點數兌換</a></li>
 
 								</ul></li>
@@ -135,40 +135,54 @@
 			<div class="row justify-content-center">
 				<div class="col-12 col-md-12">
 					<div class="regular-page-content-wrapper section-padding-80">
-						<div class="regular-page-text">
-							<h2>建立課程</h2>
-							<!--表單開始-->
+						<form method="post"
+							action="<%=request.getContextPath()%>/LessonVO"
+							enctype="multipart/form-data">
+							<div class="regular-page-text">
+								<h2>建立課程</h2>
+								<!--表單開始-->
 
 
 
-						<form method="post" action="lesson.do" enctype="multipart/form-data">
+
 								<div class="row">
 									<div class="col-md-12 mb-3">
 										<label for="firstName">課程名稱</label> <input type="text"
-											class="form-control" name="lessname"  value="<%= (LessonVO==null)?"":LessonVO.getLessname() %>" >
+											class="form-control" name="lessname"
+											value="<%=(LessonVO == null) ? "" : LessonVO.getLessname()%>">
 
 									</div>
 									<div class="col-md-12 mb-3">
 										<label for="country">課程類型</label>
-										<jsp:useBean id="LessonSvc" scope="page" class="com.lesson.model.LessonService" />
-										 <select class="custom-select d-block " name="lesstype">
-										 <c:forEach var="ExpertiseVO" items="${LessonSvc.allExpByExpno}">
-										 	<option value="${ExpertiseVO.lesstype}" ${(LessonVO.lesstype==ExpertiseVO.expno)? 'selected':'' } >${ExpertiseVO.expdesc}
-										 </c:forEach>
-
+										<jsp:useBean id="LessonSvc" scope="page"
+											class="com.lesson.model.LessonService" />
+										<select class="custom-select d-block " name="lesstype">
+											<option value="">請選擇</option>
+											<c:forEach var="ExpertiseVO"
+												items="${LessonSvc.allExpByExpno}">
+												<option value="${ExpertiseVO.expno}">${ExpertiseVO.expdesc}
+											</c:forEach>
 										</select>
+
+
+
+
+
+
 									</div>
 
 
 									<div class="col-md-12 mb-3">
-										<label for="lastName">人數上限</label> <input type="text"
-											class="form-control" name="lessmax"  value="<%= (LessonVO==null)?"":LessonVO.getLessmax() %>" >
+										<label for="lastName">人數上限(最多幾位學生)</label> <input type="text"
+											class="form-control" name="lessmax"
+											value="<%=(LessonVO == null) ? "" : LessonVO.getLessmax()%>">
 
 									</div>
 
 									<div class="col-md-12 mb-3">
-										<label for="lastName">人數下限</label> <input type="text"
-											class="form-control" name="lessmin" value="<%= (LessonVO==null)?"":LessonVO.getLessmin() %>">
+										<label for="lastName">人數下限(下限人數到即開團)</label> <input type="text"
+											class="form-control" name="lessmin"
+											value="<%=(LessonVO == null) ? "" : LessonVO.getLessmin()%>">
 
 									</div>
 								</div>
@@ -177,43 +191,48 @@
 
 								<div class="mb-3">
 									<label for="address">課程欲售點數</label> <input type="text"
-										class="form-control" name="lessprice"  value="<%= (LessonVO==null)?"":LessonVO.getLessprice() %>" >
+										class="form-control" name="lessprice"
+										value="<%=(LessonVO == null) ? "" : LessonVO.getLessprice()%>">
 
 								</div>
 
 								<div class="mb-3">
 									<label for="address">課程地點</label> <input type="text"
-										class="form-control" name="lessloc" value="<%= (LessonVO==null)?"":LessonVO.getLessloc() %>" >
+										class="form-control" name="lessloc"
+										value="<%=(LessonVO == null) ? "" : LessonVO.getLessloc()%>">
 
 								</div>
 
 								<div class="mb-3">
 									<label for="address">課程報名開始</label> <input type="text"
-										class="form-control" id="from" name="lessstart"  value="<%= (LessonVO==null)? "":LessonVO.getLessstart() %>" >
+										class="form-control" id="from" name="lessstart"
+										value="<%=(LessonVO == null) ? "" : LessonVO.getLessstart()%>">
 
 								</div>
 								<div class=" mb-3">
 									<label for="address">課程報名截止</label> <input type="text"
-										class="form-control" id="to" name="lessend" value="<%= (LessonVO==null)? "":LessonVO.getLessend() %>">
+										class="form-control" id="to" name="lessend"
+										value="<%=(LessonVO == null) ? "" : LessonVO.getLessend()%>">
 
 								</div>
 
 								<div class="mb-3">
 									<label for="address">課程堂數</label> <input type="text"
-										class="form-control" name="lesstimes"  value="<%= (LessonVO==null)? "":LessonVO.getLesstimes() %>">
+										class="form-control" name="lesstimes"
+										value="<%=(LessonVO == null) ? "" : LessonVO.getLesstimes()%>">
 
 								</div>
 
 								<div>
 									<div class="col-md-12 mb-3">
 										<label for="address">課程說明</label>
-										<textarea name="lessdesc" form="usrform" placeholder="請加入課堂描述" value="<%= (LessonVO==null)? "":LessonVO.getLessdesc() %>"></textarea>
+										<textarea name="lessdesc"><%=(LessonVO == null) ? "" : LessonVO.getLessdesc()%></textarea>
 									</div>
 									<div>
 										<div>
 											<div>
-												<label>可上傳多圖片檔案: </label> <br> 
-												<input type="file" name="lesspic">
+												<label>上傳課程封面圖片: </label> <br> 
+												<input type="file" id="myFile" name="lesspic">
 											</div>
 										</div>
 										<div>
@@ -223,20 +242,18 @@
 										<br>
 										<div>
 											<button type="button" id="deletebtn">刪除</button>
+
 										</div>
 									</div>
 
 
-
-
 								</div>
-						</div>
+							</div>
 
-						<hr class="mb-4">
-						<input type="hidden" name="action" value="insert">
-						<button class="btn btn-primary btn-lg btn-block" type="submit">下一步
-							>>> 新增課程時段</button>
-</form>
+							<hr class="mb-4">
+							<input type="hidden" name="action" value="insert">
+							<button class="btn btn-primary btn-lg btn-block" type="submit">課程建立</button>
+						</form>
 						<!--表單結束-->
 					</div>
 				</div>
@@ -283,8 +300,6 @@
 	<!-- Active js -->
 	<script src="${pageContext.request.contextPath}/css/js/addLesson.js"></script>
 	<script src="${pageContext.request.contextPath}/css/js/active.js"></script>
-	<link rel="stylesheet"
-		href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
 	<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 

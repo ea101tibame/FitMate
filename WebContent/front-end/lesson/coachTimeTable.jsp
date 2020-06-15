@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom-css/regular-page.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom-css/coach _form.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom-css/coachTimeTable.css">
 
 </head>
 
@@ -56,8 +56,8 @@
                                 <ul class="dropdown">
                                     <li><a href="index.html">個人資料</a></li>
                                     <li><a href="coachTimeTable.jsp">查看課表</a></li>
-                                     <li><a href=".html">建立課程</a></li>
-                                    <li><a href=".html">修改課程</a></li>
+									<li><a href="addLesson.jsp">建立課程</a></li>
+									<li><a href="selectLesson.jsp">查看課程</a></li>
                                     <li><a href=".html">點數兌換</a></li>
 
                                 </ul>

@@ -15,10 +15,10 @@ public class LessonService {
 		dao = new LessonJDBCDAO();//之後轉JNDI
 	}
 
-	public LessonVO addLesson(String lessno,String coano,String lessname,Integer lessmax,Integer lessmin,Integer lesscur,String lesstype,String lessloc,Integer lessprice,String lessdesc,java.sql.Date lessstart,java.sql.Date lessend,String lesssta,Integer lesstimes,byte[] lesspic) {
+	public LessonVO addLesson(String coano,String lessname,Integer lessmax,Integer lessmin,Integer lesscur,String lesstype,String lessloc,Integer lessprice,String lessdesc,java.sql.Date lessstart,java.sql.Date lessend,String lesssta,Integer lesstimes,byte[] lesspic) {
 		LessonVO LessonVO= new LessonVO();
 		
-		LessonVO.setLessno(lessno);
+		
 		LessonVO.setCoano(coano);
 		LessonVO.setLessname(lessname);
 		LessonVO.setLessmax(lessmax);
@@ -40,9 +40,8 @@ public class LessonService {
 		return LessonVO;
 		
 	}
-	public LessonVO updateLesson(String lessno,String coano,String lessname,Integer lessmax,Integer lessmin,Integer lesscur,String lesstype,String lessloc,Integer lessprice,String lessdesc,java.sql.Date lessstart,java.sql.Date lessend,String lesssta,Integer lesstimes,byte[] lesspic) {
+	public LessonVO updateLesson(String lessno, String coano,String lessname,Integer lessmax,Integer lessmin,Integer lesscur,String lesstype,String lessloc,Integer lessprice,String lessdesc,java.sql.Date lessstart,java.sql.Date lessend,String lesssta,Integer lesstimes,byte[] lesspic) {
 		LessonVO LessonVO= new LessonVO();
-		
 		LessonVO.setLessno(lessno);
 		LessonVO.setCoano(coano);
 		LessonVO.setLessname(lessname);
@@ -60,7 +59,6 @@ public class LessonService {
 		LessonVO.setLesssta(lesssta);
 		LessonVO.setLesstimes(lesstimes);
 		LessonVO.setLesspic(lesspic);
-		
 		dao.update(LessonVO);
 		return LessonVO;
 		
@@ -83,6 +81,9 @@ public class LessonService {
 	}
 	public List<LessonVO> getCoachLesson(String coano) {
 		return dao.getCoachLesson(coano);
+	}
+	public LessonVO getOneByPK(String lessno) {
+		return dao.getOneByPK(lessno);
 	}
 	
 }

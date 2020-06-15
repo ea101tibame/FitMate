@@ -16,7 +16,7 @@ function init(){
 	      }
 	    });
 	    $( "#to" ).datepicker({
-	    	dateFormat:'yy-mm-dd',
+	    dateFormat:'yy-mm-dd',
 	      defaultDate: "+1w",
 	      changeMonth: true,
 	      numberOfMonths: 3,

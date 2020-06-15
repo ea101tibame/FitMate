@@ -42,6 +42,8 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/custom-css/coach _form.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/custom-css/selectLesson.css">
 <style>
   table {
 	background-color: #FFE66F;
@@ -97,8 +99,8 @@ width:200px;
 								<ul class="dropdown">
 									<li><a href="index.html">個人資料</a></li>
 									<li><a href="coachTimeTable.jsp">查看課表</a></li>
-									<li><a href=".html">建立課程</a></li>
-									<li><a href=".html">查看課程</a></li>
+									<li><a href="addLesson.jsp">建立課程</a></li>
+									<li><a href="selectLesson.jsp">查看課程</a></li>
 									<li><a href=".html">點數兌換</a></li>
 
 								</ul></li>
@@ -176,7 +178,8 @@ width:200px;
 		<th>課程說明</th>
 		<th>課程圖片</th>
 		<th>修改</th>
-		<th>刪除</th>
+		<th>建立時段</th>
+		<th>下架</th>
 	</tr>
 	<%@ include file="pages/page1.file" %> 
 	<c:forEach var="LessonVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
@@ -207,14 +210,21 @@ width:200px;
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">
-			     <input type="hidden" name="lessno"  value="${lessonVO.lessonVO}">
+			     <input type="hidden" name="lessno"  value="${LessonVO.lessno}">
+			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="刪除">
-			     <input type="hidden" name="lessno"  value="${lessonVO.lessonVO}">
-			     <input type="hidden" name="action" value="delete"></FORM>
+			     <input type="submit" value="建立時段">
+			     <input type="hidden" name="creatTime"  value="${lessonVO.lessonVO}">
+			     <input type="hidden" name="action" value="creat_Times"></FORM>
+			</td>
+			<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
+			     <input type="submit" value="下架">
+			     <input type="hidden" name="off"  value="${lessonVO.lessonVO}">
+			     <input type="hidden" name="action" value="off_lesson"></FORM>
 			</td>
 		</tr>
 	</c:forEach>

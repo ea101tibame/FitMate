@@ -32,7 +32,8 @@ public class LessonJNDIDAO implements LessonDAO_interface {
 	private static final String GET_ALL = "SELECT * FROM LESSON ";
 	private static final String GET_CoachAllLesson_STMT = "SELECT * FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String Get_CoachLesson = "SELECT * FROM LESSON WHERE COANO=?";
-	
+	private static final String Get_OneByPK = "SELECT * FROM LESSON WHERE LESSNO=?";
+
 	@Override
 	public void insert(LessonVO lessonVO) {
 		Connection con = null;
@@ -570,5 +571,73 @@ public class LessonJNDIDAO implements LessonDAO_interface {
 
 		return list;
 	}
+
+	@Override
+	public LessonVO getOneByPK(String lessno) {
+			LessonVO lessonVO = null;
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(Get_OneByPK);
+
+				pstmt.setString(1, lessno);
+
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					lessonVO = new LessonVO();
+					lessonVO.setLessno(rs.getString("lessno"));
+					lessonVO.setCoano(rs.getString("coano"));
+					lessonVO.setLessname(rs.getString("lessname"));
+					lessonVO.setLessmax(rs.getInt("lessmax"));
+					lessonVO.setLessmin(rs.getInt("lessmin"));
+
+					lessonVO.setLesscur(rs.getInt("lesscur"));
+					lessonVO.setLesstype(rs.getString("lesstype"));
+					lessonVO.setLessloc(rs.getString("lessloc"));
+					lessonVO.setLessprice(rs.getInt("lessprice"));
+					lessonVO.setLessdesc(rs.getString("lessdesc"));
+
+					lessonVO.setLessstart(rs.getDate("lessstart"));
+					lessonVO.setLessend(rs.getDate("lessend"));
+					lessonVO.setLesssta(rs.getString("lesssta"));
+					lessonVO.setLesstimes(rs.getInt("lesstimes"));
+					lessonVO.setLesspic(rs.getBytes("lesspic"));
+					
+
+				}
+
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. " + se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+
+			return lessonVO;
+		}
 
 }
