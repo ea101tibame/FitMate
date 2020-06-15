@@ -1,11 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.coach.model.*"%>
+<%@ page import="java.util.*"%>
 <!DOCTYPE html>
 
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
-  CoaVO coaVO = (CoaVO) request.getAttribute("coaVO"); //CoaServlet.java(Concroller), 存入req的coaVO物件
+	CoaService coaSvc = new CoaService();
+	List<CoaVO> coaVOs = coaSvc.getAll();
+	pageContext.setAttribute("coaVOs", coaVOs);
+	
+	System.out.println("list size: " + coaVOs.size());
+	for(int i=0;i<coaVOs.size();i++){
+		System.out.println("coaname: " + coaVOs.get(i).getCoaname());
+	}
+	
 %>
 
 <html>
@@ -25,12 +36,13 @@
 
 </head>
 <body>
- <header class="header_area">
+     <!-- ##### Header Area Start ##### -->
+    <header class="header_area">
         <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
             <!-- Classy Menu -->
             <nav class="classy-navbar" id="essenceNav">
                 <!-- Logo -->
-                <a class="nav-brand" href="index.html"><img src="<%=request.getContextPath()%>/img/index-core-image/logo.png" alt=""></a>
+                <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler">
                     <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -117,10 +129,10 @@
             
                 <!-- User Login Info -->
                 <div class="user-login-info">
-                    <a href="#"><img src="<%=request.getContextPath()%>/img/index-core-image/user.svg" alt=""></a>
+                    <a href="#"><img src="img/core-img/user.svg" alt=""></a>
                 </div>
                  <div class="user-login-info">
-                    <a href="#"><img src="<%=request.getContextPath()%>/img/index-core-image/email.svg" alt=""></a>
+                    <a href="#"><img src="img/core-img/email.svg" alt=""></a>
                 </div>
                 
 
@@ -135,69 +147,70 @@
 
         <!-- Single Blog Post Thumb -->
         <div class="single-blog-post-thumb">
-            <img src="<%=request.getContextPath()%>/img/index-bg-image/coach1920.png" alt="">
+            <img src="img/bg-img/coach1920.png" alt="">
         </div>
 
         <div class="container">
-          <div class="row marginb15px" id="about-me">
-            <div class="col-xs-12 section-head">
-              <span class="h1"><i class="fa fa-user"></i>教練資訊</span><span class="pull-right"></span>
-            </div>
-            <div class="col-xs-12 col-md-4">
-              <img src="<td><%=coaVO.getCoapic()%></td>" class="profile-image center-block">
-            </div>
-            <div class="col-xs-12 col-md-8 textcenter">
-                <table class="table table-borderless table-dark">
-                  <tr>
-                      <td>編號<p><%=coaVO.getCoano()%></p></td>
-                    </tr>
-                    <tr>
-                      <td>姓名<p><%=coaVO.getCoaname()%></p></td>
-                    </tr>
-                    <tr>
-                      <td>性別<p><%=coaVO.getCoasex()%></p></td>
-                    </tr>
-                     <tr>
-                      <td>E-mail<p><%=coaVO.getCoamail()%></p></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="row marginb15px" id="about-me">
-            <div class="col-xs-12 section-head">
-              <span class="h1"><i class="fa fa-suitcase"></i>課表</span><span class="pull-right"></span>
-            </div> 
-            <!-- <div class="col-12 textcenter">
-              <div class="frame">
-                <div class="exp">
-                 
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <div class="regular-page-content-wrapper section-padding-80">
+                        <div class="regular-page-text">
+                            <h2>搜尋教練</h2>
+
+
+                            <div class="dropdown">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                依專長搜尋
+                              </button>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" type="button">瑜珈</button>
+                                <button class="dropdown-item" type="button">肌力訓練</button>
+                                <button class="dropdown-item" type="button">溜冰/滑板</button>
+                                <button class="dropdown-item" type="button">有氧課程</button>
+                                <button class="dropdown-item" type="button">海上/海下運動</button>
+                                <button class="dropdown-item" type="button">登山健行</button>
+                                <button class="dropdown-item" type="button">重量訓練</button>
+                                <button class="dropdown-item" type="button">球類運動</button>
+                                <button class="dropdown-item" type="button">武術</button>
+                                <button class="dropdown-item" type="button">其他運動</button>
+                              </div>
+                            </div><br>
+                           <table class="table">
+                              <thead class="thead-dark">
+                                <tr>
+                                  <th scope="col">編號</th>
+                                  <th scope="col">姓名</th>
+                                  <th scope="col">性別</th>
+                                  <th scope="col">專長</th>
+                                  <th scope="col">照片</th>
+                                  <th scope="col">詳細資訊</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <c:forEach var="coaVO" items="${coaVOs}">
+	                                <tr>
+	                                  <td>${coaVO.coano}</td>
+	                                  <td>${coaVO.coaname}</td>
+	                                  <td>${coaVO.coasex}</td>
+	                                  <td>null</td>
+	                                  <td>null</td>
+	                                  <td>
+										<form METHOD="post" style="margin-bottom: 0px;">
+											<input type="submit" class="btn btn-outline-primary" value="詳情">
+											<input type="hidden" name="action"	value="getOne_For_Update">
+											<input type="hidden" name="coano"	value="${coaVO.coano}">
+										</form>
+	                                  </td>
+	                                </tr>
+                               </c:forEach>
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div> -->
-          <div class="row" id="works">
-            <div class="col-xs-12 section-head">
-              <span class="h1"><i class="fa fa-suitcase"></i>課程/活動照片</span><span class="pull-right"></span>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4">
-              <div class="well">
-                <img src="http://placehold.it/250" class="center-block">
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 margin-sm-top">
-              <div class="well">
-                <img src="http://placehold.it/250" class="center-block">
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 margin-sm-top">
-              <div class="well">
-                <img src="http://placehold.it/250" class="center-block">
-              </div>
-            </div>
-          </div>
-          </div>
         </div>
+    </div>
     <!-- ##### Blog Wrapper Area End ##### -->
 
     <!-- ##### Footer Area Start ##### -->
@@ -217,7 +230,10 @@
 
         </div>
     </footer>
+    <!-- ##### Footer Area End ##### -->
+
 </body>
+
 <!-- jQuery (Necessary for All JavaScript Plugins) -->
     <script src="<%=request.getContextPath()%>/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->

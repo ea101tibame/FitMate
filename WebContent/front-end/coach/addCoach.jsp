@@ -116,6 +116,7 @@
 							<font style="color: red">請修正以下錯誤:</font>
 							<ul>
 								<c:forEach var="message" items="${errorMsgs}">
+									<li style="color: red">${message.key}</li>
 									<li style="color: red">${message.value}</li>
 								</c:forEach>
 							</ul>
@@ -158,8 +159,8 @@
 													<div class="tab-content pt-3">
 														<div class="tab-pane active">
 														<!-- 本文開始 -->
-															<form method="post" action="coach.do" name="form1"
-																id="add-coach-form" class="form" novalidate="" enctype="multipart/form-data">
+															<form method="post" action="" name="form1" class="form" novalidate="" enctype="multipart/form-data">
+																<input type="hidden" name="action" value="insert">
 																<div class="row">
 																	<div class="col">
 																		<div class="row">
@@ -176,14 +177,14 @@
 																					<label>性別</label><br>
 																					<div class="form-check form-check-inline">
 																						<input class="form-check-input" type="radio"
-																							name="inlineRadioOptions" id="inlineRadio1"
-																							value="${param.coasex}" /> <label
+																							name="coasex"
+																							value="1" /> <label
 																							class="form-check-label" for="inlineRadio1">男</label>
 																					</div>
 																					<div class="form-check form-check-inline">
 																						<input class="form-check-input" type="radio"
-																							name="inlineRadioOptions" id="inlineRadio2"
-																							value="${param.coasex}" /> <label
+																							name="coasex" 
+																							value="0" /> <label
 																							class="form-check-label" for="inlineRadio2">女</label>
 																					</div>
 																				</div>
@@ -231,7 +232,7 @@
 																			<div class="col">
 																				<div class="form-group">
 																					<label>信箱</label> <input class="form-control"
-																						type="text" name="" value="${param.coamail}" />
+																						type="text" name="coamail" value="${param.coamail}" />
 																					<p>${errorMsgs.coamail}</p>
 																				</div>
 																			</div>

@@ -9,15 +9,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CoaJDBCDAO implements CoaDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+//	String url = "jdbc:oracle:thin:@localhost:1521:XE"; // for class
+	String url = "jdbc:oracle:thin:@localhost:49161:XE"; // for home dev
 	String userid = "EA101G5";
 	String passwd = "EA101G5";
 
-	private static final String INSERT_STMT = "INSERT INTO coach (coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coasctotal,coascqty) VALUES ('C'||LPAD(to_char(coach_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO coach (coano,coaname,coapsw,coamail,coatel,coaacc,coapic,coasex) VALUES ('C'||LPAD(to_char(coach_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE coach set coaname=?, coapsw=?, coamail=?, coatel=?, coaacc=?, coapoint=?, coasta=?, coasex=?, coasctotal=?, coascqty=? where coano=?";
 	private static final String DELETE = "DELETE FROM coach where coano = ?";
 	private static final String GET_ONE_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coasex,coasctotal,coascqty FROM coach where coano = ?";
@@ -40,12 +42,8 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 			pstmt.setString(3, coaVO.getCoamail());
 			pstmt.setString(4, coaVO.getCoatel());
 			pstmt.setString(5, coaVO.getCoaacc());
-			pstmt.setInt(6, coaVO.getCoapoint());
-			pstmt.setString(7, coaVO.getCoasta());
-			pstmt.setBytes(8, coaVO.getCoapic());
-			pstmt.setString(9, coaVO.getCoasex());
-			pstmt.setInt(10, coaVO.getCoasctotal());
-			pstmt.setInt(11, coaVO.getCoascqty());
+			pstmt.setBytes(6, coaVO.getCoapic());
+			pstmt.setString(7, coaVO.getCoasex());
 
 			pstmt.executeUpdate();
 
@@ -85,7 +83,7 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
-			
+
 			pstmt.setString(1, coaVO.getCoaname());
 			pstmt.setString(2, coaVO.getCoapsw());
 			pstmt.setString(3, coaVO.getCoamail());
@@ -185,7 +183,7 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				
+
 				coaVO = new CoaVO();
 				coaVO.setCoano(rs.getString("coano"));
 				coaVO.setCoaname(rs.getString("coaname"));
@@ -252,7 +250,7 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				
+
 				coaVO = new CoaVO();
 				coaVO.setCoano(rs.getString("coano"));
 				coaVO.setCoaname(rs.getString("coaname"));
@@ -344,7 +342,7 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 //		dao.insert(coaVO1);
 
 		// update
-		
+
 //		CoaVO coaVO2 = new CoaVO();
 //		coaVO2.setCoaname("吳神教練");
 //		coaVO2.setCoapsw("peter123");
@@ -395,7 +393,6 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 			System.out.print(aCoa.getCoasex() + ",");
 			System.out.print(aCoa.getCoasctotal() + ",");
 			System.out.print(aCoa.getCoascqty() + ",");
-			
 
 			System.out.println();
 		}
