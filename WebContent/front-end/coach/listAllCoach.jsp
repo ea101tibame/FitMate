@@ -14,10 +14,10 @@
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta charset="UTF-8">
-<title>員工資料 - listOneCoach.jsp</title>
+<title>所有教練資料 - listAllCoach.jsp</title>
+<link rel="icon" href="<%=request.getContextPath()%>/img/index-core-iamge/favicon.ico">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/core-style.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/custom-css/ListOneCoach.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/custom-css/ListAllCoach.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
