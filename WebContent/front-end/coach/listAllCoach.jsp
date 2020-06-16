@@ -193,7 +193,7 @@
 	                                  <td>${coaVO.coaname}</td>
 	                                  <td>${coaVO.coasex}</td>
 	                                  <td>null</td>
-	                                  <td>null</td>
+	                                  <td><img src="<%=request.getContextPath()%>/coach/PicServletJDBC.do?coano=${coaVO.coano}" alt= "教練照片"></td>
 	                                  <td>
 										<form METHOD="post" style="margin-bottom: 0px;">
 											<input type="submit" class="btn btn-outline-primary" value="詳情">
