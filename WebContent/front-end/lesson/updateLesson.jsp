@@ -7,7 +7,7 @@
 <%@ page import="text.coach.model.*"%>
 
 <%
-	LessonVO LessonVO = (LessonVO) request.getAttribute("LessonVO");
+	LessonVO lessonVO = (LessonVO) request.getAttribute("lessonVO");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -148,20 +148,24 @@
 										<label for="firstName">課程名稱</label> 
 										<input type="text"
 											class="form-control" name="lessname"
-											value="<%=LessonVO.getLessname()%>">
+											value="<%=lessonVO.getLessname()%>">
 
 									</div>
 									<div class="col-md-12 mb-3">
 										<label for="country">課程類型</label>
-										<jsp:useBean id="LessonSvc" scope="page"
+										<jsp:useBean id="lessonSvc" scope="page"
 											class="com.lesson.model.LessonService" />
+<!-- 										<select class="custom-select d-block " name="expno"> -->
+<%-- 											<c:forEach var="ExpertiseVO" items="${LessonSvc.allExpByExpno}"> --%>
+<%-- 												<option value="${ExpertiseVO.expno}" ${(lessonVO.lesstype==ExpertiseVO.expno)?'selected':'' }>${ExpertiseVO.expdesc} --%>
+<%-- 											</c:forEach> --%>
+<!-- 										</select> -->
 										<select class="custom-select d-block " name="lesstype">
-											<option value="">請選擇</option>
-											<c:forEach var="ExpertiseVO"
-												items="${LessonSvc.allExpByExpno}">
-												<option value="${ExpertiseVO.expno}" ${(lessonVO.lesstype==ExpertiseVO.expno)?'selected':'' } }>${ExpertiseVO.expdesc}
+											<c:forEach var="expertiseVO" items="${lessonSvc.allExpByExpno}">
+												<option value="${lessonVO.lesstype}" ${(lessonVO.lesstype==expertiseVO.expno)?'selected':'' }>${expertiseVO.expdesc}
 											</c:forEach>
 										</select>
+											
 
 
 
@@ -174,14 +178,14 @@
 									<div class="col-md-12 mb-3">
 										<label for="lastName">人數上限(最多幾位學生)</label> <input type="text"
 											class="form-control" name="lessmax"
-											value="<%=LessonVO.getLessmax()%>">
+											value="<%=lessonVO.getLessmax()%>">
 
 									</div>
 
 									<div class="col-md-12 mb-3">
 										<label for="lastName">人數下限(下限人數到即開團)</label> <input type="text"
 											class="form-control" name="lessmin"
-											value="<%=LessonVO.getLessmin()%>">
+											value="<%=lessonVO.getLessmin()%>">
 
 									</div>
 								</div>
@@ -191,45 +195,45 @@
 								<div class="mb-3">
 									<label for="address">課程欲售點數</label> <input type="text"
 										class="form-control" name="lessprice"
-										value="<%=LessonVO.getLessprice()%>">
+										value="<%=lessonVO.getLessprice()%>">
 
 								</div>
 
 								<div class="mb-3">
 									<label for="address">課程地點</label> <input type="text"
 										class="form-control" name="lessloc"
-										value="<%=LessonVO.getLessloc()%>">
+										value="<%=lessonVO.getLessloc()%>">
 
 								</div>
 
 								<div class="mb-3">
 									<label for="address">課程報名開始</label> <input type="text"
 										class="form-control" id="from" name="lessstart"
-										value="<%=LessonVO.getLessstart()%>">
+										value="<%=lessonVO.getLessstart()%>">
 
 								</div>
 								<div class=" mb-3">
 									<label for="address">課程報名截止</label> <input type="text"
 										class="form-control" id="to" name="lessend"
-										value="<%=LessonVO.getLessend()%>">
+										value="<%=lessonVO.getLessend()%>">
 
 								</div>
 
 								<div class="mb-3">
 									<label for="address">課程堂數</label> <input type="text"
 										class="form-control" name="lesstimes"
-										value="<%=LessonVO.getLesstimes()%>">
+										value="<%=lessonVO.getLesstimes()%>">
 
 								</div>
 
 								<div>
 									<div class="col-md-12 mb-3">
 										<label for="address">課程說明</label>
-										<textarea name="lessdesc"><%=LessonVO.getLessdesc()%></textarea>
+										<textarea name="lessdesc"><%=lessonVO.getLessdesc()%></textarea>
 									</div>
 									<div>
 									<label>原始封面圖片: </label> <br> 
-										<img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${LessonVO.lessno}" class="innerpic">
+										<img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="innerpic">
 										
 										<div>
 											<div>
@@ -255,7 +259,7 @@
 
 							<hr class="mb-4">
 							<input type="hidden" name="action" value="update">
-							<input type="hidden" name="lessno" value="${LessonVO.lessno}">
+							<input type="hidden" name="lessno" value="${lessonVO.lessno}">
 							
 							<button class="btn btn-primary btn-lg btn-block" type="submit">送出修改</button>
 						</form>

@@ -5,8 +5,8 @@
 <%@ page import="com.lesson.model.*"%>
 
 <%
-	LessonService LessonService = new LessonService();
-	List<LessonVO> list = LessonService.getCoachLesson("C001");
+	LessonService lessonService = new LessonService();
+	List<LessonVO> list = lessonService.getCoachLesson("C001");
 	session.setAttribute("list",list);
 
 %>
@@ -48,7 +48,8 @@
   table {
 	background-color: #FFE66F;
     border: 2px solid black;
-    text-align: center;
+    width: 90%;
+    margin: auto;
   }
   tr td{
   border: 2px solid black;
@@ -60,6 +61,7 @@
 height:100px;
 width:200px;
 }
+
 </style>
 </head>
 
@@ -142,7 +144,7 @@ width:200px;
 
 		<!-- Single Blog Post Thumb -->
 		<div class="single-blog-post-thumb">
-			<img src="${pageContext.request.contextPath}/img//bg-img/COA1920.png"
+			<img src="${pageContext.request.contextPath}/img/bg-img/COA1920.png"
 				alt="">
 		</div>
 		<%-- 錯誤表列 --%>
@@ -155,7 +157,7 @@ width:200px;
 			</ul>
 		</c:if>
 		
-		<div class="container">
+		<div class="container col-12">
 			<div class="row justify-content-center">
 				<div class="col-12 col-md-12">
 					<div class="regular-page-content-wrapper section-padding-80">
@@ -182,23 +184,23 @@ width:200px;
 		<th>下架</th>
 	</tr>
 	<%@ include file="pages/page1.file" %> 
-	<c:forEach var="LessonVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+	<c:forEach var="lessonVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		
 		<tr>
-			<td>${LessonVO.lessno}</td>
-			<td>${LessonVO.lessname}</td>
-			<td>${LessonVO.lesstype}</td>
-			<td>${LessonVO.lessmax}</td>
-			<td>${LessonVO.lessmin}</td>
-			<td>${LessonVO.lesstimes}</td> 
-			<td>${LessonVO.lesssta}</td>
-			<td>${LessonVO.lesscur}</td>
-			<td>${LessonVO.lessprice}</td>
-			<td>${LessonVO.lessloc}</td>
-			<td>${LessonVO.lessstart}</td>
-			<td>${LessonVO.lessend}</td>
-			<td>${LessonVO.lessdesc}</td>
-			<td><img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${LessonVO.lessno}" class="innerpic"></td>
+			<td>${lessonVO.lessno}</td>
+			<td>${lessonVO.lessname}</td>
+			<td>${lessonVO.lesstype}</td>
+			<td>${lessonVO.lessmax}</td>
+			<td>${lessonVO.lessmin}</td>
+			<td>${lessonVO.lesstimes}</td> 
+			<td>${lessonVO.lesssta}</td>
+			<td>${lessonVO.lesscur}</td>
+			<td>${lessonVO.lessprice}</td>
+			<td>${lessonVO.lessloc}</td>
+			<td>${lessonVO.lessstart}</td>
+			<td>${lessonVO.lessend}</td>
+			<td>${lessonVO.lessdesc}</td>
+			<td><img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="innerpic"></td>
 			<%--拿到教練專長SVC再來
 			<td><c:forEach var="deptVO" items="${deptSvc.all}">
                     <c:if test="${empVO.deptno==deptVO.deptno}">
@@ -210,20 +212,20 @@ width:200px;
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">
-			     <input type="hidden" name="lessno"  value="${LessonVO.lessno}">
+			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="建立時段">
-			     <input type="hidden" name="creatTime"  value="${lessonVO.lessonVO}">
+			     <input type="hidden" name="creatTime"  value="">
 			     <input type="hidden" name="action" value="creat_Times"></FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="下架">
-			     <input type="hidden" name="off"  value="${lessonVO.lessonVO}">
+			     <input type="hidden" name="off"  value="">
 			     <input type="hidden" name="action" value="off_lesson"></FORM>
 			</td>
 		</tr>

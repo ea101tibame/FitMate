@@ -16,51 +16,51 @@ public class LessonService {
 	}
 
 	public LessonVO addLesson(String coano,String lessname,Integer lessmax,Integer lessmin,Integer lesscur,String lesstype,String lessloc,Integer lessprice,String lessdesc,java.sql.Date lessstart,java.sql.Date lessend,String lesssta,Integer lesstimes,byte[] lesspic) {
-		LessonVO LessonVO= new LessonVO();
+		LessonVO lessonVO= new LessonVO();
 		
 		
-		LessonVO.setCoano(coano);
-		LessonVO.setLessname(lessname);
-		LessonVO.setLessmax(lessmax);
-		LessonVO.setLessmin(lessmin);
+		lessonVO.setCoano(coano);
+		lessonVO.setLessname(lessname);
+		lessonVO.setLessmax(lessmax);
+		lessonVO.setLessmin(lessmin);
 		
-		LessonVO.setLesscur(lesscur);
-		LessonVO.setLesstype(lesstype);
-		LessonVO.setLessloc(lessloc);
-		LessonVO.setLessprice(lessprice);
-		LessonVO.setLessdesc(lessdesc);
+		lessonVO.setLesscur(lesscur);
+		lessonVO.setLesstype(lesstype);
+		lessonVO.setLessloc(lessloc);
+		lessonVO.setLessprice(lessprice);
+		lessonVO.setLessdesc(lessdesc);
 		
-		LessonVO.setLessstart(lessstart);
-		LessonVO.setLessend(lessend);
-		LessonVO.setLesssta(lesssta);
-		LessonVO.setLesstimes(lesstimes);
-		LessonVO.setLesspic(lesspic);
+		lessonVO.setLessstart(lessstart);
+		lessonVO.setLessend(lessend);
+		lessonVO.setLesssta(lesssta);
+		lessonVO.setLesstimes(lesstimes);
+		lessonVO.setLesspic(lesspic);
 		
-		dao.insert(LessonVO);
-		return LessonVO;
+		dao.insert(lessonVO);
+		return lessonVO;
 		
 	}
 	public LessonVO updateLesson(String lessno, String coano,String lessname,Integer lessmax,Integer lessmin,Integer lesscur,String lesstype,String lessloc,Integer lessprice,String lessdesc,java.sql.Date lessstart,java.sql.Date lessend,String lesssta,Integer lesstimes,byte[] lesspic) {
-		LessonVO LessonVO= new LessonVO();
-		LessonVO.setLessno(lessno);
-		LessonVO.setCoano(coano);
-		LessonVO.setLessname(lessname);
-		LessonVO.setLessmax(lessmax);
-		LessonVO.setLessmin(lessmin);
+		LessonVO lessonVO= new LessonVO();
+		lessonVO.setLessno(lessno);
+		lessonVO.setCoano(coano);
+		lessonVO.setLessname(lessname);
+		lessonVO.setLessmax(lessmax);
+		lessonVO.setLessmin(lessmin);
 		
-		LessonVO.setLesscur(lesscur);
-		LessonVO.setLesstype(lesstype);
-		LessonVO.setLessloc(lessloc);
-		LessonVO.setLessprice(lessprice);
-		LessonVO.setLessdesc(lessdesc);
+		lessonVO.setLesscur(lesscur);
+		lessonVO.setLesstype(lesstype);
+		lessonVO.setLessloc(lessloc);
+		lessonVO.setLessprice(lessprice);
+		lessonVO.setLessdesc(lessdesc);
 		
-		LessonVO.setLessstart(lessstart);
-		LessonVO.setLessend(lessend);
-		LessonVO.setLesssta(lesssta);
-		LessonVO.setLesstimes(lesstimes);
-		LessonVO.setLesspic(lesspic);
-		dao.update(LessonVO);
-		return LessonVO;
+		lessonVO.setLessstart(lessstart);
+		lessonVO.setLessend(lessend);
+		lessonVO.setLesssta(lesssta);
+		lessonVO.setLesstimes(lesstimes);
+		lessonVO.setLesspic(lesspic);
+		dao.update(lessonVO);
+		return lessonVO;
 		
 	}
 

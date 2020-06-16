@@ -7,7 +7,7 @@
 <%@ page import="text.coach.model.*"%>
 
 <%
-	LessonVO LessonVO = (LessonVO) request.getAttribute("LessonVO");
+	LessonVO lessonVO = (LessonVO) request.getAttribute("lessonVO");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +39,7 @@
 	href="${pageContext.request.contextPath}/css/custom-css/addLesson.css">
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
 </head>
 
 <body>
@@ -149,24 +150,20 @@
 									<div class="col-md-12 mb-3">
 										<label for="firstName">課程名稱</label> <input type="text"
 											class="form-control" name="lessname"
-											value="<%=(LessonVO == null) ? "" : LessonVO.getLessname()%>">
+											value="<%=(lessonVO == null) ? "" : lessonVO.getLessname()%>">
 
 									</div>
 									<div class="col-md-12 mb-3">
 										<label for="country">課程類型</label>
-										<jsp:useBean id="LessonSvc" scope="page"
+										<jsp:useBean id="lessonSvc" scope="page"
 											class="com.lesson.model.LessonService" />
 										<select class="custom-select d-block " name="lesstype">
 											<option value="">請選擇</option>
-											<c:forEach var="ExpertiseVO"
-												items="${LessonSvc.allExpByExpno}">
-												<option value="${ExpertiseVO.expno}">${ExpertiseVO.expdesc}
+											<c:forEach var="expertiseVO"
+												items="${lessonSvc.allExpByExpno}">
+												<option value="${expertiseVO.expno}">${expertiseVO.expdesc}
 											</c:forEach>
 										</select>
-
-
-
-
 
 
 									</div>
@@ -175,14 +172,14 @@
 									<div class="col-md-12 mb-3">
 										<label for="lastName">人數上限(最多幾位學生)</label> <input type="text"
 											class="form-control" name="lessmax"
-											value="<%=(LessonVO == null) ? "" : LessonVO.getLessmax()%>">
+											value="<%=(lessonVO == null) ? "" : lessonVO.getLessmax()%>">
 
 									</div>
 
 									<div class="col-md-12 mb-3">
-										<label for="lastName">人數下限(下限人數到即開團)</label> <input type="text"
-											class="form-control" name="lessmin"
-											value="<%=(LessonVO == null) ? "" : LessonVO.getLessmin()%>">
+										<label for="lastName">人數下限(下限人數到即開團)</label> <input
+											type="text" class="form-control" name="lessmin"
+											value="<%=(lessonVO == null) ? "" : lessonVO.getLessmin()%>">
 
 									</div>
 								</div>
@@ -192,47 +189,72 @@
 								<div class="mb-3">
 									<label for="address">課程欲售點數</label> <input type="text"
 										class="form-control" name="lessprice"
-										value="<%=(LessonVO == null) ? "" : LessonVO.getLessprice()%>">
+										value="<%=(lessonVO == null) ? "" : lessonVO.getLessprice()%>">
 
 								</div>
 
 								<div class="mb-3">
-									<label for="address">課程地點</label> <input type="text"
-										class="form-control" name="lessloc"
-										value="<%=(LessonVO == null) ? "" : LessonVO.getLessloc()%>">
+									<label for="address">課程地點</label>
+									<!-- 									<input type="text" class="form-control" name="lessloc" -->
+									<%-- 										value="<%=(LessonVO == null) ? "" : LessonVO.getLessloc()%>"> --%>
+									<div id="zipcode3">
+										<div class="f3" data-role="county"></div>
+										<div class="f4" data-role="district"></div>
+									</div>
+									<input type="text" class="f13 address form-control"
+										name="lesslocAdd">
 
 								</div>
 
 								<div class="mb-3">
 									<label for="address">課程報名開始</label> <input type="text"
 										class="form-control" id="from" name="lessstart"
-										value="<%=(LessonVO == null) ? "" : LessonVO.getLessstart()%>">
+										value="<%=(lessonVO == null) ? "" : lessonVO.getLessstart()%>">
 
 								</div>
 								<div class=" mb-3">
 									<label for="address">課程報名截止</label> <input type="text"
 										class="form-control" id="to" name="lessend"
-										value="<%=(LessonVO == null) ? "" : LessonVO.getLessend()%>">
+										value="<%=(lessonVO == null) ? "" : lessonVO.getLessend()%>">
 
 								</div>
 
 								<div class="mb-3">
 									<label for="address">課程堂數</label> <input type="text"
 										class="form-control" name="lesstimes"
-										value="<%=(LessonVO == null) ? "" : LessonVO.getLesstimes()%>">
+										value="<%=(lessonVO == null) ? "" : lessonVO.getLesstimes()%>">
 
 								</div>
 
 								<div>
 									<div class="col-md-12 mb-3">
 										<label for="address">課程說明</label>
-										<textarea name="lessdesc"><%=(LessonVO == null) ? "" : LessonVO.getLessdesc()%></textarea>
+										<textarea name="lessdesc"><%=(lessonVO == null) ? "" : lessonVO.getLessdesc()%></textarea>
+										<%--測試ckeditor 4
+										 <div>
+											<script
+												src="https://cdn.ckeditor.com/4.7.3/standard-all/ckeditor.js"></script>
+											<textarea name="editor1"></textarea>
+											<script>
+// 												CKEDITOR.plugins
+// 														.addExternal(
+// 																"codesnippet",
+// 																"https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.7.3/plugins/codesnippet/plugin.js",
+// 																"");
+// 												CKEDITOR
+// 														.replace("editor1", {
+// 																	extraPlugins : "codesnippet",
+// 																	codeSnippet_theme : "solarized_dark"
+// 																});
+												
+											</script>
+										</div>--%>
 									</div>
 									<div>
 										<div>
 											<div>
-												<label>上傳課程封面圖片: </label> <br> 
-												<input type="file" id="myFile" name="lesspic">
+												<label>上傳課程封面圖片: </label> <br> <input type="file"
+													id="myFile" name="lesspic">
 											</div>
 										</div>
 										<div>
@@ -302,6 +324,163 @@
 	<script src="${pageContext.request.contextPath}/css/js/active.js"></script>
 	<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<!-- 地址 -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+
+	<script>
+		$("#zipcode3").twzipcode({
+			"zipcodeIntoDistrict" : true,
+			"css" : [ "city form-control", "town form-control" ],
+			"countyName" : "city", // 指定城市 select name
+			"districtName" : "town" // 指定地區 select name
+		});
+	</script>
+	<style>
+.city, .town {
+	width: 100%;
+}
+
+.f1 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(5% - 10px)
+}
+
+.f2 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(10% - 10px)
+}
+
+.f3 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(15% - 10px)
+}
+
+.f4 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(20% - 10px)
+}
+
+.f5 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(25% - 10px)
+}
+
+.f6 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(30% - 10px)
+}
+
+.f7 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(35% - 10px)
+}
+
+.f8 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(40% - 10px)
+}
+
+.f9 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(45% - 10px)
+}
+
+.f10 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(50% - 10px)
+}
+
+.f11 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(55% - 10px)
+}
+
+.f12 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(60% - 10px)
+}
+
+.f13 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(65% - 10px)
+}
+
+.f14 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(70% - 10px)
+}
+
+.f15 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(75% - 10px)
+}
+
+.f16 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(80% - 10px)
+}
+
+.f17 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(85% - 10px)
+}
+
+.f18 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(90% - 10px)
+}
+
+.f19 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(95% - 10px)
+}
+
+.f20 {
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: calc(100% - 10px)
+}
+</style>
 
 </body>
 

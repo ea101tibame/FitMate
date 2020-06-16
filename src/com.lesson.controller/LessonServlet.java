@@ -79,7 +79,13 @@ public class LessonServlet extends HttpServlet {
 					errorMsgs.add("課程欲售點數請填數字");
 				}
 
-				String lessloc = req.getParameter("lessloc");
+				String city = req.getParameter("city");
+				System.out.println(city);
+				String town = req.getParameter("town");
+				System.out.println(town);
+				String lesslocAdd = req.getParameter("lesslocAdd");
+				System.out.println(lesslocAdd);
+				String lessloc = city+town+lesslocAdd;
 
 				java.sql.Date lessstart = java.sql.Date.valueOf(req.getParameter("lessstart"));
 				java.sql.Date lessend = java.sql.Date.valueOf(req.getParameter("lessend"));
@@ -94,43 +100,43 @@ public class LessonServlet extends HttpServlet {
 
 				String lessdesc = req.getParameter("lessdesc");
 
-				LessonVO LessonVO = new LessonVO();
-				LessonVO.setCoano("C004");
-				LessonVO.setLessname(lessname);
-				LessonVO.setLessmax(lessmax);
-				LessonVO.setLessmin(lessmin);
+				LessonVO lessonVO = new LessonVO();
+				lessonVO.setCoano("C004");
+				lessonVO.setLessname(lessname);
+				lessonVO.setLessmax(lessmax);
+				lessonVO.setLessmin(lessmin);
 
-				LessonVO.setLesscur(0);
-				LessonVO.setLesstype(lesstype);
-				LessonVO.setLessloc(lessloc);
-				LessonVO.setLessprice(lessprice);
-				LessonVO.setLessdesc(lessdesc);
+				lessonVO.setLesscur(0);
+				lessonVO.setLesstype(lesstype);
+				lessonVO.setLessloc(lessloc);
+				lessonVO.setLessprice(lessprice);
+				lessonVO.setLessdesc(lessdesc);
 
-				LessonVO.setLessstart(lessstart);
-				LessonVO.setLessend((lessend));
-				LessonVO.setLesssta("未成團");
-				LessonVO.setLesstimes(lesstimes);
+				lessonVO.setLessstart(lessstart);
+				lessonVO.setLessend((lessend));
+				lessonVO.setLesssta("未成團");
+				lessonVO.setLesstimes(lesstimes);
 
 				Part part = req.getPart("lesspic");
 				InputStream in = part.getInputStream();
 				byte[] img = new byte[in.available()];
 				in.read(img);
-				LessonVO.setLesspic(img);
+				lessonVO.setLesspic(img);
 
 
 				if (!errorMsgs.isEmpty()) {
 					for (String str : errorMsgs) {
 						System.out.println(str);
 					}
-					req.setAttribute("LessonVO", LessonVO); // 含有輸入格式錯誤的empVO物件,也存入req
+					req.setAttribute("lessonVO", lessonVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/addLesson.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 
 				/*************************** 2.開始新增資料 ***************************************/
-				LessonService LessonSvc = new LessonService();
-				LessonVO = LessonSvc.addLesson("C001", lessname, lessmax, lessmin, 0, lesstype, lessloc, lessprice,
+				LessonService lessonSvc = new LessonService();
+				lessonVO = lessonSvc.addLesson("C001", lessname, lessmax, lessmin, 0, lesstype, lessloc, lessprice,
 						lessdesc, lessstart, lessend, "未成團", lesstimes, img);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
@@ -158,10 +164,10 @@ public class LessonServlet extends HttpServlet {
 				/***************************1.接收請求參數****************************************/
 				String lessno = new String(req.getParameter("lessno"));
 				/***************************2.開始查詢資料****************************************/
-				LessonService LessonSvc = new LessonService();
-				LessonVO LessonVO = LessonSvc.getOneByPK(lessno);
+				LessonService lessonSvc = new LessonService();
+				LessonVO lessonVO = lessonSvc.getOneByPK(lessno);
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-				req.setAttribute("LessonVO", LessonVO);
+				req.setAttribute("lessonVO", lessonVO);
 				String url ="/front-end/lesson/updateLesson.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
@@ -171,6 +177,33 @@ public class LessonServlet extends HttpServlet {
 				throw new ServletException(e);
 			}
 		}
+		
+		if("show_lesson_detail".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			try {
+				/***************************1.接收請求參數****************************************/
+				String lessno = new String(req.getParameter("lessno"));
+				String coano = new String(req.getParameter("coano"));
+				/***************************2.開始查詢資料****************************************/
+				LessonService lessonSvc = new LessonService();
+				LessonVO lessonVO = lessonSvc.getOneByPK(lessno);
+				
+//				CoachService coachSvc = new CoachService();
+//				CoachVO coachVO = coachSvc.getOneByPK();
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("lessonVO", lessonVO);
+//				req.setAtrribute("coachVO",coachVO);
+				String url ="/front-end/lesson/lesson_detail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+				/***************************其他可能的錯誤處理************************************/
+
+			}catch(Exception e) {
+				throw new ServletException(e);
+			}
+		}
+		
 		if("update".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -242,59 +275,59 @@ public class LessonServlet extends HttpServlet {
 					
 				}else {
 					LessonService lessSvc = new LessonService();
-					LessonVO LessVO = lessSvc.getOneByPK(lessno);
-					img = LessVO.getLesspic();
+					LessonVO lessVO = lessSvc.getOneByPK(lessno);
+					img = lessVO.getLesspic();
 					
 					//拿現在人數
-					lesscur = LessVO.getLesscur(); 
+					lesscur = lessVO.getLesscur(); 
 //					img=LessonVO.getLesspic();
 				}
 				
 				in.close();
 				
 				//String coano = new String (req.getParameter("coano"));
-				LessonVO LessonVO = new LessonVO();
-				LessonVO.setCoano("C001");
-				LessonVO.setLessno(lessno);
-				LessonVO.setLessname(lessname);
-				LessonVO.setLessmax(lessmax);
-				LessonVO.setLessmin(lessmin);
+				LessonVO lessonVO = new LessonVO();
+				lessonVO.setCoano("C001");
+				lessonVO.setLessno(lessno);
+				lessonVO.setLessname(lessname);
+				lessonVO.setLessmax(lessmax);
+				lessonVO.setLessmin(lessmin);
 				
-				LessonVO.setLesscur(0);//先寫死 想辦法撈目前資料
-				LessonVO.setLesstype(lesstype);
-				LessonVO.setLessloc(lessloc);
-				LessonVO.setLessprice(lessprice);
-				LessonVO.setLessdesc(lessdesc);
+				lessonVO.setLesscur(0);//先寫死 想辦法撈目前資料
+				lessonVO.setLesstype(lesstype);
+				lessonVO.setLessloc(lessloc);
+				lessonVO.setLessprice(lessprice);
+				lessonVO.setLessdesc(lessdesc);
 
-				LessonVO.setLessstart(lessstart);
-				LessonVO.setLessend(lessend);
-				LessonVO.setLesssta("未成團");
-				LessonVO.setLesstimes(lesstimes);
+				lessonVO.setLessstart(lessstart);
+				lessonVO.setLessend(lessend);
+				lessonVO.setLesssta("未成團");
+				lessonVO.setLesstimes(lesstimes);
 				
 //				Part part = req.getPart("lesspic");
 //				InputStream in = part.getInputStream();
 //				byte[] img = new byte[in.available()];
 //				in.read(img);
-				LessonVO.setLesspic(img);
+				lessonVO.setLesspic(img);
 				
 
 				if (!errorMsgs.isEmpty()) {
 					for (String str : errorMsgs) {
 					}
 					
-					req.setAttribute("LessonVO", LessonVO); // 含有輸入格式錯誤的LessonVO物件,也存入req
+					req.setAttribute("lessonVO", lessonVO); // 含有輸入格式錯誤的LessonVO物件,也存入req
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/updateLesson.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 
 				/*************************** 2.開始修改資料***************************************/
-				LessonService LessonSvc = new LessonService();
-				LessonVO = LessonSvc.updateLesson(lessno,"C001",lessname, lessmax, lessmin,lesscur ,lesstype, lessloc, lessprice,
+				LessonService lessonSvc = new LessonService();
+				lessonVO = lessonSvc.updateLesson(lessno,"C001",lessname, lessmax, lessmin,lesscur ,lesstype, lessloc, lessprice,
 						lessdesc, lessstart, lessend, "未成團", lesstimes, img);
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) ***********/
-				req.setAttribute("LessonVO",LessonVO);// 資料庫update成功後,正確的的LessonVO物件,存入req
+				req.setAttribute("lessonVO",lessonVO);// 資料庫update成功後,正確的的LessonVO物件,存入req
 				String url = "/front-end/lesson/selectOneLesson.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);

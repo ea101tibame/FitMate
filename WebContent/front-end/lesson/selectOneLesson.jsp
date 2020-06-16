@@ -5,9 +5,9 @@
 <%@ page import="com.lesson.model.*"%>
 
 <%
-LessonVO LessonVO = (LessonVO) request.getAttribute("LessonVO");
+LessonVO lessonVO = (LessonVO) request.getAttribute("lessonVO");
 LessonService lessonSvc = new LessonService();
-LessonVO Lessno =lessonSvc.getOneByPK(LessonVO.getLessno());
+LessonVO lessno =lessonSvc.getOneByPK(lessonVO.getLessno());
 %>
 
 
@@ -48,6 +48,8 @@ LessonVO Lessno =lessonSvc.getOneByPK(LessonVO.getLessno());
 	background-color: #FFE66F;
     border: 2px solid black;
     text-align: center;
+        width: 90%;
+    margin: auto;
   }
   tr td{
   border: 2px solid black;
@@ -153,8 +155,7 @@ width:200px;
 				</c:forEach>
 			</ul>
 		</c:if>
-		
-		<div class="container">
+		<div class="container col-12">
 			<div class="row justify-content-center">
 				<div class="col-12 col-md-12">
 					<div class="regular-page-content-wrapper section-padding-80">
@@ -181,20 +182,20 @@ width:200px;
 	
 		
 		<tr>
-			<td>${LessonVO.lessno}</td>
-			<td>${LessonVO.lessname}</td>
-			<td>${LessonVO.lesstype}</td>
-			<td>${LessonVO.lessmax}</td>
-			<td>${LessonVO.lessmin}</td>
-			<td>${LessonVO.lesstimes}</td> 
-			<td>${LessonVO.lesssta}</td>
-			<td>${LessonVO.lesscur}</td>
-			<td>${LessonVO.lessprice}</td>
-			<td>${LessonVO.lessloc}</td>
-			<td>${LessonVO.lessstart}</td>
-			<td>${LessonVO.lessend}</td>
-			<td>${LessonVO.lessdesc}</td>
-			<td><img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${LessonVO.lessno}" class="innerpic"></td>
+			<td>${lessonVO.lessno}</td>
+			<td>${lessonVO.lessname}</td>
+			<td>${lessonVO.lesstype}</td>
+			<td>${lessonVO.lessmax}</td>
+			<td>${lessonVO.lessmin}</td>
+			<td>${lessonVO.lesstimes}</td> 
+			<td>${lessonVO.lesssta}</td>
+			<td>${lessonVO.lesscur}</td>
+			<td>${lessonVO.lessprice}</td>
+			<td>${lessonVO.lessloc}</td>
+			<td>${lessonVO.lessstart}</td>
+			<td>${lessonVO.lessend}</td>
+			<td>${lessonVO.lessdesc}</td>
+			<td><img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="innerpic"></td>
 			<%--拿到教練專長SVC再來
 			<td><c:forEach var="deptVO" items="${deptSvc.all}">
                     <c:if test="${empVO.deptno==deptVO.deptno}">
@@ -216,6 +217,7 @@ width:200px;
 			</div>
 		</div>
 	</div>
+
 	<!-- ##### Blog Wrapper Area End ##### -->
 	
 

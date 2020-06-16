@@ -22,7 +22,18 @@
 <title>timeTable</title>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-
+<style>
+    .orange p {
+    	font-size: 15px !important;
+    } 
+    #nextM, #lastM {
+    	cursor: pointer;
+    }
+    #nextM:hover, #lastM:hover {
+    	color: blue;
+    	font-weight: 700;
+    }
+</style>
 
 </head>
 <body>
@@ -1107,6 +1118,13 @@
 	 			$(this).find("li").eq(1).attr("class","none l4 a1");
 	 			$(this).find("li").eq(2).attr("class","none");
 	 			$(this).find("li").eq(2).attr("class","none l4 a1");
+	 			$(this).find("li").eq(0).removeAttr("title");
+				$(this).find("p").eq(0).html("");
+	 			$(this).find("li").eq(1).removeAttr("title");
+				$(this).find("p").eq(1).html("");
+	 			$(this).find("li").eq(2).removeAttr("title");
+				$(this).find("p").eq(2).html("");
+				
 			});
 		}
 		}
