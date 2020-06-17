@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.coach.model.CoaService;
 import com.coach.model.CoaVO;
+import com.expertise.model.ExpService;
+import com.expertise.model.ExpVO;
+import com.expertise_own.model.ExpOwnService;
+import com.expertise_own.model.ExpOwnVO;
 
 @MultipartConfig
 public class CreateCoaServlet extends HttpServlet {
@@ -134,17 +138,28 @@ public class CreateCoaServlet extends HttpServlet {
 				String coano = new String(req.getParameter("coano"));
 
 				/*************************** 2.開始查詢資料 ****************************************/
+				// get coach data
 				CoaService coaSvc = new CoaService();
 				CoaVO coaVO = coaSvc.getOneCoa(coano);
 
+				// get expertise data
+				ExpOwnService expOwnService = new ExpOwnService();
+				List<ExpOwnVO> expOwnVOs = expOwnService.getExpOwnsByCoano(coano);
+				ExpService expService = new ExpService();
+				for (ExpOwnVO expOwnVO : expOwnVOs) {
+					ExpVO expVO = expService.getOneExp(expOwnVO.getExpno());
+					expOwnVO.setExpdesc(expVO.getExpdesc());
+				}
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("coaVO", coaVO); // 資料庫取出的coaVO物件,存入req
+				req.setAttribute("expOwnVOs", expOwnVOs); // 資料庫取出的coaVO物件,存入req
 				String url = "/front-end/coach/listOneCoach.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_coach_input.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
+				e.printStackTrace();
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/listAllCoach.jsp");
 				failureView.forward(req, res);

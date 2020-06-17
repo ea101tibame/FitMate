@@ -52,10 +52,6 @@
 						<ul>
 							<li><a href="index.html">首頁</a></li>
 							<li><a href="blog.html">消息</a></li>
-
-							</li>
-
-
 							<li><a href="#">教練</a>
 								<ul class="dropdown">
 									<li><a href="index.html">個人資料</a></li>
@@ -165,12 +161,6 @@
 																	<div class="col">
 																		<div class="row">
 																			<div class="col">
-																				<div class="form-group">
-																					<label>編號</label>
-																					<fieldset disabled>
-																						<input class="form-control" type="text"
-																							name="coano" value="${param.coano}" />
-																				</div>
 																			</div>
 																			<div class="col">
 																				<div class="form-group">
@@ -178,7 +168,7 @@
 																					<div class="form-check form-check-inline">
 																						<input class="form-check-input" type="radio"
 																							name="coasex"
-																							value="1" checked="true" /> <label
+															 								value="1" checked="true"/> <label
 																							class="form-check-label" for="inlineRadio1">男</label>
 																					</div>
 																					<div class="form-check form-check-inline">

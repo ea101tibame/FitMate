@@ -19,11 +19,11 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 	String userid = "EA101G5";
 	String passwd = "EA101G5";
 
-	private static final String INSERT_STMT = "INSERT INTO coach (coano,coaname,coapsw,coamail,coatel,coaacc,coapic,coasex) VALUES ('C'||LPAD(to_char(coach_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE coach set coaname=?, coapsw=?, coamail=?, coatel=?, coaacc=?, coapoint=?, coasta=?, coasex=?, coasctotal=?, coascqty=? where coano=?";
+	private static final String INSERT_STMT = "INSERT INTO coach (coano,coaname,coapsw,coamail,coatel,coaacc,coapic,coasex,coaintro) VALUES ('C'||LPAD(to_char(coach_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String UPDATE = "UPDATE coach set coaname=?, coapsw=?, coamail=?, coatel=?, coaacc=?, coapoint=?, coasta=?, coapic=?, coasex=?, coaintro=?, coasctotal=?, coascqty=? where coano=?";
 	private static final String DELETE = "DELETE FROM coach where coano = ?";
-	private static final String GET_ONE_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coasex,coasctotal,coascqty FROM coach where coano = ?";
-	private static final String GET_ALL_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coasex,coasctotal,coascqty FROM coach order by coano";
+	private static final String GET_ONE_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty FROM coach where coano = ?";
+	private static final String GET_ALL_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty FROM coach order by coano";
 
 	@Override
 	public void insert(CoaVO coaVO) {
@@ -44,6 +44,7 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 			pstmt.setString(5, coaVO.getCoaacc());
 			pstmt.setBytes(6, coaVO.getCoapic());
 			pstmt.setString(7, coaVO.getCoasex());
+			pstmt.setString(8, coaVO.getCoaintro());
 
 			pstmt.executeUpdate();
 
@@ -91,10 +92,12 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 			pstmt.setString(5, coaVO.getCoaacc());
 			pstmt.setInt(6, coaVO.getCoapoint());
 			pstmt.setString(7, coaVO.getCoasta());
-			pstmt.setString(8, coaVO.getCoasex());
-			pstmt.setInt(9, coaVO.getCoasctotal());
-			pstmt.setInt(10, coaVO.getCoascqty());
-			pstmt.setString(11, coaVO.getCoano());
+			pstmt.setBytes(8, coaVO.getCoapic());
+			pstmt.setString(9, coaVO.getCoasex());
+			pstmt.setString(10, coaVO.getCoaintro());
+			pstmt.setInt(11, coaVO.getCoasctotal());
+			pstmt.setInt(12, coaVO.getCoascqty());
+			pstmt.setString(13, coaVO.getCoano());
 
 			pstmt.executeUpdate();
 
@@ -193,8 +196,9 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 				coaVO.setCoaacc(rs.getString("coaacc"));
 				coaVO.setCoapoint(rs.getInt("coapoint"));
 				coaVO.setCoasta(rs.getString("coasta"));
-//				coaVO.setCoapic(rs.getBytes("coapic"));
+				coaVO.setCoapic(rs.getBytes("coapic"));
 				coaVO.setCoasex(rs.getString("coasex"));
+				coaVO.setCoaintro(rs.getString("coaintro"));
 				coaVO.setCoasctotal(rs.getInt("coasctotal"));
 				coaVO.setCoascqty(rs.getInt("coascqty"));
 
@@ -260,8 +264,9 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 				coaVO.setCoaacc(rs.getString("coaacc"));
 				coaVO.setCoapoint(rs.getInt("coapoint"));
 				coaVO.setCoasta(rs.getString("coasta"));
-//				coaVO.setCoapic(rs.getBytes("coapic"));
+				coaVO.setCoapic(rs.getBytes("coapic"));
 				coaVO.setCoasex(rs.getString("coasex"));
+				coaVO.setCoaintro(rs.getString("coaintro"));
 				coaVO.setCoasctotal(rs.getInt("coasctotal"));
 				coaVO.setCoascqty(rs.getInt("coascqty"));
 				list.add(coaVO); // Store the row in the list
@@ -327,13 +332,14 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 //		coaVO1.setCoatel("0988088888");
 //		coaVO1.setCoaacc("52366899555123");
 //		coaVO1.setCoapoint(100000);
-//		coaVO1.setCoasta("非停權");
+//		coaVO1.setCoasta("未授權");
 //		coaVO1.setCoasex("男");
+//		coaVO1.setCoaintro("減肥是一輩子的事，快來找我運動吧！");
 //		coaVO1.setCoasctotal(100);
 //		coaVO1.setCoascqty(1000);
 //
 //		try {
-//			byte[] pic = getPicByteArray("WebContent/coach-image/C011.jpg");
+//			byte[] pic = getPicByteArray("WebContent/img/coach-image/C011.jpg");
 //			coaVO1.setCoapic(pic);
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
@@ -350,18 +356,27 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 //		coaVO2.setCoatel("0988088888");
 //		coaVO2.setCoaacc("52366899555123");
 //		coaVO2.setCoapoint(100000);
-//		coaVO2.setCoasta("非停權");
+//		coaVO2.setCoasta("已授權");
 //		coaVO2.setCoasex("男");
+//		coaVO2.setCoaintro("減肥是一輩子的事，快來我偶運動吧！");
 //		coaVO2.setCoasctotal(100);
 //		coaVO2.setCoascqty(1000);
-//		coaVO2.setCoano("C011");
-//		
+//		coaVO2.setCoano("C010");
+//
+//		try {
+//			byte[] pic = getPicByteArray("WebContent/img/coach-image/C010.jpg");
+//			coaVO2.setCoapic(pic);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
 //		dao.update(coaVO2);
 //
 //		//delete
-//		dao.delete("C011");
+//		dao.delete("C014");
 //
-		// find one
+//		 find one
 //		CoaVO coaVO3 = dao.findByPrimaryKey("C010");
 //		System.out.print(coaVO3.getCoano() + ",");
 //		System.out.print(coaVO3.getCoaname() + ",");
@@ -371,31 +386,35 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 //		System.out.print(coaVO3.getCoaacc() + ",");
 //		System.out.print(coaVO3.getCoapoint() + ",");
 //		System.out.print(coaVO3.getCoasta() + ",");
+//		System.out.print(coaVO3.getCoapic() + ",");
 //		System.out.print(coaVO3.getCoasex() + ",");
+//		System.out.print(coaVO3.getCoaintro() + ",");
 //		System.out.print(coaVO3.getCoasctotal() + ",");
 //		System.out.print(coaVO3.getCoascqty());
 
-//
 ////		System.out.println("---------------------");
-//
+
 ////		// find all
-		List<CoaVO> list = dao.getAll();
-		for (CoaVO aCoa : list) {
+//		List<CoaVO> list = dao.getAll();
+//		for (CoaVO aCoa : list) {
+//
+//			System.out.print(aCoa.getCoano() + ",");
+//			System.out.print(aCoa.getCoaname() + ",");
+//			System.out.print(aCoa.getCoapsw() + ",");
+//			System.out.print(aCoa.getCoamail() + ",");
+//			System.out.print(aCoa.getCoatel() + ",");
+//			System.out.print(aCoa.getCoaacc() + ",");
+//			System.out.print(aCoa.getCoapoint() + ",");
+//			System.out.print(aCoa.getCoasta() + ",");
+//			System.out.print(aCoa.getCoapic() + ",");
+//			System.out.print(aCoa.getCoasex() + ",");
+//			System.out.print(aCoa.getCoaintro() + ",");
+//			System.out.print(aCoa.getCoasctotal() + ",");
+//			System.out.print(aCoa.getCoascqty() + ",");
+//
+//			System.out.println();
+//		}
 
-			System.out.print(aCoa.getCoano() + ",");
-			System.out.print(aCoa.getCoaname() + ",");
-			System.out.print(aCoa.getCoapsw() + ",");
-			System.out.print(aCoa.getCoamail() + ",");
-			System.out.print(aCoa.getCoatel() + ",");
-			System.out.print(aCoa.getCoaacc() + ",");
-			System.out.print(aCoa.getCoapoint() + ",");
-			System.out.print(aCoa.getCoasta() + ",");
-			System.out.print(aCoa.getCoasex() + ",");
-			System.out.print(aCoa.getCoasctotal() + ",");
-			System.out.print(aCoa.getCoascqty() + ",");
-
-			System.out.println();
-		}
 	}
 
 }

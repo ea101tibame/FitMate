@@ -15,7 +15,7 @@ public class ExpOwnService {
 		ExpOwnVO expownVO = new ExpOwnVO();
 
 		expownVO.setExpown(expown);
-		
+
 		dao.insert(expownVO);
 
 		return expownVO;
@@ -26,7 +26,7 @@ public class ExpOwnService {
 		ExpOwnVO expownVO = new ExpOwnVO();
 
 		expownVO.setExpown(expown);
-		
+
 		dao.update(expownVO);
 
 		return expownVO;
@@ -42,5 +42,9 @@ public class ExpOwnService {
 
 	public List<ExpOwnVO> getAll() {
 		return dao.getAll();
+	}
+
+	public List<ExpOwnVO> getExpOwnsByCoano(String coano) {
+		return dao.getExpOwnsByCoano(coano);
 	}
 }

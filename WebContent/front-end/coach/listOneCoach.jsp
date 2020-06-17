@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.coach.model.*"%>
+<%@ page import="com.expertise_own.model.*"%>
+<%@ page import="java.util.List"%>
 <!DOCTYPE html>
 
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
   CoaVO coaVO = (CoaVO) request.getAttribute("coaVO"); //CoaServlet.java(Concroller), 存入req的coaVO物件
+  List<ExpOwnVO> expOwnVOs = (List) request.getAttribute("expOwnVOs"); //CoaServlet.java(Concroller), 存入req的coaVO物件
 %>
 
 <html>
@@ -26,6 +30,10 @@
 </head>
 <body>
  <header class="header_area">
+  <c:forEach var="expOwnVO" items="${expOwnVOs}">
+  <p>${expOwnVO.expno}</p>
+  <p>${expOwnVO.expdesc}</p>
+  </c:forEach>
         <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
             <!-- Classy Menu -->
             <nav class="classy-navbar" id="essenceNav">

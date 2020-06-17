@@ -9,11 +9,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ExpOwnJDBCDAO implements ExpOwnDAO_interface  {
+public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+//	String url = "jdbc:oracle:thin:@localhost:1521:XE"; // for class
+	String url = "jdbc:oracle:thin:@localhost:49161:XE"; // for home dev
 	String userid = "EA101G5";
 	String passwd = "EA101G5";
 
@@ -22,6 +24,7 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface  {
 	private static final String DELETE = "DELETE FROM expertise_own where coano=? and expno = ?";
 	private static final String GET_ONE_STMT = "SELECT coano, expno FROM expertise_own where coano=? and expno = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM expertise_own order by expno";
+	private static final String GET_BY_CAONO_STMT = "SELECT * FROM expertise_own WHERE coano = ? order by expno";
 
 	@Override
 	public void insert(ExpOwnVO expownVO) {
@@ -77,7 +80,6 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface  {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
-			
 
 			pstmt.setBytes(1, expownVO.getExpown());
 			pstmt.setString(2, expownVO.getCoano());
@@ -172,11 +174,10 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface  {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				
+
 				expownVO = new ExpOwnVO();
 				expownVO.setCoano(rs.getString("coano"));
 				expownVO.setExpno(rs.getString("expno"));
-				
 
 			}
 
@@ -230,7 +231,7 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface  {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				
+
 				expownVO = new ExpOwnVO();
 				expownVO.setCoano(rs.getString("coano"));
 				expownVO.setExpno(rs.getString("expno"));
@@ -269,7 +270,65 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface  {
 		}
 		return list;
 	}
-	
+
+	@Override
+	public List<ExpOwnVO> getExpOwnsByCoano(String coano) {
+		List<ExpOwnVO> list = new ArrayList<ExpOwnVO>();
+		ExpOwnVO expownVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_BY_CAONO_STMT);
+			pstmt.setString(1, coano);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				expownVO = new ExpOwnVO();
+				expownVO.setCoano(rs.getString("coano"));
+				expownVO.setExpno(rs.getString("expno"));
+				list.add(expownVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
 	public static byte[] getPicByteArray(String path) throws IOException {
 		File pic = new File(path);
 		FileInputStream fis = new FileInputStream(pic);
@@ -289,7 +348,7 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface  {
 
 		ExpOwnJDBCDAO dao = new ExpOwnJDBCDAO();
 
-		//insert
+		// insert
 //		ExpOwnVO expownVO1 = new ExpOwnVO();
 //		expownVO1.setCoano("C001");
 //		expownVO1.setExpno("EXP007");
@@ -321,8 +380,6 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface  {
 //
 //		dao.update(expownVO2);
 
-		
-	
 //
 //		//delete
 //		dao.delete("C001","EXP008");
@@ -347,5 +404,4 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface  {
 		}
 	}
 
-	
 }

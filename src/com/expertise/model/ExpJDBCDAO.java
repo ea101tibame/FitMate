@@ -1,19 +1,17 @@
 package com.expertise.model;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExpJDBCDAO implements ExpDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	String url = "jdbc:oracle:thin:@localhost:1521:XE"; // for class
+//	String url = "jdbc:oracle:thin:@localhost:49161:XE"; // for home dev
 	String userid = "EA101G5";
 	String passwd = "EA101G5";
 
@@ -75,7 +73,7 @@ public class ExpJDBCDAO implements ExpDAO_interface {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
-			
+
 			pstmt.setString(1, expVO.getExpdesc());
 			pstmt.setString(2, expVO.getExpno());
 
@@ -166,11 +164,10 @@ public class ExpJDBCDAO implements ExpDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				
+
 				expVO = new ExpVO();
 				expVO.setExpno(rs.getString("expno"));
 				expVO.setExpdesc(rs.getString("expdesc"));
-				
 
 			}
 
@@ -224,7 +221,7 @@ public class ExpJDBCDAO implements ExpDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				
+
 				expVO = new ExpVO();
 				expVO.setExpno(rs.getString("expno"));
 				expVO.setExpdesc(rs.getString("expdesc"));
@@ -268,20 +265,19 @@ public class ExpJDBCDAO implements ExpDAO_interface {
 
 		ExpJDBCDAO dao = new ExpJDBCDAO();
 
-		//insert
+		// insert
 //		ExpVO expVO1 = new ExpVO();
 //		expVO1.setExpdesc("浮潛");
 //		dao.insert(expVO1);
 
 		// update
-		
+
 //		ExpVO expVO2 = new ExpVO();
 //		expVO2.setExpdesc("釣魚");
 //		expVO2.setExpno("EXP012");
 //		dao.update(expVO2);
 
-
-		//delete
+		// delete
 //		dao.delete("EXP012");
 //
 //		// find one
