@@ -25,7 +25,7 @@
 
 <!-- Favicon  -->
 <link rel="icon"
-	href="${pageContext.request.contextPath}/img/core-img/favicon.ico">
+	href="${pageContext.request.contextPath}/images/core-img/FIT.ico">
 
 <!-- Core Style CSS -->
 <link rel="stylesheet"
@@ -36,7 +36,7 @@
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
 	rel="stylesheet">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/custom-css/updateLesson.css">
+	href="${pageContext.request.contextPath}/css/custom-css/lesson/updateLesson.css">
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
@@ -49,7 +49,7 @@
 			<nav class="classy-navbar" id="essenceNav">
 				<!-- Logo -->
 				<a class="nav-brand" href="index.html"><img
-					src="${pageContext.request.contextPath}/img/core-img/logo.png"
+					src="${pageContext.request.contextPath}/images/core-img/logo.png"
 					alt=""></a>
 				<!-- Navbar Toggler -->
 				<div class="classy-navbar-toggler">
@@ -96,12 +96,12 @@
 				<!-- User Login Info -->
 				<div class="user-login-info">
 					<a href="#"><img
-						src="${pageContext.request.contextPath}/img/core-img/user.svg"
+						src="${pageContext.request.contextPath}/images/core-img/user.svg"
 						alt=""></a>
 				</div>
 				<div class="user-login-info">
 					<a href="#"><img
-						src="${pageContext.request.contextPath}/img/core-img/email.svg"
+						src="${pageContext.request.contextPath}/images/core-img/email.svg"
 						alt=""></a>
 				</div>
 
@@ -119,7 +119,7 @@
 
 		<!-- Single Blog Post Thumb -->
 		<div class="single-blog-post-thumb">
-			<img src="${pageContext.request.contextPath}/img//bg-img/COA1920.png"
+			<img src="${pageContext.request.contextPath}/images/bg-img/COA1920.png"
 				alt="">
 		</div>
 		<%-- 錯誤表列 --%>
@@ -295,20 +295,20 @@
 	<!-- ##### Footer Area End ##### -->
 	<!-- jQuery (Necessary for All JavaScript Plugins) -->
 	<script
-		src="${pageContext.request.contextPath}/css/js/jquery/jquery-2.2.4.min.js"></script>
+		src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
 	<!-- Popper js -->
-	<script src="${pageContext.request.contextPath}/css/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
 	<!-- Bootstrap js -->
 	<script
-		src="${pageContext.request.contextPath}/css/js/bootstrap.min.js"></script>
+		src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<!-- Plugins js -->
-	<script src="${pageContext.request.contextPath}/css/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/js/plugins.js"></script>
 	<!-- Classy Nav js -->
 	<script
-		src="${pageContext.request.contextPath}/css/js/classy-nav.min.js"></script>
+		src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
 	<!-- Active js -->
-	<script src="${pageContext.request.contextPath}/css/js/addLesson.js"></script>
-	<script src="${pageContext.request.contextPath}/css/js/active.js"></script>
+	<script src="${pageContext.request.contextPath}/js/addLesson.js"></script>
+	<script src="${pageContext.request.contextPath}/js/active.js"></script>
 	<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 

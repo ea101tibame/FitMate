@@ -5,7 +5,7 @@ import java.sql.Date;
 public class LessonTimeVO  implements java.io.Serializable{
 	private String ltime_no;
 	private Date ltime_date;
-	private Integer ltime_ss;
+	private String ltime_ss;
 	
 	public String getLtime_no() {
 		return ltime_no;
@@ -19,10 +19,10 @@ public class LessonTimeVO  implements java.io.Serializable{
 	public void setLtime_date(Date ltime_date) {
 		this.ltime_date = ltime_date;
 	}
-	public Integer getLtime_ss() {
+	public String getLtime_ss() {
 		return ltime_ss;
 	}
-	public void setLtime_ss(Integer ltime_ss) {
+	public void setLtime_ss(String ltime_ss) {
 		this.ltime_ss = ltime_ss;
 	}
 	

@@ -85,5 +85,8 @@ public class LessonService {
 	public LessonVO getOneByPK(String lessno) {
 		return dao.getOneByPK(lessno);
 	}
+	public void update_off(String lessno) {
+		dao.update_off(lessno);
+	}
 	
 }

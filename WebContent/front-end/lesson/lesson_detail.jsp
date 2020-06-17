@@ -21,7 +21,7 @@
 
 <!-- Favicon  -->
 <link rel="icon"
-	href="${pageContext.request.contextPath}/img/core-img/FIT.ico">
+	href="${pageContext.request.contextPath}/images/core-img/FIT.ico">
 
 <!-- Core Style CSS -->
 <link rel="stylesheet"
@@ -31,7 +31,18 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
 	rel="stylesheet">
-
+	<style>
+.btn-success{
+position: absolute;
+    bottom: 20px;
+    right: 130px;
+}
+.btn-danger{
+position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+</style>
 </head>
 
 <body>
@@ -43,7 +54,7 @@
 			<nav class="classy-navbar" id="essenceNav">
 				<!-- Logo -->
 				<a class="nav-brand" href="index.html"><img
-					src="${pageContext.request.contextPath}/img/core-img/logo.png"
+					src="${pageContext.request.contextPath}/images/core-img/logo.png"
 					alt=""></a>
 				<!-- Navbar Toggler -->
 				<div class="classy-navbar-toggler">
@@ -131,17 +142,17 @@
 				<!-- User Login Info -->
 				<div class="user-login-info">
 					<a href="#"><img
-						src="${pageContext.request.contextPath}/img/core-img/heart.svg"
+						src="${pageContext.request.contextPath}/images/core-img/heart.svg"
 						alt=""></a>
 				</div>
 				<div class="user-login-info">
 					<a href="#"><img
-						src="${pageContext.request.contextPath}/img/core-img/user.svg"
+						src="${pageContext.request.contextPath}/images/core-img/user.svg"
 						alt=""></a>
 				</div>
 				<div class="user-login-info">
 					<a href="#"><img
-						src="${pageContext.request.contextPath}/img/core-img/email.svg"
+						src="${pageContext.request.contextPath}/images/core-img/email.svg"
 						alt=""></a>
 				</div>
 
@@ -165,7 +176,7 @@
 		<!-- Single Blog Post Thumb -->
 		<div class="single-blog-post-thumb">
 			<img
-				src="${pageContext.request.contextPath}/img/bg-img/LessonDetail.png"
+				src="${pageContext.request.contextPath}/images/bg-img/LessonDetail.png"
 				alt="">
 		</div>
 
@@ -177,27 +188,8 @@
 							<h2>課程詳情</h2>
 							
 
-								<div class="card-deck col-12">
-
-									<div class="card">
-
-										<img
-											src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}"
-											alt="" class="card-img-top" alt="...">
-										<div class="card-body">
-											<h5 class="card-title">${lessonVO.lessname}</h5>
-											<p class="card-text">${lessonVO.lessdesc}</p>
-											<p class="card-text">${lessonVO.lessloc}</p>
-											<p class="card-text">
-												點數:${lessonVO.lessprice}<small class="text-muted">.....</small>
-											</p>
-											<a href="#" class="btn btn-primary">加入追蹤</a>
-											<a href="#" class="btn btn-primary">立即購買</a>
-										</div>
-
-									</div>
-
-								</div>
+								
+						
 								
 								<div class="card-deck col-12">
 
@@ -213,8 +205,9 @@
 											<p class="card-text">
 												點數:${lessonVO.lessprice}<small class="text-muted">.....</small>
 											</p>
-											<a href="#" class="btn btn-primary">加入追蹤</a>
-											<a href="#" class="btn btn-primary">立即購買</a>
+											<button type="submit" id="follow" class="btn btn-success">加入追蹤</button>
+
+											<button type="submit" class="btn btn-danger">立即購買</button>
 										</div>
 
 									</div>
@@ -254,20 +247,21 @@
 	<!-- ##### Footer Area End ##### -->
 
 	<script
-		src="${pageContext.request.contextPath}/css/js/jquery/jquery-2.2.4.min.js"></script>
+		src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
 	<!-- Popper js -->
-	<script src="${pageContext.request.contextPath}/css/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
 	<!-- Bootstrap js -->
 	<script
-		src="${pageContext.request.contextPath}/css/js/bootstrap.min.js"></script>
+		src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<!-- Plugins js -->
-	<script src="${pageContext.request.contextPath}/css/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/js/plugins.js"></script>
 	<!-- Classy Nav js -->
 	<script
-		src="${pageContext.request.contextPath}/css/js/classy-nav.min.js"></script>
+		src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
 	<!-- Active js -->
-	<script src="${pageContext.request.contextPath}/css/js/active.js"></script>
-
+	<script src="${pageContext.request.contextPath}/js/active.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/custom-js/lesson/lesson_detail.js"></script>
 </body>
 
 </html>

@@ -23,7 +23,6 @@ import com.lesson.model.LessonVO;
 public class LessonServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
 	public LessonServlet() {
 		super();
 	}
@@ -341,6 +340,28 @@ public class LessonServlet extends HttpServlet {
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/updateLesson.jsp");
 				failureView.forward(req, res);
 
+			}
+		}
+		if("off_lesson".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+				
+				
+			try {
+				/***************************1.接收請求參數****************************************/
+				String lessno = new String(req.getParameter("lessno"));
+				/***************************2.開始查詢資料****************************************/
+				LessonService lessonSvc = new LessonService();
+				lessonSvc.update_off(lessno);
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				
+				String url ="/front-end/lesson/selectLesson.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+				/***************************其他可能的錯誤處理************************************/
+
+			}catch(Exception e) {
+				throw new ServletException(e);
 			}
 		}
 	}

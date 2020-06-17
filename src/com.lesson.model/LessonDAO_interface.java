@@ -21,4 +21,6 @@ public interface LessonDAO_interface {
 	public List<LessonVO> getCoachLesson(String coano);
 	
 	public LessonVO getOneByPK(String lessno);
+	
+	public void update_off(String lessno);
 }

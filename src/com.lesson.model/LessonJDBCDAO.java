@@ -21,6 +21,8 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 	private static final String GET_CoachAllLesson_STMT = "SELECT * FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String Get_CoachLesson = "SELECT * FROM LESSON WHERE COANO=?";
 	private static final String Get_OneByPK = "SELECT * FROM LESSON WHERE LESSNO=?";
+	private static final String UPDATE_OFF = "UPDATE LESSON SET LESSSTA = '下架' WHERE LESSNO = ?";
+	
 	@Override
 	public void insert(LessonVO lessonVO) {
 		Connection con = null;
@@ -360,7 +362,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 						oneLesson.put("lesssta", rs.getString("lesssta"));
 						oneLesson.put("lesstimes", rs.getInt("lesstimes"));
 						oneLesson.put("ltime_date", rs.getDate("ltime_date"));
-						oneLesson.put("ltime_ss", rs.getInt("ltime_ss"));
+						oneLesson.put("ltime_ss", rs.getString("ltime_ss"));
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -488,9 +490,12 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //			System.out.println(allLesson.getLessprice()+",....");
 //			System.out.println("----------------");
 //		}			
-		LessonVO testone = dao.getOneByPK("L001");
-		System.out.print(testone.getCoano());
-		System.out.print(testone.getLessname());
+//		LessonVO testone = dao.getOneByPK("L001");
+//		System.out.print(testone.getCoano());
+//		System.out.print(testone.getLessname());
+		
+		dao.update_off("L002");
+		System.out.print("修改下架成功");
 	}
 
 	public static byte[] getPictureByteArray(String path) throws IOException {
@@ -654,6 +659,46 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 		}
 
 		return lessonVO;
+	}
+
+	@Override
+	public void update_off(String lessno) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(UPDATE_OFF);
+
+			pstmt.setString(1, lessno);
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
 	}
 
 }

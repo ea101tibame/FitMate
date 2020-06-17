@@ -29,7 +29,7 @@
 
 <!-- Favicon  -->
 <link rel="icon"
-	href="${pageContext.request.contextPath}/img/core-img/favicon.ico">
+	href="${pageContext.request.contextPath}/images/core-img/FIT.ico">
 
 <!-- Core Style CSS -->
 <link rel="stylesheet"
@@ -41,15 +41,14 @@
 	rel="stylesheet">
 
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/custom-css/coach _form.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/custom-css/selectLesson.css">
+	href="${pageContext.request.contextPath}/css/custom-css/lesson/selectLesson.css">
 <style>
   table {
 	background-color: #FFE66F;
     border: 2px solid black;
     width: 90%;
     margin: auto;
+   	text-align:center;
   }
   tr td{
   border: 2px solid black;
@@ -74,7 +73,7 @@ width:200px;
 			<nav class="classy-navbar" id="essenceNav">
 				<!-- Logo -->
 				<a class="nav-brand" href="index.html"><img
-					src="${pageContext.request.contextPath}/img/core-img/logo.png"
+					src="${pageContext.request.contextPath}/images/core-img/logo.png"
 					alt=""></a>
 				<!-- Navbar Toggler -->
 				<div class="classy-navbar-toggler">
@@ -121,12 +120,12 @@ width:200px;
 				<!-- User Login Info -->
 				<div class="user-login-info">
 					<a href="#"><img
-						src="${pageContext.request.contextPath}/img/core-img/user.svg"
+						src="${pageContext.request.contextPath}/images/core-img/user.svg"
 						alt=""></a>
 				</div>
 				<div class="user-login-info">
 					<a href="#"><img
-						src="${pageContext.request.contextPath}/img/core-img/email.svg"
+						src="${pageContext.request.contextPath}/images/core-img/email.svg"
 						alt=""></a>
 				</div>
 
@@ -144,7 +143,7 @@ width:200px;
 
 		<!-- Single Blog Post Thumb -->
 		<div class="single-blog-post-thumb">
-			<img src="${pageContext.request.contextPath}/img/bg-img/COA1920.png"
+			<img src="${pageContext.request.contextPath}/images/bg-img/COA1920.png"
 				alt="">
 		</div>
 		<%-- 錯誤表列 --%>
@@ -189,7 +188,13 @@ width:200px;
 		<tr>
 			<td>${lessonVO.lessno}</td>
 			<td>${lessonVO.lessname}</td>
-			<td>${lessonVO.lesstype}</td>
+			<jsp:useBean id="lessonSvc" scope="page"
+											class="com.lesson.model.LessonService" />
+			<td>
+			<c:forEach var="expertiseVO" items="${lessonSvc.allExpByExpno}">
+				<c:if test="${lessonVO.lesstype==expertiseVO.expno}">${expertiseVO.expdesc}</c:if>
+			</c:forEach>
+			</td>
 			<td>${lessonVO.lessmax}</td>
 			<td>${lessonVO.lessmin}</td>
 			<td>${lessonVO.lesstimes}</td> 
@@ -211,21 +216,24 @@ width:200px;
 			 --%>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="修改">
+<!-- 			     <input type="submit" value="修改"> -->
+			     <button type="submit" class="btn btn-danger">修改</button>
 			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="建立時段">
+<!-- 			     <input type="submit" value="建立時段"> -->
+			     <button type="submit" class="btn btn-success">建立時段</button>
 			     <input type="hidden" name="creatTime"  value="">
 			     <input type="hidden" name="action" value="creat_Times"></FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="下架">
-			     <input type="hidden" name="off"  value="">
+<%-- 			     <input type="submit" value="下架" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if> > --%>
+			    <button type="submit" class="btn btn-secondary" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>下架</button>
+			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
 			     <input type="hidden" name="action" value="off_lesson"></FORM>
 			</td>
 		</tr>
@@ -268,20 +276,22 @@ width:200px;
 
 	<!-- jQuery (Necessary for All JavaScript Plugins) -->
 	<script
-		src="${pageContext.request.contextPath}/css/js/jquery/jquery-2.2.4.min.js"></script>
+		src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
 	<!-- Popper js -->
-	<script src="${pageContext.request.contextPath}/css/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
 	<!-- Bootstrap js -->
 	<script
-		src="${pageContext.request.contextPath}/css/js/bootstrap.min.js"></script>
+		src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<!-- Plugins js -->
-	<script src="${pageContext.request.contextPath}/css/js/plugins.js"></script>
+	<script src="${pageContext.request.contextPath}/js/plugins.js"></script>
 	<!-- Classy Nav js -->
 	<script
-		src="${pageContext.request.contextPath}/css/js/classy-nav.min.js"></script>
+		src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
 	<!-- Active js -->
-	<script src="${pageContext.request.contextPath}/css/js/active.js"></script>
-
+	<script src="${pageContext.request.contextPath}/js/active.js"></script>
+	<!-- 打勾修改完成 -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/custom-js/lesson/selectLesson.js"></script>
 </body>
 
 </html>

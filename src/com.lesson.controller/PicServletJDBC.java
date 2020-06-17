@@ -36,7 +36,7 @@ public class PicServletJDBC extends HttpServlet {
 			byte[] buf = lessonVO.getLesspic();
 			out.write(buf);
 		} catch (Exception e) {
-			InputStream in = getServletContext().getResourceAsStream("/NoData/null2.jpg");
+			InputStream in = getServletContext().getResourceAsStream("images/NoData/null2.jpg");
 			byte [] b = new byte[in.available()];
 			in.read(b);
 			out.write(b);

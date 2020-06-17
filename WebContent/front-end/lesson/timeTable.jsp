@@ -18,7 +18,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/timeTable.css">
+	href="${pageContext.request.contextPath}/css/custom-css/lesson/timeTable.css">
 <title>timeTable</title>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
@@ -1258,7 +1258,7 @@
 			var objlength = oobdates.length;//array length
 			console.log("objlength=" + objlength);
 <%--oobj=[{"lesssta":"未成團","lesscur":"0","ltime_date":"2020-06-16","
-lesson":"L001","ltime_ss":2,"lessname":"水中瑜珈","lesstimes":5,"lessprice":2000}--%>
+lesson":"L001","ltime_ss":"晚上","lessname":"水中瑜珈","lesstimes":5,"lessprice":2000}--%>
 			
 			for (var i = 0; i < objlength; i++) {
 				var yy = parseInt(oobdates[i].ltime_date.substring(0, 4));
@@ -1267,7 +1267,7 @@ lesson":"L001","ltime_ss":2,"lessname":"水中瑜珈","lesstimes":5,"lessprice":
 				console.log("mm=" + mm);
 				var dd = parseInt(oobdates[i].ltime_date.substring(8, 10));
 				console.log("dd=" + dd);
-				var tt = parseInt(oobdates[i].ltime_ss);
+				var tt = oobdates[i].ltime_ss;
 				console.log("tt=" + tt);
 				var lessname = oobdates[i].lessname;
 				console.log(lessname);
@@ -1287,7 +1287,7 @@ lesson":"L001","ltime_ss":2,"lessname":"水中瑜珈","lesstimes":5,"lessprice":
 					// 		console.log(link);
 					// console.log("<a href=\""+oobjarr[i].href"\"><p>"+oobjarr[i].ss+"</p></a>");
 					switch (tt) {
-					case 0:
+					case "早上":
 						console.log("有進來0");
 						console.log("#"+iddotsul);
 						console.log("#"+idopenul);
@@ -1297,7 +1297,7 @@ lesson":"L001","ltime_ss":2,"lessname":"水中瑜珈","lesstimes":5,"lessprice":
 						$("#"+idopenul).find("li").eq(0).attr("title","查看詳情");
 						$("#"+idopenul).find("p").eq(0).html(lessname+'<br/><br/>'+"共"+lesstimes+"堂"+'<br/><br/>'+"點數:"+lessprice);
 						break;
-					case 1:
+					case "下午":
 						console.log("有進來1");
 						console.log("#"+iddotsul);
 						console.log("#"+idopenul);
@@ -1308,7 +1308,7 @@ lesson":"L001","ltime_ss":2,"lessname":"水中瑜珈","lesstimes":5,"lessprice":
 						$("#"+idopenul).find("p").eq(1).html(lessname+'<br/><br/>'+"共"+lesstimes+"堂"+'<br/><br/>'+"點數:"+lessprice);
 
 						break;
-					case 2:
+					case "晚上":
 						console.log("有進來2");
 						console.log("#"+iddotsul);
 						console.log("#"+idopenul);

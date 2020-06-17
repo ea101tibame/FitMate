@@ -12,7 +12,7 @@ public class LessonTimeService {
 		dao = new LessonTimeJDBCDAO();//之後轉JNDI
 	}
 
-	public LessonTimeVO addLessonTime(String ltime_no, java.sql.Date ltime_date, Integer ltime_ss) {
+	public LessonTimeVO addLessonTime(String ltime_no, java.sql.Date ltime_date, String ltime_ss) {
 
 		LessonTimeVO LessonTimeVO = new LessonTimeVO();
 
@@ -25,7 +25,7 @@ public class LessonTimeService {
 
 	}
 
-	public LessonTimeVO updateLessonTime(String ltime_no, java.sql.Date ltime_date, Integer ltime_ss) {
+	public LessonTimeVO updateLessonTime(String ltime_no, java.sql.Date ltime_date, String ltime_ss) {
 
 		LessonTimeVO LessonTimeVO = new LessonTimeVO();
 

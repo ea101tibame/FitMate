@@ -54,7 +54,7 @@ public class LessonTimeJNDIDAO implements LessonTimeDAO_inrterface{
 			pstmt = con.prepareStatement(INSERT);
 						
 			pstmt.setDate(1, LessonTimeVO.getLtime_date());
-			pstmt.setInt(2, LessonTimeVO.getLtime_ss());
+			pstmt.setString(2, LessonTimeVO.getLtime_ss());
 
 			pstmt.executeUpdate();
 
@@ -92,7 +92,7 @@ public class LessonTimeJNDIDAO implements LessonTimeDAO_inrterface{
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setDate(1, LessonTimeVO.getLtime_date());
-			pstmt.setInt(2, LessonTimeVO.getLtime_ss());
+			pstmt.setString(2, LessonTimeVO.getLtime_ss());
 			pstmt.setString(3, LessonTimeVO.getLtime_no());
 
 			pstmt.executeUpdate();
@@ -198,7 +198,7 @@ public class LessonTimeJNDIDAO implements LessonTimeDAO_inrterface{
 				LessonTimeVO = new LessonTimeVO();
 				LessonTimeVO.setLtime_no(rs.getString("ltime_no"));
 				LessonTimeVO.setLtime_date(rs.getDate("ltime_date"));
-				LessonTimeVO.setLtime_ss(rs.getInt("ltime_ss"));
+				LessonTimeVO.setLtime_ss(rs.getString("ltime_ss"));
 			}
 
 			// Handle any SQL errors
@@ -247,7 +247,7 @@ public class LessonTimeJNDIDAO implements LessonTimeDAO_inrterface{
 				LessonTimeVO = new LessonTimeVO();
 				LessonTimeVO.setLtime_no(rs.getString("ltime_no"));
 				LessonTimeVO.setLtime_date(rs.getDate("ltime_date"));
-				LessonTimeVO.setLtime_ss(rs.getInt("ltime_ss"));
+				LessonTimeVO.setLtime_ss(rs.getString("ltime_ss"));
 				list.add(LessonTimeVO); // Store the row in the list
 			}
 
@@ -304,7 +304,7 @@ public class LessonTimeJNDIDAO implements LessonTimeDAO_inrterface{
 				for (int i = 1; i <= columnCount; i++) {
 					try {
 						oneTime.put("ltime_date", rs.getDate("ltime_date"));
-						oneTime.put("ltime_ss", rs.getInt("ltime_ss"));
+						oneTime.put("ltime_ss", rs.getString("ltime_ss"));
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -347,45 +347,45 @@ public class LessonTimeJNDIDAO implements LessonTimeDAO_inrterface{
 	LessonTimeVO testInsert = new LessonTimeVO();
 	
 	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-01"));
-	testInsert.setLtime_ss(0);
+	testInsert.setLtime_ss("早上");
 	dao.insert(testInsert);
 	
 	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
-	testInsert.setLtime_ss(0);
+	testInsert.setLtime_ss("早上");
 	dao.insert(testInsert);
 	
 	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-03"));
-	testInsert.setLtime_ss(0);
+	testInsert.setLtime_ss("早上");
 	dao.insert(testInsert);
 	
 	System.out.println("新增成功");
 	
-//	LessonTimeVO testUpdate = new LessonTimeVO();
-//	testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
-//	testUpdate.setLtime_ss(1);
-//	testUpdate.setLtime_no("LT033");
-//	dao.update(testUpdate);
-//	System.out.println("修改成功");
+	LessonTimeVO testUpdate = new LessonTimeVO();
+	testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
+	testUpdate.setLtime_ss("下午");
+	testUpdate.setLtime_no("LT033");
+	dao.update(testUpdate);
+	System.out.println("修改成功");
 	
 	//同時刪除
-//	dao.delete("LT010");
-//	System.out.println("刪除成功");
-//	
-//	List<LessonTimeVO> list = dao.getAll();
-//		for (LessonTimeVO aLT : list) {
-//			System.out.print(aLT.getLtime_no() + ",");
-//			System.out.print(aLT.getLtime_date() + ",");
-//			System.out.print(aLT.getLtime_ss());
-//			System.out.println();
-//		}
+	dao.delete("LT010");
+	System.out.println("刪除成功");
+
+	List<LessonTimeVO> list = dao.getAll();
+		for (LessonTimeVO aLT : list) {
+			System.out.print(aLT.getLtime_no() + ",");
+			System.out.print(aLT.getLtime_date() + ",");
+			System.out.print(aLT.getLtime_ss());
+			System.out.println();
+		}
 	
-//	LessonTimeVO testFindOne =dao.findByPrimaryKey("LT001");
-//	System.out.println(testFindOne.getLtime_no());
-//	System.out.println(testFindOne.getLtime_date());
-//	System.out.println(testFindOne.getLtime_ss());
+	LessonTimeVO testFindOne =dao.findByPrimaryKey("LT001");
+	System.out.println(testFindOne.getLtime_no());
+	System.out.println(testFindOne.getLtime_date());
+	System.out.println(testFindOne.getLtime_ss());
 	
-//	JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
-//	System.out.println(allLessonTimeArray);
+	JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
+	System.out.println(allLessonTimeArray);
 	}
 
 

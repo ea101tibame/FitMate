@@ -15,7 +15,7 @@ public class LessonDetailService {
 		dao = new LessonDetailJDBCDAO();//之後轉JNDI
 	}
 //不確定能不能拿到LessonDetailVO
-	public LessonDetailVO addLessonDetail(String lessno,String ltime_no, Integer ltime_ss,java.sql.Date ltime_date) {
+	public LessonDetailVO addLessonDetail(String lessno,String ltime_no, String ltime_ss,java.sql.Date ltime_date) {
 		LessonDetailVO LessonDetailVO = new LessonDetailVO();
 		
 		LessonVO LessonVO=new LessonVO();

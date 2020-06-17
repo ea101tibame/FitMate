@@ -48,7 +48,7 @@
     width:100% ;
     
     }
-.gosubmit{
+.btn-primary{
 position: absolute;
     bottom: 20px;
     right: 20px;
@@ -77,7 +77,7 @@ margin-left: 70px;
             <!-- Classy Menu -->
             <nav class="classy-navbar" id="essenceNav">
                 <!-- Logo -->
-                <a class="nav-brand" href="index.html"><img src="${pageContext.request.contextPath}/img/core-img/logo.png" alt=""></a>
+                <a class="nav-brand" href="index.html"><img src="${pageContext.request.contextPath}/images/core-img/logo.png" alt=""></a>
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler">
                     <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -164,13 +164,13 @@ margin-left: 70px;
             
                 <!-- User Login Info -->
                                 <div class="user-login-info">
-                    <a href="#"><img src="${pageContext.request.contextPath}/img/core-img/heart.svg" alt=""></a>
+                    <a href="#"><img src="${pageContext.request.contextPath}/images/core-img/heart.svg" alt=""></a>
                 </div>
                 <div class="user-login-info">
-                    <a href="#"><img src="${pageContext.request.contextPath}/img/core-img/user.svg" alt=""></a>
+                    <a href="#"><img src="${pageContext.request.contextPath}/images/core-img/user.svg" alt=""></a>
                 </div>
                  <div class="user-login-info">
-                    <a href="#"><img src="${pageContext.request.contextPath}/img/core-img/email.svg" alt=""></a>
+                    <a href="#"><img src="${pageContext.request.contextPath}/images/core-img/email.svg" alt=""></a>
                 </div>
                 
 
@@ -187,7 +187,7 @@ margin-left: 70px;
 
         <!-- Single Blog Post Thumb -->
         <div class="single-blog-post-thumb">
-            <img src="${pageContext.request.contextPath}/img/bg-img/lesson1920.png" alt="">
+            <img src="${pageContext.request.contextPath}/images/bg-img/lesson1920.png" alt="">
         </div>
 
         <div class="container col-12">
@@ -213,7 +213,8 @@ margin-left: 70px;
 <!--       <a href="#" class="btn btn-primary">GO買課程</a> -->
 
     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-			     <input type="submit" value="GO買課程" class="gosubmit">
+<!-- 			     <input type="submit" value="GO買課程" class="gosubmit"> -->
+			     <button type="submit" class="btn btn-primary">GO買課程</button>
 			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
 			      <input type="hidden" name="coano"  value="${lessonVO.coano}">
 			     <input type="hidden" name="action"	value="show_lesson_detail"></FORM>
@@ -260,30 +261,19 @@ margin-left: 70px;
     <!-- ##### Footer Area End ##### -->
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="${pageContext.request.contextPath}/css/js/popper.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
     <!-- Popper js -->
-   	<script src="${pageContext.request.contextPath}/css/js/jquery/jquery-2.2.4.min.js"></script>
+   	<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="${pageContext.request.contextPath}/css/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
-    <script src="${pageContext.request.contextPath}/css/js/plugins.js"></script>
+    <script src="${pageContext.request.contextPath}/js/plugins.js"></script>
     <!-- Classy Nav js -->
-    <script src="${pageContext.request.contextPath}/css/js/classy-nav.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
     <!-- Active js -->
-    <script src="${pageContext.request.contextPath}/css/js/active.js"></script>
+    <script src="${pageContext.request.contextPath}/js/active.js"></script>
 
 
 </body>
 
-</html>
-
-
-
-
-
-
-
-
-
-</body>
 </html>

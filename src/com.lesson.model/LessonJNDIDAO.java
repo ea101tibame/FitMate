@@ -33,6 +33,7 @@ public class LessonJNDIDAO implements LessonDAO_interface {
 	private static final String GET_CoachAllLesson_STMT = "SELECT * FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String Get_CoachLesson = "SELECT * FROM LESSON WHERE COANO=?";
 	private static final String Get_OneByPK = "SELECT * FROM LESSON WHERE LESSNO=?";
+	private static final String UPDATE_OFF = "UPDATE LESSON SET LESSSTA = '下架' WHERE LESSNO = ?";
 
 	@Override
 	public void insert(LessonVO lessonVO) {
@@ -359,7 +360,7 @@ public class LessonJNDIDAO implements LessonDAO_interface {
 						oneLesson.put("lesssta", rs.getString("lesssta"));
 						oneLesson.put("lesstimes", rs.getInt("lesstimes"));
 						oneLesson.put("ltime_date", rs.getDate("ltime_date"));
-						oneLesson.put("ltime_ss", rs.getInt("ltime_ss"));
+						oneLesson.put("ltime_ss", rs.getString("ltime_ss"));
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -639,5 +640,43 @@ public class LessonJNDIDAO implements LessonDAO_interface {
 
 			return lessonVO;
 		}
+
+	@Override
+	public void update_off(String lessno) {
+	
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(UPDATE_OFF);
+
+				pstmt.setString(1, lessno);
+
+				pstmt.executeUpdate();
+
+			
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. " + se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			
+		
+	}
 
 }
