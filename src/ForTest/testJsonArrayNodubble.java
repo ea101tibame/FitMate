@@ -7,6 +7,7 @@ import org.json.*;
 
 public class testJsonArrayNodubble {
 	
+	
 public static void main(String[] args) throws JSONException{
 	//收前面進來的
 	try {
