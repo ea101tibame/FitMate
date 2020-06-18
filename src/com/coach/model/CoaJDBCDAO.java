@@ -23,7 +23,7 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 	private static final String GET_ALL_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty FROM coach order by coano";
 
 	@Override
-	public void insert(CoaVO coaVO) {
+	public String insert(CoaVO coaVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -33,7 +33,8 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 			Class.forName(ProjectConfig.JDBC_DRIVER);
 			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
 					ProjectConfig.JDBC_USER_PW);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			String[] returnColumn = { "coano" };
+			pstmt = con.prepareStatement(INSERT_STMT, returnColumn);
 
 			pstmt.setString(1, coaVO.getCoaname());
 			pstmt.setString(2, coaVO.getCoapsw());
@@ -46,14 +47,24 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
+			String pk = null;
+			ResultSet generatedKeys = pstmt.getGeneratedKeys();
+			while (generatedKeys.next()) {
+				pk = generatedKeys.getString(1);
+			}
+			return pk;
+		}
+		// Handle any driver errors
+		catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
+		}
+		// Handle any SQL errors
+		catch (SQLException se) {
+			se.printStackTrace();
 			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
+		}
+		// Clean up JDBC resources
+		finally {
 			if (pstmt != null) {
 				try {
 					pstmt.close();

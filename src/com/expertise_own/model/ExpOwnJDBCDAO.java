@@ -16,7 +16,7 @@ import com.ProjectConfig;
 
 public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 
-	private static final String INSERT_STMT = "INSERT INTO expertise_own (coano,expno,expown) VALUES (?,?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO expertise_own (coano,expno,expown) VALUES (?,?,?)";
 	private static final String UPDATE = "UPDATE expertise_own set expown=? where coano=? and expno =?";
 	private static final String DELETE = "DELETE FROM expertise_own where coano=? and expno = ?";
 	private static final String GET_ONE_STMT = "SELECT coano, expno FROM expertise_own where coano=? and expno = ?";
@@ -36,6 +36,10 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
 					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(INSERT_STMT);
+
+			System.out.println("a: " + expownVO.getCoano());
+			System.out.println("b: " + expownVO.getExpno());
+			System.out.println("c: " + expownVO.getExpown());
 
 			pstmt.setString(1, expownVO.getCoano());
 			pstmt.setString(2, expownVO.getExpno());

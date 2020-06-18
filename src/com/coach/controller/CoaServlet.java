@@ -123,14 +123,14 @@ public class CoaServlet extends HttpServlet {
 					errorMsgs.put("coaintro", "請輸入內容！");
 				}
 
-				String expdesc = req.getParameter("expdesc");
-				System.out.println("expdesc: " + expdesc);
+				String expno = req.getParameter("expno");
+				System.out.println("expno: " + expno);
 
-				Part part2 = req.getPart("coapic");
-				InputStream in2 = part.getInputStream();
+				Part part2 = req.getPart("expown");
+				InputStream in2 = part2.getInputStream();
 				byte[] expown = new byte[in2.available()];
-				in.read(expown);
-				in.close();
+				in2.read(expown);
+				in2.close();
 
 				// TODO Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {// 如果有任何錯誤訊息
@@ -152,7 +152,11 @@ public class CoaServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				CoaService coaSvc = new CoaService();
-				coaSvc.addCoa(coaname, coapsw, coamail, coatel, coaacc, coapic, coasex, coaintro);
+				String coano = coaSvc.addCoa(coaname, coapsw, coamail, coatel, coaacc, coapic, coasex, coaintro);
+
+				ExpOwnService expOwnService = new ExpOwnService();
+				expOwnService.addExpOwn(coano, expno, expown);
+
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/front-end/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllCoach.jsp
@@ -163,7 +167,7 @@ public class CoaServlet extends HttpServlet {
 				e.printStackTrace();
 				errorMsgs.put("other errors", e.getMessage());
 				req.setAttribute("errorMsgs", errorMsgs);
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach_ForCoach.jsp");
 				failureView.forward(req, res);
 			}
 		}

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.coach.model.*"%>
 <%@ page import="com.expertise.model.*"%>
@@ -14,8 +13,8 @@
 
 <%
 	CoaVO coaVO = (CoaVO) request.getAttribute("coaVO");
-    ExpOwnVO expownVO = (ExpOwnVO) request.getAttribute("expownVO");
-    ExpVO expVO = (ExpVO) request.getAttribute("expVO");
+	ExpOwnVO expownVO = (ExpOwnVO) request.getAttribute("expownVO");
+	ExpVO expVO = (ExpVO) request.getAttribute("expVO");
 %>
 
 
@@ -59,9 +58,7 @@ th, td {
 	padding: 1px;
 }
 </style>
-<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 <style>
 .xdsoft_datetimepicker .xdsoft_datepicker {
@@ -98,7 +95,7 @@ th, td {
 			</c:forEach>
 		</ul>
 	</c:if> --%>
-	
+
 	<%-- 錯誤表列 --%>
 	<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
@@ -110,94 +107,120 @@ th, td {
 		</ul>
 	</c:if>
 
-	<FORM METHOD="post" ACTION="coach.do" name="form1" enctype="multipart/form-data">
+	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/coach/coach.do" name="form1" enctype="multipart/form-data">
 		<table>
-		    <tr>
+			<tr>
 				<td>上傳個人頭像:</td>
-				<td><input type="FILE" id="pic" name="coapic" size="45"
-					value="<%=(coaVO == null) ? "" : coaVO.getCoapic()%>"
-					placeholder="請上傳圖片" /></td>
-				<td><img id="previewPic" src="<%=request.getContextPath()%>/images/coach-img/C001.jpg" style="width: 200px; height: 200px;"><br></td>
+				<td>
+					<input type="FILE" id="pic" name="coapic" size="45" value="<%=(coaVO == null) ? "" : coaVO.getCoapic()%>" placeholder="請上傳圖片" />
+				</td>
+				<td>
+					<img id="previewPic" src="<%=request.getContextPath()%>/images/coach-img/user.jpg" style="width: 140px; height: 140px;">
+					<br>
+				</td>
 			</tr>
 			<tr>
 				<td>性別:</td>
-				<td><input type="radio" name="coasex" size="45" value="1" checked="true" />男</td>
-				<td><input type="radio" name="coasex" size="45" value="0"/>女</td>
+				<td>
+					<input type="radio" name="coasex" size="45" value="男" checked="true" />
+					男
+				</td>
+				<td>
+					<input type="radio" name="coasex" size="45" value="女" />
+					女
+				</td>
 			</tr>
 			<tr>
 				<td>姓名:</td>
-				<td><input type="TEXT" name="coaname" size="45" value="${param.coaname}"
-					placeholder="請輸入姓名" /><p>${errorMsgs.coaname}</p></td>
-			</tr>			
+				<td>
+					<input type="TEXT" name="coaname" size="45" value="${param.coaname}" placeholder="請輸入姓名" />
+					<p>${errorMsgs.coaname}</p>
+				</td>
+			</tr>
 			<tr>
 				<td>電話:</td>
-				<td><input type="TEXT" name="coatel" size="45" value="${param.coatel}"
-					placeholder="請輸入姓名" /><p>${errorMsgs.coatel}</p></td>
-			</tr>	
-			
+				<td>
+					<input type="TEXT" name="coatel" size="45" value="${param.coatel}" placeholder="請輸入電話" />
+					<p>${errorMsgs.coatel}</p>
+				</td>
+			</tr>
+
 			<tr>
 				<td>密碼:</td>
-				<td><input type="TEXT" name="coapsw" size="45" value="${param.coapsw}"
-					placeholder="請輸入密碼" /><p>${errorMsgs.coapsw}</p></td>
-			</tr>					
+				<td>
+					<input type="TEXT" name="coapsw" size="45" value="${param.coapsw}" placeholder="請輸入密碼" />
+					<p>${errorMsgs.coapsw}</p>
+				</td>
+			</tr>
+			<tr>
+				<td>信箱:</td>
+				<td>
+					<input type="TEXT" name="coamail" size="45" value="${param.coamail}" placeholder="請輸入信箱" />
+					<p>${errorMsgs.coamail}</p>
+				</td>
+			</tr>
 
 			<tr>
 				<td>帳戶:</td>
-				<td><input type="TEXT" name="coaacc" size="45" value="${param.coaacc}"
-					placeholder="請輸入密碼" /><p>${errorMsgs.coaacc}</p></td>
-			</tr>	
-			
+				<td>
+					<input type="TEXT" name="coaacc" size="45" value="${param.coaacc}" placeholder="請輸入帳戶" />
+					<p>${errorMsgs.coaacc}</p>
+				</td>
+			</tr>
+
 			<tr>
 				<td>自我介紹:</td>
-				<td><input type="TEXT" name="coaintro" size="45" value=""
-					placeholder="請輸入自我介紹" /></td>
-			</tr>		
-			<jsp:useBean id="expSvc" scope="page"
-				class="com.expertise.model.ExpService" />
+				<td>
+					<input type="TEXT" name="coaintro" size="45" value="${param.coaintro}" placeholder="請輸入自我介紹" />
+					<p>${errorMsgs.coaintro}</p>
+				</td>
+			</tr>
+			<jsp:useBean id="expSvc" scope="page" class="com.expertise.model.ExpService" />
 			<tr>
 				<td>專長:</td>
-				<td><select size="1" name="expdesc">
+				<td>
+					<select size="1" name="expno">
 						<c:forEach var="ExpVO" items="${expSvc.all}">
-							<option value="${ExpVO.expno}"
-								${(ExpVO.expno==ExpVO.expno)? 'selected':''}>${ExpVO.expdesc}
+							<option value="${ExpVO.expno}" ${(ExpVO.expno==ExpVO.expno)? 'selected':''}>${ExpVO.expdesc}
 						</c:forEach>
-				</select></td>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td>專業證照/比賽獎狀:</td>
-				<td><input type="FILE" id="pic" name="expown" size="45"
-					value="<%=(expownVO == null) ? "" : expownVO.getExpown()%>"
-					placeholder="請上證照/獎狀" /></td>
+				<td>
+					<input type="FILE" id="picExp" name="expown" size="45" value="<%=(expownVO == null) ? "" : expownVO.getExpown()%>" placeholder="請上證照/獎狀" />
+				</td>
 			</tr>
 		</table>
-		<img id="previewPic"
-			src="<%=request.getContextPath()%>/images/certification-img/EXP007.jpg"
-			style="width: 480px; height: 480px;"> <br>
-			<input type="hidden" name="action" value="insert"/><input type="submit" value="送出新增"/>
+		<img id="previewPicExp" src="<%=request.getContextPath()%>/noData/nopic.png" style="width: 480px; height: 480px;">
+		<br>
+		<input type="hidden" name="action" value="insert" />
+		<input type="submit" value="送出新增" />
 	</FORM>
 
 </body>
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"
-	integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
 <script>
 	$("#pic").change(function() {
-		readURL(this);
+		readURL(this, $("#previewPic"));
 	});
-
-	function readURL(input) {
+	$("#picExp").change(function() {
+		readURL(this, $("#previewPicExp"));
+	});
+	function readURL(input, previewElement) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
 			reader.onload = function(e) {
-				$("#previewPic").attr('src', e.target.result);
+				previewElement.attr('src', e.target.result);
 			}
 			reader.readAsDataURL(input.files[0]);
 		}
 	}
 </script>
 
-<link   rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 

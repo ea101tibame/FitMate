@@ -10,7 +10,7 @@ public class CoaService {
 		dao = new CoaJDBCDAO();
 	}
 
-	public CoaVO addCoa(String coaname, String coapsw, String coamail, String coatel, String coaacc, byte[] coapic,
+	public String addCoa(String coaname, String coapsw, String coamail, String coatel, String coaacc, byte[] coapic,
 			String coasex, String coaintro) {
 
 		CoaVO coaVO = new CoaVO();
@@ -24,9 +24,7 @@ public class CoaService {
 		coaVO.setCoasex(coasex);
 		coaVO.setCoaintro(coaintro);
 
-		dao.insert(coaVO);
-
-		return coaVO;
+		return dao.insert(coaVO);
 	}
 
 	public CoaVO updateCoa(String coano, String coaname, String coapsw, String coamail, String coatel, String coaacc,

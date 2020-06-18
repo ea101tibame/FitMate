@@ -10,10 +10,12 @@ public class ExpOwnService {
 		dao = new ExpOwnJDBCDAO();
 	}
 
-	public ExpOwnVO addExpOwn(byte[] expown) {
+	public ExpOwnVO addExpOwn(String coano, String expno, byte[] expown) {
 
 		ExpOwnVO expownVO = new ExpOwnVO();
 
+		expownVO.setCoano(coano);
+		expownVO.setExpno(expno);
 		expownVO.setExpown(expown);
 
 		dao.insert(expownVO);
