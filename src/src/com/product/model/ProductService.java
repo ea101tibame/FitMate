@@ -52,4 +52,8 @@ public class ProductService {
 	public List<ProductVO>getAll(){
 		return dao.getAll();
 	}
+	
+	public List<ProductVO>getOnShelves(){
+		return dao.getOnShelves();
+	}
 }
