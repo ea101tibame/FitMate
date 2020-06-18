@@ -5,6 +5,8 @@
 <%@ page import="com.coach.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
+<!-- TODO 表格美化  -->
+
 <%
 	CoaService coaSvc = new CoaService();
 	List<CoaVO> list = coaSvc.getAll();

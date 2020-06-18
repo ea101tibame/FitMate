@@ -1,4 +1,4 @@
-package com.coach.controller;
+package com.expertise_own.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.coach.model.CoaService;
 import com.coach.model.CoaVO;
+import com.expertise_own.model.ExpOwnService;
+import com.expertise_own.model.ExpOwnVO;
 
 public class PicServlet extends HttpServlet {
 
@@ -22,10 +24,11 @@ public class PicServlet extends HttpServlet {
 		ServletOutputStream out = res.getOutputStream();
 
 		try {
+			String expno = req.getParameter("expno");
 			String coano = req.getParameter("coano");
-			CoaService CoaSvc = new CoaService();
-			CoaVO coaVO = CoaSvc.getOneCoa(coano);
-			byte[] buf = coaVO.getCoapic();
+			ExpOwnService ExpOwnSvc = new ExpOwnService();
+			ExpOwnVO expownVO = ExpOwnSvc.getOneExpOwn(expno, coano);
+			byte[] buf = expownVO.getExpown();
 			out.write(buf);
 		} catch (Exception e) {
 			InputStream in = getServletContext().getResourceAsStream("/images/noData/null2.jpg/");
