@@ -9,14 +9,14 @@ import com.lessonDetail.model.LessonDetailVO;
 
 public interface LessonTimeDAO_inrterface {
 	
-	public void insert(LessonTimeVO LessonTimeVO,Integer lesstimes,String lessno);
+	public void insert(LessonTimeVO LessonTimeVO,String lessno);
 	
 	public void update(LessonTimeVO LessonTimeVO);
 	 
 	public void delete(String ltime_no);
 	
 	//查單筆 時段
-	public LessonTimeVO findByPrimaryKey(String ltime_no);
+	public List<LessonTimeVO> findByPrimaryKey(String lessno);
 	
 	public List<LessonTimeVO> getAll();
 	//查詢此教練 所有課程與所有時段 送JSONArray到servlet去比對

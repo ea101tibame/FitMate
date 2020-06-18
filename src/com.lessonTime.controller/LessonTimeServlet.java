@@ -90,14 +90,20 @@ public class LessonTimeServlet extends HttpServlet {
 				java.sql.Date dates = null;
 				String ss1 =null;
 				List<LessonTimeVO> list= new ArrayList<LessonTimeVO>();
+				
 				for (int i = 0; i < ltime_date.length; i++) {
 					if("".equals(ltime_date[i])) {
 						errorMsgs.add("第" +(i+1)+ "時間不可為空!");
 					}
 				}
+				for (int i = 0; i < ltime_ss.length; i++) {
+					if("".equals(ltime_ss[i])) {
+						errorMsgs.add("第" +(i+1)+ "時段不可為空!");
+					}
+				}
 				
 				if(errorMsgs.isEmpty()) {
-					for (int i = 0; i < ltime_date.length; i++) {
+					for(int i =0;i<ltime_date.length;i++) {
 						date1 = ltime_date[i];
 						dates = java.sql.Date.valueOf(date1);
 						ss1 = ltime_ss[i];
@@ -106,17 +112,14 @@ public class LessonTimeServlet extends HttpServlet {
 						lessonTimeVO.setLtime_ss(ss1);
 						/*************************** 2.開始新增資料 ***************************************/
 						LessonTimeService lessonTimeService = new LessonTimeService();
-						lessonTimeService.addLessonTime(dates, ss1);
+						lessonTimeService.addLessonTime(dates, ss1,lessno);
 						
-//						//直接同時建DETAIL
+						//直接同時建DETAIL
 						list.add(lessonTimeVO);
-//						
 					}
-//					System.out.println("list="+list.size());
-//					for(LessonTimeVO i:list){
-//			            System.out.print(i.getLtime_no()+" ");
-//			        }
 				}
+
+				
 				
 				if (!errorMsgs.isEmpty()) {
 					for (String str : errorMsgs) {
@@ -126,7 +129,7 @@ public class LessonTimeServlet extends HttpServlet {
 					req.setAttribute("lessname", lessname);
 					req.setAttribute("lesstimes", lesstimes);
 					req.setAttribute("lessend", lessend);
-					req.setAttribute("lessonTimeVO", list); // 含有輸入格式錯誤的empVO物件,也存入req
+					req.setAttribute("List<LessonTimeVO>", list); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/addTime.jsp");
 					failureView.forward(req, res);
 					return;
@@ -134,10 +137,14 @@ public class LessonTimeServlet extends HttpServlet {
 			
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				req.setAttribute("lessno", lessno);
+				System.out.println(lessno);
 				req.setAttribute("lessname", lessname);
+				System.out.println(lessname);
 				req.setAttribute("lesstimes", lesstimes);
-				req.setAttribute("lessend", lessend);
-				req.setAttribute("lessonTimeVO", list);
+				System.out.println(lesstimes);
+//				req.setAttribute("lessend", lessend);
+//				System.out.println(lessend);
+//				req.setAttribute("List<LessonTimeVO>", list);
 				String url = "/front-end/lesson/showOneLessonTime.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
@@ -147,10 +154,7 @@ public class LessonTimeServlet extends HttpServlet {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/addTime.jsp");
 				failureView.forward(req, res);
-
 			}
-
 		}
-
 	}
 }

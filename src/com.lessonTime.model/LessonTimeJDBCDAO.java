@@ -27,13 +27,13 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	private static final String UPDATE = "UPDATE LESSON_TIME set LTIME_DATE =?, LTIME_SS=? where LTIME_NO =? ";
 	private static final String DELETE_LessonDetail = "DELETE FROM LESSON_DETAIL where LTIME_NO =?";
 	private static final String DELETE_LessonTime = "DELETE FROM LESSON_TIME where LTIME_NO =?";
-	private static final String GET_ONE = "SELECT * FROM LESSON_TIME where LTIME_NO =?";
+	private static final String GET_ONE = "SELECT lessno,ltime_date,ltime_ss FROM lesson_detail JOIN lesson_time ON lesson_time.ltime_no=lesson_detail.ltime_no WHERE lessno=?";
 	private static final String GET_ALL = "SELECT * FROM LESSON_TIME";
 	private static final String GET_CoachAlltimes = "SELECT LTIME_DATE,LTIME_SS FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String INSERT_DTEAIL = "INSERT INTO LESSON_DETAIL VALUES (?,?)";
 
 	@Override
-	public void insert(LessonTimeVO LessonTimeVO, Integer lesstimes,String lessno) {
+	public void insert(LessonTimeVO LessonTimeVO, String lessno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String next_time = null;
@@ -47,8 +47,6 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 			
 			String cols[] = { "ltime_no" };
 			
-						
-			for (int i = 0; i < lesstimes; i++) {
 				pstmt = null;
 				pstmt = con.prepareStatement(INSERT,cols);
 				pstmt.setDate(1, LessonTimeVO.getLtime_date());
@@ -71,7 +69,6 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 				pstmt.setString(2, next_time);
 				pstmt.executeUpdate();
 				pstmt.clearParameters();
-			}
 			
 			
 			// 2.設定於pstmt.executeUpdate()之後
@@ -208,7 +205,8 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	}
 
 	@Override
-	public LessonTimeVO findByPrimaryKey(String ltime_no) {
+	public List<LessonTimeVO> findByPrimaryKey(String lessno) {
+		List<LessonTimeVO> list = new ArrayList<LessonTimeVO>();
 		LessonTimeVO LessonTimeVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -220,16 +218,17 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ONE);
 
-			pstmt.setString(1, ltime_no);
+			pstmt.setString(1, lessno);
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 
 				LessonTimeVO = new LessonTimeVO();
-				LessonTimeVO.setLtime_no(rs.getString("ltime_no"));
+				LessonTimeVO.setLtime_no(rs.getString("lessno"));
 				LessonTimeVO.setLtime_date(rs.getDate("ltime_date"));
 				LessonTimeVO.setLtime_ss(rs.getString("ltime_ss"));
+				list.add(LessonTimeVO);
 			}
 
 			// Handle any driver errors
@@ -262,7 +261,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 				}
 			}
 		}
-		return LessonTimeVO;
+		return list;
 	}
 
 	@Override
@@ -388,18 +387,18 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	public static void main(String[] args) {
 		LessonTimeJDBCDAO dao = new LessonTimeJDBCDAO();
 
-	LessonTimeVO testInsert = new LessonTimeVO();
-	
-	testInsert.setLtime_date(java.sql.Date.valueOf("2020-08-01"));
-	testInsert.setLtime_ss("早上");
-	testInsert.setLtime_date(java.sql.Date.valueOf("2020-08-02"));
-	testInsert.setLtime_ss("早上");
-	testInsert.setLtime_date(java.sql.Date.valueOf("2020-08-03"));
-	testInsert.setLtime_ss("早上");
-	dao.insert(testInsert,3,"L001");
-
-	
-	System.out.println("新增成功");
+//	LessonTimeVO testInsert = new LessonTimeVO();
+//	
+//	testInsert.setLtime_date(java.sql.Date.valueOf("2020-08-01"));
+//	testInsert.setLtime_ss("早上");
+//	testInsert.setLtime_date(java.sql.Date.valueOf("2020-08-02"));
+//	testInsert.setLtime_ss("早上");
+//	testInsert.setLtime_date(java.sql.Date.valueOf("2020-08-03"));
+//	testInsert.setLtime_ss("早上");
+//	dao.insert(testInsert,"L001");
+//
+//	
+//	System.out.println("新增成功");
 //	
 //	LessonTimeVO testUpdate = new LessonTimeVO();
 //	testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
@@ -420,13 +419,14 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //			System.out.println();
 //		}
 //	
-//	LessonTimeVO testFindOne =dao.findByPrimaryKey("LT001");
-//	System.out.println(testFindOne.getLtime_no());
-//	System.out.println(testFindOne.getLtime_date());
-//	System.out.println(testFindOne.getLtime_ss());
-
-		JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
-		System.out.println(allLessonTimeArray);
+		List<LessonTimeVO> testFindOne =dao.findByPrimaryKey("L001");
+		for (LessonTimeVO aLT : testFindOne) {
+	System.out.println(aLT.getLtime_no());
+	System.out.println(aLT.getLtime_date());
+	System.out.println(aLT.getLtime_ss());
+		}
+//		JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
+//		System.out.println(allLessonTimeArray);
 	}
 
 }

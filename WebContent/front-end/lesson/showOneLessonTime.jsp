@@ -6,10 +6,12 @@
 <%@ page import="com.lessonTime.model.*"%>
 
 <%
-LessonTimeVO lessonTimeVO=(LessonTimeVO)request.getAttribute("lessonTimeVO");
-// LessonTimeService lessonTimeSvc = new LessonTimeService();
-// List<LessonTimeVO> ltime_nos =lessonTimeSvc.getAllLessonTime();
-out.print(lessonTimeVO.getLtime_no());
+String lessno = (String) request.getAttribute("lessno");
+String lessname = (String) request.getAttribute("lessname");
+Integer lesstimes = (Integer) request.getAttribute("lesstimes");
+LessonTimeService lTimeSvc = new LessonTimeService();
+List<LessonTimeVO> list = lTimeSvc.findTimeByPK(lessno);
+pageContext.setAttribute("list",list);
 %>
 
 
@@ -161,56 +163,22 @@ width:200px;
 				<div class="col-12 col-md-12">
 					<div class="regular-page-content-wrapper section-padding-80">
 						<div class="regular-page-text">
-							<h2>課程時段如下</h2>
-<!-- <table> -->
-<!-- 	<tr> -->
-<!-- 		<th>課程編號</th> -->
-<!-- 		<th>課程名稱</th> -->
-<!-- 		<th>課程類型</th> -->
-<!-- 		<th>人數上限</th> -->
-<!-- 		<th>人數下限</th> -->
-<!-- 		<th>課程堂數</th> -->
-<!-- 		<th>課程狀態</th> -->
-<!-- 		<th>目前報名人數</th> -->
-<!-- 		<th>課程點數價格</th> -->
-<!-- 		<th>課程地點</th> -->
-<!-- 		<th>課程報名起始時間</th> -->
-<!-- 		<th>課程報名截止時間</th> -->
-<!-- 		<th>課程說明</th> -->
-<!-- 		<th>課程圖片</th> -->
+							<h2><%=lessname %>>>>課程新增時段如下,共<%=lesstimes %>時段</h2>
 
-<!-- 	</tr> -->
+<table>
+	<tr>
+		<th>日期</th>
+		<th>時段</th>
+	</tr>
 	
-		
-<!-- 		<tr> -->
-<%-- 			<td>${lessonVO.lessno}</td> --%>
-<%-- 			<td>${lessonVO.lessname}</td> --%>
-<%-- 			<td>${lessonVO.lesstype}</td> --%>
-<%-- 			<td>${lessonVO.lessmax}</td> --%>
-<%-- 			<td>${lessonVO.lessmin}</td> --%>
-<%-- 			<td>${lessonVO.lesstimes}</td>  --%>
-<%-- 			<td>${lessonVO.lesssta}</td> --%>
-<%-- 			<td>${lessonVO.lesscur}</td> --%>
-<%-- 			<td>${lessonVO.lessprice}</td> --%>
-<%-- 			<td>${lessonVO.lessloc}</td> --%>
-<%-- 			<td>${lessonVO.lessstart}</td> --%>
-<%-- 			<td>${lessonVO.lessend}</td> --%>
-<%-- 			<td>${lessonVO.lessdesc}</td> --%>
-<%-- 			<td><img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="innerpic"></td> --%>
-<%-- 			<%--拿到教練專長SVC再來 --%>
-<%-- 			<td><c:forEach var="deptVO" items="${deptSvc.all}"> --%>
-<%--                     <c:if test="${empVO.deptno==deptVO.deptno}"> --%>
-<%-- 	                    ${deptVO.deptno}【${deptVO.dname} - ${deptVO.loc}】 --%>
-<%--                     </c:if> --%>
-<%--                 </c:forEach> --%>
-<%-- 			</td> --%>
-<%-- 			 --%> --%>
-			
-<!-- 		</tr> -->
-
-<!-- </table> -->
-
-<%-- <h3><a href="<%=request.getContextPath()%>/front-end/lesson/selectLesson.jsp"> 回查看課程</a></h3> --%>
+	<c:forEach var="lessonTimeVO" items="${list}">	
+	<tr>
+		<td>${lessonTimeVO.ltime_date}</td>
+		<td>${lessonTimeVO.ltime_ss}</td>
+	</tr>
+ </c:forEach>
+</table>
+<h3><a href="<%=request.getContextPath()%>/front-end/lesson/selectLesson.jsp"> 回查看課程</a></h3>
 
 						</div>
 					</div>

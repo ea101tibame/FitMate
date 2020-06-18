@@ -12,13 +12,13 @@ public class LessonTimeService {
 		dao = new LessonTimeJDBCDAO();//之後轉JNDI
 	}
 
-	public LessonTimeVO addLessonTime(java.sql.Date ltime_date, String ltime_ss) {
+	public LessonTimeVO addLessonTime(java.sql.Date ltime_date, String ltime_ss ,String lessno) {
 
 		LessonTimeVO LessonTimeVO = new LessonTimeVO();
 
 		LessonTimeVO.setLtime_date(ltime_date);
 		LessonTimeVO.setLtime_ss(ltime_ss);
-		dao.insert(LessonTimeVO);
+		dao.insert(LessonTimeVO,lessno);
 
 		return LessonTimeVO;
 
@@ -40,8 +40,8 @@ public class LessonTimeService {
 		dao.delete(ltime_no);
 	}
 
-	public LessonTimeVO findTimeByPK(String ltime_no) {
-		return dao.findByPrimaryKey(ltime_no);
+	public List<LessonTimeVO> findTimeByPK(String lessno) {
+		return dao.findByPrimaryKey(lessno);
 	}
 
 	public List<LessonTimeVO> getAllLessonTime() {
