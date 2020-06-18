@@ -17,46 +17,74 @@ import org.json.JSONObject;
 import com.lessonDetail.model.LessonDetailJDBCDAO;
 import com.lessonDetail.model.LessonDetailVO;
 
-
-
-public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
+public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
 	String userid = "EA101G5";
 	String passwd = "123456";
-	
-	private static final String INSERT="INSERT INTO LESSON_TIME VALUES ('LT'||LPAD(to_char(LTIME_NO_seq.NEXTVAL), 3, '0'),?,?)";
+
+	private static final String INSERT = "INSERT INTO LESSON_TIME VALUES ('LT'||LPAD(to_char(LTIME_NO_seq.NEXTVAL), 3, '0'),?,?)";
 	private static final String UPDATE = "UPDATE LESSON_TIME set LTIME_DATE =?, LTIME_SS=? where LTIME_NO =? ";
 	private static final String DELETE_LessonDetail = "DELETE FROM LESSON_DETAIL where LTIME_NO =?";
-	private static final String DELETE_LessonTime = "DELETE FROM LESSON_TIME where LTIME_NO =?";	
-	private static final String GET_ONE="SELECT * FROM LESSON_TIME where LTIME_NO =?";
-	private static final String GET_ALL="SELECT * FROM LESSON_TIME";
+	private static final String DELETE_LessonTime = "DELETE FROM LESSON_TIME where LTIME_NO =?";
+	private static final String GET_ONE = "SELECT * FROM LESSON_TIME where LTIME_NO =?";
+	private static final String GET_ALL = "SELECT * FROM LESSON_TIME";
 	private static final String GET_CoachAlltimes = "SELECT LTIME_DATE,LTIME_SS FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
+	private static final String INSERT_DTEAIL = "INSERT INTO LESSON_DETAIL VALUES (?,?)";
 
 	@Override
-	public void insert(LessonTimeVO LessonTimeVO) {
+	public void insert(LessonTimeVO LessonTimeVO, Integer lesstimes,String lessno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+		String next_time = null;
+		ResultSet rs =null;
 		try {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT);
+			// 1.設定於pstmt.executeUpdate()之前
+			con.setAutoCommit(false);//開始交易
+			
+			String cols[] = { "ltime_no" };
+			
 						
-			pstmt.setDate(1, LessonTimeVO.getLtime_date());
-			pstmt.setString(2, LessonTimeVO.getLtime_ss());
-
-			pstmt.executeUpdate();
-
+			for (int i = 0; i < lesstimes; i++) {
+				pstmt = null;
+				pstmt = con.prepareStatement(INSERT,cols);
+				pstmt.setDate(1, LessonTimeVO.getLtime_date());
+				pstmt.setString(2, LessonTimeVO.getLtime_ss());
+				pstmt.executeUpdate();
+				
+				// 取得對應的自增主鍵值
+				rs = pstmt.getGeneratedKeys();//拿出pstmt = con.prepareStatement(INSERT_ORDER, cols);剛剛新增的訂單編號
+				if (rs.next()) {
+					next_time = rs.getString(1);
+					System.out.println("自增主鍵值 = " + next_time + "(剛新增成功的訂單編號)");
+					
+				} else {
+					System.out.println("未取得自增主鍵值");
+				}
+				rs.close();
+				pstmt = null;
+				pstmt = con.prepareStatement(INSERT_DTEAIL);
+				pstmt.setString(1,lessno);
+				pstmt.setString(2, next_time);
+				pstmt.executeUpdate();
+				pstmt.clearParameters();
+			}
+			
+			
+			// 2.設定於pstmt.executeUpdate()之後
+						//這連線還要回來這裡操作 進行交易 下面的方法還不能關
+			con.commit();//所以在交易之前 有任何問題 都是rollback
+			con.setAutoCommit(true);
+			
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
 			if (pstmt != null) {
@@ -75,7 +103,6 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 			}
 		}
 	}
-	
 
 	@Override
 	public void update(LessonTimeVO LessonTimeVO) {
@@ -96,12 +123,10 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
 			if (pstmt != null) {
@@ -120,8 +145,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 			}
 		}
 	}
-	
-	
+
 	@Override
 	public void delete(String ltime_no) {
 		int updateCount_ltime_no = 0;
@@ -149,13 +173,11 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
-			System.out.println("刪除時段編號" +ltime_no + ",共有明細" + updateCount_ltime_no
-					+ "筆數同時被刪除");
-			
+			System.out.println("刪除時段編號" + ltime_no + ",共有明細" + updateCount_ltime_no + "筆數同時被刪除");
+
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			if (con != null) {
@@ -163,12 +185,10 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 					// 3●設定於當有exception發生時之catch區塊內
 					con.rollback();
 				} catch (SQLException excep) {
-					throw new RuntimeException("rollback error occured. "
-							+ excep.getMessage());
+					throw new RuntimeException("rollback error occured. " + excep.getMessage());
 				}
 			}
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -186,6 +206,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 			}
 		}
 	}
+
 	@Override
 	public LessonTimeVO findByPrimaryKey(String ltime_no) {
 		LessonTimeVO LessonTimeVO = null;
@@ -204,7 +225,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				
+
 				LessonTimeVO = new LessonTimeVO();
 				LessonTimeVO.setLtime_no(rs.getString("ltime_no"));
 				LessonTimeVO.setLtime_date(rs.getDate("ltime_date"));
@@ -213,12 +234,10 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
 			if (rs != null) {
@@ -245,14 +264,15 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 		}
 		return LessonTimeVO;
 	}
+
 	@Override
 	public List<LessonTimeVO> getAll() {
-		List<LessonTimeVO> list= new ArrayList<LessonTimeVO>();
-		LessonTimeVO LessonTimeVO =null;
+		List<LessonTimeVO> list = new ArrayList<LessonTimeVO>();
+		LessonTimeVO LessonTimeVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 
 			Class.forName(driver);
@@ -270,12 +290,10 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -301,6 +319,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 		}
 		return list;
 	}
+
 	@Override
 	public JSONArray getCoachAllLesson(String coano) {
 		JSONArray allLessonTimeArray = new JSONArray();
@@ -322,7 +341,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 			// 教練一堂課程=一個JSONObject 再把全部塞進JSONArray
 			while (rs.next()) {
 				JSONObject oneTime = new JSONObject();
-				
+
 				for (int i = 1; i <= columnCount; i++) {
 					try {
 						oneTime.put("ltime_date", rs.getDate("ltime_date"));
@@ -367,23 +386,20 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 	}
 
 	public static void main(String[] args) {
-	LessonTimeJDBCDAO dao = new LessonTimeJDBCDAO();
+		LessonTimeJDBCDAO dao = new LessonTimeJDBCDAO();
+
+	LessonTimeVO testInsert = new LessonTimeVO();
 	
-//	LessonTimeVO testInsert = new LessonTimeVO();
-//	
-//	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-01"));
-//	testInsert.setLtime_ss("早上");
-//	dao.insert(testInsert);
-//	
-//	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
-//	testInsert.setLtime_ss("早上");
-//	dao.insert(testInsert);
-//	
-//	testInsert.setLtime_date(java.sql.Date.valueOf("2020-07-03"));
-//	testInsert.setLtime_ss("早上");
-//	dao.insert(testInsert);
-//	
-//	System.out.println("新增成功");
+	testInsert.setLtime_date(java.sql.Date.valueOf("2020-08-01"));
+	testInsert.setLtime_ss("早上");
+	testInsert.setLtime_date(java.sql.Date.valueOf("2020-08-02"));
+	testInsert.setLtime_ss("早上");
+	testInsert.setLtime_date(java.sql.Date.valueOf("2020-08-03"));
+	testInsert.setLtime_ss("早上");
+	dao.insert(testInsert,3,"L001");
+
+	
+	System.out.println("新增成功");
 //	
 //	LessonTimeVO testUpdate = new LessonTimeVO();
 //	testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
@@ -408,11 +424,9 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface{
 //	System.out.println(testFindOne.getLtime_no());
 //	System.out.println(testFindOne.getLtime_date());
 //	System.out.println(testFindOne.getLtime_ss());
-	
-	JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
-	System.out.println(allLessonTimeArray);
+
+		JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
+		System.out.println(allLessonTimeArray);
 	}
 
-
-	
 }

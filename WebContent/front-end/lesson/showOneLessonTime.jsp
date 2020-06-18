@@ -1,14 +1,19 @@
-<%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*"%>
 <%@ page import="com.lesson.model.*"%>
-<%@ page import="test.expertise.model.*"%>
-<%@ page import="text.coach.model.*"%>
+<%@ page import="com.lessonTime.model.*"%>
 
 <%
-	LessonVO lessonVO = (LessonVO) request.getAttribute("lessonVO");
+LessonTimeVO lessonTimeVO=(LessonTimeVO)request.getAttribute("lessonTimeVO");
+// LessonTimeService lessonTimeSvc = new LessonTimeService();
+// List<LessonTimeVO> ltime_nos =lessonTimeSvc.getAllLessonTime();
+out.print(lessonTimeVO.getLtime_no());
 %>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,13 +40,33 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
 	rel="stylesheet">
+
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/custom-css/lesson/updateLesson.css">
-<link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	href="${pageContext.request.contextPath}/css/custom-css/lesson/selectLesson.css">
+<style>
+  table {
+	background-color: #FFE66F;
+    border: 2px solid black;
+    text-align: center;
+        width: 90%;
+    margin: auto;
+    text-align:center;
+  }
+  tr td{
+  border: 2px solid black;
+  }
+  tr th{
+  border: 2px solid black;
+  }
+.innerpic {
+height:100px;
+width:200px;
+}
+</style>
 </head>
 
 <body>
+
 	<header class="header_area">
 		<div
 			class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
@@ -131,146 +156,72 @@
 				</c:forEach>
 			</ul>
 		</c:if>
-		<div class="container">
+		<div class="container col-12">
 			<div class="row justify-content-center">
 				<div class="col-12 col-md-12">
 					<div class="regular-page-content-wrapper section-padding-80">
-						<form method="post"	action="lesson.do" name="form1" enctype="multipart/form-data">
-							<div class="regular-page-text">
-								<h2>課程資料修改</h2>
-								<!--表單開始-->
+						<div class="regular-page-text">
+							<h2>課程時段如下</h2>
+<!-- <table> -->
+<!-- 	<tr> -->
+<!-- 		<th>課程編號</th> -->
+<!-- 		<th>課程名稱</th> -->
+<!-- 		<th>課程類型</th> -->
+<!-- 		<th>人數上限</th> -->
+<!-- 		<th>人數下限</th> -->
+<!-- 		<th>課程堂數</th> -->
+<!-- 		<th>課程狀態</th> -->
+<!-- 		<th>目前報名人數</th> -->
+<!-- 		<th>課程點數價格</th> -->
+<!-- 		<th>課程地點</th> -->
+<!-- 		<th>課程報名起始時間</th> -->
+<!-- 		<th>課程報名截止時間</th> -->
+<!-- 		<th>課程說明</th> -->
+<!-- 		<th>課程圖片</th> -->
 
+<!-- 	</tr> -->
+	
+		
+<!-- 		<tr> -->
+<%-- 			<td>${lessonVO.lessno}</td> --%>
+<%-- 			<td>${lessonVO.lessname}</td> --%>
+<%-- 			<td>${lessonVO.lesstype}</td> --%>
+<%-- 			<td>${lessonVO.lessmax}</td> --%>
+<%-- 			<td>${lessonVO.lessmin}</td> --%>
+<%-- 			<td>${lessonVO.lesstimes}</td>  --%>
+<%-- 			<td>${lessonVO.lesssta}</td> --%>
+<%-- 			<td>${lessonVO.lesscur}</td> --%>
+<%-- 			<td>${lessonVO.lessprice}</td> --%>
+<%-- 			<td>${lessonVO.lessloc}</td> --%>
+<%-- 			<td>${lessonVO.lessstart}</td> --%>
+<%-- 			<td>${lessonVO.lessend}</td> --%>
+<%-- 			<td>${lessonVO.lessdesc}</td> --%>
+<%-- 			<td><img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="innerpic"></td> --%>
+<%-- 			<%--拿到教練專長SVC再來 --%>
+<%-- 			<td><c:forEach var="deptVO" items="${deptSvc.all}"> --%>
+<%--                     <c:if test="${empVO.deptno==deptVO.deptno}"> --%>
+<%-- 	                    ${deptVO.deptno}【${deptVO.dname} - ${deptVO.loc}】 --%>
+<%--                     </c:if> --%>
+<%--                 </c:forEach> --%>
+<%-- 			</td> --%>
+<%-- 			 --%> --%>
+			
+<!-- 		</tr> -->
 
+<!-- </table> -->
 
+<%-- <h3><a href="<%=request.getContextPath()%>/front-end/lesson/selectLesson.jsp"> 回查看課程</a></h3> --%>
 
-								<div class="row">
-									<div class="col-md-12 mb-3">
-										<label for="firstName">課程名稱</label> 
-										<input type="text"
-											class="form-control" name="lessname"
-											value="<%=lessonVO.getLessname()%>">
-
-									</div>
-									<div class="col-md-12 mb-3">
-										<label for="country">課程類型</label>
-										<jsp:useBean id="lessonSvc" scope="page"
-											class="com.lesson.model.LessonService" />
-<!-- 										<select class="custom-select d-block " name="expno"> -->
-<%-- 											<c:forEach var="ExpertiseVO" items="${LessonSvc.allExpByExpno}"> --%>
-<%-- 												<option value="${ExpertiseVO.expno}" ${(lessonVO.lesstype==ExpertiseVO.expno)?'selected':'' }>${ExpertiseVO.expdesc} --%>
-<%-- 											</c:forEach> --%>
-<!-- 										</select> -->
-										<select class="custom-select d-block " name="lesstype">
-											<c:forEach var="expertiseVO" items="${lessonSvc.allExpByExpno}">
-												<option value="${lessonVO.lesstype}" ${(lessonVO.lesstype==expertiseVO.expno)?'selected':'' }>${expertiseVO.expdesc}
-											</c:forEach>
-										</select>
-											
-
-
-
-
-
-
-									</div>
-
-
-									<div class="col-md-12 mb-3">
-										<label for="lastName">人數上限(最多幾位學生)</label> <input type="text"
-											class="form-control" name="lessmax"
-											value="<%=lessonVO.getLessmax()%>">
-
-									</div>
-
-									<div class="col-md-12 mb-3">
-										<label for="lastName">人數下限(下限人數到即開團)</label> <input type="text"
-											class="form-control" name="lessmin"
-											value="<%=lessonVO.getLessmin()%>">
-
-									</div>
-								</div>
-
-
-
-								<div class="mb-3">
-									<label for="address">課程欲售點數</label> <input type="text"
-										class="form-control" name="lessprice"
-										value="<%=lessonVO.getLessprice()%>">
-
-								</div>
-
-								<div class="mb-3">
-									<label for="address">課程地點</label> <input type="text"
-										class="form-control" name="lessloc"
-										value="<%=lessonVO.getLessloc()%>">
-
-								</div>
-
-								<div class="mb-3">
-									<label for="address">課程報名開始</label> <input type="text"
-										class="form-control" id="from" name="lessstart"
-										value="<%=lessonVO.getLessstart()%>">
-
-								</div>
-								<div class=" mb-3">
-									<label for="address">課程報名截止</label> <input type="text"
-										class="form-control" id="to" name="lessend"
-										value="<%=lessonVO.getLessend()%>">
-
-								</div>
-
-								<div class="mb-3">
-									<label for="address">課程堂數</label> <input type="text"
-										class="form-control" name="lesstimes"
-										value="<%=lessonVO.getLesstimes()%>">
-
-								</div>
-
-								<div>
-									<div class="col-md-12 mb-3">
-										<label for="address">課程說明</label>
-										<textarea name="lessdesc"><%=lessonVO.getLessdesc()%></textarea>
-									</div>
-									<div>
-									<label>原始封面圖片: </label> <br> 
-										<img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="innerpic">
-										
-										<div>
-											<div>
-												<label>上傳新課程封面圖片: </label> <br> 
-												<input type="file" id="myFile" name="lesspic" >
-											</div>
-										</div>
-										<div>
-											<label>圖片預覽: </label>
-											<div id="preview"></div>
-											
-										</div>
-										<br>
-										<div>
-											<button type="button" id="deletebtn">刪除</button>
-
-										</div>
-									</div>
-
-
-								</div>
-							</div>
-
-							<hr class="mb-4">
-							<input type="hidden" name="action" value="update">
-							<input type="hidden" name="lessno" value="${lessonVO.lessno}">
-							
-							<button class="btn btn-primary btn-lg btn-block" type="submit">送出修改</button>
-						</form>
-						<!--表單結束-->
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
+
 	<!-- ##### Blog Wrapper Area End ##### -->
+	
+
 
 	<!-- ##### Footer Area Start ##### -->
 	<footer class="footer_area">
@@ -293,6 +244,7 @@
 		</div>
 	</footer>
 	<!-- ##### Footer Area End ##### -->
+
 	<!-- jQuery (Necessary for All JavaScript Plugins) -->
 	<script
 		src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
@@ -307,10 +259,7 @@
 	<script
 		src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
 	<!-- Active js -->
-	<script src="${pageContext.request.contextPath}/js/custom-js/lesson/addLesson.js"></script>
 	<script src="${pageContext.request.contextPath}/js/active.js"></script>
-	<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
 </body>
 

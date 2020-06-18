@@ -28,5 +28,13 @@
    	<url-pattern>/lesson/PicServletJDBC.do</url-pattern>
    </servlet-mapping>
    
-   
+    <servlet>
+	<servlet-name>LessonTimeServlet</servlet-name>  
+	<servlet-class>com.lessonTime.controller.LessonTimeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LessonTimeServlet</servlet-name>
+  	<url-pattern>/lesson/lessonTime.do</url-pattern>
+  </servlet-mapping>   
+  
 </web-app>

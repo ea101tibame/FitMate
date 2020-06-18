@@ -9,7 +9,7 @@ import com.lessonDetail.model.LessonDetailVO;
 
 public interface LessonTimeDAO_inrterface {
 	
-	public void insert(LessonTimeVO LessonTimeVO);
+	public void insert(LessonTimeVO LessonTimeVO,Integer lesstimes,String lessno);
 	
 	public void update(LessonTimeVO LessonTimeVO);
 	 

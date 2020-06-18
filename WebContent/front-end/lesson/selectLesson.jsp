@@ -223,11 +223,14 @@ width:200px;
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do" style="margin-bottom: 0px;">
 <!-- 			     <input type="submit" value="建立時段"> -->
 			     <button type="submit" class="btn btn-success">建立時段</button>
-			     <input type="hidden" name="creatTime"  value="">
-			     <input type="hidden" name="action" value="creat_Times"></FORM>
+			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
+			     <input type="hidden" name="lessname"  value="${lessonVO.lessname}">
+			     <input type="hidden" name="lesstimes"  value="${lessonVO.lesstimes}">
+			     <input type="hidden" name="lessend"  value="${lessonVO.lessend}">
+			     <input type="hidden" name="action" value="get_Lesson_information"></FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">

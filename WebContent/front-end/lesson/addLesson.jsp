@@ -137,7 +137,8 @@
 				<div class="col-12 col-md-12">
 					<div class="regular-page-content-wrapper section-padding-80">
 						<form method="post"
-							action="<%=request.getContextPath()%>/LessonVO"
+							action="<%=request.getContextPath()%>/lesson/lesson.do"
+							
 							enctype="multipart/form-data">
 							<div class="regular-page-text">
 								<h2>建立課程</h2>
