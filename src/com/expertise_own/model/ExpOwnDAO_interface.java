@@ -15,4 +15,6 @@ public interface ExpOwnDAO_interface {
 	public List<ExpOwnVO> getAll();
 
 	public List<ExpOwnVO> getExpOwnsByCoano(String coano);
+
+	public List<ExpOwnVO> getCoachesByExpno(String expno);
 }

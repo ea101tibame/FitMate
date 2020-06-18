@@ -8,12 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ProjectConfig;
+
 public class ExpJDBCDAO implements ExpDAO_interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE"; // for class
-//	String url = "jdbc:oracle:thin:@localhost:49161:XE"; // for home dev
-	String userid = "EA101G5";
-	String passwd = "EA101G5";
 
 	private static final String INSERT_STMT = "INSERT INTO expertise (expno,expdesc) VALUES ('EXP'||LPAD(to_char(expertise_seq.NEXTVAL),3,'0'), ?)";
 	private static final String UPDATE = "UPDATE expertise set expdesc=? where expno=?";
@@ -29,8 +26,9 @@ public class ExpJDBCDAO implements ExpDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, expVO.getExpdesc());
@@ -70,8 +68,9 @@ public class ExpJDBCDAO implements ExpDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, expVO.getExpdesc());
@@ -112,8 +111,9 @@ public class ExpJDBCDAO implements ExpDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, expno);
@@ -155,8 +155,9 @@ public class ExpJDBCDAO implements ExpDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, expno);
@@ -215,8 +216,9 @@ public class ExpJDBCDAO implements ExpDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 

@@ -11,7 +11,7 @@ public class CoaService {
 	}
 
 	public CoaVO addCoa(String coaname, String coapsw, String coamail, String coatel, String coaacc, byte[] coapic,
-			String coasex) {
+			String coasex, String coaintro) {
 
 		CoaVO coaVO = new CoaVO();
 
@@ -22,6 +22,7 @@ public class CoaService {
 		coaVO.setCoaacc(coaacc);
 		coaVO.setCoapic(coapic);
 		coaVO.setCoasex(coasex);
+		coaVO.setCoaintro(coaintro);
 
 		dao.insert(coaVO);
 
@@ -29,10 +30,11 @@ public class CoaService {
 	}
 
 	public CoaVO updateCoa(String coano, String coaname, String coapsw, String coamail, String coatel, String coaacc,
-			Integer coapoint, String coasta, byte[] coapic, String coasex, Integer coasctotal, Integer coascqty) {
+			Integer coapoint, String coasta, byte[] coapic, String coasex, String coaintro, Integer coasctotal,
+			Integer coascqty) {
 
 		CoaVO coaVO = new CoaVO();
-
+		coaVO.setCoano(coano);
 		coaVO.setCoaname(coaname);
 		coaVO.setCoapsw(coapsw);
 		coaVO.setCoamail(coamail);
@@ -42,6 +44,7 @@ public class CoaService {
 		coaVO.setCoasta(coasta);
 		coaVO.setCoapic(coapic);
 		coaVO.setCoasex(coasex);
+		coaVO.setCoaintro(coaintro);
 		coaVO.setCoasctotal(coasctotal);
 		coaVO.setCoascqty(coascqty);
 		dao.update(coaVO);

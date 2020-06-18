@@ -12,12 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ProjectConfig;
+
 public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-//	String url = "jdbc:oracle:thin:@localhost:1521:XE"; // for class
-	String url = "jdbc:oracle:thin:@localhost:49161:XE"; // for home dev
-	String userid = "EA101G5";
-	String passwd = "EA101G5";
 
 	private static final String INSERT_STMT = "INSERT INTO expertise_own (coano,expno,expown) VALUES (?,?, ?)";
 	private static final String UPDATE = "UPDATE expertise_own set expown=? where coano=? and expno =?";
@@ -25,6 +22,7 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT coano, expno FROM expertise_own where coano=? and expno = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM expertise_own order by expno";
 	private static final String GET_BY_CAONO_STMT = "SELECT * FROM expertise_own WHERE coano = ? order by expno";
+	private static final String GET_BY_EXPNO_STMT = "SELECT * FROM expertise_own WHERE expno = ? order by coano";
 
 	@Override
 	public void insert(ExpOwnVO expownVO) {
@@ -34,8 +32,9 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, expownVO.getCoano());
@@ -77,8 +76,9 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setBytes(1, expownVO.getExpown());
@@ -120,8 +120,9 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, coano);
@@ -164,8 +165,9 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, coano);
@@ -225,8 +227,9 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -235,6 +238,65 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 				expownVO = new ExpOwnVO();
 				expownVO.setCoano(rs.getString("coano"));
 				expownVO.setExpno(rs.getString("expno"));
+				list.add(expownVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<ExpOwnVO> getCoachesByExpno(String expno) {
+		List<ExpOwnVO> list = new ArrayList<ExpOwnVO>();
+		ExpOwnVO expownVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
+			pstmt = con.prepareStatement(GET_BY_CAONO_STMT);
+			pstmt.setString(1, expno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				expownVO = new ExpOwnVO();
+				expownVO.setCoano(rs.getString("expno"));
+				expownVO.setExpno(rs.getString("coano"));
 				list.add(expownVO); // Store the row in the list
 			}
 
@@ -282,8 +344,9 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(GET_BY_CAONO_STMT);
 			pstmt.setString(1, coano);
 			rs = pstmt.executeQuery();

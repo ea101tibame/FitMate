@@ -1,10 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.coach.model.*"%>
-<%
-  CoaVO coaVO = (CoaVO) request.getAttribute("coaVO");
-%>
+<%@ page import="com.expertise.model.*"%>
+<%@ page import="com.expertise_own.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,56 +10,71 @@
 <meta charset="UTF-8">
 <title>教練資料新增 - addCoach.jsp</title>
 
-<link rel="icon"
-	href="<%=request.getContextPath()%>/css/index-core-image/favicon.ico">
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/core-style.css" />
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/custom-css/coach_form.css" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
-	rel="stylesheet">
-<link
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-	rel="stylesheet">
+<link rel="icon" href="<%=request.getContextPath()%>/css/index-core-image/favicon.ico">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/core-style.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/custom-css/coach_form.css" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 	<header class="header_area">
-		<div
-			class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+		<div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
 			<!-- Classy Menu -->
 			<nav class="classy-navbar" id="essenceNav">
 				<!-- Logo -->
-				<a class="nav-brand" href="select_page.jsp"><img
-					src="<%=request.getContextPath()%>/img/index-core-image/logo.png"
-					alt=""></a>
+				<a class="nav-brand" href="select_page.jsp">
+					<img src="<%=request.getContextPath()%>/img/index-core-image/logo.png" alt="">
+				</a>
 				<!-- Navbar Toggler -->
 				<div class="classy-navbar-toggler">
-					<span class="navbarToggler"><span></span><span></span><span></span></span>
+					<span class="navbarToggler">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
 				</div>
 				<!-- Menu -->
 				<div class="classy-menu">
 					<!-- close btn -->
 					<div class="classycloseIcon">
 						<div class="cross-wrap">
-							<span class="top"></span><span class="bottom"></span>
+							<span class="top"></span>
+							<span class="bottom"></span>
 						</div>
 					</div>
 					<!-- Nav Start -->
 					<div class="classynav">
 						<ul>
-							<li><a href="index.html">首頁</a></li>
-							<li><a href="blog.html">消息</a></li>
-							<li><a href="#">教練</a>
+							<li>
+								<a href="index.html">首頁</a>
+							</li>
+							<li>
+								<a href="blog.html">消息</a>
+							</li>
+							<li>
+								<a href="#">教練</a>
 								<ul class="dropdown">
-									<li><a href="index.html">個人資料</a></li>
-									<li><a href=".html">查看課表</a></li>
-									<li><a href=".html">建立課程</a></li>
-									<li><a href=".html">修改課程</a></li>
-									<li><a href=".html">點數兌換</a></li>
+									<li>
+										<a href="index.html">個人資料</a>
+									</li>
+									<li>
+										<a href=".html">查看課表</a>
+									</li>
+									<li>
+										<a href=".html">建立課程</a>
+									</li>
+									<li>
+										<a href=".html">修改課程</a>
+									</li>
+									<li>
+										<a href=".html">點數兌換</a>
+									</li>
 
-								</ul></li>
-							<li><a href="blog.html">討論區</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="blog.html">討論區</a>
+							</li>
 
 						</ul>
 					</div>
@@ -75,14 +88,14 @@
 
 				<!-- User Login Info -->
 				<div class="user-login-info">
-					<a href="#"><img
-						src="<%=request.getContextPath()%>/img/index-core-image/user.svg"
-						alt=""></a>
+					<a href="#">
+						<img src="<%=request.getContextPath()%>/img/index-core-image/user.svg" alt="">
+					</a>
 				</div>
 				<div class="user-login-info">
-					<a href="#"><img
-						src="<%=request.getContextPath()%>/img/index-core-image/email.svg"
-						alt=""></a>
+					<a href="#">
+						<img src="<%=request.getContextPath()%>/img/index-core-image/email.svg" alt="">
+					</a>
 				</div>
 
 
@@ -95,9 +108,7 @@
 
 		<!-- Single Blog Post Thumb -->
 		<div class="single-blog-post-thumb">
-			<img
-				src="<%=request.getContextPath()%>/img/index-bg-image/COA1920.png"
-				alt="">
+			<img src="<%=request.getContextPath()%>/img/index-bg-image/COA1920.png" alt="">
 		</div>
 		<div class="container">
 			<div class="regular-page-content-wrapper section-padding-80">
@@ -128,54 +139,48 @@
 														<div class="row">
 															<div class="col-12 col-sm-auto mb-3">
 																<div class="mx-auto" style="width: 140px;">
-																	<div
-																		class="d-flex justify-content-center align-items-center rounded"
-																		style="height: 140px; background-color: rgb(233, 236, 239);">
-																		<span
-																			style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
+																	<div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+																		<span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
 																	</div>
 																</div>
 															</div>
-															<div
-																class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+															<div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
 																<div class="text-center text-sm-left mb-2 mb-sm-0">
 																	<h4 class="pt-sm-2 pb-1 mb-0 text-nowrap"></h4>
 																	<div class="text-muted"></div>
 																	<div class="mt-2">
-																		<i class="fa fa-fw fa-camera"></i> <input type="file">
+																		<i class="fa fa-fw fa-camera"></i>
+																		<input type="file" name="coapic">
 																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 													<ul class="nav nav-tabs">
-														<li class="nav-item"><a href=""
-															class="active nav-link">設定</a></li>
+														<li class="nav-item">
+															<a href="" class="active nav-link">設定</a>
+														</li>
 													</ul>
 													<div class="tab-content pt-3">
 														<div class="tab-pane active">
-														<!-- 本文開始 -->
-															<form method="post" action="" name="form1" class="form" novalidate="" enctype="multipart/form-data">
+															<!-- 本文開始 -->
+															<form method="post" action="<%=request.getContextPath()%>/coach/coach.do" name="form1" class="form" novalidate="" enctype="multipart/form-data">
 																<input type="hidden" name="action" value="insert">
 																<div class="row">
 																	<div class="col">
 																		<div class="row">
-																			<div class="col">
-																			</div>
+																			<div class="col"></div>
 																			<div class="col">
 																				<div class="form-group">
-																					<label>性別</label><br>
+																					<label>性別</label>
+																					<br>
 																					<div class="form-check form-check-inline">
-																						<input class="form-check-input" type="radio"
-																							name="coasex"
-															 								value="1" checked="true"/> <label
-																							class="form-check-label" for="inlineRadio1">男</label>
+																						<input class="form-check-input" type="radio" name="coasex" value="1" checked="true" />
+																						<label class="form-check-label" for="inlineRadio1">男</label>
 																					</div>
 																					<div class="form-check form-check-inline">
-																						<input class="form-check-input" type="radio"
-																							name="coasex" 
-																							value="0" /> <label
-																							class="form-check-label" for="inlineRadio2">女</label>
+																						<input class="form-check-input" type="radio" name="coasex" value="0" />
+																						<label class="form-check-label" for="inlineRadio2">女</label>
 																					</div>
 																				</div>
 																			</div>
@@ -185,17 +190,15 @@
 																				<div class="row">
 																					<div class="col">
 																						<div class="form-group">
-																							<label>姓名</label> <input class="form-control"
-																								type="text" name="coaname"
-																								value="${param.coaname}" />
+																							<label>姓名</label>
+																							<input class="form-control" type="text" name="coaname" value="${param.coaname}" />
 																							<p>${errorMsgs.coaname}</p>
 																						</div>
 																					</div>
 																					<div class="col">
 																						<div class="form-group">
-																							<label>電話</label> <input class="form-control"
-																								type="text" name="coatel"
-																								value="${param.coatel}" />
+																							<label>電話</label>
+																							<input class="form-control" type="text" name="coatel" value="${param.coatel}" />
 																							<p>${errorMsgs.coatel}</p>
 																						</div>
 																					</div>
@@ -205,15 +208,15 @@
 																		<div class="row">
 																			<div class="col">
 																				<div class="form-group">
-																					<label>密碼</label> <input class="form-control"
-																						type="password" name="coapsw" value="${param.coapsw}" />
+																					<label>密碼</label>
+																					<input class="form-control" type="password" name="coapsw" value="${param.coapsw}" />
 																					<p>${errorMsgs.coapsw}</p>
 																				</div>
 																			</div>
 																			<div class="col">
 																				<div class="form-group">
-																					<label>帳戶</label> <input class="form-control"
-																						type="account" name="coaacc" value="${param.coaacc}" />
+																					<label>帳戶</label>
+																					<input class="form-control" type="account" name="coaacc" value="${param.coaacc}" />
 																					<p>${errorMsgs.coaacc}</p>
 																				</div>
 																			</div>
@@ -221,8 +224,8 @@
 																		<div class="row">
 																			<div class="col">
 																				<div class="form-group">
-																					<label>信箱</label> <input class="form-control"
-																						type="text" name="coamail" value="${param.coamail}" />
+																					<label>信箱</label>
+																					<input class="form-control" type="text" name="coamail" value="${param.coamail}" />
 																					<p>${errorMsgs.coamail}</p>
 																				</div>
 																			</div>
@@ -232,8 +235,8 @@
 																				<div class="row">
 																					<div class="col">
 																						<div class="form-group">
-																							<label for="inputExpertise">專長</label> <select
-																								id="inputExpertise" class="form-control">
+																							<label for="inputExpertise">專長</label>
+																							<select id="inputExpertise" class="form-control">
 																								<option selected>瑜珈</option>
 																								<option>肌力訓練</option>
 																								<option>溜冰/滑板</option>
@@ -243,16 +246,18 @@
 																								<option>重量訓練</option>
 																								<option>球類運動</option>
 																								<option>武術</option>
-																								<option>其他運動</option></select>
+																								<option>其他運動</option>
+																							</select>
 																						</div>
 																					</div>
 																				</div>
 																			</div>
 
 																			<div class="col-12 col-sm-auto mb-3">
-																				<label>上傳證照: </label><br> <input type="file"
-																					id="myFile" name="coapic" multiple> <label>圖片預覽:
-																				</label>
+																				<label>上傳證照: </label>
+																				<br>
+																				<input type="file" id="myFile" name="expown" multiple>
+																				<label>圖片預覽: </label>
 																				<div id="preview"></div>
 																				<br>
 																				<button type="button" id="deletebtn">刪除</button>
@@ -262,8 +267,7 @@
 																</div>
 														</div>
 														<input type="hidden" name="action" value="insert">
-														<input class="btn btn-primary" type="submit"
-															value="Submit">
+														<input class="btn btn-primary" type="submit" value="Submit">
 														</form>
 
 													</div>

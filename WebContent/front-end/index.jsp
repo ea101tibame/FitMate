@@ -411,7 +411,7 @@
                         </label>
                         <p class="forgot-pass">忘記密碼?</p>
                         <button type="button" class="submit">登入</button>
-                        <button type="button" class="fb-btn">註冊教練</button>
+                        <button type="button" class="fb-btn" href="${pageContent.request.contextPath}/front-end/coach/addCoach.jsp">註冊教練</button>
                     </div>
                 </div>
             </div> 

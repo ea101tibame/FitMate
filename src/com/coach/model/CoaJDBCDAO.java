@@ -12,12 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ProjectConfig;
+
 public class CoaJDBCDAO implements CoaDAO_interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-//	String url = "jdbc:oracle:thin:@localhost:1521:XE"; // for class
-	String url = "jdbc:oracle:thin:@localhost:49161:XE"; // for home dev
-	String userid = "EA101G5";
-	String passwd = "EA101G5";
 
 	private static final String INSERT_STMT = "INSERT INTO coach (coano,coaname,coapsw,coamail,coatel,coaacc,coapic,coasex,coaintro) VALUES ('C'||LPAD(to_char(coach_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE coach set coaname=?, coapsw=?, coamail=?, coatel=?, coaacc=?, coapoint=?, coasta=?, coapic=?, coasex=?, coaintro=?, coasctotal=?, coascqty=? where coano=?";
@@ -33,8 +30,9 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, coaVO.getCoaname());
@@ -81,8 +79,9 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, coaVO.getCoaname());
@@ -103,9 +102,11 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
+			se.printStackTrace();
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
@@ -134,8 +135,9 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, coano);
@@ -177,8 +179,9 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, coano);
@@ -248,8 +251,9 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -317,7 +321,7 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 		}
 		baos.close();
 		fis.close();
-		return baos.toByteArray();// 回傳管子內建的byte陣列，取得裝有位元資料的byte陣列 陣列
+		return baos.toByteArray();// 回傳管子內建的byte陣列，取得裝有位元資料的byte陣列
 	}
 
 	public static void main(String[] args) {
@@ -349,29 +353,29 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 		// update
 
-//		CoaVO coaVO2 = new CoaVO();
-//		coaVO2.setCoaname("吳神教練");
-//		coaVO2.setCoapsw("peter123");
-//		coaVO2.setCoamail("peter123@gmail.com");
-//		coaVO2.setCoatel("0988088888");
-//		coaVO2.setCoaacc("52366899555123");
-//		coaVO2.setCoapoint(100000);
-//		coaVO2.setCoasta("已授權");
-//		coaVO2.setCoasex("男");
-//		coaVO2.setCoaintro("減肥是一輩子的事，快來我偶運動吧！");
-//		coaVO2.setCoasctotal(100);
-//		coaVO2.setCoascqty(1000);
-//		coaVO2.setCoano("C010");
-//
-//		try {
-//			byte[] pic = getPicByteArray("WebContent/img/coach-image/C010.jpg");
-//			coaVO2.setCoapic(pic);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		dao.update(coaVO2);
+		CoaVO coaVO2 = new CoaVO();
+		coaVO2.setCoaname("吳神教練");
+		coaVO2.setCoapsw("peter123");
+		coaVO2.setCoamail("peter123@gmail.com");
+		coaVO2.setCoatel("0988088888");
+		coaVO2.setCoaacc("52366899555123");
+		coaVO2.setCoapoint(100000);
+		coaVO2.setCoasta("已授權");
+		coaVO2.setCoasex("男");
+		coaVO2.setCoaintro("減肥是一輩子的事，快來我偶運動吧！");
+		coaVO2.setCoasctotal(100);
+		coaVO2.setCoascqty(1000);
+		coaVO2.setCoano("C010");
+
+		try {
+			byte[] pic = getPicByteArray("WebContent/img/coach-image/C010.jpg");
+			coaVO2.setCoapic(pic);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		dao.update(coaVO2);
 //
 //		//delete
 //		dao.delete("C014");

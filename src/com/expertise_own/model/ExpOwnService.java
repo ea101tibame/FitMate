@@ -47,4 +47,8 @@ public class ExpOwnService {
 	public List<ExpOwnVO> getExpOwnsByCoano(String coano) {
 		return dao.getExpOwnsByCoano(coano);
 	}
+
+	public List<ExpOwnVO> getCoachesByExpno(String expno) {
+		return dao.getCoachesByExpno(expno);
+	}
 }
