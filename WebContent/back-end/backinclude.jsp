@@ -598,7 +598,7 @@ margin-right
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'>
 		
 	</script>
-	<script src="../js/backend.js"></script>
+	<script src="<%=request.getContextPath()%>/js/backend.js"></script>
 	<!-- 客服聊天區-->
 	<!-- 登入按鈕開始 -->
 	<div class="login">

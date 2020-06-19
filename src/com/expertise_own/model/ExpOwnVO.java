@@ -5,15 +5,6 @@ public class ExpOwnVO implements java.io.Serializable {
 	private String coano;
 	private String expno;
 	private String expdesc;
-
-	public String getExpdesc() {
-		return expdesc;
-	}
-
-	public void setExpdesc(String expdesc) {
-		this.expdesc = expdesc;
-	}
-
 	private byte[] expown;
 
 	public String getCoano() {
@@ -31,7 +22,15 @@ public class ExpOwnVO implements java.io.Serializable {
 	public void setExpno(String expno) {
 		this.expno = expno;
 	}
+	
+	public String getExpdesc() {
+		return expdesc;
+	}
 
+	public void setExpdesc(String expdesc) {
+		this.expdesc = expdesc;
+	}
+	
 	public byte[] getExpown() {
 		return expown;
 	}

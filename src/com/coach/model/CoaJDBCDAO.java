@@ -16,7 +16,7 @@ import com.ProjectConfig;
 
 public class CoaJDBCDAO implements CoaDAO_interface {
 
-	private static final String INSERT_STMT = "INSERT INTO coach (coano,coaname,coapsw,coamail,coatel,coaacc,coapic,coasex,coaintro) VALUES ('C'||LPAD(to_char(coach_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO coach (coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty) VALUES ('C'||LPAD(to_char(coach_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE coach set coaname=?, coapsw=?, coamail=?, coatel=?, coaacc=?, coapoint=?, coasta=?, coapic=?, coasex=?, coaintro=?, coasctotal=?, coascqty=? where coano=?";
 	private static final String DELETE = "DELETE FROM coach where coano = ?";
 	private static final String GET_ONE_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty FROM coach where coano = ?";
@@ -35,16 +35,18 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 					ProjectConfig.JDBC_USER_PW);
 			String[] returnColumn = { "coano" };
 			pstmt = con.prepareStatement(INSERT_STMT, returnColumn);
-
 			pstmt.setString(1, coaVO.getCoaname());
 			pstmt.setString(2, coaVO.getCoapsw());
 			pstmt.setString(3, coaVO.getCoamail());
 			pstmt.setString(4, coaVO.getCoatel());
 			pstmt.setString(5, coaVO.getCoaacc());
-			pstmt.setBytes(6, coaVO.getCoapic());
-			pstmt.setString(7, coaVO.getCoasex());
-			pstmt.setString(8, coaVO.getCoaintro());
-
+			pstmt.setInt(6, coaVO.getCoapoint());
+			pstmt.setString(7, coaVO.getCoasta());
+			pstmt.setBytes(8, coaVO.getCoapic());
+			pstmt.setString(9, coaVO.getCoasex());
+			pstmt.setString(10, coaVO.getCoaintro());
+			pstmt.setInt(11, coaVO.getCoasctotal());
+			pstmt.setInt(12, coaVO.getCoascqty());
 			pstmt.executeUpdate();
 
 			String pk = null;
@@ -337,7 +339,7 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 	public static void main(String[] args) {
 
-		CoaJDBCDAO dao = new CoaJDBCDAO();
+//		CoaJDBCDAO dao = new CoaJDBCDAO();
 
 		// insert
 //		CoaVO coaVO1 = new CoaVO();
@@ -364,29 +366,29 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 
 		// update
 
-		CoaVO coaVO2 = new CoaVO();
-		coaVO2.setCoaname("吳神教練");
-		coaVO2.setCoapsw("peter123");
-		coaVO2.setCoamail("peter123@gmail.com");
-		coaVO2.setCoatel("0988088888");
-		coaVO2.setCoaacc("52366899555123");
-		coaVO2.setCoapoint(100000);
-		coaVO2.setCoasta("已授權");
-		coaVO2.setCoasex("男");
-		coaVO2.setCoaintro("減肥是一輩子的事，快來我偶運動吧！");
-		coaVO2.setCoasctotal(100);
-		coaVO2.setCoascqty(1000);
-		coaVO2.setCoano("C010");
-
-		try {
-			byte[] pic = getPicByteArray("WebContent/img/coach-image/C010.jpg");
-			coaVO2.setCoapic(pic);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		dao.update(coaVO2);
+//		CoaVO coaVO2 = new CoaVO();
+//		coaVO2.setCoaname("吳神教練");
+//		coaVO2.setCoapsw("peter123");
+//		coaVO2.setCoamail("peter123@gmail.com");
+//		coaVO2.setCoatel("0988088888");
+//		coaVO2.setCoaacc("52366899555123");
+//		coaVO2.setCoapoint(100000);
+//		coaVO2.setCoasta("已授權");
+//		coaVO2.setCoasex("男");
+//		coaVO2.setCoaintro("減肥是一輩子的事，快來我偶運動吧！");
+//		coaVO2.setCoasctotal(100);
+//		coaVO2.setCoascqty(1000);
+//		coaVO2.setCoano("C010");
+//
+//		try {
+//			byte[] pic = getPicByteArray("WebContent/img/coach-image/C010.jpg");
+//			coaVO2.setCoapic(pic);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		dao.update(coaVO2);
 //
 //		//delete
 //		dao.delete("C014");

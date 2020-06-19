@@ -193,7 +193,7 @@ th, td {
 				</td>
 			</tr>
 		</table>
-		<img id="previewPicExp" src="<%=request.getContextPath()%>/noData/nopic.png" style="width: 480px; height: 480px;">
+		<img id="previewPicExp" src="<%=request.getContextPath()%>/images/noData/nopic.png" style="width: 480px; height: 480px;">
 		<br>
 		<input type="hidden" name="action" value="insert" />
 		<input type="submit" value="送出新增" />
@@ -219,9 +219,5 @@ th, td {
 		}
 	}
 </script>
-
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
-<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 
 </html>

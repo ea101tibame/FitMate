@@ -22,7 +22,7 @@
 <style>
 body {
 	background:
-		url("<%=request.getContextPath()%>/back-end/images/backend_public/bg1ori.jpg");
+		url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
 	background-position: center center;
 }
 </style>
@@ -83,6 +83,6 @@ body {
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"></meta>
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back-end/css/backend.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/css/backend.css">
 
 </html>

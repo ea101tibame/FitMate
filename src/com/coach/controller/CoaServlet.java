@@ -107,6 +107,15 @@ public class CoaServlet extends HttpServlet {
 				if (coaacc == null || coaacc.trim().length() == 0) {
 					errorMsgs.put("coaacc", "帳戶:0-9的數字，12~14個數字");
 				}
+				
+				Integer coapoint = null;
+				coapoint = new Integer(req.getParameter("coapoint"));
+				System.out.println("coapoint: " + coapoint);
+				
+				
+				String coasta = req.getParameter("coasta").trim();
+				System.out.println("coasta: " + coasta);
+				
 
 				Part part = req.getPart("coapic");
 				InputStream in = part.getInputStream();
@@ -131,18 +140,32 @@ public class CoaServlet extends HttpServlet {
 				byte[] expown = new byte[in2.available()];
 				in2.read(expown);
 				in2.close();
+				
+				Integer coasctotal = null;
+				coasctotal = new Integer(req.getParameter("coasctotal"));
+				System.out.println("coasctotal: " + coasctotal);
+				
+				Integer coascqty = null;
+				coascqty = new Integer(req.getParameter("coascqty"));
+				System.out.println("coascqty: " + coascqty);
 
 				// TODO Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {// 如果有任何錯誤訊息
 					CoaVO coaVO = new CoaVO();
+
 					coaVO.setCoaname(coaname);
 					coaVO.setCoapsw(coapsw);
 					coaVO.setCoamail(coamail);
 					coaVO.setCoatel(coatel);
 					coaVO.setCoaacc(coaacc);
+					coaVO.setCoapoint(0);
+					coaVO.setCoasta("未授權");
 					coaVO.setCoapic(coapic);
 					coaVO.setCoasex(coasex);
 					coaVO.setCoaintro(coaintro);
+					coaVO.setCoasctotal(0);
+					coaVO.setCoascqty(0);
+					
 					req.setAttribute("coaVO", coaVO); // 含有輸入格式錯誤的coaVO物件,也存入req，左邊的coaVO來自addCoach.jsp的第6行，第6行跟第8行有關，而第8行跟第100行有關
 					req.setAttribute("errorMsgs", errorMsgs);
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach.jsp");
@@ -152,7 +175,7 @@ public class CoaServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				CoaService coaSvc = new CoaService();
-				String coano = coaSvc.addCoa(coaname, coapsw, coamail, coatel, coaacc, coapic, coasex, coaintro);
+				String coano = coaSvc.addCoa(coaname, coapsw, coamail, coatel, coaacc, coapoint, coasta, coapic, coasex, coaintro, coasctotal, coascqty);
 
 				ExpOwnService expOwnService = new ExpOwnService();
 				expOwnService.addExpOwn(coano, expno, expown);
