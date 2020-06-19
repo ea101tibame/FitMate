@@ -1,12 +1,13 @@
 package com.product_order.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class Product_orderVO implements Serializable{
 	
 	private String pordno;
 	private String stuno;
-	private String porddate;
+	private Date porddate;
 	private int pordtotal;
 	private String pordadd;
 	private String pordsta;
@@ -25,10 +26,10 @@ public class Product_orderVO implements Serializable{
 	public void setStuno(String stuno) {
 		this.stuno = stuno;
 	}
-	public String getPorddate() {
+	public Date getPorddate() {
 		return porddate;
 	}
-	public void setPorddate(String porddate) {
+	public void setPorddate(Date porddate) {
 		this.porddate = porddate;
 	}
 	public int getPordtotal() {

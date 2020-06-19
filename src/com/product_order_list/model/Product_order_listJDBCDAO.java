@@ -8,11 +8,12 @@ import com.product_class.model.Product_classVO;
 
 public class Product_order_listJDBCDAO implements Product_order_listDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:49161:XE";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	String userid = "EA101G5";
 	String passwd = "EA101G5";
 
-	private static final String INSERT_STMT = "INSERT INTO product_order_list(prodno,pordno,pord_listqty,pord_listprice)VALUES(?,?,?,?)";
+	private static final String INSERT_STMT 
+	= "INSERT INTO product_order_list(prodno,pordno,pord_listqty,pord_listprice)VALUES(?,?,?,?)";
 	private static final String UPDATE = "UPDATE product_order_list set pord_listqty=?,pord_listprice=? where prodno=? and pordno=?";
 	private static final String DELETE = "DELETE FROM product_order_list where prodno=? and pordno=?";
 	private static final String GET_PORDNO_STMT = "SELECT prodno,pordno,pord_listqty,pord_listprice from product_order_list where pordno=?";
@@ -240,6 +241,48 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 		return list;
 	}
 
+	@Override
+	public void insert2(Product_order_listVO product_order_listVO, Connection con) {
+		PreparedStatement pstmt =null;
+		try {
+
+			pstmt = con.prepareStatement(INSERT_STMT);
+			
+		
+			pstmt.setString(1, product_order_listVO.getProdno());
+			pstmt.setString(2, product_order_listVO.getPordno());
+			pstmt.setInt(3, product_order_listVO.getPord_listqty());
+			pstmt.setInt(4, product_order_listVO.getPord_listprice());
+
+			pstmt.executeUpdate();
+			
+		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					// 3●設定於當有exception發生時之catch區塊內
+					System.err.print("Transaction is being ");
+					System.err.println("rolled back-由product_order_list");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured. "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+		}
+
+	}
+	
 	public static void main(String[] args) {
 		Product_order_listJDBCDAO dao = new Product_order_listJDBCDAO();
 
@@ -294,4 +337,6 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 		}
 
 	}
+
+
 }

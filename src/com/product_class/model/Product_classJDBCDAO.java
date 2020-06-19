@@ -6,7 +6,7 @@ import java.util.*;
 public class Product_classJDBCDAO implements Product_classDAO_interface {
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:49161:XE";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	String userid = "EA101G5";
 	String passwd = "EA101G5";
 

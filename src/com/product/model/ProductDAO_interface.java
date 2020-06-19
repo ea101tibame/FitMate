@@ -8,4 +8,5 @@ public interface ProductDAO_interface {
 	public void delete(String prodno);
 	public ProductVO findByPrimaryKey(String prodno);
 	public List<ProductVO>getAll();
+	public List<ProductVO>getOnShelves();
 }
