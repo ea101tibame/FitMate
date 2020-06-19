@@ -276,7 +276,7 @@
 
 							<hr class="mb-4">
 							<input type="hidden" name="action" value="insert">
-							<button class="btn btn-primary btn-lg btn-block" type="submit">課程建立</button>
+							<button class="btn btn-primary btn-lg btn-block" type="submit">課程建立>>>下一步 新增時段</button>
 						</form>
 						<!--表單結束-->
 					</div>

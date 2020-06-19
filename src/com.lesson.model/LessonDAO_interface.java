@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import test.expertise.model.ExpertiseVO;
 
 public interface LessonDAO_interface {
-	public void insert(LessonVO lessonVO);
+	public String insert(LessonVO lessonVO);
 	public void update(LessonVO lessonVO);//備註:沒有刪除 只變更狀態為下架
 	/*此運動種類有多少課程 用類型查*/
 	public List<LessonVO> findLessonByLessonType(String lesstype);
@@ -23,4 +23,5 @@ public interface LessonDAO_interface {
 	public LessonVO getOneByPK(String lessno);
 	
 	public void update_off(String lessno);
+	
 }

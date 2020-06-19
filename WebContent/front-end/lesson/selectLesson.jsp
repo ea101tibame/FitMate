@@ -179,7 +179,7 @@ width:200px;
 		<th>課程說明</th>
 		<th>課程圖片</th>
 		<th>修改</th>
-		<th>建立時段</th>
+		<th>修改時段</th>
 		<th>下架</th>
 	</tr>
 	<%@ include file="pages/page1.file" %> 
@@ -225,12 +225,14 @@ width:200px;
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do" style="margin-bottom: 0px;">
 <!-- 			     <input type="submit" value="建立時段"> -->
-			     <button type="submit" class="btn btn-success">建立時段</button>
-			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
-			     <input type="hidden" name="lessname"  value="${lessonVO.lessname}">
-			     <input type="hidden" name="lesstimes"  value="${lessonVO.lesstimes}">
-			     <input type="hidden" name="lessend"  value="${lessonVO.lessend}">
-			     <input type="hidden" name="action" value="get_Lesson_information"></FORM>
+			     <button type="submit" class="btn btn-success">修改時段</button>
+<%-- 			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}"> --%>
+<%-- 			     <input type="hidden" name="lessname"  value="${lessonVO.lessname}"> --%>
+<%-- 			     <input type="hidden" name="lesstimes"  value="${lessonVO.lesstimes}"> --%>
+<%-- 			     <input type="hidden" name="lessend"  value="${lessonVO.lessend}"> --%>
+<!-- 			     <input type="hidden" name="action" value="get_Lesson_information"> -->
+					 <input type="hidden" name="action" value="update_time">
+			</FORM>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">

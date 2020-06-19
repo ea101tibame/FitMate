@@ -137,12 +137,15 @@ public class LessonServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				LessonService lessonSvc = new LessonService();
-				lessonVO = lessonSvc.addLesson("C001", lessname, lessmax, lessmin, 0, lesstype, lessloc, lessprice,
+				String lessno_seq = lessonSvc.addLesson("C001", lessname, lessmax, lessmin, 0, lesstype, lessloc, lessprice,
 						lessdesc, lessstart, lessend, "未成團", lesstimes, img);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/front-end/lesson/selectLesson.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				
+				
+				req.setAttribute("lessno_seq", lessno_seq);
+				String url = "/front-end/lesson/addTime.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/

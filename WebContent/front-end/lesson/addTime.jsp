@@ -10,15 +10,9 @@
 <%@ page import="com.lessonTime.model.*"%>
 
 <%
-String lessno = (String)request.getAttribute("lessno");
-// out.print("lessno="+lessno);
-String lessname = (String)request.getAttribute("lessname");
-// out.print("lessname="+lessname);
-Integer lesstimes =(Integer)request.getAttribute("lesstimes");
-// out.print("lesstimes="+lesstimes);
-String lessend = (String)request.getAttribute("lessend");
-
-List<LessonTimeVO> lessonTimeVO = (List<LessonTimeVO>) request.getAttribute("lessonTimeVO");
+String lessno = (String)request.getAttribute("lessno_seq");
+LessonService lSvc = new LessonService();
+LessonVO lessonVO = lSvc.getOneByPK(lessno);
 
 %>
 <!DOCTYPE html>
@@ -159,14 +153,14 @@ List<LessonTimeVO> lessonTimeVO = (List<LessonTimeVO>) request.getAttribute("les
 
 								<div class="row">
 									<div class="col-md-12 mb-3">
-										<label class="title">課程名稱>>><%=lessname %></label>
+										<label class="title">課程名稱>>><%=lessonVO.getLessname() %></label>
 										<br>
-										<label  class="title">課程堂數>>>共<%=lesstimes %>堂</label>
+										<label  class="title">課程堂數>>>共<%=lessonVO.getLesstimes() %>堂</label>
 										<br>
-										<label  class="title">請新增<%=lesstimes %>時段</label>
+										<label  class="title">請新增<%=lessonVO.getLesstimes() %>時段</label>
 										<br>
 									</div>
-									<% for(int i=0;i<lesstimes;i++){ %>
+									<% for(int i=0;i<lessonVO.getLesstimes();i++){ %>
 									<!-- 截止之後的時間 才可以選-->
 									<div class="col-md-6 mb-3">
 										<label >選擇授課日期</label> <input type="text"
@@ -187,11 +181,11 @@ List<LessonTimeVO> lessonTimeVO = (List<LessonTimeVO>) request.getAttribute("les
 								</div>
 							</div>
 							<hr class="mb-4">
-							<input type="hidden" name="action" value="insert">
-							<input type="hidden" name="lessno" value="<%=lessno %>">
-							<input type="hidden" name="lessname" value="<%=lessname %>">
-							<input type="hidden" name="lesstimes" value="<%=lesstimes %>">
-							<input type="hidden" name="lessend" value="<%=lessend %>">
+							<input type="hidden" name="lessname" value="<%=lessonVO.getLessname() %>">
+							<input type="hidden" name="lesstimes" value="<%=lessonVO.getLesstimes() %>">
+							<input type="hidden" name="lessend" value="<%=lessonVO.getLessend() %>">
+							<input type="hidden" name="lessno" value="<%=lessno%>">
+							<input type="hidden" name="action" value="insert">							
 							<button class="btn btn-primary btn-lg btn-block" type="submit">此堂課程 時段建立</button>
 						</form>
 						<!--表單結束-->
@@ -245,7 +239,7 @@ List<LessonTimeVO> lessonTimeVO = (List<LessonTimeVO>) request.getAttribute("les
 $(function() {
 	//somedate1為報名截止日 之前的都不可以選
 	
-	 var somedate1 = new Date("<%=lessend%>");
+	 var somedate1 = new Date("<%=lessonVO.getLessend()%>");
     $( ".form-control" ).datepicker({
     dateFormat:'yy-mm-dd',
       defaultDate: "+1w",

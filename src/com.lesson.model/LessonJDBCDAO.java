@@ -22,11 +22,14 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 	private static final String Get_CoachLesson = "SELECT * FROM LESSON WHERE COANO=?";
 	private static final String Get_OneByPK = "SELECT * FROM LESSON WHERE LESSNO=?";
 	private static final String UPDATE_OFF = "UPDATE LESSON SET LESSSTA = '下架' WHERE LESSNO = ?";
+	private static final String GET_CURRVAL = "SELECT 'L'||LPAD(to_char(LESSNO_seq.CURRVAL), 3, '0') FROM DUAL";
 	
 	@Override
-	public void insert(LessonVO lessonVO) {
+	public String insert(LessonVO lessonVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String lessno_seq=null;
 		try {
 
 			Class.forName(driver);
@@ -51,7 +54,14 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 			pstmt.setBytes(14, lessonVO.getLesspic());
 
 			pstmt.executeUpdate();
-
+			pstmt.close();
+			
+			pstmt = con.prepareStatement(GET_CURRVAL);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				lessno_seq = rs.getString(1);
+			}
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -75,7 +85,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 				}
 			}
 		}
-
+			return lessno_seq;
 	}
 
 	@Override
@@ -405,33 +415,34 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 	public static void main(String[] args) {
 		LessonJDBCDAO dao = new LessonJDBCDAO();
 //
-//		// 新增 (測試不放 可空的描述)
-//		LessonVO testInsert = new LessonVO();
-//		// 自生LESSNO
-//		testInsert.setCoano("C004");
-//		testInsert.setLessname("MV舞蹈");
-//		testInsert.setLessmax(20);
-//		testInsert.setLessmin(5);
-//
-//		testInsert.setLesscur(0);// 改可空
-//		testInsert.setLesstype("EXP004");
-//		testInsert.setLessloc("大安森林公園");
-//		testInsert.setLessprice(2000);
-//		testInsert.setLessdesc(null);// 描述TEST
-//
-//		testInsert.setLessstart(java.sql.Date.valueOf("2020-07-01"));
-//		testInsert.setLessend(java.sql.Date.valueOf("2020-07-10"));
-//		testInsert.setLesssta("未成團");
-//		testInsert.setLesstimes(10);
-//		try {
-//			byte[] pic = getPictureByteArray("WebContent/img/dance.jpg");
-//			testInsert.setLesspic(pic);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		dao.insert(testInsert);
-//		System.out.println("新增成功");
+		// 新增 (測試不放 可空的描述)
+		LessonVO testInsert = new LessonVO();
+		// 自生LESSNO
+		testInsert.setCoano("C004");
+		testInsert.setLessname("MV舞蹈");
+		testInsert.setLessmax(20);
+		testInsert.setLessmin(5);
+
+		testInsert.setLesscur(0);// 改可空
+		testInsert.setLesstype("EXP004");
+		testInsert.setLessloc("大安森林公園");
+		testInsert.setLessprice(2000);
+		testInsert.setLessdesc(null);// 描述TEST
+
+		testInsert.setLessstart(java.sql.Date.valueOf("2020-07-01"));
+		testInsert.setLessend(java.sql.Date.valueOf("2020-07-10"));
+		testInsert.setLesssta("未成團");
+		testInsert.setLesstimes(10);
+		try {
+			byte[] pic = getPictureByteArray("WebContent/img/dance.jpg");
+			testInsert.setLesspic(pic);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		String lessno_seq = dao.insert(testInsert);
+		System.out.println("新增成功");
+		System.out.println("lessno_seq="+lessno_seq);
 
 		// 修改 (測試只改狀態為下架)
 //		LessonVO testUpdate = new LessonVO();
@@ -494,8 +505,8 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //		System.out.print(testone.getCoano());
 //		System.out.print(testone.getLessname());
 		
-		dao.update_off("L002");
-		System.out.print("修改下架成功");
+//		dao.update_off("L002");
+//		System.out.print("修改下架成功");
 	}
 
 	public static byte[] getPictureByteArray(String path) throws IOException {
@@ -700,5 +711,6 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 		}
 		
 	}
+
 
 }
