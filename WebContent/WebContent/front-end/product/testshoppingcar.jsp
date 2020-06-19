@@ -1,80 +1,67 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.product.model.*"%>
-<%@ page import="java.util.*"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%--JSTLI18NФ╗≥Г╠╓Е╨╚--%>
-<%
-Vector<ProductVO> buylist = (Vector<ProductVO>)session.getAttribute("shoppingcart");
-%>
-<%@ page import="com.product_order_list.model.*"%>
-<% 
-ProductService prodSvc = new ProductService();
-if(buylist!=null && (buylist.size()>0)){
-%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page import="java.util.* , com.product.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
+<meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/css/core-style.css">
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/custom-css/product/product.css">
+<%
+	Vector<ShoppingVO> buylist = (Vector<ShoppingVO>) session.getAttribute("shoppingcart");
+%>
+<%
+	if (buylist != null && (buylist.size() > 0)) {
+%>
 </head>
 <body>
 
-<h3>Г⌡╝Е┴█ХЁ╪Г┴╘Х╩┼Е┘╖Е╝╧Е╕┌Д╦▀О╪ </h3>
-	
+	<h3>╔ь╚eай╙╚╗╝╓╨╝e╕p╓U║G</h3>
+
 	<div class="table-responsive-sm table-hover table-success">
 		<table class="table align-items-center">
 			<tr>
-				<th>Е∙├Е⌠│Е░█Г╗╠</th>
-				<th>Е∙├Е⌠│Е┐╧Ф═╪</th>
-				<th>Е∙├Е⌠│Е°√Г┴┤</th>
-				<th>Е∙├Е⌠│Ф∙╦И┤▐</th>
-				<th>Е┬╙И≥╓Е∙├Е⌠│</th>
+				<th>╟с╚~╫s╦╧</th>
+				<th>╟с╚~╕W╨ы</th>
+				<th>╟с╚~╩Ы╝Ф</th>
+				<th>╟с╚~╪ф╤q</th>
+				<th>╖R╟ё╟с╚~</th>
 			</tr>
 
+			<%
+				for (int index = 0; index < buylist.size(); index++) {
+						ShoppingVO order = buylist.get(index);
+			%>
 			<tr>
-					<td class="align-middle">${productVO.prodname}</td>
-					<td class="align-middle">${productVO.prodprice}</td>
-					<td class="align-middle">
-					<img
-						src="<%= request.getContextPath()%>/product/product.pic?prodno=${productVO.prodno}"
-						width="180px" height="190px">
-					</td>
-					<td class="align-middle">
-					<jsp:useBean id="polpordqty" scope="session" class="com.product_order_list.model.Product_order_listService" />
-					<input type="text" size="3" value="1" name="${product_order_list.prod_qty}">			
-					</td>
-					<td width="400" class="align-middle">
-					</td>
-					<td class="align-middle">
-						<form method="post"
-							action="<%=request.getContextPath()%>/shopping.html">
-							<input type="submit" value="Е┬╙И≥╓Ф╜╓Е∙├Е⌠│"
-								class="btn btn-outline-success my-2 my-sm-0">
-							<input type="hidden" name="prodno" value="${productVO.prodno}">
-							<input type="hidden" name="action" value="DELETE">
-						</form>
-					</td>
-				</tr>
-
-			<tr>
-				<td>Е∙├Е⌠│И┤▒И║█:${product_order_list.prodtotal}</td>
-				<jsp:useBean id="prodor" scope="session" class="com.product_order.model.Product_orderService" />
-				<td>И│▀Х╡╩:${product_order.fare}</td>
-				<td>Г╦╫Х╗┬:${poduct_order_list.prodtatal}</td>
+				<td class="align-middle"><%=order.getProdno()%></td>
+				<td class="align-middle"><%=order.getProdname()%></td>
+				<td class="align-middle"><%=order.getProdprice()%></td>
+				<td class="align-middle"><%=order.getProdqty()%></td>
+				<td width="400" class="align-middle"></td>
+				<td class="align-middle">
+					<form method="post" action="<%=request.getContextPath()%>/shopping.html">
+						<input type="hidden" name="action" value="DELETE">
+						<input type="hidden" name="del" value="<%=index%>"> 
+						<input type="submit" value="╖R╟ё╕╧╟с╚~">
+					</form>
+				</td>
 			</tr>
+			<%
+				}
+			%>
 		</table>
+		<table>
+			<tr>
+			<form name="checkoutForm" action="Shopping.html" method="POST">
+				<input type="hidden" name="action"	value="CHECKOUT"> 
+               <input type="submit" value="╔I╢з╣╡╠b">
+			</form>
+		</table>
+
 	</div>
 
-	
-	
-<%}%>
+
+
+	<%
+		}
+	%>
 </body>
 </html>
