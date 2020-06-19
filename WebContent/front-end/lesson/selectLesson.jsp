@@ -7,7 +7,7 @@
 <%
 	LessonService lessonService = new LessonService();
 	List<LessonVO> list = lessonService.getCoachLesson("C001");
-	session.setAttribute("list",list);
+	pageContext.setAttribute("list",list);
 
 %>
 
@@ -206,17 +206,9 @@ width:200px;
 			<td>${lessonVO.lessend}</td>
 			<td>${lessonVO.lessdesc}</td>
 			<td><img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="innerpic"></td>
-			<%--拿到教練專長SVC再來
-			<td><c:forEach var="deptVO" items="${deptSvc.all}">
-                    <c:if test="${empVO.deptno==deptVO.deptno}">
-	                    ${deptVO.deptno}【${deptVO.dname} - ${deptVO.loc}】
-                    </c:if>
-                </c:forEach>
-			</td>
-			 --%>
+
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-<!-- 			     <input type="submit" value="修改"> -->
 			     <button type="submit" class="btn btn-danger">修改</button>
 			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
@@ -224,14 +216,9 @@ width:200px;
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do" style="margin-bottom: 0px;">
-<!-- 			     <input type="submit" value="建立時段"> -->
 			     <button type="submit" class="btn btn-success">修改時段</button>
-<%-- 			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}"> --%>
-<%-- 			     <input type="hidden" name="lessname"  value="${lessonVO.lessname}"> --%>
-<%-- 			     <input type="hidden" name="lesstimes"  value="${lessonVO.lesstimes}"> --%>
-<%-- 			     <input type="hidden" name="lessend"  value="${lessonVO.lessend}"> --%>
-<!-- 			     <input type="hidden" name="action" value="get_Lesson_information"> -->
-					 <input type="hidden" name="action" value="update_time">
+				 <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
+				 <input type="hidden" name="action" value="getOneTime_For_Update">
 			</FORM>
 			</td>
 			<td>

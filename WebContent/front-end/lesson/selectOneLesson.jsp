@@ -183,7 +183,13 @@ width:200px;
 		<tr>
 			<td>${lessonVO.lessno}</td>
 			<td>${lessonVO.lessname}</td>
-			<td>${lessonVO.lesstype}</td>
+			<jsp:useBean id="lesson_Svc" scope="page"
+											class="com.lesson.model.LessonService" />
+			<td>
+			<c:forEach var="expertiseVO" items="${lesson_Svc.allExpByExpno}">
+				<c:if test="${lessonVO.lesstype==expertiseVO.expno}">${expertiseVO.expdesc}</c:if>
+			</c:forEach>
+			</td>
 			<td>${lessonVO.lessmax}</td>
 			<td>${lessonVO.lessmin}</td>
 			<td>${lessonVO.lesstimes}</td> 

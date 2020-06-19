@@ -400,13 +400,13 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //	
 //	System.out.println("新增成功");
 //	
-//	LessonTimeVO testUpdate = new LessonTimeVO();
-//	testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
-//	testUpdate.setLtime_ss("下午");
-//	testUpdate.setLtime_no("LT033");
-//	dao.update(testUpdate);
-//	System.out.println("修改成功");
-//	
+	LessonTimeVO testUpdate = new LessonTimeVO();
+	testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
+	testUpdate.setLtime_ss("下午");
+	testUpdate.setLtime_no("LT033");
+	dao.update(testUpdate);
+	System.out.println("修改成功");
+	
 //	//同時刪除
 //	dao.delete("LT010");
 //	System.out.println("刪除成功");

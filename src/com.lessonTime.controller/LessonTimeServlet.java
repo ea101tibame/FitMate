@@ -114,5 +114,102 @@ public class LessonTimeServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		if("getOneTime_For_Update".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/***************************1.接收請求參數****************************************/
+				String lessno = new String(req.getParameter("lessno"));
+				/***************************2.開始查詢資料****************************************/
+				LessonTimeService lTSvc = new LessonTimeService();
+				List<LessonTimeVO> Timelist = lTSvc.findTimeByPK(lessno);
+				
+				LessonService lSvc = new LessonService();
+				LessonVO lessonVO = lSvc.getOneByPK(lessno);
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("Timelist", Timelist);
+				req.setAttribute("lessonVO", lessonVO);
+				String url ="/front-end/lesson/updateTime.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+				/***************************其他可能的錯誤處理************************************/
+
+			}catch(Exception e) {
+				throw new ServletException(e);
+			}
+		}
+		if("update_time".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			try {
+				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+				String[] ltime_date = req.getParameterValues("ltime_date");
+				String[] ltime_ss = req.getParameterValues("ltime_ss");
+				String lessno = req.getParameter("lessno");
+				String lessname =req.getParameter("lessname");
+				String[] ltime_no = req.getParameterValues("ltime_no");
+				Integer lesstimes = null;
+				try {
+					lesstimes = new Integer(req.getParameter("lesstimes"));
+				} catch (NumberFormatException e) {
+				}
+				String lessend = req.getParameter("lessend");
+				
+				LessonTimeVO lessonTimeVO = null;
+				String date1=null;
+				java.sql.Date dates = null;
+				String ss1 =null;
+				String tt = null;
+				List<LessonTimeVO> Timelist= new ArrayList<LessonTimeVO>();
+				
+				
+				if(errorMsgs.isEmpty()) {
+					for(int i =0;i<ltime_date.length;i++) {
+						date1 = ltime_date[i];
+						dates = java.sql.Date.valueOf(date1);
+						ss1 = ltime_ss[i];
+						tt = ltime_no[i];
+						lessonTimeVO = new LessonTimeVO();
+						lessonTimeVO.setLtime_date(dates);
+						lessonTimeVO.setLtime_ss(ss1);
+						lessonTimeVO.setLtime_no(tt);
+				/*************************** 2.修改資料 ***************************************/
+						LessonTimeService lessonTimeService = new LessonTimeService();
+						lessonTimeService.updateLessonTime(dates, ss1,tt);
+						
+						Timelist.add(lessonTimeVO);
+					}
+				}
+
+				LessonService lessonSvc = new LessonService();
+				LessonVO lessonVO = lessonSvc.getOneByPK(lessno);
+				
+				if (!errorMsgs.isEmpty()) {
+					for (String str : errorMsgs) {
+						System.out.println(str);
+					}
+					req.setAttribute("Timelist", Timelist);
+					req.setAttribute("lessonVO", lessonVO);
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/updateTime.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+			
+				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				req.setAttribute("Timelist", Timelist);
+				req.setAttribute("lessonVO", lessonVO);
+				String url = "/front-end/lesson/selectLesson.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);
+				
+				
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/updateTime.jsp");
+				failureView.forward(req, res);
+			}
+			
+		}
 	}
 }

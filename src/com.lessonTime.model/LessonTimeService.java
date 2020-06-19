@@ -24,12 +24,13 @@ public class LessonTimeService {
 
 	}
 
-	public LessonTimeVO updateLessonTime( java.sql.Date ltime_date, String ltime_ss) {
+	public LessonTimeVO updateLessonTime( java.sql.Date ltime_date, String ltime_ss,String ltime_no) {
 
 		LessonTimeVO LessonTimeVO = new LessonTimeVO();
 
 		LessonTimeVO.setLtime_date(ltime_date);
 		LessonTimeVO.setLtime_ss(ltime_ss);
+		LessonTimeVO.setLtime_no(ltime_no);
 		dao.update(LessonTimeVO);
 
 		return LessonTimeVO;
