@@ -12,6 +12,16 @@ public class ProductVO implements Serializable{
 	private byte[] prodpic;
 	private String proddesc;
 	private String prodsta;
+	private int qty;
+	
+	
+	
+	public int getQty() {
+		return qty;
+	}
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
 	public String getProdno() {
 		return prodno;
 	}

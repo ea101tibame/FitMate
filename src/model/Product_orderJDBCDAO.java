@@ -273,7 +273,7 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				next_pordno = rs.getString(1);
-				System.out.println("自增主鍵值" + next_pordno + "(剛新增成功的部門編號)");
+				System.out.println("自增主鍵值" + next_pordno + "(剛新增成功的商品編號)");
 			} else {
 				System.out.println("未取得自增主鍵值");
 			}

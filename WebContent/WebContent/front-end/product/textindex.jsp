@@ -24,37 +24,40 @@
     <th width="100">放入購物車</th>
   </tr></table>
  
-
-  <form name="shoppingForm" action="<%=request.getContextPath() %>/Shopping.html" method="POST">
+ 
+  <form name="shoppingForm" action="<%=request.getContextPath()%>/Shopping.html" method="POST">
     <table><tr> 
       <td width="200"><div align="center">P001</div></td>
       <td width="100"><div align="center">運動背心</div></td>
       <td width="100"><div align="center">66</div></td>
-      <td width="120"><div align="center">數量：<input type="text" name="prodqty" size="3" value=1></div></td>
-      <td width="120"><div align="center"><input type="submit" class="button" value="放入購物車"> </div></td>
-    </tr></table>
+      <td width="120"><div align="center">數量：<input type="text" name="qty" value="1"> </div></td>
+      <td width="120"><div align="center"><input type="submit" class="button" value="放入購物車">
+      
       <input type="hidden" name="prodno" value="P001">
       <input type="hidden" name="prodname" value="運動背心">
       <input type="hidden" name="prodprice" value="66">
-      <input type="hidden" name="prodqty" value="6">
-      <input type="hidden" name="action" value="ADD">
+      <input type="hidden" name="action" value="ADD"></div>
+      </td>
+    </tr></table>
+     
   </form>
   
-  <form name="shoppingForm" action="/Shopping.html" method="POST">
+  <form name="shoppingForm" action="<%=request.getContextPath()%>/Shopping.html" method="POST">
     <table><tr> 
       <td width="200"><div align="center">P002</div></td>
       <td width="100"><div align="center">足球</div></td>
       <td width="100"><div align="center">900</div></td>
-      <td width="120"><div align="center">數量：<input type="text" name="prodqty" size="3" value=1></div></td>
-      <td width="120"><div align="center"><input type="submit" class="button" value="放入購物車"> </div></td>
-    </tr></table>
+      <td width="120"><div align="center">數量：<input type="text" name="qty" value=""></div></td>
+      <td width="120"><div align="center"><input type="submit" class="button" value="放入購物車"> 
+      
       <input type="hidden" name="prodno" value="P002">
       <input type="hidden" name="prodname" value="足球">
       <input type="hidden" name="prodprice" value="900">
-      <input type="hidden" name="prodqty" value="6">
       <input type="hidden" name="action" value="ADD">
+      </div></td>
+    </tr></table>
+
   </form>
-  
 
 </body>
 </html>
