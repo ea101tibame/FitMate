@@ -1,0 +1,314 @@
+package com.lesson.controller;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+import com.lesson.model.LessonService;
+import com.lesson.model.LessonVO;
+
+@WebServlet("/LessonVO")
+@MultipartConfig
+public class LessonServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public LessonServlet() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		doPost(req, res);
+	}
+
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		req.setCharacterEncoding("UTF-8");
+		String action = req.getParameter("action");
+
+		if ("insert".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			try {
+				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+				String lessname = req.getParameter("lessname");
+				if (lessname == null || lessname.trim().length() == 0) {
+					errorMsgs.add("課堂名稱: 請勿空白");
+				}
+				
+				String lesstype = req.getParameter("lesstype");
+				if(lesstype ==  null || lesstype.trim().length() == 0) {
+					errorMsgs.add("請選擇課堂類型");
+				}
+				Integer lessmax = null;
+
+				try {
+					lessmax = new Integer(req.getParameter("lessmax").trim());
+
+				} catch (NumberFormatException e) {
+					errorMsgs.add("上限人數請填數字");
+				}
+
+				Integer lessmin = null;
+				try {
+					lessmin = new Integer(req.getParameter("lessmin"));
+					if(lessmax<lessmin) {
+						errorMsgs.add("下限人數不可高於上限人數");
+					}
+					
+				} catch (NumberFormatException e) {
+					errorMsgs.add("下限人數請填數字");
+				}
+
+				Integer lessprice = null;
+				try {
+					lessprice = new Integer(req.getParameter("lessprice"));
+
+				} catch (NumberFormatException e) {
+					errorMsgs.add("課程欲售點數請填數字");
+				}
+
+				String lessloc = req.getParameter("lessloc");
+
+				java.sql.Date lessstart = java.sql.Date.valueOf(req.getParameter("lessstart"));
+				java.sql.Date lessend = java.sql.Date.valueOf(req.getParameter("lessend"));
+				Integer lesstimes = null;
+				try {
+					lesstimes = new Integer(req.getParameter("lesstimes").trim());
+
+				} catch (NumberFormatException e) {
+					lessprice = 0;
+					errorMsgs.add("課程堂數請填數字");
+				}
+
+				String lessdesc = req.getParameter("lessdesc");
+
+				LessonVO LessonVO = new LessonVO();
+				LessonVO.setCoano("C004");
+				LessonVO.setLessname(lessname);
+				LessonVO.setLessmax(lessmax);
+				LessonVO.setLessmin(lessmin);
+
+				LessonVO.setLesscur(0);
+				LessonVO.setLesstype(lesstype);
+				LessonVO.setLessloc(lessloc);
+				LessonVO.setLessprice(lessprice);
+				LessonVO.setLessdesc(lessdesc);
+
+				LessonVO.setLessstart(lessstart);
+				LessonVO.setLessend((lessend));
+				LessonVO.setLesssta("未成團");
+				LessonVO.setLesstimes(lesstimes);
+
+				Part part = req.getPart("lesspic");
+				InputStream in = part.getInputStream();
+				byte[] img = new byte[in.available()];
+				in.read(img);
+				LessonVO.setLesspic(img);
+
+
+				if (!errorMsgs.isEmpty()) {
+					for (String str : errorMsgs) {
+						System.out.println(str);
+					}
+					req.setAttribute("LessonVO", LessonVO); // 含有輸入格式錯誤的empVO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/addLesson.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+
+				/*************************** 2.開始新增資料 ***************************************/
+				LessonService LessonSvc = new LessonService();
+				LessonVO = LessonSvc.addLesson("C001", lessname, lessmax, lessmin, 0, lesstype, lessloc, lessprice,
+						lessdesc, lessstart, lessend, "未成團", lesstimes, img);
+
+				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				String url = "/front-end/lesson/selectLesson.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/addLesson.jsp");
+				failureView.forward(req, res);
+
+			}
+		}
+		
+		if("getOne_For_Update".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			
+			try {
+				/***************************1.接收請求參數****************************************/
+				String lessno = new String(req.getParameter("lessno"));
+				/***************************2.開始查詢資料****************************************/
+				LessonService LessonSvc = new LessonService();
+				LessonVO LessonVO = LessonSvc.getOneByPK(lessno);
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("LessonVO", LessonVO);
+				String url ="/front-end/lesson/updateLesson.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+				/***************************其他可能的錯誤處理************************************/
+
+			}catch(Exception e) {
+				throw new ServletException(e);
+			}
+		}
+		if("update".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			try {
+				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+				String lessno = req.getParameter("lessno");
+				String lessname = req.getParameter("lessname");
+				if (lessname == null || lessname.trim().length() == 0) {
+					errorMsgs.add("課堂名稱: 請勿空白");
+				}
+				String lesstype = req.getParameter("lesstype");
+				if(lesstype ==  null || lesstype.trim().length() == 0) {
+					errorMsgs.add("請選擇課堂類型");
+				}
+
+				Integer lessmax = null;
+
+				try {
+					lessmax = new Integer(req.getParameter("lessmax").trim());
+
+				} catch (NumberFormatException e) {
+					errorMsgs.add("上限人數請填數字");
+				}
+
+				Integer lessmin = null;
+				try {
+					lessmin = new Integer(req.getParameter("lessmin"));
+					if(lessmax<lessmin) {
+						errorMsgs.add("下限人數不可高於上限人數");
+					}
+					
+				} catch (NumberFormatException e) {
+					errorMsgs.add("下限人數請填數字");
+				}
+
+				Integer lessprice = null;
+				try {
+					lessprice = new Integer(req.getParameter("lessprice"));
+
+				} catch (NumberFormatException e) {
+					errorMsgs.add("課程欲售點數請填數字");
+				}
+
+				String lessloc = req.getParameter("lessloc");
+
+				java.sql.Date lessstart = java.sql.Date.valueOf(req.getParameter("lessstart"));
+				java.sql.Date lessend = java.sql.Date.valueOf(req.getParameter("lessend"));
+
+				
+				Integer lesstimes = null;
+				try {
+					lesstimes = new Integer(req.getParameter("lesstimes").trim());
+
+				} catch (NumberFormatException e) {
+					lessprice = 0;
+					errorMsgs.add("課程堂數請填數字");
+				}
+
+				String lessdesc = req.getParameter("lessdesc");
+				//拿現在人數
+				int lesscur =0;
+				//圖片
+				byte[] img=null;
+				Part part = req.getPart("lesspic");
+				InputStream in = part.getInputStream();
+				if(in.available()>0) {
+					img = new byte[in.available()];
+					in.read(img);
+					
+				}else {
+					LessonService lessSvc = new LessonService();
+					LessonVO LessVO = lessSvc.getOneByPK(lessno);
+					img = LessVO.getLesspic();
+					
+					//拿現在人數
+					lesscur = LessVO.getLesscur(); 
+//					img=LessonVO.getLesspic();
+				}
+				
+				in.close();
+				
+				//String coano = new String (req.getParameter("coano"));
+				LessonVO LessonVO = new LessonVO();
+				LessonVO.setCoano("C001");
+				LessonVO.setLessno(lessno);
+				LessonVO.setLessname(lessname);
+				LessonVO.setLessmax(lessmax);
+				LessonVO.setLessmin(lessmin);
+				
+				LessonVO.setLesscur(0);//先寫死 想辦法撈目前資料
+				LessonVO.setLesstype(lesstype);
+				LessonVO.setLessloc(lessloc);
+				LessonVO.setLessprice(lessprice);
+				LessonVO.setLessdesc(lessdesc);
+
+				LessonVO.setLessstart(lessstart);
+				LessonVO.setLessend(lessend);
+				LessonVO.setLesssta("未成團");
+				LessonVO.setLesstimes(lesstimes);
+				
+//				Part part = req.getPart("lesspic");
+//				InputStream in = part.getInputStream();
+//				byte[] img = new byte[in.available()];
+//				in.read(img);
+				LessonVO.setLesspic(img);
+				
+
+				if (!errorMsgs.isEmpty()) {
+					for (String str : errorMsgs) {
+					}
+					
+					req.setAttribute("LessonVO", LessonVO); // 含有輸入格式錯誤的LessonVO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/updateLesson.jsp");
+					failureView.forward(req, res);
+					return;//程式中斷
+				}
+
+				/*************************** 2.開始修改資料***************************************/
+				LessonService LessonSvc = new LessonService();
+				LessonVO = LessonSvc.updateLesson(lessno,"C001",lessname, lessmax, lessmin,lesscur ,lesstype, lessloc, lessprice,
+						lessdesc, lessstart, lessend, "未成團", lesstimes, img);
+
+				/*************************** 3.修改完成,準備轉交(Send the Success view) ***********/
+				req.setAttribute("LessonVO",LessonVO);// 資料庫update成功後,正確的的LessonVO物件,存入req
+				String url = "/front-end/lesson/selectOneLesson.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:"+e.getMessage());
+
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/lesson/updateLesson.jsp");
+				failureView.forward(req, res);
+
+			}
+		}
+	}
+
+}

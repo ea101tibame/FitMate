@@ -1,0 +1,407 @@
+package com.deposit.model;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
+public class DepJDBCDAO implements DepDAO_interface {
+	String driver = "oracle.jdbc.driver.OracleDriver";
+	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	String userid = "EA101G5";
+	String passwd = "EA101G5";
+
+	private static final String INSERT_STMT = "INSERT INTO deposit (depno,stuno,depdate,depprice) VALUES ((to_char(sysdate,'yyyymmdd')||'-DEP'||LPAD(to_char(deposit_seq.NEXTVAL), 3, '0'), ?, ?, ?)";
+	private static final String GET_ONE_STMT = "SELECT depno,stuno,depdate,depprice FROM deposit where depno = ?";
+	private static final String GET_ALL_STMT = "SELECT * FROM deposit order by depno";
+
+	@Override
+	public void insert(DepVO depVO) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(INSERT_STMT);
+
+			pstmt.setString(1, depVO.getStuno());
+			pstmt.setTimestamp(2, depVO.getDepdate());
+			pstmt.setInt(3, depVO.getDepprice());
+			pstmt.setString(4, depVO.getDepno());
+			
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void update(DepVO depVO) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(UPDATE);
+			
+			pstmt.setString(1, depVO.getStuno());
+			pstmt.setTimestamp(2, depVO.getDepdate());
+			pstmt.setInt(3, depVO.getDepprice());
+			pstmt.setString(4, depVO.getDepno());
+			
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void delete(String coano) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(DELETE);
+
+			pstmt.setString(1, coano);
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+	@Override
+	public CoaVO findByPrimaryKey(String coano) {
+
+		CoaVO coaVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+
+			pstmt.setString(1, coano);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				
+				coaVO = new CoaVO();
+				coaVO.setCoano(rs.getString("coano"));
+				coaVO.setCoaname(rs.getString("coaname"));
+				coaVO.setCoapsw(rs.getString("coapsw"));
+				coaVO.setCoamail(rs.getString("coamail"));
+				coaVO.setCoatel(rs.getString("coatel"));
+				coaVO.setCoaacc(rs.getString("coaacc"));
+				coaVO.setCoapoint(rs.getInt("coapoint"));
+				coaVO.setCoasta(rs.getString("coasta"));
+//				coaVO.setCoapic(rs.getBytes("coapic"));
+				coaVO.setCoasex(rs.getString("coasex"));
+				coaVO.setCoasctotal(rs.getInt("coasctotal"));
+				coaVO.setCoascqty(rs.getInt("coascqty"));
+
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return coaVO;
+	}
+
+	@Override
+	public List<CoaVO> getAll() {
+		List<CoaVO> list = new ArrayList<CoaVO>();
+		CoaVO coaVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALL_STMT);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				
+				coaVO = new CoaVO();
+				coaVO.setCoano(rs.getString("coano"));
+				coaVO.setCoaname(rs.getString("coaname"));
+				coaVO.setCoapsw(rs.getString("coapsw"));
+				coaVO.setCoamail(rs.getString("coamail"));
+				coaVO.setCoatel(rs.getString("coatel"));
+				coaVO.setCoaacc(rs.getString("coaacc"));
+				coaVO.setCoapoint(rs.getInt("coapoint"));
+				coaVO.setCoasta(rs.getString("coasta"));
+//				coaVO.setCoapic(rs.getBytes("coapic"));
+				coaVO.setCoasex(rs.getString("coasex"));
+				coaVO.setCoasctotal(rs.getInt("coasctotal"));
+				coaVO.setCoascqty(rs.getInt("coascqty"));
+				list.add(coaVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	public static byte[] getPicByteArray(String path) throws IOException {
+		File pic = new File(path);
+		FileInputStream fis = new FileInputStream(pic);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] eachBuffer = new byte[4096];// 一次送多少出去
+		int currentBytes;// 當前送多少bytes出去 (ex:總共有200 bytes，一次送150
+							// bytes，所以會送三次，每次currentBytes分別為150，150，50)
+		while ((currentBytes = fis.read(eachBuffer)) != -1) {
+			baos.write(eachBuffer, 0, currentBytes);
+		}
+		baos.close();
+		fis.close();
+		return baos.toByteArray();// 回傳管子內建的byte陣列，取得裝有位元資料的byte陣列 陣列
+	}
+
+	public static void main(String[] args) {
+
+		CoaJDBCDAO dao = new CoaJDBCDAO();
+
+		// insert
+//		CoaVO coaVO1 = new CoaVO();
+//		coaVO1.setCoaname("大吳教練");
+//		coaVO1.setCoapsw("peter123");
+//		coaVO1.setCoamail("peter123@gmail.com");
+//		coaVO1.setCoatel("0988088888");
+//		coaVO1.setCoaacc("52366899555123");
+//		coaVO1.setCoapoint(100000);
+//		coaVO1.setCoasta("非停權");
+//		coaVO1.setCoasex("男");
+//		coaVO1.setCoasctotal(100);
+//		coaVO1.setCoascqty(1000);
+//
+//		try {
+//			byte[] pic = getPicByteArray("WebContent/coach-image/C011.jpg");
+//			coaVO1.setCoapic(pic);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		dao.insert(coaVO1);
+
+		// update
+		
+//		CoaVO coaVO2 = new CoaVO();
+//		coaVO2.setCoaname("吳神教練");
+//		coaVO2.setCoapsw("peter123");
+//		coaVO2.setCoamail("peter123@gmail.com");
+//		coaVO2.setCoatel("0988088888");
+//		coaVO2.setCoaacc("52366899555123");
+//		coaVO2.setCoapoint(100000);
+//		coaVO2.setCoasta("非停權");
+//		coaVO2.setCoasex("男");
+//		coaVO2.setCoasctotal(100);
+//		coaVO2.setCoascqty(1000);
+//		coaVO2.setCoano("C011");
+//		
+//		dao.update(coaVO2);
+//
+//		//delete
+//		dao.delete("C011");
+//
+		// find one
+//		CoaVO coaVO3 = dao.findByPrimaryKey("C010");
+//		System.out.print(coaVO3.getCoano() + ",");
+//		System.out.print(coaVO3.getCoaname() + ",");
+//		System.out.print(coaVO3.getCoapsw() + ",");
+//		System.out.print(coaVO3.getCoamail() + ",");
+//		System.out.print(coaVO3.getCoatel() + ",");
+//		System.out.print(coaVO3.getCoaacc() + ",");
+//		System.out.print(coaVO3.getCoapoint() + ",");
+//		System.out.print(coaVO3.getCoasta() + ",");
+//		System.out.print(coaVO3.getCoasex() + ",");
+//		System.out.print(coaVO3.getCoasctotal() + ",");
+//		System.out.print(coaVO3.getCoascqty());
+
+//
+////		System.out.println("---------------------");
+//
+////		// find all
+		List<CoaVO> list = dao.getAll();
+		for (CoaVO aCoa : list) {
+
+			System.out.print(aCoa.getCoano() + ",");
+			System.out.print(aCoa.getCoaname() + ",");
+			System.out.print(aCoa.getCoapsw() + ",");
+			System.out.print(aCoa.getCoamail() + ",");
+			System.out.print(aCoa.getCoatel() + ",");
+			System.out.print(aCoa.getCoaacc() + ",");
+			System.out.print(aCoa.getCoapoint() + ",");
+			System.out.print(aCoa.getCoasta() + ",");
+			System.out.print(aCoa.getCoasex() + ",");
+			System.out.print(aCoa.getCoasctotal() + ",");
+			System.out.print(aCoa.getCoascqty() + ",");
+			
+
+			System.out.println();
+		}
+	}
+
+	@Override
+	public void insert(DepVO depVO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(DepVO depVO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DepVO findByPrimaryKey(String depno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
