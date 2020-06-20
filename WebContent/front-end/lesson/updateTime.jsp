@@ -12,7 +12,7 @@
 <%
 List<LessonTimeVO> Timelist = (List<LessonTimeVO>)request.getAttribute("Timelist");
 LessonVO lessonVO = (LessonVO)request.getAttribute("lessonVO");
-out.print(lessonVO.getLessno());
+
 pageContext.setAttribute("Timelist",Timelist);
 %>
 <!DOCTYPE html>
@@ -175,9 +175,10 @@ pageContext.setAttribute("Timelist",Timelist);
 
 										<select class="custom-select d-block " name="ltime_ss">
 
-										<option value="<c:if test="${lessonTimeVO.ltime_ss=='早上'}">早上</c:if>"selected>早上</option>
-										<option value="<c:if test="${lessonTimeVO.ltime_ss=='下午'}">下午</c:if>"selected>下午</option>
-										<option value="<c:if test="${lessonTimeVO.ltime_ss=='晚上'}">晚上</c:if>"selected>晚上</option>
+										<option value="早上" <c:if test="${lessonTimeVO.ltime_ss=='早上'}"> selected="selected"</c:if>>早上</option>
+										<option value="下午" <c:if test="${lessonTimeVO.ltime_ss=='下午'}"> selected="selected"</c:if>>下午</option>
+										<option value="晚上" <c:if test="${lessonTimeVO.ltime_ss=='晚上'}"> selected="selected"</c:if>>晚上</option>
+										
 										</select>
 									</div>
 									<input type="hidden" name="ltime_no" value="${lessonTimeVO.ltime_no}">
@@ -189,6 +190,7 @@ pageContext.setAttribute("Timelist",Timelist);
 							<input type="hidden" name="lesstimes" value="<%=lessonVO.getLesstimes() %>">
 							<input type="hidden" name="lessend" value="<%=lessonVO.getLessend() %>">
 							<input type="hidden" name="lessno" value="<%=lessonVO.getLessno()%>">
+							
 							
 							<input type="hidden" name="action" value="update_time">							
 							<button class="btn btn-primary btn-lg btn-block" type="submit">送出時段修改</button>

@@ -27,7 +27,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	private static final String UPDATE = "UPDATE LESSON_TIME set LTIME_DATE =?, LTIME_SS=? where LTIME_NO =? ";
 	private static final String DELETE_LessonDetail = "DELETE FROM LESSON_DETAIL where LTIME_NO =?";
 	private static final String DELETE_LessonTime = "DELETE FROM LESSON_TIME where LTIME_NO =?";
-	private static final String GET_ONE = "SELECT lessno,ltime_date,ltime_ss FROM lesson_detail JOIN lesson_time ON lesson_time.ltime_no=lesson_detail.ltime_no WHERE lessno=?";
+	private static final String GET_ONE = "SELECT lesson_detail.ltime_no,ltime_date,ltime_ss FROM lesson_detail JOIN lesson_time ON lesson_time.ltime_no=lesson_detail.ltime_no WHERE lessno=?";
 	private static final String GET_ALL = "SELECT * FROM LESSON_TIME";
 	private static final String GET_CoachAlltimes = "SELECT LTIME_DATE,LTIME_SS FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String INSERT_DTEAIL = "INSERT INTO LESSON_DETAIL VALUES (?,?)";
@@ -37,45 +37,44 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String next_time = null;
-		ResultSet rs =null;
+		ResultSet rs = null;
 		try {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			// 1.設定於pstmt.executeUpdate()之前
-			con.setAutoCommit(false);//開始交易
-			
+			con.setAutoCommit(false);// 開始交易
+
 			String cols[] = { "ltime_no" };
-			
-				pstmt = null;
-				pstmt = con.prepareStatement(INSERT,cols);
-				pstmt.setDate(1, LessonTimeVO.getLtime_date());
-				pstmt.setString(2, LessonTimeVO.getLtime_ss());
-				pstmt.executeUpdate();
-				
-				// 取得對應的自增主鍵值
-				rs = pstmt.getGeneratedKeys();//拿出pstmt = con.prepareStatement(INSERT_ORDER, cols);剛剛新增的訂單編號
-				if (rs.next()) {
-					next_time = rs.getString(1);
-					System.out.println("自增主鍵值 = " + next_time + "(剛新增成功的訂單編號)");
-					
-				} else {
-					System.out.println("未取得自增主鍵值");
-				}
-				rs.close();
-				pstmt = null;
-				pstmt = con.prepareStatement(INSERT_DTEAIL);
-				pstmt.setString(1,lessno);
-				pstmt.setString(2, next_time);
-				pstmt.executeUpdate();
-				pstmt.clearParameters();
-			
-			
+
+			pstmt = null;
+			pstmt = con.prepareStatement(INSERT, cols);
+			pstmt.setDate(1, LessonTimeVO.getLtime_date());
+			pstmt.setString(2, LessonTimeVO.getLtime_ss());
+			pstmt.executeUpdate();
+
+			// 取得對應的自增主鍵值
+			rs = pstmt.getGeneratedKeys();// 拿出pstmt = con.prepareStatement(INSERT_ORDER, cols);剛剛新增的訂單編號
+			if (rs.next()) {
+				next_time = rs.getString(1);
+				System.out.println("自增主鍵值 = " + next_time + "(剛新增成功的訂單編號)");
+
+			} else {
+				System.out.println("未取得自增主鍵值");
+			}
+			rs.close();
+			pstmt = null;
+			pstmt = con.prepareStatement(INSERT_DTEAIL);
+			pstmt.setString(1, lessno);
+			pstmt.setString(2, next_time);
+			pstmt.executeUpdate();
+			pstmt.clearParameters();
+
 			// 2.設定於pstmt.executeUpdate()之後
-						//這連線還要回來這裡操作 進行交易 下面的方法還不能關
-			con.commit();//所以在交易之前 有任何問題 都是rollback
+			// 這連線還要回來這裡操作 進行交易 下面的方法還不能關
+			con.commit();// 所以在交易之前 有任何問題 都是rollback
 			con.setAutoCommit(true);
-			
+
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -225,7 +224,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 			while (rs.next()) {
 
 				LessonTimeVO = new LessonTimeVO();
-				LessonTimeVO.setLtime_no(rs.getString("lessno"));
+				LessonTimeVO.setLtime_no(rs.getString("ltime_no"));
 				LessonTimeVO.setLtime_date(rs.getDate("ltime_date"));
 				LessonTimeVO.setLtime_ss(rs.getString("ltime_ss"));
 				list.add(LessonTimeVO);
@@ -400,13 +399,13 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //	
 //	System.out.println("新增成功");
 //	
-	LessonTimeVO testUpdate = new LessonTimeVO();
-	testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
-	testUpdate.setLtime_ss("下午");
-	testUpdate.setLtime_no("LT033");
-	dao.update(testUpdate);
-	System.out.println("修改成功");
-	
+		LessonTimeVO testUpdate = new LessonTimeVO();
+		testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
+		testUpdate.setLtime_ss("下午");
+		testUpdate.setLtime_no("LT033");
+		dao.update(testUpdate);
+		System.out.println("修改成功");
+
 //	//同時刪除
 //	dao.delete("LT010");
 //	System.out.println("刪除成功");
@@ -419,11 +418,11 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //			System.out.println();
 //		}
 //	
-		List<LessonTimeVO> testFindOne =dao.findByPrimaryKey("L001");
+		List<LessonTimeVO> testFindOne = dao.findByPrimaryKey("L001");
 		for (LessonTimeVO aLT : testFindOne) {
-	System.out.println(aLT.getLtime_no());
-	System.out.println(aLT.getLtime_date());
-	System.out.println(aLT.getLtime_ss());
+			System.out.println(aLT.getLtime_no());
+			System.out.println(aLT.getLtime_date());
+			System.out.println(aLT.getLtime_ss());
 		}
 //		JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
 //		System.out.println(allLessonTimeArray);
