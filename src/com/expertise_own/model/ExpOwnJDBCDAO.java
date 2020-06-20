@@ -22,7 +22,7 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT coano, expno FROM expertise_own where coano=? and expno = ?";
 	private static final String GET_ALL_STMT = "SELECT * FROM expertise_own order by expno";
 	private static final String GET_BY_CAONO_STMT = "SELECT * FROM expertise_own WHERE coano = ? order by expno";
-	private static final String GET_BY_EXPNO_STMT = "SELECT * FROM expertise_own WHERE expno = ? order by coano";
+	private static final String GET_BY_EXPNO_STMT = "SELECT * FROM expertise_own WHERE expno = ?";
 
 	@Override
 	public void insert(ExpOwnVO expownVO) {
@@ -292,7 +292,7 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 			Class.forName(ProjectConfig.JDBC_DRIVER);
 			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
 					ProjectConfig.JDBC_USER_PW);
-			pstmt = con.prepareStatement(GET_BY_CAONO_STMT);
+			pstmt = con.prepareStatement(GET_BY_EXPNO_STMT);
 			pstmt.setString(1, expno);
 			rs = pstmt.executeQuery();
 
@@ -356,10 +356,10 @@ public class ExpOwnJDBCDAO implements ExpOwnDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
 				expownVO = new ExpOwnVO();
 				expownVO.setCoano(rs.getString("coano"));
 				expownVO.setExpno(rs.getString("expno"));
+				expownVO.setExpown(rs.getBytes("expown"));
 				list.add(expownVO); // Store the row in the list
 			}
 

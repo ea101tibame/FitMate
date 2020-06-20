@@ -4,17 +4,13 @@ public class ExpOwnVO implements java.io.Serializable {
 
 	private String coano;
 	private String expno;
+	private byte[] expown;
+
+	// for front-end display not in the data schema
 	private String expdesc;
 
-	public String getExpdesc() {
-		return expdesc;
-	}
-
-	public void setExpdesc(String expdesc) {
-		this.expdesc = expdesc;
-	}
-
-	private byte[] expown;
+	// for front-end display not in the data schema
+	private String expownStr;
 
 	public String getCoano() {
 		return coano;
@@ -38,6 +34,22 @@ public class ExpOwnVO implements java.io.Serializable {
 
 	public void setExpown(byte[] expown) {
 		this.expown = expown;
+	}
+
+	public String getExpdesc() {
+		return expdesc;
+	}
+
+	public void setExpdesc(String expdesc) {
+		this.expdesc = expdesc;
+	}
+
+	public String getExpownStr() {
+		return expownStr;
+	}
+
+	public void setExpownStr(String expownStr) {
+		this.expownStr = expownStr;
 	}
 
 }

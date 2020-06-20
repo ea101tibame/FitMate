@@ -7,11 +7,8 @@
 
 <!-- TODO 表格美化  -->
 
-
 <%
-	CoaService coaSvc = new CoaService();
-	List<CoaVO> list = coaSvc.getAll();
-	pageContext.setAttribute("list", list);
+	pageContext.setAttribute("context", request.getContextPath());
 %>
 <!DOCTYPE html>
 <html>
@@ -21,41 +18,91 @@
 
 <style>
 body {
-<%-- 	background:
-		url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
-	background-position: center center; --%>
+
+}
+.frame {  
+    height: 160px; /*can be anything*/
+    width: 160px; /*can be anything*/
+    position: relative;
+    margin:0px auto;
+}
+img.expown {  
+    max-height: 100%;  
+    max-width: 100%; 
+    width: auto;
+    height: auto;
+    position: absolute;  
+    top: 0;  
+    bottom: 0;  
+    left: 0;  
+    right: 0;  
+    margin: auto;
+}
+h4{
+    color: navy;
+    width: 800px;
+    
+}
+#back { 
+	background-color: #FFCC80;
+	color: #000;
+	left: 93%;
+	border: none;
+	position: absolute;
+	/* width: 75px; */
+	margin-top: 2% !important;
+	/* right: 3%; */
+	right: 0;
+	top: 0;
+}
+
+#back:hover { 
+	background-color: #F8b300;
+	color: #000;
 }
 </style>
 </head>
 
 <body>
-
 	<%@ include file="/back-end/backinclude.jsp"%>
-
-	<!-- 主要內文區開始 -->
 	<div class="article side-open">
-		<!-- logo區開始 -->
 		<div id="logo">
-			<img src="<%=request.getContextPath()%>/images/backend_public/logo.png" alt="">
+			<img src="${context}/images/backend_public/logo.png" alt="">
 		</div>
-		<!-- logo區結束 -->
-
-
-		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
 		<div id="main">
-			<h2>教練管理</h2>
+			<h2>專長詳情</h2><br>
+			<h4>教練編號：${coaVO.coano}</h4><br>
+			<h4>教練姓名：${coaVO.coaname}</h4><br>
+			<h4>關於我：</h4><h4>${coaVO.coaintro}</h4><br>
 		</div>
-		<%-- 錯誤表列 --%>
-		<c:if test="${not empty errorMsgs}">
-			<font style="color: red">請修正以下錯誤:</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red">${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
-			<table id="table" class="display"></table>
-			<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
+		<div class="card-group">
+			<c:forEach var="expOwnVO" items="${expOwnVOs}">
+				<div class="card">
+					<div class="frame">
+					<a href="#" class="pop">
+						<img src="data:image/png;base64,${expOwnVO.expownStr}" class="card-img-top expown" style="width: 400px; height: 400px;" alt="證照或獎狀圖">
+						</a>
+						<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" data-dismiss="modal">
+						    <div class="modal-content"  >              
+						      <div class="modal-body">
+						        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						        <img src="" class="imagepreview" style="width: 100%;" >
+						      </div> 
+						    </div>
+						  </div>
+						</div>
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">${expOwnVO.expno}</h5>
+						<p class="card-text">
+						<small class="text-muted">${expOwnVO.expdesc}</small>
+						</p>
+					</div>
+				</div>
+			</c:forEach>	
+		</div>
+	</div>
 </body>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -71,16 +118,22 @@ body {
 <script src="https://unpkg.com/bootstrap-table@1.15.4/dist/extensions/editable/bootstrap-table-editable.min.js"></script>
 <!-- bootstrap table & editable dependency -->
 
-
 <script>
-	var context = "<%=request.getContextPath()%>"
+	/* pass value to js */
+	var context = "${context}";
+	var coano = "${coano}";
 </script>
 
+<!-- custom js -->
 
-<script src="<%=request.getContextPath()%>/js/custom-js/coach/listAllCoach.js"></script>
+<script src="${context}/js/custom-js/coach/listOneCoach.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"></meta>
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/css/backend.css">
+
+	<div class="back">
+		<button class="btn btn-outline-success my-2 my-sm-0" onclick="goBack()" id="back">回上頁</button>
+	</div>
 
 </html>

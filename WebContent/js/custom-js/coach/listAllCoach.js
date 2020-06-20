@@ -15,29 +15,23 @@ $(document).ready(function() {
 		pagination : true,
 		pageSize : 10,
 		pageList : [ 10, 25, 50, 100 ],
+		search : true,
 		columns : [ {
 			field : 'coano',
-			title : '編號'
+			title : '編號',
+			align : 'center',
 		}, {
 			field : 'coaname',
 			title : '姓名',
-		}, {
-			field : 'coapsw',
-			title : '密碼',
-			width : '10%',
-			align : 'center',
+			align : 'center'
 		}, {
 			field : 'coamail',
-			title : '信箱'
+			title : '信箱',
+			align : 'center'
 		}, {
 			field : 'coatel',
 			title : '電話',
-		}, {
-			field : 'coaacc',
-			title : '匯款帳戶'
-		}, {
-			field : 'coapoint',
-			title : '點數'
+			align : 'center'
 		}, {
 			field : 'coasta',
 			title : '狀態',
@@ -50,8 +44,12 @@ $(document).ready(function() {
 				}, {
 					text : "未授權",
 					value : "未授權"
+				}, {
+					text : "停權",
+					value : "停權"
 				} ]
-			}
+			},
+			sortable : true
 		}, {
 			field : 'coapic',
 			title : '照片',
@@ -60,24 +58,33 @@ $(document).ready(function() {
 			}
 		}, {
 			field : 'coasex',
-			title : '性別'
-		},
-		// {
-		// field : 'coaintro',
-		// title : '自我介紹'
-		// },
-		{
+			title : '性別',
+			align : 'center'
+		}, {
 			field : 'coasctotal',
-			title : '總評價分數'
+			title : '總評價分數',
+			align : 'center'
 		}, {
 			field : 'coascqty',
-			title : '總評價人數'
+			title : '總評價人數',
+			align : 'center'
+		}, {
+			title : '專長',
+			formatter : function(value, row, index) {
+				return `<form METHOD="post"
+						action="${context}/coach/coach.do"
+						style="margin-bottom: 0px;">
+						<input type="submit" class="btn btn-outline-primary" value="詳情">
+						<input type="hidden" name="action" value="BackendGetOneForUpdate">
+						<input type="hidden" name="coano" value="${row.coano}">
+					</form>`
+			}
 		} ],
 		onEditableSave : function(field, row, oldValue, $el) {
 			$.ajax({
 				type : "post",
 				url : context + "/coach/coach.do",
-				data : "action=BackendUpdate&coano="+row.coano+"&coasta=" + row.coasta,
+				data : "action=BackendUpdate&coano=" + row.coano + "&coasta=" + row.coasta,
 				success : function(data, status) {
 					if (data.error_code == "0") {
 						alert('提交資料成功');
@@ -89,6 +96,6 @@ $(document).ready(function() {
 				complete : function() {
 				}
 			});
-		}
+		},
 	})
 });

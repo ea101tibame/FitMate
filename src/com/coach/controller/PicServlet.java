@@ -28,7 +28,7 @@ public class PicServlet extends HttpServlet {
 			byte[] buf = coaVO.getCoapic();
 			out.write(buf);
 		} catch (Exception e) {
-			InputStream in = getServletContext().getResourceAsStream("/images/noData/null2.jpg/");
+			InputStream in = getServletContext().getResourceAsStream("/images/noData/nopic.png/");
 			byte[] b = new byte[in.available()];
 			in.read(b);
 			out.write(b);

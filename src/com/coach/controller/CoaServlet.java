@@ -26,6 +26,8 @@ import com.expertise.model.ExpVO;
 import com.expertise_own.model.ExpOwnService;
 import com.expertise_own.model.ExpOwnVO;
 
+import sun.misc.BASE64Encoder;
+
 @MultipartConfig
 public class CoaServlet extends HttpServlet {
 
@@ -50,7 +52,7 @@ public class CoaServlet extends HttpServlet {
 				jSONObject.put("coapic", coaVO.getCoapic());
 				jSONObject.put("coasex", coaVO.getCoasex());
 				jSONObject.put("coaintro", coaVO.getCoaintro());
-				jSONObject.put("coasctotal", coaVO.getCoatel());
+				jSONObject.put("coasctotal", coaVO.getCoasctotal());
 				jSONObject.put("coascqty", coaVO.getCoascqty());
 				jsonArray.put(jSONObject);
 			}
@@ -227,6 +229,9 @@ public class CoaServlet extends HttpServlet {
 				for (ExpOwnVO expOwnVO : expOwnVOs) {
 					ExpVO expVO = expService.getOneExp(expOwnVO.getExpno());
 					expOwnVO.setExpdesc(expVO.getExpdesc());
+
+					BASE64Encoder encoder = new BASE64Encoder();
+					expOwnVO.setExpownStr(encoder.encode(expOwnVO.getExpown()));
 				}
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("coaVO", coaVO); // 資料庫取出的coaVO物件,存入req
