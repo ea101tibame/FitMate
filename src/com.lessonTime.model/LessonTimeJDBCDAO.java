@@ -14,6 +14,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.lesson.model.LessonService;
+import com.lesson.model.LessonVO;
 import com.lessonDetail.model.LessonDetailJDBCDAO;
 import com.lessonDetail.model.LessonDetailVO;
 
@@ -31,7 +33,8 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	private static final String GET_ALL = "SELECT * FROM LESSON_TIME";
 	private static final String GET_CoachAlltimes = "SELECT LTIME_DATE,LTIME_SS FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String INSERT_DTEAIL = "INSERT INTO LESSON_DETAIL VALUES (?,?)";
-
+//	private static final String GET_TIMES = "SELECT LESSTIMES FROM LESSON WHERE LESSNO=?";
+//	private static final String UPDATE_TIMES = "UPDATE LESSON SET LESSTIMES=?WHERE LESSNO=?";
 	@Override
 	public void insert(LessonTimeVO LessonTimeVO, String lessno) {
 		Connection con = null;
@@ -143,7 +146,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	}
 
 	@Override
-	public void delete(String ltime_no) {
+	public void delete(String ltime_no,String lessno) {
 		int updateCount_ltime_no = 0;
 
 		Connection con = null;
@@ -166,6 +169,24 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 			pstmt.setString(1, ltime_no);
 			pstmt.executeUpdate();
 
+			//先把此課程的堂數查出來 減一
+//			ResultSet rs = null;
+//			pstmt = con.prepareStatement(GET_TIMES);
+//			pstmt.setString(1, lessno);
+//
+//			rs = pstmt.executeQuery();
+//			int times = 0;
+//					
+//			while (rs.next()) {
+//				LessonVO lessonVO= new LessonVO();
+//				lessonVO.setLesstimes(rs.getInt("lesstimes"));
+//				
+//			}
+			LessonService lessonSvc = new LessonService();
+			lessonSvc.getOneByPK(lessno);
+			
+			//在更新他的堂數 減一
+			
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
@@ -399,15 +420,15 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //	
 //	System.out.println("新增成功");
 //	
-		LessonTimeVO testUpdate = new LessonTimeVO();
-		testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
-		testUpdate.setLtime_ss("下午");
-		testUpdate.setLtime_no("LT033");
-		dao.update(testUpdate);
-		System.out.println("修改成功");
+//		LessonTimeVO testUpdate = new LessonTimeVO();
+//		testUpdate.setLtime_date(java.sql.Date.valueOf("2020-07-02"));
+//		testUpdate.setLtime_ss("下午");
+//		testUpdate.setLtime_no("LT033");
+//		dao.update(testUpdate);
+//		System.out.println("修改成功");
 
-//	//同時刪除
-//	dao.delete("LT010");
+//	//同時刪除 並更新堂數
+//	dao.delete("LT001");
 //	System.out.println("刪除成功");
 //	
 //	List<LessonTimeVO> list = dao.getAll();
@@ -418,12 +439,12 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //			System.out.println();
 //		}
 //	
-		List<LessonTimeVO> testFindOne = dao.findByPrimaryKey("L001");
-		for (LessonTimeVO aLT : testFindOne) {
-			System.out.println(aLT.getLtime_no());
-			System.out.println(aLT.getLtime_date());
-			System.out.println(aLT.getLtime_ss());
-		}
+//		List<LessonTimeVO> testFindOne = dao.findByPrimaryKey("L001");
+//		for (LessonTimeVO aLT : testFindOne) {
+//			System.out.println(aLT.getLtime_no());
+//			System.out.println(aLT.getLtime_date());
+//			System.out.println(aLT.getLtime_ss());
+//		}
 //		JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
 //		System.out.println(allLessonTimeArray);
 	}

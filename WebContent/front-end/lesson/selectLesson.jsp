@@ -223,8 +223,7 @@ width:200px;
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-<%-- 			     <input type="submit" value="下架" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if> > --%>
-			    <button type="submit" class="btn btn-secondary" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>下架</button>
+			  	 <button type="submit" class="btn btn-secondary" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>下架</button>
 			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
 			     <input type="hidden" name="action" value="off_lesson"></FORM>
 			</td>

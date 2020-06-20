@@ -184,10 +184,15 @@
 
 
 								<div class="mb-3">
-									<label for="address">課程欲售點數</label> <input type="text"
+<!-- 									<label for="address">課程欲售點數</label> <input type="text" -->
+<!-- 										class="form-control" name="lessprice" -->
+<%-- 										value="<%=lessonVO.getLessprice()%>"> --%>
+										
+									<input type="text"
+										class="form-control" disabled value="<%=lessonVO.getLessprice()%>"><li style="color: red" font-size="16px">課程欲售點數不可修改</li></input>
+									<input type="hidden"
 										class="form-control" name="lessprice"
-										value="<%=lessonVO.getLessprice()%>">
-
+										value="<%=lessonVO.getLessprice()%>" >
 								</div>
 
 								<div class="mb-3">
@@ -213,10 +218,12 @@
 								<div class="mb-3">
 									<label for="address" >課程堂數</label>
 									 <input type="text"
-										class="form-control" disabled value="<%=lessonVO.getLesstimes()%>"><li style="color: red" font-size="16px">堂數修改請至時段修改</li></input>
+										class="form-control" disabled value="<%=lessonVO.getLesstimes()%>"><li style="color: red" font-size="16px">堂數不可修改</li></input>
 									<input type="hidden"
 										class="form-control" name="lesstimes"
 										value="<%=lessonVO.getLesstimes()%>" >
+
+
 
 								</div>
 

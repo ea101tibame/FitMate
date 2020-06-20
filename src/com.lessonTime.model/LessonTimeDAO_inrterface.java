@@ -13,7 +13,7 @@ public interface LessonTimeDAO_inrterface {
 	
 	public void update(LessonTimeVO LessonTimeVO);
 	 
-	public void delete(String ltime_no);
+	public void delete(String ltime_no,String lessno);
 	
 	//查單筆 時段
 	public List<LessonTimeVO> findByPrimaryKey(String lessno);

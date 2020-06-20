@@ -160,6 +160,7 @@ pageContext.setAttribute("Timelist",Timelist);
 										<label  class="title">請選擇要修改的時段</label>
 										<br>
 									</div>
+									<!-- 撈回之前的 -->
 								<c:forEach var="lessonTimeVO" items="${Timelist}">
 
 									<!-- 截止之後的時間 才可以選-->
@@ -183,6 +184,7 @@ pageContext.setAttribute("Timelist",Timelist);
 									</div>
 									<input type="hidden" name="ltime_no" value="${lessonTimeVO.ltime_no}">
 								</c:forEach>
+
 								</div>
 							</div>
 							<hr class="mb-4">
@@ -196,6 +198,8 @@ pageContext.setAttribute("Timelist",Timelist);
 							<button class="btn btn-primary btn-lg btn-block" type="submit">送出時段修改</button>
 						</form>
 						<!--表單結束-->
+					
+					
 					</div>
 				</div>
 			</div>
