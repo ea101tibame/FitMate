@@ -197,31 +197,40 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 										strdate=date.split(",");
 										var strtime= new Array();
 										strtime = time.split(",,");
-										
-										var putto = [];	
-										for(var i=0;i<strdate.length;i++){
-											console.log(strdate[i]+strtime[i]);
-											putto.push(strdate[i]+strtime[i]);
+										console.log(strdate[0]);
+										console.log(strtime[1]);
+										var dates=[];
+										var times=[];
+ 										
+										for(var i=0;i<strdate.length;i++){											
+											dates[i]=strdate[i];
+											times[i]=strtime[i];
 										}
-										console.log(putto);
-										var jarr = JSON.stringify( putto );
-										console.log(jarr);
+										console.log(dates);
+										console.log(times);
+										var jarrdate = JSON.stringify( dates );
+										var jarrtime = JSON.stringify( times );
+										
 										
 										$.ajax({
 											type 		: 'POST', 
 											url 		: '<%=request.getContextPath()%>/lesson/checkTime', 
 											data 		: {
-															timelist:jarr
+															jarrdate:jarrdate,
+															jarrtime:jarrtime
+															
 														}, 
 											dataType 	: 'json',
+											contentType: 'application/x-www-form-urlencoded; charset=utf-8',
 											encode 		: true,
 											
-								            success:function(massge,Status){
-								                    //提示狀態
-								                    alert(Status);
-								                //將h1的值替換為servlet返回的值   
-								                $("h1").text(massge);
-								                }
+								            success: function(returnData){
+								                    console.log(returnData);
+								                },
+								           error: function(xhr, ajaxOptions, thrownError){
+								                 	console.log(xhr.status);
+								                    console.log(thrownError);
+								           		}
 								            });
 // 								var xhr = new XMLHttpRequest();
 <%-- 								xhr.open('post','<%=request.getContextPath()%>/lesson/checkTime',true); --%>

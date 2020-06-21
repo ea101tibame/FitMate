@@ -24,4 +24,6 @@ public interface LessonDAO_interface {
 	
 	public void update_off(String lessno);
 	
+	public JSONArray checkTime(String coano);
+	
 }

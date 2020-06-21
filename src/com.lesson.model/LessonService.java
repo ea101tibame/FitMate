@@ -87,5 +87,7 @@ public class LessonService {
 	public void update_off(String lessno) {
 		dao.update_off(lessno);
 	}
-	
+	public JSONArray checkTime(String coano) {
+		return dao.checkTime(coano);
+	}
 }

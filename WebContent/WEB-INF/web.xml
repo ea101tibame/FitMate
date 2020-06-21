@@ -19,6 +19,15 @@
     <url-pattern>/lesson/lesson.do</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+	<servlet-name>checkTime</servlet-name>  
+	<servlet-class>com.lesson.controller.checkTime</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>checkTime</servlet-name>
+  	<url-pattern>/lesson/checkTime</url-pattern>
+  </servlet-mapping>  
+  
    <servlet>
    	<servlet-name>PicServletJDBC</servlet-name>
    	<servlet-class>com.lesson.controller.PicServletJDBC</servlet-class>
