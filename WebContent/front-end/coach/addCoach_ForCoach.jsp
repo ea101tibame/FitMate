@@ -219,7 +219,4 @@ th, td {
 		}
 	}
 </script>
-
-
-
 </html>
