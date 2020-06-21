@@ -160,6 +160,7 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 										<label  class="title">請新增<%=lessonVO.getLesstimes() %>時段</label>
 										<br>
 									</div>
+									 
 									<% for(int i=0;i<lessonVO.getLesstimes();i++){ %>
 									<!-- 截止之後的時間 才可以選-->
 									<div class="col-md-6 mb-3">
@@ -179,6 +180,7 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 									</div>
 
 									<% }%>
+									<h1>Hello</h1>
 									<script>
 									
 									function get(){
@@ -190,33 +192,48 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 										$(".custom-select").each(function(){
 											time=time+ $(this).val()+',';
 										});
-										console.log(date);
-										console.log(time);
-										console.log(date.split(","));
-										console.log(time.split(",,"));
+										
 										var strdate= new Array(); 
 										strdate=date.split(",");
 										var strtime= new Array();
 										strtime = time.split(",,");
-										console.log(date.split(",")[1]);
-										console.log(time.split(",,")[1]);
-										console.log(strdate.length);
-										console.log(strtime.length);
-										console.log(strdate[0]+strtime[0]);
-										var putto = new Array();	
+										
+										var putto = [];	
 										for(var i=0;i<strdate.length;i++){
 											console.log(strdate[i]+strtime[i]);
-											putto=strdate[i]+strtime[i];
-											console.log(putto);//要可以放入ARRAY
+											putto.push(strdate[i]+strtime[i]);
 										}
-									}
-									
+										console.log(putto);
+										var jarr = JSON.stringify( putto );
+										console.log(jarr);
+										
+										$.ajax({
+											type 		: 'POST', 
+											url 		: '<%=request.getContextPath()%>/lesson/checkTime', 
+											data 		: {
+															timelist:jarr
+														}, 
+											dataType 	: 'json',
+											encode 		: true,
+											
+								            success:function(massge,Status){
+								                    //提示狀態
+								                    alert(Status);
+								                //將h1的值替換為servlet返回的值   
+								                $("h1").text(massge);
+								                }
+								            });
+// 								var xhr = new XMLHttpRequest();
+<%-- 								xhr.open('post','<%=request.getContextPath()%>/lesson/checkTime',true); --%>
+// 								xhr.setRequestHeader("Content-type","application/json");
+// 								xhr.send(jarr);
+										}
 									
 
 								
 									</script>
 								</div>
-							</div>
+							</div>		
 							<hr class="mb-4">
 							<input type="hidden" name="lessname" value="<%=lessonVO.getLessname() %>">
 							<input type="hidden" name="lesstimes" value="<%=lessonVO.getLesstimes() %>">
@@ -224,6 +241,8 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 							<input type="hidden" name="lessno" value="<%=lessno%>">
 							<input type="hidden" name="action" value="insert">							
 							<button class="btn btn-primary btn-lg btn-block" type="submit">此堂課程 時段建立</button>
+					
+			
 						</form>
 						<!--表單結束-->
 					</div>
