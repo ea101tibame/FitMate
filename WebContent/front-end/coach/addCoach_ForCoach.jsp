@@ -115,7 +115,7 @@ th, td {
 					<input type="FILE" id="pic" name="coapic" size="45" value="<%=(coaVO == null) ? "" : coaVO.getCoapic()%>" placeholder="請上傳圖片" />
 				</td>
 				<td>
-					<img id="previewPic" src="<%=request.getContextPath()%>/images/coach-img/user.jpg" style="width: 140px; height: 140px;">
+					<img id="previewPic" src="<%=request.getContextPath()%>/images/noData/nopic2.jpg" style="width: 140px; height: 140px;">
 					<br>
 				</td>
 			</tr>
@@ -144,14 +144,6 @@ th, td {
 					<p>${errorMsgs.coatel}</p>
 				</td>
 			</tr>
-
-			<tr>
-				<td>密碼:</td>
-				<td>
-					<input type="TEXT" name="coapsw" size="45" value="${param.coapsw}" placeholder="請輸入密碼" />
-					<p>${errorMsgs.coapsw}</p>
-				</td>
-			</tr>
 			<tr>
 				<td>信箱:</td>
 				<td>
@@ -177,23 +169,51 @@ th, td {
 			</tr>
 			<jsp:useBean id="expSvc" scope="page" class="com.expertise.model.ExpService" />
 			<tr>
+				<tr>
 				<td>專長:</td>
 				<td>
-					<select size="1" name="expno">
+					<select size="1" name="expno1">
 						<c:forEach var="ExpVO" items="${expSvc.all}">
 							<option value="${ExpVO.expno}" ${(ExpVO.expno==ExpVO.expno)? 'selected':''}>${ExpVO.expdesc}
 						</c:forEach>
 					</select>
 				</td>
+				<td>專長2:</td>
+				<td>
+					<select size="1" name="expno2">
+						<c:forEach var="ExpVO" items="${expSvc.all}">
+							<option value="${ExpVO.expno}" ${(ExpVO.expno==ExpVO.expno)? 'selected':''}>${ExpVO.expdesc}
+						</c:forEach>
+					</select>
+				</td>
+				</tr>
 			</tr>
 			<tr>
+				<tr>
 				<td>專業證照/比賽獎狀:</td>
 				<td>
-					<input type="FILE" id="picExp" name="expown" size="45" value="<%=(expownVO == null) ? "" : expownVO.getExpown()%>" placeholder="請上證照/獎狀" />
+					<input type="FILE" id="picExp" name="expown1" size="45" value="<%=(expownVO == null) ? "" : expownVO.getExpown()%>" placeholder="請上證照/獎狀" />
 				</td>
+				<td>專業證照/比賽獎狀:</td>
+				<td>
+					<input type="FILE" id="picExp2" name="expown2" size="45" value="<%=(expownVO == null) ? "" : expownVO.getExpown()%>" placeholder="請上證照/獎狀" />
+				</td>
+				</tr>
 			</tr>
 		</table>
-		<img id="previewPicExp" src="<%=request.getContextPath()%>/images/noData/none.jpg" style="width: 480px; height: 480px;">
+	
+		<table>
+		<td>
+			<tr>
+				<td>
+				<img id="previewPicExp" src="<%=request.getContextPath()%>/images/noData/nopic.jpg" style="width: 480px; height: 480px;">
+				</td>
+				<td>
+				<img id="previewPicExp2" src="<%=request.getContextPath()%>/images/noData/nopic.jpg" style="width: 480px; height: 480px;">
+				</td>
+			</tr>
+		</td>
+		</table>
 		<br>
 		<input type="hidden" name="action" value="insert" />
 		<input type="submit" value="送出新增" />
@@ -208,6 +228,9 @@ th, td {
 	});
 	$("#picExp").change(function() {
 		readURL(this, $("#previewPicExp"));
+	});
+	$("#picExp2").change(function() {
+		readURL(this, $("#previewPicExp2"));
 	});
 	function readURL(input, previewElement) {
 		if (input.files && input.files[0]) {

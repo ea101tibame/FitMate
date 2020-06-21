@@ -16,7 +16,7 @@ import com.ProjectConfig;
 
 public class CoaJDBCDAO implements CoaDAO_interface {
 
-	private static final String INSERT_STMT = "INSERT INTO coach (coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty) VALUES ('C'||LPAD(to_char(coach_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO coach (coano,coaname,coapsw,coamail,coatel,coaacc,coapic,coasex,coaintro) VALUES ('C'||LPAD(to_char(coach_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE coach set coaname=?, coapsw=?, coamail=?, coatel=?, coaacc=?, coapoint=?, coasta=?, coapic=?, coasex=?, coaintro=?, coasctotal=?, coascqty=? where coano=?";
 	private static final String DELETE = "DELETE FROM coach where coano = ?";
 	private static final String GET_ONE_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty FROM coach where coano = ?";
@@ -40,13 +40,9 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 			pstmt.setString(3, coaVO.getCoamail());
 			pstmt.setString(4, coaVO.getCoatel());
 			pstmt.setString(5, coaVO.getCoaacc());
-			pstmt.setInt(6, coaVO.getCoapoint());
-			pstmt.setString(7, coaVO.getCoasta());
-			pstmt.setBytes(8, coaVO.getCoapic());
-			pstmt.setString(9, coaVO.getCoasex());
-			pstmt.setString(10, coaVO.getCoaintro());
-			pstmt.setInt(11, coaVO.getCoasctotal());
-			pstmt.setInt(12, coaVO.getCoascqty());
+			pstmt.setBytes(6, coaVO.getCoapic());
+			pstmt.setString(7, coaVO.getCoasex());
+			pstmt.setString(8, coaVO.getCoaintro());
 			pstmt.executeUpdate();
 
 			String pk = null;
@@ -348,12 +344,9 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 //		coaVO1.setCoamail("peter123@gmail.com");
 //		coaVO1.setCoatel("0988088888");
 //		coaVO1.setCoaacc("52366899555123");
-//		coaVO1.setCoapoint(100000);
-//		coaVO1.setCoasta("未授權");
 //		coaVO1.setCoasex("男");
 //		coaVO1.setCoaintro("減肥是一輩子的事，快來找我運動吧！");
-//		coaVO1.setCoasctotal(100);
-//		coaVO1.setCoascqty(1000);
+
 //
 //		try {
 //			byte[] pic = getPicByteArray("WebContent/img/coach-image/C011.jpg");
@@ -372,12 +365,8 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 //		coaVO2.setCoamail("peter123@gmail.com");
 //		coaVO2.setCoatel("0988088888");
 //		coaVO2.setCoaacc("52366899555123");
-//		coaVO2.setCoapoint(100000);
-//		coaVO2.setCoasta("已授權");
 //		coaVO2.setCoasex("男");
 //		coaVO2.setCoaintro("減肥是一輩子的事，快來我偶運動吧！");
-//		coaVO2.setCoasctotal(100);
-//		coaVO2.setCoascqty(1000);
 //		coaVO2.setCoano("C010");
 //
 //		try {

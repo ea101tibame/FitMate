@@ -25,6 +25,8 @@ import com.expertise.model.ExpService;
 import com.expertise.model.ExpVO;
 import com.expertise_own.model.ExpOwnService;
 import com.expertise_own.model.ExpOwnVO;
+import com.utils.MailUtil;
+import com.utils.StringUtil;
 
 import sun.misc.BASE64Encoder;
 
@@ -82,12 +84,12 @@ public class CoaServlet extends HttpServlet {
 					errorMsgs.put("coaname", "教練姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 				}
 
-				String coapsw = req.getParameter("coapsw").trim();
+				String coapsw = StringUtil.genRamdomStr(6);
 				System.out.println("coapsw: " + coapsw);
-				String coapswRege = "^[A-Za-z0-9]{6,10}$";
-				if (coapsw == null || coapsw.trim().length() == 0) {
-					errorMsgs.put("coapsw", "密碼: 只能是大寫或小寫英文字母和數字 , 且長度必需在6到10之間");
-				}
+//				String coapswRege = "^[A-Za-z0-9]{6,10}$";
+//				if (coapsw == null || coapsw.trim().length() == 0) {
+//					errorMsgs.put("coapsw", "密碼: 只能是大寫或小寫英文字母和數字 , 且長度必需在6到10之間");
+//				}
 
 				String coamail = req.getParameter("coamail").trim();
 				System.out.println("coamail: " + coamail);
@@ -109,21 +111,12 @@ public class CoaServlet extends HttpServlet {
 				if (coaacc == null || coaacc.trim().length() == 0) {
 					errorMsgs.put("coaacc", "帳戶:0-9的數字，12~14個數字");
 				}
-				
-				Integer coapoint = null;
-				coapoint = new Integer(req.getParameter("coapoint"));
-				System.out.println("coapoint: " + coapoint);
-				
-				
-				String coasta = req.getParameter("coasta").trim();
-				System.out.println("coasta: " + coasta);
-				
 
-				Part part = req.getPart("coapic");
-				InputStream in = part.getInputStream();
-				byte[] coapic = new byte[in.available()];
-				in.read(coapic);
-				in.close();
+				Part picPart = req.getPart("coapic");
+				InputStream picIn = picPart.getInputStream();
+				byte[] coapic = new byte[picIn.available()];
+				picIn.read(coapic);
+				picIn.close();
 
 				String coasex = req.getParameter("coasex");
 				System.out.println("coasex: " + coasex);
@@ -134,22 +127,23 @@ public class CoaServlet extends HttpServlet {
 					errorMsgs.put("coaintro", "請輸入內容！");
 				}
 
-				String expno = req.getParameter("expno");
-				System.out.println("expno: " + expno);
+				String expno1 = req.getParameter("expno1");
+				System.out.println("expno1: " + expno1);
 
-				Part part2 = req.getPart("expown");
-				InputStream in2 = part2.getInputStream();
-				byte[] expown = new byte[in2.available()];
-				in2.read(expown);
-				in2.close();
-				
-				Integer coasctotal = null;
-				coasctotal = new Integer(req.getParameter("coasctotal"));
-				System.out.println("coasctotal: " + coasctotal);
-				
-				Integer coascqty = null;
-				coascqty = new Integer(req.getParameter("coascqty"));
-				System.out.println("coascqty: " + coascqty);
+				Part expownPart1 = req.getPart("expown1");
+				InputStream expownIn1 = expownPart1.getInputStream();
+				byte[] expown1 = new byte[expownIn1.available()];
+				expownIn1.read(expown1);
+				expownIn1.close();
+
+				String expno2 = req.getParameter("expno2");
+				System.out.println("expno2: " + expno2);
+
+				Part expownPart2 = req.getPart("expown2");
+				InputStream expownIn2 = expownPart2.getInputStream();
+				byte[] expown2 = new byte[expownIn2.available()];
+				expownIn2.read(expown2);
+				expownIn2.close();
 
 				// TODO Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {// 如果有任何錯誤訊息
@@ -160,31 +154,31 @@ public class CoaServlet extends HttpServlet {
 					coaVO.setCoamail(coamail);
 					coaVO.setCoatel(coatel);
 					coaVO.setCoaacc(coaacc);
-					coaVO.setCoapoint(0);
-					coaVO.setCoasta("未授權");
 					coaVO.setCoapic(coapic);
 					coaVO.setCoasex(coasex);
 					coaVO.setCoaintro(coaintro);
-					coaVO.setCoasctotal(0);
-					coaVO.setCoascqty(0);
-					
+
 					req.setAttribute("coaVO", coaVO); // 含有輸入格式錯誤的coaVO物件,也存入req，左邊的coaVO來自addCoach.jsp的第6行，第6行跟第8行有關，而第8行跟第100行有關
 					req.setAttribute("errorMsgs", errorMsgs);
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach_ForCoach.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 
 				/*************************** 2.開始新增資料 ***************************************/
 				CoaService coaSvc = new CoaService();
-				String coano = coaSvc.addCoa(coaname, coapsw, coamail, coatel, coaacc, coapoint, coasta, coapic, coasex, coaintro, coasctotal, coascqty);
+				String coano = coaSvc.addCoa(coaname, coapsw, coamail, coatel, coaacc, coapic, coasex, coaintro);
 
 				ExpOwnService expOwnService = new ExpOwnService();
-				expOwnService.addExpOwn(coano, expno, expown);
+				expOwnService.addExpOwn(coano, expno1, expown1);
+				expOwnService.addExpOwn(coano, expno2, expown2);
+
+				MailUtil mailUtil = new MailUtil();
+				mailUtil.sendMail(coamail, "Sign Up success!", "your password is " + coapsw);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/front-end/index.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllCoach.jsp
+				String url = "/front-end/index_ForVisitor.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
