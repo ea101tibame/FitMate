@@ -163,21 +163,58 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 									<% for(int i=0;i<lessonVO.getLesstimes();i++){ %>
 									<!-- 截止之後的時間 才可以選-->
 									<div class="col-md-6 mb-3">
-										<label >選擇授課日期</label> <input type="text"
-											class="form-control"  name="ltime_date">
+										<label >選擇授課日期</label>
+										<input type="text" class="form-control"  name="ltime_date" onchange="get()">
 
 									</div>
 									<div class="col-md-6 mb-3">
 										<label for="country">時段</label>
 
-										<select class="custom-select d-block " name="ltime_ss">
+										<select class="custom-select d-block " name="ltime_ss" onchange="get()">
 											<option value="">請選擇</option>
 											<option value="早上">早上</option>
 											<option value="下午">下午</option>
 											<option value="晚上">晚上</option>
 										</select>
 									</div>
+
 									<% }%>
+									<script>
+									
+									function get(){
+										var date='';
+										var time='';
+										$(".form-control").each(function(){
+									    	date=date+ $(this).val()+',';
+										});
+										$(".custom-select").each(function(){
+											time=time+ $(this).val()+',';
+										});
+										console.log(date);
+										console.log(time);
+										console.log(date.split(","));
+										console.log(time.split(",,"));
+										var strdate= new Array(); 
+										strdate=date.split(",");
+										var strtime= new Array();
+										strtime = time.split(",,");
+										console.log(date.split(",")[1]);
+										console.log(time.split(",,")[1]);
+										console.log(strdate.length);
+										console.log(strtime.length);
+										console.log(strdate[0]+strtime[0]);
+										var putto = new Array();	
+										for(var i=0;i<strdate.length;i++){
+											console.log(strdate[i]+strtime[i]);
+											putto=strdate[i]+strtime[i];
+											console.log(putto);//要可以放入ARRAY
+										}
+									}
+									
+									
+
+								
+									</script>
 								</div>
 							</div>
 							<hr class="mb-4">
