@@ -13,4 +13,7 @@ public interface CoaDAO_interface {
 	public CoaVO findByPrimaryKey(String coano);
 
 	public List<CoaVO> getAll();
+
+	public CoaVO findByMailNPsw(String coamail, String coapsw);
+
 }

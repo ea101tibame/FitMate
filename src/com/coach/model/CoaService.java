@@ -58,6 +58,10 @@ public class CoaService {
 		return dao.findByPrimaryKey(coano);
 	}
 
+	public CoaVO getCoaByMailNPsw(String coamail, String coapsw) {
+		return dao.findByMailNPsw(coamail, coapsw);
+	}
+
 	public List<CoaVO> getAll() {
 		return dao.getAll();
 	}

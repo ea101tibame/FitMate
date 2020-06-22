@@ -21,14 +21,14 @@
 		<servlet-name>CoaServlet</servlet-name>
 		<url-pattern>/coach/coach.do</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
-		<servlet-name>CreateCoaServlet</servlet-name>
-		<servlet-class>com.coach.controller.CreateCoaServlet</servlet-class>
+		<servlet-name>StuServlet</servlet-name>
+		<servlet-class>com.student.controller.StuServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>CreateCoaServlet</servlet-name>
-		<url-pattern>/coach/createCoa.do</url-pattern>
+		<servlet-name>StuServlet</servlet-name>
+		<url-pattern>/student/student.do</url-pattern>
 	</servlet-mapping>
 	
 </web-app>

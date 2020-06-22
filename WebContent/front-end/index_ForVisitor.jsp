@@ -10,18 +10,18 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>FitMate</title>
-<link rel="stylesheet" type="text/css" href="${context}/css/css/core-style.css">
-<link rel="stylesheet" type="text/css" href="${context}/css/custom-css/index.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/css/core-style.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/custom-css/index.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
-<link rel="stylesheet" type="text/css" href="${context}/css/custom-css/login.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/custom-css/login.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
 </head>
 <body>
 	<header class="header_area">
 		<div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
 			<nav class="classy-navbar" id="essenceNav">
-				<a class="nav-brand" href="${context}/front-end/index_ForVisitor.jsp">
-					<img src="${context}/images/core-img/logo.png" alt="">
+				<a class="nav-brand" href="<%=request.getContextPath()%>/front-end/index_ForVisitor.jsp">
+					<img src="<%=request.getContextPath()%>/images/core-img/logo.png" alt="">
 				</a>
 				<div class="classy-navbar-toggler">
 					<span class="navbarToggler">
@@ -40,10 +40,10 @@
 					<div class="classynav">
 						<ul>
 							<li>
-								<a href="${context}/front-end/index_ForVisitor.jsp">首頁</a>
+								<a href="<%=request.getContextPath()%>/front-end/index_ForVisitor.jsp">首頁</a>
 							</li>
 							<li>
-								<a href="${context}/front-end/blog.jsp">消息</a>
+								<a href="<%=request.getContextPath()%>/front-end/blog.jsp">消息</a>
 							</li>
 							<li>
 								<a href="#">商城</a>
@@ -143,10 +143,10 @@
 								</ul>
 							</li>
 							<li>
-								<a href="${context}/front-end/activity.jsp">揪團</a>
+								<a href="<%=request.getContextPath()%>/front-end/activity.jsp">揪團</a>
 							</li>
 							<li>
-								<a href="${context}/front-end/blog.jsp">討論區</a>
+								<a href="<%=request.getContextPath()%>/front-end/blog.jsp">討論區</a>
 							</li>
 						</ul>
 					</div>
@@ -155,18 +155,18 @@
 			<div class="header-meta d-flex clearfix justify-content-end">
 				<div class="user-login-info" data-toggle="modal" data-target="#login-modal">
 					<a>
-						<img src="${context}/images/core-img/user.svg" alt="">
+						<img src="<%=request.getContextPath()%>/images/core-img/user.svg" alt="">
 					</a>
 				</div>
 				<div class="user-login-info">
 					<a href="#">
-						<img src="${context}/images/core-img/email.svg" alt="">
+						<img src="<%=request.getContextPath()%>/images/core-img/email.svg" alt="">
 					</a>
 				</div>
 			</div>
 		</div>
 	</header>
-	<section class="welcome_area bg-img background-overlay" style="background-image: url(/images/bg-img/yoga.png);">
+	<section class="welcome_area bg-img background-overlay" style="background-image: url(<%=request.getContextPath()%>/images/bg-img/yoga.png);">
 		<div class="container h-100">
 			<div class="row h-100 align-items-center">
 				<div class="col-12">
@@ -183,21 +183,21 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-12 col-sm-6 col-md-4">
-					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(images/bg-img/bg-2.jpg);">
+					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(<%=request.getContextPath()%>/images/bg-img/bg-2.jpg);">
 						<div class="catagory-content">
 							<a href="#">揪團運動</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-4">
-					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(images/bg-img/bg-3.jpg);">
+					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(<%=request.getContextPath()%>/images/bg-img/bg-3.jpg);">
 						<div class="catagory-content">
 							<a href="#">購物商城</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-4">
-					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(imgages/bg-img/bg-4.jpg);">
+					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(<%=request.getContextPath()%>/images/bg-img/bg-4.jpg);">
 						<div class="catagory-content">
 							<a href="#">專業教練課</a>
 						</div>
@@ -210,7 +210,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<div class="cta-content bg-img background-overlay" style="background-image: url(images/bg-img/bg-5.jpg);">
+					<div class="cta-content bg-img background-overlay" style="background-image: url(<%=request.getContextPath()%>/images/bg-img/bg-5.jpg);">
 						<div class="h-100 d-flex align-items-center justify-content-end">
 							<div class="cta--text">
 								<h2>FIND YOUR FITMATE</h2>
@@ -238,15 +238,15 @@
 					<div class="popular-products-slides owl-carousel">
 						<div class="single-product-wrapper">
 							<div class="product-img">
-								<img src="${context}/images/lesson/kids-skateboard-checkered-lifestyle.jpg" alt="">
-								<img class="hover-img" src="${context}/images/lesson/kids-skateboard-checkered-lifestyle.jpg" alt="">
+								<img src="<%=request.getContextPath()%>/images/lesson/kids-skateboard-checkered-lifestyle.jpg" alt="">
+								<img class="hover-img" src="<%=request.getContextPath()%>/images/lesson/kids-skateboard-checkered-lifestyle.jpg" alt="">
 								<div class="product-favourite">
 									<a href="#" class="favme fa fa-heart"></a>
 								</div>
 							</div>
 							<div class="product-description">
 								<span>入門衝浪</span>
-								<a href="${context}/front-end/lesson/lesson.jsp">
+								<a href="<%=request.getContextPath()%>/front-end/lesson/lesson.jsp">
 									<h6>我在烏石港等你一起衝!</h6>
 								</a>
 								<p class="product-price">$800</p>
@@ -259,8 +259,8 @@
 						</div>
 						<div class="single-product-wrapper">
 							<div class="product-img">
-								<img src="${context}/images/coach-img/C001.jpg" alt="">
-								<img class="hover-img" src="${context}/images/coach-img/C001.jpg" alt="">
+								<img src="<%=request.getContextPath()%>/images/coach-img/C001.jpg" alt="">
+								<img class="hover-img" src="<%=request.getContextPath()%>/images/coach-img/C001.jpg" alt="">
 								<div class="product-favourite">
 									<a href="#" class="favme fa fa-heart"></a>
 								</div>
@@ -280,8 +280,8 @@
 						</div>
 						<div class="single-product-wrapper">
 							<div class="product-img">
-								<img src="${context}/images/coach-img/C004.jpg" alt="">
-								<img class="hover-img" src="${context}/images/coach-img/C004.jpg" alt="">
+								<img src="<%=request.getContextPath()%>/images/coach-img/C004.jpg" alt="">
+								<img class="hover-img" src="<%=request.getContextPath()%>/images/coach-img/C004.jpg" alt="">
 								<div class="product-badge offer-badge">
 									<span>HOT</span>
 								</div>
@@ -291,7 +291,7 @@
 							</div>
 							<div class="product-description">
 								<span>mango</span>
-								<a href="${context}/front-end/lesson/lesson.jsp">
+								<a href="<%=request.getContextPath()%>/front-end/lesson/lesson.jsp">
 									<h6>TRX懸吊訓練</h6>
 								</a>
 								<p class="product-price">
@@ -307,8 +307,8 @@
 						</div>
 						<div class="single-product-wrapper">
 							<div class="product-img">
-								<img src="${context}/images/coach-img/C005.jpg" alt="">
-								<img class="hover-img" src="${context}/images/coach-img/C005.jpg" alt="">
+								<img src="<%=request.getContextPath()%>/images/coach-img/C005.jpg" alt="">
+								<img class="hover-img" src="<%=request.getContextPath()%>/images/coach-img/C005.jpg" alt="">
 								<div class="product-badge new-badge">
 									<span>New</span>
 								</div>
@@ -339,11 +339,7 @@
 			<div class="row ">
 				<div class="col-md-12 text-center">
 					<p>
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script>
-						by EA101G5
+						Copyright &copy; 2020 by EA101G5
 						<i class="fa fa-heart-o" aria-hidden="true"></i>
 						by FitMate
 						</a>
@@ -405,14 +401,14 @@
 				</div>
 			</div>
 		</div>
-		<script src="${context}/js/jquery/jquery-2.2.4.min.js"></script>
-		<script src="${context}/js/popper.min.js"></script>
-		<script src="${context}/js/bootstrap.min.js"></script>
-		<script src="${context}/js/plugins.js"></script>
-		<script src="${context}/js/classy-nav.min.js"></script>
-		<script src="${context}/js/active.js"></script>
-		<script src="${context}/js/login.js"></script>
-		<script src="${context}/js/index.js"></script>
+		<script src="<%=request.getContextPath()%>/js/jquery/jquery-2.2.4.min.js"></script>
+		<script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
+		<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+		<script src="<%=request.getContextPath()%>/js/plugins.js"></script>
+		<script src="<%=request.getContextPath()%>/js/classy-nav.min.js"></script>
+		<script src="<%=request.getContextPath()%>/js/active.js"></script>
+		<script src="<%=request.getContextPath()%>/js/login.js"></script>
+		<script src="<%=request.getContextPath()%>/js/index.js"></script>
 		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
 </body>
 

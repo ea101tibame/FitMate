@@ -3,8 +3,8 @@ package com.student.model;
 import java.util.List;
 
 public interface StuDAO_interface {
-	
-	public void insert(StuVO stuVO);
+
+	public String insert(StuVO stuVO);
 
 	public void update(StuVO stuVO);
 

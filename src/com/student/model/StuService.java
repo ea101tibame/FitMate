@@ -10,8 +10,8 @@ public class StuService {
 		dao = new StuJDBCDAO();
 	}
 
-	public StuVO addStu(String stuname, String stupsw, String stumail, String stutel, String stuadd, Integer stupoint,
-			String stusta, String stusex, java.sql.Date stubir, byte[] stupic) {
+	public StuVO addStu(String stuname, String stupsw, String stumail, String stutel, byte[] stupic, String stusex,
+			String stuadd, java.sql.Date stubir) {
 
 		StuVO stuVO = new StuVO();
 
@@ -19,12 +19,11 @@ public class StuService {
 		stuVO.setStupsw(stupsw);
 		stuVO.setStumail(stumail);
 		stuVO.setStutel(stutel);
-		stuVO.setStuadd(stuadd);
-		stuVO.setStupoint(stupoint);
-		stuVO.setStusta(stusta);
-		stuVO.setStusex(stusex);
-		stuVO.setStubir(stubir);
 		stuVO.setStupic(stupic);
+		stuVO.setStusex(stusex);
+		stuVO.setStuadd(stuadd);
+		stuVO.setStubir(stubir);
+
 		dao.insert(stuVO);
 
 		return stuVO;

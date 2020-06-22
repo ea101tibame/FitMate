@@ -5,11 +5,9 @@
 <%@ page import="com.expertise_own.model.*"%>
 
 <!DOCTYPE html>
-
-<!-- TODO 證照/獎狀的圖片預覽  -->
-<!-- TODO 錯誤訊息顯示  -->
-<!-- TODO 新增資料入資料庫 -->
-<!-- TODO 新增成功後Alert"新增成功"並導到listOneCoach_ForCoach -->
+<!-- TODO 若只註冊一個專長反而會報錯 -->
+<!-- TODO 專長改為多選https://www.cssscript.com/tag/multiple-select/，證照圖片預覽設定$('#test').css('display','none');和 $('#test').css('display',null);-->
+<!-- TODO 新增成功後出現sweetalert -->
 
 <%
 	CoaVO coaVO = (CoaVO) request.getAttribute("coaVO");
@@ -78,7 +76,7 @@ th, td {
 			</td>
 			<td>
 				<h4>
-					<a href="selectCoach_page.jsp">回首頁</a>
+					<a href="index_ForVisitor.jsp">回首頁</a>
 				</h4>
 			</td>
 		</tr>
@@ -186,6 +184,14 @@ th, td {
 						</c:forEach>
 					</select>
 				</td>
+				<td>專長3:</td>
+				<td>
+					<select size="1" name="expno3">
+						<c:forEach var="ExpVO" items="${expSvc.all}">
+							<option value="${ExpVO.expno}" ${(ExpVO.expno==ExpVO.expno)? 'selected':''}>${ExpVO.expdesc}
+						</c:forEach>
+					</select>
+				</td>
 				</tr>
 			</tr>
 			<tr>
@@ -198,6 +204,10 @@ th, td {
 				<td>
 					<input type="FILE" id="picExp2" name="expown2" size="45" value="<%=(expownVO == null) ? "" : expownVO.getExpown()%>" placeholder="請上證照/獎狀" />
 				</td>
+				<td>專業證照/比賽獎狀:</td>
+				<td>
+					<input type="FILE" id="picExp3" name="expown3" size="45" value="<%=(expownVO == null) ? "" : expownVO.getExpown()%>" placeholder="請上證照/獎狀" />
+				</td>
 				</tr>
 			</tr>
 		</table>
@@ -208,8 +218,12 @@ th, td {
 				<td>
 				<img id="previewPicExp" src="<%=request.getContextPath()%>/images/noData/nopic.jpg" style="width: 480px; height: 480px;">
 				</td>
+				<>
 				<td>
 				<img id="previewPicExp2" src="<%=request.getContextPath()%>/images/noData/nopic.jpg" style="width: 480px; height: 480px;">
+				</td>
+				<td>
+				<img id="previewPicExp3" src="<%=request.getContextPath()%>/images/noData/nopic.jpg" style="width: 480px; height: 480px;">
 				</td>
 			</tr>
 		</td>
@@ -217,8 +231,8 @@ th, td {
 		<br>
 		<input type="hidden" name="action" value="insert" />
 		<input type="submit" value="送出新增" />
-	</FORM>
 
+	</FORM>
 </body>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
@@ -231,6 +245,9 @@ th, td {
 	});
 	$("#picExp2").change(function() {
 		readURL(this, $("#previewPicExp2"));
+	});
+	$("#picExp3").change(function() {
+		readURL(this, $("#previewPicExp3"));
 	});
 	function readURL(input, previewElement) {
 		if (input.files && input.files[0]) {

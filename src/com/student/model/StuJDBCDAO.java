@@ -9,7 +9,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ProjectConfig;
 
 public class StuJDBCDAO implements StuDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
@@ -17,45 +20,53 @@ public class StuJDBCDAO implements StuDAO_interface {
 	String userid = "EA101G5";
 	String passwd = "EA101G5";
 
-	private static final String INSERT_STMT = "INSERT INTO student (stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stusex,stubir,stupic) VALUES ('S'||LPAD(to_char(student_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO student (stuno,stuname,stupsw,stumail,stutel,stusex,stupic,stuadd,stubir) VALUES ('S'||LPAD(to_char(student_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE student set stuname=?, stupsw=?, stumail=?, stutel=?, stuadd=?, stupoint=?, stusta=?, stusex=?, stubir=? where stuno=?";
 	private static final String DELETE = "DELETE FROM student where stuno = ?";
 	private static final String GET_ONE_STMT = "SELECT stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stusex,to_char(stubir,'yyyy-mm-dd') stubir FROM student where stuno = ?";
 	private static final String GET_ALL_STMT = "SELECT stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stusex,to_char(stubir,'yyyy-mm-dd') stubir FROM student order by stuno";
 
 	@Override
-	public void insert(StuVO stuVO) {
+	public String insert(StuVO stuVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT_STMT);
-
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
+			String[] returnColumn = { "stuno" };
+			pstmt = con.prepareStatement(INSERT_STMT, returnColumn);
 			pstmt.setString(1, stuVO.getStuname());
 			pstmt.setString(2, stuVO.getStupsw());
 			pstmt.setString(3, stuVO.getStumail());
 			pstmt.setString(4, stuVO.getStutel());
-			pstmt.setString(5, stuVO.getStuadd());
-			pstmt.setInt(6, stuVO.getStupoint());
-			pstmt.setString(7, stuVO.getStusta());
-			pstmt.setString(8, stuVO.getStusex());
-			pstmt.setDate(9, stuVO.getStubir());
-			pstmt.setBytes(10, stuVO.getStupic());
-
+			pstmt.setString(5, stuVO.getStusex());
+			pstmt.setBytes(6, stuVO.getStupic());
+			pstmt.setString(7, stuVO.getStuadd());
+			pstmt.setDate(8, stuVO.getStubir());
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
+			String pk = null;
+			ResultSet generatedKeys = pstmt.getGeneratedKeys();
+			while (generatedKeys.next()) {
+				pk = generatedKeys.getString(1);
+			}
+			return pk;
+		}
+		// Handle any driver errors
+		catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
+		}
+		// Handle any SQL errors
+		catch (SQLException se) {
+			se.printStackTrace();
 			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
+		}
+		// Clean up JDBC resources
+		finally {
 			if (pstmt != null) {
 				try {
 					pstmt.close();
@@ -95,7 +106,7 @@ public class StuJDBCDAO implements StuDAO_interface {
 			pstmt.setString(8, stuVO.getStusex());
 			pstmt.setDate(9, stuVO.getStubir());
 			pstmt.setString(10, stuVO.getStuno());
-			
+
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
@@ -352,7 +363,7 @@ public class StuJDBCDAO implements StuDAO_interface {
 //		
 //		dao.update(stuVO2);
 
-		//delete
+		// delete
 //		dao.delete("S011");
 
 //		// find one
@@ -368,7 +379,6 @@ public class StuJDBCDAO implements StuDAO_interface {
 //		System.out.print(stuVO3.getStusex() + ",");
 //		System.out.print(stuVO3.getStubir() + ",");
 //		System.out.print(stuVO3.getStupic());
-
 
 //		System.out.println("---------------------");
 //

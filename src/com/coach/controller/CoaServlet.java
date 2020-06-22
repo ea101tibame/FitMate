@@ -145,6 +145,15 @@ public class CoaServlet extends HttpServlet {
 				expownIn2.read(expown2);
 				expownIn2.close();
 
+				String expno3 = req.getParameter("expno3");
+				System.out.println("expno3: " + expno3);
+
+				Part expownPart3 = req.getPart("expown3");
+				InputStream expownIn3 = expownPart3.getInputStream();
+				byte[] expown3 = new byte[expownIn3.available()];
+				expownIn3.read(expown3);
+				expownIn3.close();
+
 				// TODO Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {// 如果有任何錯誤訊息
 					CoaVO coaVO = new CoaVO();
@@ -172,6 +181,7 @@ public class CoaServlet extends HttpServlet {
 				ExpOwnService expOwnService = new ExpOwnService();
 				expOwnService.addExpOwn(coano, expno1, expown1);
 				expOwnService.addExpOwn(coano, expno2, expown2);
+				expOwnService.addExpOwn(coano, expno3, expown3);
 
 				MailUtil mailUtil = new MailUtil();
 				mailUtil.sendMail(coamail, "Sign Up success!", "your password is " + coapsw);
@@ -252,9 +262,9 @@ public class CoaServlet extends HttpServlet {
 				}
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("coaVO", coaVO); // 資料庫取出的coaVO物件,存入req
-				req.setAttribute("expOwnVOs", expOwnVOs); // 資料庫取出的coaVO物件,存入req
+				req.setAttribute("expOwnVOs", expOwnVOs);
 				String url = "/back-end/coach/listOneCoach.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_coach_input.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/

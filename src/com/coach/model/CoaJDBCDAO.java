@@ -20,6 +20,7 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 	private static final String UPDATE = "UPDATE coach set coaname=?, coapsw=?, coamail=?, coatel=?, coaacc=?, coapoint=?, coasta=?, coapic=?, coasex=?, coaintro=?, coasctotal=?, coascqty=? where coano=?";
 	private static final String DELETE = "DELETE FROM coach where coano = ?";
 	private static final String GET_ONE_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty FROM coach where coano = ?";
+	private static final String GET_ONE_BY_MAIL_PSW_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty FROM coach where coamail = ? AND coapsw=? ";
 	private static final String GET_ALL_STMT = "SELECT coano,coaname,coapsw,coamail,coatel,coaacc,coapoint,coasta,coapic,coasex,coaintro,coasctotal,coascqty FROM coach order by coano";
 
 	@Override
@@ -250,6 +251,78 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 	}
 
 	@Override
+	public CoaVO findByMailNPsw(String coamail, String coapsw) {
+
+		CoaVO coaVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
+			pstmt = con.prepareStatement(GET_ONE_BY_MAIL_PSW_STMT);
+
+			pstmt.setString(1, coamail);
+			pstmt.setString(2, coapsw);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				coaVO = new CoaVO();
+				coaVO.setCoano(rs.getString("coano"));
+				coaVO.setCoaname(rs.getString("coaname"));
+				coaVO.setCoapsw(rs.getString("coapsw"));
+				coaVO.setCoamail(rs.getString("coamail"));
+				coaVO.setCoatel(rs.getString("coatel"));
+				coaVO.setCoaacc(rs.getString("coaacc"));
+				coaVO.setCoapoint(rs.getInt("coapoint"));
+				coaVO.setCoasta(rs.getString("coasta"));
+				coaVO.setCoapic(rs.getBytes("coapic"));
+				coaVO.setCoasex(rs.getString("coasex"));
+				coaVO.setCoaintro(rs.getString("coaintro"));
+				coaVO.setCoasctotal(rs.getInt("coasctotal"));
+				coaVO.setCoascqty(rs.getInt("coascqty"));
+
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return coaVO;
+	}
+
+	@Override
 	public List<CoaVO> getAll() {
 		List<CoaVO> list = new ArrayList<CoaVO>();
 		CoaVO coaVO = null;
@@ -422,5 +495,4 @@ public class CoaJDBCDAO implements CoaDAO_interface {
 //		}
 
 	}
-
 }
