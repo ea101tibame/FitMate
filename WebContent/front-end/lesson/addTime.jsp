@@ -165,29 +165,32 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 									<!-- 截止之後的時間 才可以選-->
 									<div class="col-md-6 mb-3">
 										<label >選擇授課日期</label>
-										<input type="text" class="form-control"  name="ltime_date" onchange="get()">
+										<input type="text" class="form-control"  name="ltime_date" >
 
 									</div>
 									<div class="col-md-6 mb-3">
 										<label for="country">時段</label>
 
-										<select class="custom-select d-block " name="ltime_ss" onchange="get()">
+										<select class="custom-select d-block " name="ltime_ss" >
 											<option value="">請選擇</option>
 											<option value="早上">早上</option>
 											<option value="下午">下午</option>
 											<option value="晚上">晚上</option>
 										</select>
 									</div>
-
-									<% }%>
-									<h1>Hello</h1>
-									<script>
 									
+									<% }%>
+									<button type="button" class="btn btn-info" onclick="get()">檢查時段</button>
+									<br>
+									<div id="show"></div>
+									<script>
+
 									function get(){
 										var date='';
 										var time='';
 										$(".form-control").each(function(){
 									    	date=date+ $(this).val()+',';
+									    	
 										});
 										$(".custom-select").each(function(){
 											time=time+ $(this).val()+',';
@@ -197,49 +200,60 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 										strdate=date.split(",");
 										var strtime= new Array();
 										strtime = time.split(",,");
-										console.log(strdate[0]);
-										console.log(strtime[1]);
-										var dates=[];
-										var times=[];
- 										
-										for(var i=0;i<strdate.length;i++){											
-											dates[i]=strdate[i];
-											times[i]=strtime[i];
+										var jsonArr=[];
+																			
+										for(var i=0;i<strdate.length;i++){			
+											var datepush = strdate[i];
+											var timepush = strtime[i];
+											console.log("datepush="+datepush);
+											console.log("timepush="+timepush);
+											var dateAndTime = datepush+timepush;
+											console.log("dateAndTime="+dateAndTime);
+											var jsonObj = {
+	 												"dateAndTime" :dateAndTime,
+	 											};
+											jsonArr.push(jsonObj);
+											console.log("jsonArr="+jsonArr)
 										}
-										console.log(dates);
-										console.log(times);
-										var jarrdate = JSON.stringify( dates );
-										var jarrtime = JSON.stringify( times );
-										
+										var jarr = JSON.stringify( jsonArr );
+										console.log(jarr);
 										
 										$.ajax({
 											type 		: 'POST', 
 											url 		: '<%=request.getContextPath()%>/lesson/checkTime', 
 											data 		: {
-															jarrdate:jarrdate,
-															jarrtime:jarrtime
-															
+															jarr:jarr,
 														}, 
+											
 											dataType 	: 'json',
 											contentType: 'application/x-www-form-urlencoded; charset=utf-8',
 											encode 		: true,
 											
-								            success: function(returnData){
-								                    console.log(returnData);
-								                },
-								           error: function(xhr, ajaxOptions, thrownError){
-								                 	console.log(xhr.status);
-								                    console.log(thrownError);
-								           		}
+											beforeSend:function(XMLHttpRequest){
+												$("#show").text("時段檢查中...");
+											},
+											success:function(data){
+												console.log("data="+data);
+												alert(data);
+												if(data=="Success!"){
+													$("#show").text(data);
+													$("#show").css("color","red");
+													$("#send").show();
+							                    }else{
+							                    	$("#show").text(data);
+													$("#show").css("color","red");
+							                    }
+												
+											},
+											error:function(err){
+												console.log("error="+JSON.stringify(err));
+												
+											},
 								            });
-// 								var xhr = new XMLHttpRequest();
-<%-- 								xhr.open('post','<%=request.getContextPath()%>/lesson/checkTime',true); --%>
-// 								xhr.setRequestHeader("Content-type","application/json");
-// 								xhr.send(jarr);
-										}
+										
 									
+										}
 
-								
 									</script>
 								</div>
 							</div>		
@@ -249,7 +263,7 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 							<input type="hidden" name="lessend" value="<%=lessonVO.getLessend() %>">
 							<input type="hidden" name="lessno" value="<%=lessno%>">
 							<input type="hidden" name="action" value="insert">							
-							<button class="btn btn-primary btn-lg btn-block" type="submit">此堂課程 時段建立</button>
+							<button class="btn btn-primary btn-lg btn-block" type="submit" id="send">此堂課程 時段建立</button>
 					
 			
 						</form>
@@ -299,6 +313,15 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 	<script src="${pageContext.request.contextPath}/js/active.js"></script>
 	<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<script>
+$(document).ready(function(){
+
+	$("#send").hide();
+
+	});
+
+
+</script>
 <script>
 
 $(function() {

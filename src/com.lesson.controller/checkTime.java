@@ -2,21 +2,21 @@ package com.lesson.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.lesson.model.LessonService;
 
 
@@ -31,30 +31,90 @@ public class checkTime extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("json");
-		String[] jarrdate = req.getParameterValues("jarrdate");
-		System.out.println("jarrdate[0]="+jarrdate[0]);
-		String[] jarrtime = req.getParameterValues("jarrtime");
-		System.out.println("jarrtime[0]="+jarrtime[0]);
-		
+		res.setCharacterEncoding("UTF-8");
+		/*從前端接收*/ 
+		String[] jarr = req.getParameterValues("jarr");
+		String front = jarr[0];
+		JsonParser  parser = new JsonParser();
+	    JsonElement elem   = parser.parse( front );
+	    JsonArray elemArr = elem.getAsJsonArray();
+  
+	    List<String> f = new ArrayList<String>();
+	    for(int i=0;i<elemArr.size()-1;i++) {//扣掉最後一個空字串
+	    	JsonElement first1 = elemArr.get(i).getAsJsonObject().get("dateAndTime");
+			String one = first1.toString().substring(1, 13);
+			f.add(one);
+	    }
+	    System.out.println("前端LIST");
+	    /*前端LIST*/
+	    for(int i = 0;i < f.size();i++){
+	    	System.out.println( f.get(i));
+	    }
+	    /*---------------------------------------------------------------------------*/
+		 /*從後端傳來*/
 		LessonService lessonService = new LessonService();
 		JSONArray checkTime = lessonService.checkTime("C001");
-		 System.out.println(checkTime);
-		String[] dbTimelist =null;
+//		System.out.println(checkTime);
+//		System.out.println("checkTime.length()="+checkTime.length());
+		List<String> db = new ArrayList<String>();
 		 try {
-			JSONObject  result = checkTime.getJSONObject(0);
-			
-			System.out.println("result="+result);
+			for(int j=0;j<checkTime.length();j++) {
+			JSONObject  result = checkTime.getJSONObject(j);
 			String ss = result.getString("ltime_ss");
-			System.out.println("ss="+ss);
 			String date1= result.getString("ltime_date");
-			System.out.println("date1="+date1);
 			String str = date1+ss;
-			System.out.println(str);
+			db.add(str);
+			
+		}
+			System.out.println("後端LIST");
+			 /*後端LIST*/
+			for(int j = 0;j < db.size();j++){
+		    	System.out.println(db.get(j));
+		    }
+			/*---------------------------------------------------------------------------*/
+			/*前後LIST比對*/
+			
+			/*如果有重複 放到這裡面*/
+			List<String> result = new ArrayList<String>();
+			
+			/*比對*/
+			for (String  same: f) {
+		        if (db.contains(same)) {
+		            result.add(same);
+		        }
+		    }
+			/*印出重複項目*/
+		    String message =null;
+			for(int j = 0;j < result.size();j++){
+				message="重複時間 請更改="+result.get(j);
+		    }
+			 Gson gson = new Gson();
+			 String msg = gson.toJson(message);
+			 if(result.size()>0) {
+				 
+				 PrintWriter out = res.getWriter();
+				 out.println(msg);
+				 out.flush();
+				 out.close();
+				 System.out.println(msg);
+			 }else {
+			     String Success = "Success!";
+			     String ok = gson.toJson(Success);
+				 PrintWriter outs = res.getWriter();
+				 outs.println(ok);
+				 outs.flush();
+				 outs.close();
+				 System.out.println(ok);
+
+			 }
+		 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		
+		 
 	}
 
 }
