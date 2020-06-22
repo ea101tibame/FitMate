@@ -26,12 +26,11 @@ public class Product_orderService {
 		return poVO;
 	}
 	
-	public Product_orderVO updatePo(String pordno,String stuno,Date porddate,Integer pordtotal,String pordadd,String pordsta,Integer fare) {
+	public Product_orderVO updatePo(String pordno,String stuno,Integer pordtotal,String pordadd,String pordsta,Integer fare) {
 		Product_orderVO poVO = new Product_orderVO();
 		
 		poVO.setPordno(pordno);
 		poVO.setStuno(stuno);
-		poVO.setPorddate(porddate);
 		poVO.setPordtotal(pordtotal);
 		poVO.setPordadd(pordadd);
 		poVO.setPordsta(pordsta);

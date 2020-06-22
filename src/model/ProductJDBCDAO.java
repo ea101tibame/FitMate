@@ -19,6 +19,7 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT prodno,pclass_id,prodname,prodprice,prodqty,prodpic,proddesc,prodsta from product where prodno=?";
 	private static final String GET_ALL_STMT = "SELECT * from product order by prodno desc";
 	private static final String ON_SHELVES = "SELECT * from product where prodsta='上架中' and prodqty > 0";
+	private static final String GET_ONE_CLASS_STMT="SELECT * from product where pclass_id='PC001' and prodqty>0 order by prodno desc";
 
 	// 新增
 	@Override
@@ -319,6 +320,65 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<ProductVO> findyByPclass(String pclass_id) {
+		List<ProductVO> list = new ArrayList<ProductVO>();
+		ProductVO prVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_CLASS_STMT);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				prVO = new ProductVO();
+				prVO.setProdno(rs.getString("prodno"));
+				prVO.setPclass_id(rs.getString("pclass_id"));
+				prVO.setProdname(rs.getString("prodname"));
+				prVO.setProdprice(rs.getInt("prodprice"));
+				prVO.setProdqty(rs.getInt("prodqty"));
+				prVO.setProdpic(rs.getBytes("prodpic"));
+				prVO.setProddesc(rs.getString("proddesc"));
+				prVO.setProdsta(rs.getString("prodsta"));
+				list.add(prVO); // Store the row in the list
+			}
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
 
 //新增圖片的方法
 	public static byte[] getPicByteArray(String path) throws IOException {
@@ -335,6 +395,7 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		fis.close();
 		return baos.toByteArray();// 回傳管子內建的byte陣列，取得裝有位元資料的byte陣列 陣列
 	}
+
 
 	public static void main(String[] args) {
 		ProductJDBCDAO dao = new ProductJDBCDAO();
@@ -395,19 +456,34 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 //			System.out.println();
 //		}
 
-		// 測試查全部
-		List<ProductVO> list = dao.getOnShelves();
-		for (ProductVO prVO5 : list) {
-			System.out.print(prVO5.getProdno() + ",");
-			System.out.print(prVO5.getPclass_id() + ",");
-			System.out.print(prVO5.getProdprice() + ",");
-			System.out.print(prVO5.getProdqty() + ",");
-			System.out.print(prVO5.getProdpic() + ",");
-			System.out.print(prVO5.getProddesc() + ",");
-			System.out.print(prVO5.getProdsta() + ",");
-			System.out.println();
-		}
+		// 測試查全部上架商品
+//		List<ProductVO> list = dao.getOnShelves();
+//		for (ProductVO prVO5 : list) {
+//			System.out.print(prVO5.getProdno() + ",");
+//			System.out.print(prVO5.getPclass_id() + ",");
+//			System.out.print(prVO5.getProdprice() + ",");
+//			System.out.print(prVO5.getProdqty() + ",");
+//			System.out.print(prVO5.getProdpic() + ",");
+//			System.out.print(prVO5.getProddesc() + ",");
+//			System.out.print(prVO5.getProdsta() + ",");
+//			System.out.println();
+//		}
 
+		//測試用類別找出上架中的商品
+		List<ProductVO> list2 =dao.findyByPclass("PC001");
+			for(ProductVO prVO6 : list2) {
+				System.out.print(prVO6.getProdno() + ",");
+				System.out.print(prVO6.getPclass_id() + ",");
+				System.out.print(prVO6.getProdprice() + ",");
+				System.out.print(prVO6.getProdqty() + ",");
+				System.out.print(prVO6.getProdpic() + ",");
+				System.out.print(prVO6.getProddesc() + ",");
+				System.out.print(prVO6.getProdsta() + ",");
+				System.out.println();
+			}
+		
 	}
+
+	
 
 }

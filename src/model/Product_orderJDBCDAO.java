@@ -1,6 +1,7 @@
 package com.product_order.model;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 import com.product_order.model.Product_orderVO;
@@ -339,8 +340,8 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 //		poVO2.setPordadd("桃園市中壢區龍東路37號");
 //		poVO2.setPordsta("待出貨");
 //		poVO2.setFare(0);
-//		poVO2.setPordno("20200612-PO011");
-//		dao.update(poVO2);
+//		poVO2.setPordno("20200101-PO001");
+//		dao2.update(poVO2);
 
 //測試刪除
 //		dao.delete("20200612-PO011");
@@ -356,7 +357,7 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 //		System.out.print(poVO2.getFare()+" ");
 
 //測試查全部
-//		List<Product_orderVO> list = dao.getAll();
+//		List<Product_orderVO> list = dao2.getAll();
 //		for (Product_orderVO poVO3 : list) {
 //			System.out.print(poVO3.getPordno()+" ");
 //			System.out.print(poVO3.getStuno()+" ");
@@ -368,29 +369,31 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 //			System.out.println();
 //		}
 
-		Product_orderVO poVO4 = new Product_orderVO();
-		poVO4.setStuno("S001");
-		poVO4.setPordtotal(300);
-		poVO4.setPordadd("中壢區莒光路25號");
-		poVO4.setPordsta("待出貨");
-		poVO4.setFare(80);
-
-		List<Product_order_listVO> testList = new ArrayList<Product_order_listVO>();
-		Product_order_listVO polVO5 = new Product_order_listVO();
-		polVO5.setProdno("P001");
-		polVO5.setPord_listqty(new Integer(2));
-		polVO5.setPord_listprice(new Integer(100));
-
-		Product_order_listVO polVO6 = new Product_order_listVO();
-		polVO6.setProdno("P002");
-		polVO6.setPord_listqty(new Integer(2));
-		polVO6.setPord_listprice(new Integer(149));
-
-		testList.add(polVO5);
-		testList.add(polVO6);
-
-		dao2.insertWithPordList(poVO4, testList);
+//		Product_orderVO poVO4 = new Product_orderVO();
+//		poVO4.setStuno("S001");
+//		poVO4.setPordtotal(300);
+//		poVO4.setPordadd("中壢區莒光路25號");
+//		poVO4.setPordsta("待出貨");
+//		poVO4.setFare(80);
+//
+//		List<Product_order_listVO> testList = new ArrayList<Product_order_listVO>();
+//		Product_order_listVO polVO5 = new Product_order_listVO();
+//		polVO5.setProdno("P001");
+//		polVO5.setPord_listqty(new Integer(2));
+//		polVO5.setPord_listprice(new Integer(100));
+//
+//		Product_order_listVO polVO6 = new Product_order_listVO();
+//		polVO6.setProdno("P002");
+//		polVO6.setPord_listqty(new Integer(2));
+//		polVO6.setPord_listprice(new Integer(149));
+//
+//		testList.add(polVO5);
+//		testList.add(polVO6);
+//
+//		dao2.insertWithPordList(poVO4, testList);
 
 	}
+
+
 
 }

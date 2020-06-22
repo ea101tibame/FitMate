@@ -28,16 +28,16 @@ public class ShoppingServlet extends HttpServlet {
 
 		if (!action.equals("CHECKOUT")) {
 
-			// 刪除購物車中的書籍
+			// 刪除購物車中的商品
 			if (action.equals("DELETE")) {
 				System.out.println("del");
 				String del = req.getParameter("del");
 				int d = Integer.parseInt(del);
 				buylist.remove(d);
 			}
-			// 新增書籍至購物車中
+			// 新增商品至購物車中
 			else if (action.equals("ADD")) {
-				// 取得後來新增的書籍
+				// 取得後來新增的商品
 				ProductVO aproduct = getProductVO(req);
 
 				if (buylist == null) {

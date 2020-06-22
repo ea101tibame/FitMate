@@ -8,8 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sale_list_model.Sale_listJDBCDAO;
-import com.sale_list_model.Sale_listVO;
+import com.sale_list.model.*;
 import com.sale_project.model.Sale_projectDAO_interface;
 import com.sale_project.model.Sale_projectVO;
 
@@ -242,8 +241,11 @@ public class Sale_projectJDBCDAO implements Sale_projectDAO_interface {
 		return list;
 	}
 
+
+	
+	
 	@Override
-	public void insertWithSaleList(Sale_projectVO sale_projectVO, List<Sale_listVO> list) {
+	public void insertWithSaleList(Sale_projectVO sale_projectVO,List<Sale_listVO>list) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -263,9 +265,9 @@ public class Sale_projectJDBCDAO implements Sale_projectDAO_interface {
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if(rs.next()) {
 				next_sapro_no =rs.getString(1);
-				System.out.println("自增主鍵"+next_sapro_no+"(剛新增成功的促銷專案編號)");
+				System.out.println("�憓蜓�"+next_sapro_no+"(��憓����撠�楊���)");
 			}else {
-				System.out.println("未取得自增主鍵值");
+				System.out.println("����憓蜓���");
 			}
 			rs.close();
 			Sale_listJDBCDAO dao =new Sale_listJDBCDAO();
@@ -277,14 +279,14 @@ public class Sale_projectJDBCDAO implements Sale_projectDAO_interface {
 			con.commit();
 			con.setAutoCommit(true);
 			System.out.println("list.size()-B"+list.size());
-			System.out.println("新增部門編號"+next_sapro_no+"時，共有訂單詳情"+list.size()+"比同時被新增");
+			System.out.println("�憓��蝺刻��"+next_sapro_no+"������閰單��"+list.size()+"瘥��◤�憓�");
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			if (con != null) {
 				try {
 					System.err.print("Transaction is being");
-					System.err.println("rolled back由sale_project");
+					System.err.println("rolled back�sale_project");
 					con.rollback();
 				} catch (SQLException excep) {
 					throw new RuntimeException("rollback error occured." + excep.getMessage());
@@ -309,6 +311,15 @@ public class Sale_projectJDBCDAO implements Sale_projectDAO_interface {
 		}
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
 		Sale_projectJDBCDAO dao = new Sale_projectJDBCDAO();
 
@@ -351,6 +362,8 @@ public class Sale_projectJDBCDAO implements Sale_projectDAO_interface {
 		
 		dao.insertWithSaleList(spVO5, list);
 	}
+
+
 
 
 

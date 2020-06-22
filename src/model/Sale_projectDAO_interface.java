@@ -2,7 +2,7 @@ package com.sale_project.model;
 
 import java.util.List;
 
-import com.sale_list_model.Sale_listVO;
+import com.sale_list.model.Sale_listVO;
 import com.sale_project.model.Sale_projectVO;
 
 public interface Sale_projectDAO_interface {

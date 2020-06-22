@@ -230,12 +230,12 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 		Product_classJDBCDAO dao = new Product_classJDBCDAO();
 
 //		Product_classVO pcVO1=new Product_classVO();
-//		pcVO1.setPclass_name("父親節促銷");
+//		pcVO1.setPclass_name("�閬芰�靽");
 //		dao.insert(pcVO1);
 
 //		Product_classVO pcVO2=new Product_classVO();
 //		pcVO2.setPclass_id("PC001");
-//		pcVO2.setPclass_name("男士服飾");
+//		pcVO2.setPclass_name("�憯急�ˇ");
 //		dao.update(pcVO2);
 //		
 //		dao.delete("PC006");

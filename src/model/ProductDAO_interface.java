@@ -9,4 +9,5 @@ public interface ProductDAO_interface {
 	public ProductVO findByPrimaryKey(String prodno);
 	public List<ProductVO>getAll();
 	public List<ProductVO>getOnShelves();
+	public List<ProductVO>findyByPclass(String pclass_id);
 }
