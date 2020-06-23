@@ -8,19 +8,23 @@
 
 
 <%
+	List <Lesson_favVO> list =(List <Lesson_favVO>) request.getAttribute("list");
+	pageContext.setAttribute("list",list);
 
-	Lesson_favService lesson_favSvc = new Lesson_favService();
-    List<Lesson_favVO> list = lesson_favSvc.getfindByStuno("S001");
+	
+
+	//Lesson_favService lesson_favScv = new Lesson_favService();
+//   List<Lesson_favVO> list = lesson_favScv.getfindByStuno("S010");
     //List<Lesson_favVO> list = lesson_favSvc.getfindByLessno("L002");
+//	pageContext.setAttribute("list",list);
+	
 
-    pageContext.setAttribute("list",list);
-    
-    
 	LessonService lessonSvc = new LessonService();
     List<LessonVO> lessonlist = lessonSvc.getAllLesson();
     pageContext.setAttribute("lessonlist",lessonlist);
     
 %>
+
 
 <html>
 
@@ -224,7 +228,8 @@ display:inline !important;
     	
 
 
-		<%@ include file="/pages/page1.file" %>
+
+	<%@ include file="/pages/page1.file" %>
 	
 	<c:forEach var="lesson_favVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
  	 <tr> 
@@ -286,6 +291,15 @@ display:inline !important;
 </table>
 <%@ include file="/pages/page2.file" %>
 
+
+<script type="text/javascript">
+
+
+
+
+</script>
+
+
                         </div>
                     </div>
                 </div>
@@ -332,8 +346,6 @@ display:inline !important;
 
 
 </body>
-
-
 
 
 </html>

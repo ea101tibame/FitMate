@@ -52,6 +52,12 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/css/core-style.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/custom-css/regular-page.css">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+	<!-- 星星icon用 -->
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+   <script src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
+
+
 
 <style type="text/css">
 
@@ -64,12 +70,20 @@ display:inline !important;
 }
 
 
+.fa-goyellow {
+ color:yellow;
+}
+
+
+
 </style>
 
 
 
 </head>
 <body>
+
+
     <!-- ##### Header Area Start ##### -->
     <header class="header_area">
         <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
@@ -213,7 +227,7 @@ for(Lesson_orderVO test : list)
  
 
 
-                        <table class="table col-12">
+                        <table class="table col-12" >
                               <thead>
                                 <tr>
                                   <th scope="col">課程訂單編號</th>
@@ -223,7 +237,8 @@ for(Lesson_orderVO test : list)
                                   <th scope="col">課程狀態</th>
                                   <th scope="col">開課時間</th>
                                    <th scope="col">課程點數</th>
-                                   <th scope="col">訂單時間</th>                             
+                                   <th scope="col">訂單時間</th>
+                                     <th >評比</th>                                   
                                 </tr>
                               </thead>
                               
@@ -239,14 +254,38 @@ for(Lesson_orderVO test : list)
 
 								 <tr>
 								 
-                                  <td scope="col"> ${lesson_orderVO.lord_no}</td>
-                                   <td scope="col"> ${lessonVO.lessno}</td>                                 
-                                  <td scope="col"> ${lessonVO.lessname}</td>
+                                  <td id="lord_no" scope="col">${lesson_orderVO.lord_no}</td>
+                                   <td scope="col">${lessonVO.lessno}</td>                                 
+                                  <td scope="col">${lessonVO.lessname}</td>
                                   <td scope="col">${lessonVO.lesstype}</td>
                                   <td scope="col">${lessonVO.lesssta}</td>
                                   <td scope="col">${lessonVO.lessstart}</td>
                                    <td scope="col">${lessonVO.lessprice}</td>
                                    <td scope="col"><fmt:formatDate value="${lesson_orderVO.lord_time}" pattern="yyyy-MM-dd HH:mm:ss"/></td>                             
+                               
+                               <td class="star" width="150px" ><!-- 下方 JS 會判斷輸入的星數 -->
+<div class="star">
+	<input class="star-f" type="hidden"  value= ${lesson_orderVO.lord_sc} >
+    <a href="#"  class="star-count-1" >
+        <i class="fa fa-lg fa-star-o" aria-hidden="true"></i>
+    </a>
+    <a href="#"  class="star-count-2">
+        <i class="fa fa-lg fa-star-o " aria-hidden="true"></i>
+    </a>
+    <a href="#"  class="star-count-3">
+        <i class="fa fa-lg fa-star-o  fa-ttt" aria-hidden="true"></i>
+    </a>
+ 	 <a href="#"  class="star-count-4">
+        <i class="fa fa-lg fa-star-o " aria-hidden="true"></i>
+    </a>
+    <a href="#"  class="star-count-5">
+        <i class="fa  fa-lg fa-star-o" aria-hidden="true"></i>
+    </a>
+  
+</div></td>
+
+ 
+
                                 </tr>
 			
 			
@@ -255,13 +294,87 @@ for(Lesson_orderVO test : list)
 	 		
 		</c:forEach>
 
-	 
+
 	 
 	    </c:forEach>
 </table>
+
+
 <%@ include file="/pages/page2.file" %>
 
+<script type="text/javascript">
 
+$(document).ready(function() {
+		
+$(".star").find('input').each(function(){
+	//console.log($(this));	 
+	
+	if($(this).val()!=='0'){
+		var count = parseInt($(this).val());
+		//console.log(count);
+		
+		for(var i = 0; i<count ; i++){
+			$(this).parent().find("i").eq(i).removeClass("fa-star-o");
+			$(this).parent().find("i").eq(i).addClass("fa-star fa-goyellow");
+		}
+
+	}
+});
+});
+	
+	//判斷是否評價過
+    jQuery("i").click(function(){   	
+    	if($(this).parent().parent().children().eq(0).val()!=="0"){
+    		
+    		console.log($(this).parent().parent().children().eq(0).val());
+    		
+    	}else{
+    	
+    		if (confirm("評價只能給一次  [確定] 或 [取消] "))
+    	　　　 {　alert("[確定] 謝謝你給的評價" );  　
+    	    		//console.log("0.0");
+
+        	event.preventDefault();
+        		
+        	$(this).parent().prevAll().find("i").removeClass("fa-star-o");
+        	$(this).parent().prevAll().find("i").addClass("fa-star fa-goyellow");
+        	//var pa =$(this).parent().prevAll()
+        	pa = $(this).removeClass("fa-star-o");
+        	$(this).addClass("fa-star fa-goyellow");
+        
+       		var lord_sc = (pa.size()+1);       	
+       		console.log(pa.size());
+        	var na = $(this).parent().nextAll().find("i").removeClass("fa-star fa-goyellow");    		
+        				
+        	$(this).parent().nextAll().find("i").addClass("fa-star-o");
+        	
+        	
+        	$(this).parent().parent().children().eq(0).val(lord_sc);   	
+     		
+        	var lessno=$(this).parent().parent().parent().parent().children().eq(0).text();
+    	
+   	
+        	$.post("lesson_order_sc.do",
+        			
+        			{
+        				lord_no:lessno, lord_sc:lord_sc
+        			},function(data, status){
+        				if(status == "success")
+        					console.log(data);
+        			}
+        		        			
+        			)
+        		
+    	 	}			
+      	    else{　
+        		alert("[取消]")} 			
+        	}	
+    	
+    });
+    		
+
+
+</script>
                         </div>
                     </div>
                 </div>
@@ -269,7 +382,7 @@ for(Lesson_orderVO test : list)
         </div>
     </div>
     
-    
+ 
  
          
     <!-- ##### Blog Wrapper Area End ##### -->
@@ -291,9 +404,7 @@ for(Lesson_orderVO test : list)
 
         </div>
         
-        
-        
-        
+
         
         
     </footer>
@@ -311,8 +422,9 @@ for(Lesson_orderVO test : list)
     <script src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
     <!-- Active js -->
     <script src="${pageContext.request.contextPath}/js/active.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-
+     
 </body>
 
 

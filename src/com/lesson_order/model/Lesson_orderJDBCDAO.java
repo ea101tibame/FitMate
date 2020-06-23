@@ -30,7 +30,7 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 	
 	private static final String GET_one_STMT = "SELECT * FROM LESSON_ORDER WHERE LORD_NO = ?";
 	
-	
+	private static final String UP_LORD_SC = "UPDATE LESSON_ORDER SET LORD_SC = ? WHERE LORD_NO = ?";
 	@Override
 	public void insert(Lesson_orderVO Lesson_orderVO) {
 		
@@ -78,8 +78,9 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 			
 			pstmt = con.prepareStatement(GET_LESSNO_STMT);
 			pstmt.setString(1, Lesson_orderVO.getLessno());
+		
 
-			
+			rs = pstmt.executeQuery();
 			
 			String sta = null;
 			int lessur_cont = 0;
@@ -120,6 +121,7 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 				try {
 					System.err.print("Transaction is being ");
 					System.err.println("rolled back");
+					System.err.println("你已經購買過此商品了");
 					con.rollback();
 				} catch (SQLException excep) {
 					throw new RuntimeException("rollback error occured. "
@@ -269,6 +271,8 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 				lesson_orderVO.setStuno(rs.getString("stuno"));
 				lesson_orderVO.setLessno(rs.getString("lessno"));				
 				lesson_orderVO.setLord_time(rs.getTimestamp("lord_time"));
+				lesson_orderVO.setLord_sc(rs.getInt("lord_sc"));
+
 				list.add(lesson_orderVO);					
 		}
 		// Handle any driver errors
@@ -427,15 +431,15 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 	public static void main(String[] args) {
 		Lesson_orderJDBCDAO dao = new Lesson_orderJDBCDAO();
 
-		// 新增OK
+//		// 新增OK
 		Lesson_orderVO Lesson_orderVO1 = new Lesson_orderVO();
 
-		Lesson_orderVO1.setStuno("S009");
-		Lesson_orderVO1.setLessno("L001");
-		Lesson_orderVO1.setLord_sc(1);//new Integer(0)
-		Lesson_orderVO1.setLord_time( new Timestamp(System.currentTimeMillis()));
-		dao.insert(Lesson_orderVO1);
-		
+//		Lesson_orderVO1.setStuno("S007");
+//		Lesson_orderVO1.setLessno("L003");
+//		Lesson_orderVO1.setLord_sc(1);//new Integer(0)
+//		Lesson_orderVO1.setLord_time( new Timestamp(System.currentTimeMillis()));
+//		dao.insert(Lesson_orderVO1);
+//		
 //		
 		// 刪除OK
 //		dao.delete("21");
@@ -472,6 +476,83 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 //			System.out.print(aLesson_orderVO.getLord_time() + ",");
 //			System.out.println();
 //		}
+	
+	
+//		String str = "5";
+//		Integer a = Integer.valueOf(str);
+//		Lesson_orderVO	lesson_orderVO = dao.up_lesson_order_lord_sc("20200619-LO010",a);
+
+	
+	}
+
+	
+	
+	
+	@Override
+	public Lesson_orderVO up_lesson_order_lord_sc(String lord_no, Integer lord_sc) {
+		Lesson_orderVO lesson_orderVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(UP_LORD_SC);
+
+			pstmt.setInt(1, lord_sc);
+			pstmt.setString(2, lord_no);
+
+			pstmt.executeUpdate();		
+
+			
+		 	
+//
+//			while (rs.next()) {
+//				lesson_orderVO = new Lesson_orderVO();
+//				lesson_orderVO.setLord_no(rs.getString("lord_no"));
+//				lesson_orderVO.setLessno(rs.getString("lessno"));
+//				lesson_orderVO.setStuno(rs.getString("stuno"));
+//				lesson_orderVO.setLord_time(rs.getTimestamp("lord_time"));
+//				lesson_orderVO.setLord_sc(rs.getInt("lord_sc"));
+//	
+//			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return lesson_orderVO ;
+	
 	}
 
 

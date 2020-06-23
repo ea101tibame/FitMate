@@ -55,7 +55,14 @@
 		<url-pattern>/front-end/lesson_order/lesson_order.do</url-pattern>
 	</servlet-mapping>
    
-      
+       	<servlet>
+		<servlet-name>Lesson_orderServlet_ajax</servlet-name>
+		<servlet-class>com.lesson_order.controller.Lesson_orderServlet_ajax</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Lesson_orderServlet_ajax</servlet-name>
+		<url-pattern>/front-end/lesson_order/lesson_order_sc.do</url-pattern>
+	</servlet-mapping>  
    
 
 </web-app>

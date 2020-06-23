@@ -47,5 +47,7 @@ public class Lesson_orderService {
 		return dao.getAll();
 	}
 	
-
+	public Lesson_orderVO up_lesson_order_lord_sc(String lord_no, Integer lord_sc) {
+		return dao.up_lesson_order_lord_sc(lord_no, lord_sc);
+	}
 }
