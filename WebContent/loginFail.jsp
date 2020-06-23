@@ -3,10 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.employee.model.*"%>
 
-<%
- 	EmployeeVO empVO = (EmployeeVO)session.getAttribute("empVO");
-	session.setAttribute("empVO", empVO);
-%>
 
 <!DOCTYPE html>
 <html>
@@ -70,11 +66,13 @@
 		<div id="main">
 			<h2>首頁</h2>
 		</div>
-
-		<p>登入成功測試</p>
-		<p>${empVO.ename}你好</p>
-		
-		<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">員工管理首頁</a>
+		<c:if test="${not empty errorMsgs}">
+			<a>看看你的錯:</a>
+			<br>
+			<a><c:forEach var="message" items="${errorMsgs}">${message}</c:forEach></a>
+		</c:if>
+		<p>登入失敗測試</p>
+		<p>請回<a href="<%=request.getContextPath()%>/backend_index.jsp">首頁</a>重新登入</p>
 
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 	</div>

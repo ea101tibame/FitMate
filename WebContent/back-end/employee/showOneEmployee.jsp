@@ -81,8 +81,8 @@ body {
 
 		<div id="main">
 			<h1>FitMate員工資料</h1>
-			<a href="showAllEmployee.jsp">返回員工列表</a> <a
-				href="employee_select_page.jsp">返回首頁</a>
+			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工列表</a> <a
+				href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
 		</div>
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
@@ -101,7 +101,7 @@ body {
 					<td>${empVO.eacc}</td>
 					<td>${empVO.email}</td>
 					<td>${empVO.edate}</td>
-					<td><img src="<%=request.getContextPath()%>/back-end/employee/employeePic.do?empno=${empVO.empno}" class="pic"></td>
+					<td><img src="<%=request.getContextPath()%>/employee/employeePic.do?empno=${empVO.empno}" class="pic"></td>
 					<td>${empVO.esta}</td>
 				</tr>
 			</table>

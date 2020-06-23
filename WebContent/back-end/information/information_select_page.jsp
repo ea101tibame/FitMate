@@ -86,7 +86,7 @@ body {
 <jsp:useBean id="infSvc" scope="page" class="com.information.model.InformationService" />
 
 <li>
-<form action="information.do" method="post">
+<form action="/information/information.do" method="post">
 	<b>依編號選擇</b>
 	<select size="1" name="inno">
 		<c:forEach var="infVO" items="${infSvc.allInfByDate}">

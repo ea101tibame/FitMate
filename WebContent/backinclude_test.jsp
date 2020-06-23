@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.employee.model.*"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>include</title>
 <style>
 @import
@@ -43,6 +49,7 @@ html, body {
 	right: 0;
 	top: 0;
 	z-index:999;
+	display:block;
 }
 
 #logoutbtn{
@@ -539,7 +546,7 @@ margin-right
 		<i class="fa fa-comments" aria-hidden="true"></i>
 		<div class="chat">
 			<div class="header">
-				<span class="title"> 會員：ＸＸＸ </span>
+				<span class="title">客服中心</span>
 				<button>
 					<i class="fa fa-times" aria-hidden="true"></i>
 				</button>
@@ -564,20 +571,27 @@ margin-right
 	
 	<!-- 登入按鈕開始 -->
 	<div class="login">
+	<!-- 用if判斷empVO是否為空值決定按鈕怎麼出現 -->
+<%if (session.getAttribute("empVO")==null) {%>
 		<button class="btn btn-outline-success my-2 my-sm-0" type="submit"
 			data-toggle="modal" data-target="#exampleModalCenter" id="loginbtn">登入</button>
+<%}else{ %>
+		<form action="<%=request.getContextPath()%>/employee/employee.do" method="post">
 		<button class="btn btn-outline-success my-2 my-sm-0" type="submit"
-			data-toggle="modal" data-target="#exampleModalCenter" id="logoutbtn">登出</button>
+			data-toggle="modal" data-target="#exampleModalCenter" id="loginbtn">登出</button>
+		<input type="hidden" name="action" value="logout">
+		</form>
+<%} %>
 		&nbsp;
-	<!--登入的彈出視窗-->
+	<!--登入的彈出視窗(背景變暗層)-->
 		<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 			role="dialog" aria-labelledby="exampleModalCenterTitle"
 			aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 			
-			<form action="<%=request.getContextPath()%>/back-end/employee/employee.do" method="post" id="login_view">
+			<form action="<%=request.getContextPath()%>/employee/employee.do" method="post" id="login_view">
 			
-				<div class="modal-content">	<!-- 彈出視窗show層 -->
+				<div class="modal-content" id="modalcontent">	<!-- 彈出視窗show層 (form表單驗證層)-->
 				
 					<div class="modal-header">
 						<img alt="" src="<%=request.getContextPath()%>/images/employee/logo1.png" width="50" height="50" border="0">
@@ -588,10 +602,10 @@ margin-right
 					</div>
 					
 					<div class="modal-body">帳號:</div>
-					<input type="text" name="eacc" class="logintext">
+					<input type="text" name="eacc" class="logintext" id="account">
 					
 					<div class="modal-body">密碼:</div>
-					<input type="password" name="epsw" class="logintext">
+					<input type="password" name="epsw" class="logintext" id="password">
 					
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel">取消</button>
@@ -599,7 +613,7 @@ margin-right
 					</div>
 					
 					<ul>
-						<li>忘記密碼<a href="<%=request.getContextPath()%>/back-end/employee/forgetPsw.jsp">點此</a></li>
+						<li>忘記密碼<a href="<%=request.getContextPath()%>/forgetPsw.jsp">點此</a></li>
 					</ul>
 					
 				</div>
@@ -611,7 +625,20 @@ margin-right
 	<!-- 登入按鈕結束 -->
 <script>
 
+var commit = document.getElementById('commit');
+var loginbtn = document.getElementById('loginbtn');
+var logoutbtn = document.getElementById('logoutbtn');
 
+//登入登出不跳轉測試成功(畫面跳轉即失效)
+commit.addEventListener('click',function(e){
+	loginbtn.style.display = 'none';
+	logoutbtn.style.display = 'block';
+});
+
+logoutbtn.addEventListener('click',function(){
+	loginbtn.style.display = 'block';
+	logoutbtn.style.display = 'none';
+});
 
 </script>
 </body>

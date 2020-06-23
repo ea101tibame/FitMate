@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface EmployeeDAO_interface {
 	
-	public String insertEmp (EmployeeVO EmployeeVO);	//for回傳密碼給寄信
+	public void insertEmp (EmployeeVO EmployeeVO);	//for回傳密碼給寄信
 	public void modifyEmpSta (EmployeeVO EmployeeVO);
 	public void deleteEmp (String empno);
 	public EmployeeVO selectByEmpno (String empno);

@@ -11,13 +11,24 @@ import javax.mail.internet.MimeMessage;
 
 public class MailService {
 	
-		public void getNewPsw (EmployeeVO empVO , String epsd) {
+		public void getNewPsw (EmployeeVO empVO) {
 			
 			String ename = empVO.getEname();
-			String to = empVO.getEmail();	
+			String to = empVO.getEmail();
+			String epsw = empVO.getEpsw();
 			String subject = "密碼通知信件";
-			String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsd+",請務必保管好此信件,謝謝";
-			
+			String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
+				
+			MailService mSvc = new MailService();
+			mSvc.sendMail(to, subject, messageText);
+		}
+		
+		public void forgetPsw (EmployeeVO empVO) {
+			String ename = empVO.getEname();
+			String to = empVO.getEmail();			
+			String epsw = empVO.getEpsw();
+			String subject = "忘記密碼通知信件";
+			String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
 			
 			MailService mSvc = new MailService();
 			mSvc.sendMail(to, subject, messageText);

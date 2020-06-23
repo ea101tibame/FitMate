@@ -91,7 +91,7 @@ body {
 				class="com.employee.model.EmployeeService" />
 
 			<li>
-				<form action="employee.do" method="post">
+				<form action="<%=request.getContextPath()%>/employee/employee.do" method="post">
 					<b>依員工編號選擇</b> <select size="1" name="empno">
 						<c:forEach var="empVO" items="${empSvc.allEmp}">
 							<option value="${empVO.empno}">${empVO.empno}
@@ -102,7 +102,7 @@ body {
 			</li>
 
 			<li>
-				<form action="employee.do" method="post">
+				<form action="<%=request.getContextPath()%>/employee/employee.do" method="post">
 					<b>依員工姓名選擇</b> <select size="1" name="empno">
 						<c:forEach var="empVO" items="${empSvc.allEmp}">
 							<option value="${empVO.empno}">${empVO.ename}

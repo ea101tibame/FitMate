@@ -36,13 +36,13 @@ public class EmployeeServlet extends HttpServlet {
 				String empno = req.getParameter("empno");
 				EmployeeService empSvc = new EmployeeService();
 				EmployeeVO empVO = empSvc.getOneEmp(empno);
-				
+
 				// 轉送到view,要記得set attribute
 				req.setAttribute("empVO", empVO);
 				String url = "/back-end/employee/showOneEmployee.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
-				
+
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
 				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/employee_select_page.jsp");
@@ -71,7 +71,7 @@ public class EmployeeServlet extends HttpServlet {
 				}
 
 				String epsw = req.getParameter("epsw");
-				
+
 				// 日期處理
 				java.sql.Date edate = null;
 				try {
@@ -87,7 +87,7 @@ public class EmployeeServlet extends HttpServlet {
 				is.read(epic);
 
 				String esta = req.getParameter("esta");
-				
+
 				String email = req.getParameter("email");
 				String emailCheck = "^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$";
 				if (email == null || email.trim().length() == 0) {
@@ -113,8 +113,8 @@ public class EmployeeServlet extends HttpServlet {
 				}
 
 				EmployeeService empSvc = new EmployeeService();
-				empVO = empSvc.addEmp(ename, eacc, email,edate, epic, esta);
-				
+				empVO = empSvc.addEmp(ename, eacc, email, edate, epic, esta);
+
 				req.setAttribute("empVO", empVO);
 				String url = "/back-end/employee/showAllEmployee.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -163,7 +163,7 @@ public class EmployeeServlet extends HttpServlet {
 				} else if (!ename.trim().matches(enameCheck)) {
 					errorMsgs.add("姓名格式錯誤,請輸入長度10以內的中英文");
 				}
-				
+
 				String eacc = req.getParameter("eacc");
 //				String eaccCheck = "^[(a-zA-Z0-9)]{1,20}$"; // only英文數字的正規表示法
 //				if (eacc == null || eacc.trim().length() == 0) {
@@ -186,24 +186,24 @@ public class EmployeeServlet extends HttpServlet {
 					edate = new java.sql.Date(System.currentTimeMillis());
 					errorMsgs.add("請輸入員工雇用日期");
 				}
-				//有圖給新圖,沒圖撈舊圖
-				byte[] epic ;
+				// 有圖給新圖,沒圖撈舊圖
+				byte[] epic;
 				Part part = req.getPart("epic");
 				InputStream is = part.getInputStream();
-				
-				if(is.available()>0) {
+
+				if (is.available() > 0) {
 					epic = new byte[is.available()];
 					is.read(epic);
-					is.close();	
-				
+					is.close();
+
 				} else {
 					EmployeeService Svc = new EmployeeService();
 					EmployeeVO VO = Svc.getOneEmp(empno);
-					epic = VO.getEpic();			
+					epic = VO.getEpic();
 				}
-				
+
 				String esta = req.getParameter("esta");
-				
+
 				String email = req.getParameter("email");
 				String emailCheck = "^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$";
 				if (email == null || email.trim().length() == 0) {
@@ -211,7 +211,7 @@ public class EmployeeServlet extends HttpServlet {
 				} else if (!email.trim().matches(emailCheck)) {
 					errorMsgs.add("信箱格式錯誤,請重新輸入");
 				}
-				
+
 				EmployeeVO empVO = new EmployeeVO();
 				empVO.setEmpno(empno);
 				empVO.setEname(ename);
@@ -230,7 +230,7 @@ public class EmployeeServlet extends HttpServlet {
 				}
 
 				EmployeeService empSvc = new EmployeeService();
-				empVO = empSvc.alterEmp(ename, eacc, epsw, email,edate, epic, esta, empno);
+				empVO = empSvc.alterEmp(ename, eacc, epsw, email, edate, epic, esta, empno);
 
 				req.setAttribute("empVO", empVO);
 				String url = "/back-end/employee/showOneEmployee.jsp";
@@ -265,11 +265,11 @@ public class EmployeeServlet extends HttpServlet {
 			}
 
 		}
-		//忘記密碼查詢
-		if("forgetPsw".equals(action)) {
+		// 忘記密碼查詢
+		if ("forgetPsw".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
+
 			try {
 				String eacc = req.getParameter("eacc");
 				String eaccCheck = "^[(a-zA-Z0-9)]{1,20}$"; // only英文數字的正規表示法
@@ -278,7 +278,7 @@ public class EmployeeServlet extends HttpServlet {
 				} else if (!eacc.trim().matches(eaccCheck)) {
 					errorMsgs.add("帳號格式錯誤,請輸入長度10以內的英數字");
 				}
-				
+
 				String email = req.getParameter("email");
 				String emailCheck = "^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$";
 				if (email == null || email.trim().length() == 0) {
@@ -286,70 +286,70 @@ public class EmployeeServlet extends HttpServlet {
 				} else if (!email.trim().matches(emailCheck)) {
 					errorMsgs.add("信箱格式錯誤,請重新輸入");
 				}
-				
+
 				EmployeeService empSvc = new EmployeeService();
 				EmployeeVO empVO = empSvc.forgetPsw(eacc, email);
-				
+
 				req.setAttribute("empVO", empVO);
-				String url = "/back-end/employee/forgetPsw.jsp";
+				String url = "/backend_index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
-				
+
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/employee_select_page.jsp");
+				RequestDispatcher failView = req.getRequestDispatcher("/forgetPsw.jsp");
 				failView.forward(req, res);
 			}
 		}
-		//登入驗證
-		if("logincheck".equals(action)) {
+		// 登入驗證(表單action無法轉到controller處理,filter直接過濾重導回首頁)
+		if ("logincheck".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
-			HttpSession session = req.getSession();
-			try {
+
 				String eacc = req.getParameter("eacc");
-				String eaccCheck = "^[(a-zA-Z0-9)]{1,20}$"; 
+				String eaccCheck = "^[(a-zA-Z0-9)]{1,20}$";
 				if (eacc == null || eacc.trim().length() == 0) {
 					errorMsgs.add("帳號不可留白");
 				} else if (!eacc.trim().matches(eaccCheck)) {
 					errorMsgs.add("帳號格式錯誤,請輸入長度10以內的英數字");
 				}
 				String epsw = req.getParameter("epsw");
-				if(epsw == null || epsw.trim().length()==0) {
+				if (epsw == null || epsw.trim().length() == 0) {
 					errorMsgs.add("請輸入密碼");
 				}
-				
 				EmployeeService empSvc = new EmployeeService();
 				EmployeeVO empVO = empSvc.loginCheck(eacc);
 				String epswCheck = empVO.getEpsw();
 				
-				if(epsw.equals(epswCheck)) {
-					session.setAttribute("empVO", empVO);	
-						String location = (String)session.getAttribute("location");
-						if(location==null) {
-							res.sendRedirect(req.getContextPath()+"/back-end/employee/loginSuccess.jsp");				
-							return ;
-						} else {
-							res.sendRedirect(location);	
+				if(!epsw.matches(epswCheck)) {
+					errorMsgs.add("密碼錯誤,拒絕登入");
+					res.sendRedirect(req.getContextPath() + "/loginFail.jsp");
+				} else {
+					HttpSession session = req.getSession();
+					session.setAttribute("empVO", empVO);
+					try {
+						String location = (String) session.getAttribute("location");
+						if(location!=null) {
+							session.removeAttribute("location");
+							res.sendRedirect(location);
 							return ;
 						}
-						
-				} else {
-					errorMsgs.add("密碼錯誤,拒絕登入");
-					res.sendRedirect(req.getContextPath()+"/back-end/backend_index.jsp");
+					} catch (Exception ignored) {}
 					
+					res.sendRedirect(req.getContextPath()+ "/back-end/employee/loginSuccess.jsp");
 				}
-					
-			} catch (Exception e) {
-				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/back-end/backend_index.jsp");
-				failView.forward(req, res);
-				
-			}
 		}
-	}
+		//登出(移除session中的資料)
+		if("logout".equals(action)) {
+			HttpSession session = req.getSession();
+			session.removeAttribute("empVO");
+			String url = "/backend_index.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
+		}
+	}	
 	
 	
-
 }
+
+

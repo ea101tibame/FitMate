@@ -29,6 +29,7 @@ public class AuthorityDAO implements AuthorityDAO_interface{
 			private static final String SELECTNOR_STMT = "SELECT ESTA , FUNCNO FROM EMPLOYEE E JOIN AUTHORITY A ON E.EMPNO = A.EMPNO WHERE ESTA = '一般管理員' ";
 			private static final String UPGRADESYS_STMT = "INSERT INTO AUTHORITY VALUES (?,'F007')";
 			private static final String UPGRADENOR_STMT = "INSERT INTO AUTHORITY VALUES (?,?)";
+			private static final String GET_FUNCBYEMPNO = "SELECT FUNCNO FROM AUTHORTY WHERE EMPNO = ?";
 
 			@Override
 			public List<AuthorityVO> selectAllFuncSys() {

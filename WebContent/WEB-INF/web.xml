@@ -30,7 +30,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>EmployeeServlet</servlet-name>
-		<url-pattern>/back-end/employee/employee.do</url-pattern>
+		<url-pattern>/employee/employee.do</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -39,7 +39,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>InformationServlet</servlet-name>
-		<url-pattern>/back-end/information/information.do</url-pattern>
+		<url-pattern>/information/information.do</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -48,24 +48,24 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>EmployeePicServlet</servlet-name>
-		<url-pattern>/back-end/employee/employeePic.do</url-pattern>
+		<url-pattern>/employee/employeePic.do</url-pattern>
 	</servlet-mapping>
 	
 	
 
-<!-- 	<filter> -->
-<!-- 		<filter-name>EmployeeFilter</filter-name> -->
-<!-- 		<filter-class>com.employee.filter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>EmployeeFilter</filter-name> -->
-<!-- 		<url-pattern>/back-end/employee/showAllEmployee.jsp</url-pattern> -->
-<!-- 		<dispatcher>REQUEST</dispatcher> -->
-<!-- 		<dispatcher>FORWARD</dispatcher> -->
-<!-- 		<dispatcher>INCLUDE</dispatcher> -->
-<!-- 		<dispatcher>ERROR</dispatcher> -->
-<!-- 		<dispatcher>ASYNC</dispatcher> -->
-<!-- 	</filter-mapping> -->
+	<filter>
+		<filter-name>EmployeeFilter</filter-name>
+		<filter-class>com.filter.EmployeeFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EmployeeFilter</filter-name>
+		<url-pattern>/back-end/employee/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
  	
 	
 </web-app>

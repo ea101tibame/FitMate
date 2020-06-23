@@ -1,24 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.employee.model.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
- 	EmployeeVO empVO = (EmployeeVO)session.getAttribute("empVO");
-	session.setAttribute("empVO", empVO);
+	EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
 %>
-
-<!DOCTYPE html>
 <html>
 <head>
-<title>FitMate管理後台</title>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <meta charset="utf-8">
-
 <style>
-	body{ 
+
+	body { 
 		background:url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
 		background-position: center center;
 	}
+	
+	
+	#confirm , #result{
+		margin-left: 46%;
+	}
+	
+	
 </style>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -56,9 +61,9 @@
 </head>
 
 <body>
-	<%@ include file="/backinclude_test.jsp"%>
 
-	<!-- 主要內文區開始 -->
+	<%@ include file="/backinclude_test.jsp"%>
+<!-- 主要內文區開始 -->
 	<div class="article side-open">
 		<!-- logo區開始 -->
 		<div id="logo">
@@ -68,17 +73,43 @@
 
 		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
 		<div id="main">
-			<h2>首頁</h2>
+			<h2>忘記密碼</h2>
+			<a href="employee_select_page.jsp">返回首頁</a>
 		</div>
-
-		<p>登入成功測試</p>
-		<p>${empVO.ename}你好</p>
 		
-		<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">員工管理首頁</a>
+		<c:if test="${not empty errorMsgs}">
+			<a>看看你的錯:</a>
+			<br>
+			<a><c:forEach var="message" items="${errorMsgs}">${message}</c:forEach></a>
+		</c:if>
 
+		<form action="employee.do" method="post">
+		
+		<table class="table align-items-center">
+			<tr>
+				<td>請輸入員工帳號</td>
+				<td><input type="text" name="eacc"></td>
+			</tr>
+			<tr>
+				<td>請輸入員工信箱</td>
+				<td><input type="email" name="email"></td>
+			</tr>
+		</table>
+				<input type="hidden" name="action" value="forgetPsw">
+				<input type="submit" value="送出查詢" class="btn btn-outline-success my-2 my-sm-0" id="confirm">
+		</form>
+		<br><br>
+		
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 	</div>
-
+	
+<script>
+	
+	$("#confirm").click(function(){
+		swal('成功','信件已寄出,請耐心等待','success',{button:'確認'});
+	});
+	
+</script>
 
 </body>
 </html>

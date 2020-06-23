@@ -87,7 +87,7 @@ body {
 
 		<div id="main">
 			<h1>FitMate所有員工資料</h1>
-			<a href="employee_select_page.jsp">返回首頁</a>
+			<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回首頁</a>
 		</div>
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
@@ -111,12 +111,12 @@ body {
 						<td>${empVO.email}</td>
 						<td>${empVO.edate}</td>
 						<td><img
-							src="<%=request.getContextPath()%>/back-end/employee/employeePic.do?empno=${empVO.empno}"
+							src="<%=request.getContextPath()%>/employee/employeePic.do?empno=${empVO.empno}"
 							class="pic"></td>
 						<td>${empVO.esta}</td>
 						<td>
 							<form
-								action="<%=request.getContextPath()%>/back-end/employee/employee.do"
+								action="<%=request.getContextPath()%>/employee/employee.do"
 								method="post" style="margin-bottom: 0px;">
 								<input type="submit" value="更新資料"
 									class="btn btn-outline-success my-2 my-sm-0"> <input
@@ -126,7 +126,7 @@ body {
 						</td>
 						<td>
 							<form
-								action="<%=request.getContextPath()%>/back-end/employee/employee.do"
+								action="<%=request.getContextPath()%>/employee/employee.do"
 								method="post" style="margin-bottom: 0px;">
 								<input type="submit" value="刪除資料"
 									onclick="javascript:return bye();"

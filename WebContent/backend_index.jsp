@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.employee.model.*"%>
+<%
+ 	EmployeeVO empVO = (EmployeeVO)session.getAttribute("empVO");
+	session.setAttribute("empVO", empVO);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,8 +70,12 @@
 		<div id="main">
 			<h2>首頁</h2>
 		</div>
-
-		<p>暫時首頁</p>
+		<c:if test="${not empty errorMsgs}">
+			<a>看看你的錯:</a>
+			<br>
+			<a><c:forEach var="message" items="${errorMsgs}">${message}</c:forEach></a>
+		</c:if>
+		<p>日安 ${empVO.ename}</p>
 	
 
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->

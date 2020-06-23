@@ -88,7 +88,7 @@ body {
 
 		<div id="main">
 			<h1>新增員工資料</h1>
-			<a href="employee_select_page.jsp">返回首頁</a>
+			<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
 		</div>
 		<c:if test="${not empty errorMsgs}">
 			<a>看看你的錯:</a>
@@ -96,7 +96,7 @@ body {
 			<a><c:forEach var="message" items="${errorMsgs}">${message}</c:forEach></a>
 		</c:if>
 
-		<form action="employee.do" method="post" enctype="multipart/form-data">
+		<form action="<%=request.getContextPath()%>/employee/employee.do" method="post" enctype="multipart/form-data">
 			<div class="table-responsive-sm table-hover table-success">
 				<table class="table align-items-center">
 					<tr>

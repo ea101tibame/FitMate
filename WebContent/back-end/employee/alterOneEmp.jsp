@@ -86,8 +86,8 @@ body {
 
 		<div id="main">
 			<h1>修改員工資料</h1>
-			<a href="showAllEmployee.jsp">返回員工列表</a> <a
-				href="employee_select_page.jsp">返回首頁</a>
+			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工列表</a> 
+			<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
 		</div>
 		<c:if test="${not empty errorMsgs}">
 			<a>看看你的錯:</a>
@@ -125,7 +125,7 @@ body {
 						<td>員工圖片:</td>
 						<td><input type="file" id="txt_pic" name="epic"><br></td>
 						<td><img id="previewPic"
-							src="<%=request.getContextPath()%>/back-end/employee/employeePic.do?empno=${empVO.empno}"><br></td>
+							src="<%=request.getContextPath()%>/employee/employeePic.do?empno=${empVO.empno}"><br></td>
 					</tr>
 					<tr>
 						<td>員工權限:<font color=red><b>*</b></font></td>

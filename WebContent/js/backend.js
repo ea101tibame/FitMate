@@ -77,8 +77,10 @@ function sendNewMessage() {
     }, 250);
 }
 
+//
 function onMetaAndEnter(event) {
     if ((event.metaKey || event.ctrlKey) && event.keyCode == 13) {
         sendNewMessage();
     }
 }
+

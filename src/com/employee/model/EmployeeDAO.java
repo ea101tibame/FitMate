@@ -31,7 +31,7 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 	}
 		//新增員工(含圖片)
 		private static final String INSERT_STMT = "INSERT INTO EMPLOYEE VALUES ('E'||LPAD(to_char(EMPNO_SEQ.NEXTVAL),3,'0'),?,?,?,?,?,?,?)";
-		//列出所有員工(密碼未亂數設定)
+		//列出所有員工
 		private static final String GET_ALL_STMT = "SELECT EMPNO,ENAME,EACC,EPSW,EMAIL,EDATE,ESTA FROM EMPLOYEE ORDER BY EMPNO";
 		//列出單一員工(基本不用)
 		private static final String GET_ONE_STMT = "SELECT EMPNO,ENAME,EACC,EPSW,EMAIL,EDATE,EPIC,ESTA FROM EMPLOYEE WHERE EMPNO = ?";
@@ -40,15 +40,14 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 		//修改員工資料(主要權限更動)
 		private static final String UPDATE_STA = "UPDATE EMPLOYEE SET ENAME = ? , EACC = ? , EPSW = ? ,EMAIL = ? , EDATE = ?,EPIC = ?, ESTA = ?  WHERE EMPNO = ? ";
 		//忘記密碼查詢
-		private static final String FORGET_PSW = "SELECT EPSW FROM EMPLOYEE WHERE EACC = ? AND EMAIL = ? ";
+		private static final String FORGET_PSW = "SELECT EPSW , ENAME , EMAIL FROM EMPLOYEE WHERE EACC = ? AND EMAIL = ? ";
 		//登入驗證(給帳號讓servlet比對密碼)
-		private static final String LOGIN = "SELECT * FROM EMPLOYEE WHERE EACC = ? ";
+		private static final String LOGIN = "SELECT EMPNO , ENAME , EPSW FROM EMPLOYEE WHERE EACC = ? ";
 		@Override
-		public String insertEmp(EmployeeVO empVO) {
+		public void insertEmp(EmployeeVO empVO) {
 			
 			Connection con = null ;
 			PreparedStatement pstmt = null ;
-			String epwd = getRandomString();
 			
 				try {		
 					con = ds.getConnection();
@@ -56,7 +55,7 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 					
 					pstmt.setString(1, empVO.getEname());
 					pstmt.setString(2, empVO.getEacc());
-					pstmt.setString(3, epwd);
+					pstmt.setString(3, empVO.getEpsw());
 					pstmt.setString(4, empVO.getEmail());
 					pstmt.setDate(5, empVO.getEdate());
 					pstmt.setBytes(6, empVO.getEpic());
@@ -83,7 +82,7 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 						}
 					}
 				}
-				return epwd ;
+				
 			}
 		@Override
 		public void modifyEmpSta(EmployeeVO empVO) {
@@ -273,6 +272,8 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 				while(rs.next()) {
 					empVO = new EmployeeVO();
 					empVO.setEpsw(rs.getString("epsw"));
+					empVO.setEname(rs.getString("ename"));
+					empVO.setEmail(rs.getString("email"));
 				}
 			} catch (SQLException se) {
 				throw new RuntimeException("A database error occured. "
@@ -294,7 +295,7 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 					}
 				}
 			}
-			return empVO;		
+			return empVO; //有epsw ename email的VO		
 		}
 		
 		//登入驗證
@@ -311,8 +312,10 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 				pstmt.setString(1, eacc);
 				rs = pstmt.executeQuery();
 				
+				//loginSuccess顯示名字
 				while(rs.next()) {
 					empVO = new EmployeeVO();
+					empVO.setEmpno(rs.getString("empno"));
 					empVO.setEpsw(rs.getString("epsw"));
 					empVO.setEname(rs.getString("ename"));
 				}

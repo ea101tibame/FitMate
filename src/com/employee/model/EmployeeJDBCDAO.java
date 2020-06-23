@@ -22,17 +22,16 @@ public class EmployeeJDBCDAO implements EmployeeDAO_interface{
 	//修改員工資料(主要權限更動)
 	private static final String UPDATE_STA = "UPDATE EMPLOYEE SET ENAME = ? , EACC = ? , EPSW = ? , ESTA = ?  WHERE EMPNO = ? ";
 	//忘記密碼查詢
-	private static final String FORGET_PSW = "SELECT EPSW FROM EMPLOYEE WHERE EACC = ? AND EMAIL = ? ";
+	private static final String FORGET_PSW = "SELECT EPSW , ENAME , EMAIL FROM EMPLOYEE WHERE EACC = ? AND EMAIL = ? ";
 	//登入驗證(給帳號讓servlet比對密碼)
-	private static final String LOGIN = "SELECT * FROM EMPLOYEE WHERE EACC = ? ";
+	private static final String LOGIN = "SELECT EMPNO , EPSW , ENAME FROM EMPLOYEE WHERE EACC = ? ";
 
 	@Override
-	public String insertEmp(EmployeeVO empVO) {
+	public void insertEmp(EmployeeVO empVO) {
 		
 		Connection con = null ;
 		PreparedStatement pstmt = null ;
 		
-		String epwd = getRandomString();
 			try {		
 				Class.forName(driver);
 				con = DriverManager.getConnection(url,userid,passwd);
@@ -40,7 +39,7 @@ public class EmployeeJDBCDAO implements EmployeeDAO_interface{
 				
 				pstmt.setString(1, empVO.getEname());
 				pstmt.setString(2, empVO.getEacc());
-				pstmt.setString(3, epwd);
+				pstmt.setString(3, empVO.getEpsw());
 				pstmt.setString(4, empVO.getEmail());
 				pstmt.setDate(5, empVO.getEdate());
 				pstmt.setBytes(6, empVO.getEpic());
@@ -71,7 +70,7 @@ public class EmployeeJDBCDAO implements EmployeeDAO_interface{
 					}
 				}
 			}
-			return epwd ;
+			
 		}
 	@Override
 	
@@ -293,7 +292,9 @@ public class EmployeeJDBCDAO implements EmployeeDAO_interface{
 			
 			while(rs.next()) {
 				empVO = new EmployeeVO();
-				empVO.setEmail(rs.getString("epsw"));
+				empVO.setEpsw(rs.getString("epsw"));
+				empVO.setEname(rs.getString("ename"));
+				empVO.setEmail(rs.getString("email"));
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -339,7 +340,9 @@ public class EmployeeJDBCDAO implements EmployeeDAO_interface{
 					
 					while(rs.next()) {
 						empVO = new EmployeeVO();
+						empVO.setEmpno(rs.getString("empno"));
 						empVO.setEpsw(rs.getString("epsw"));
+						empVO.setEname(rs.getString("ename"));
 					}
 					
 				} catch (ClassNotFoundException e) {
@@ -385,7 +388,11 @@ public class EmployeeJDBCDAO implements EmployeeDAO_interface{
 		
 		EmployeeJDBCDAO dao = new EmployeeJDBCDAO();
 		
-//		EmployeeVO empVO = new EmployeeVO();
+		EmployeeVO empVO = new EmployeeVO();
+		empVO = dao.forgetPsw("AGURI", "qwer25872682@gmail.com");
+		System.out.print(empVO.getEmail());
+		System.out.println(empVO.getEname());
+		System.out.println(empVO.getEpsw());
 //		empVO = dao.selectByEacc("EMI");
 //		System.out.println(empVO.getEpsw());
 		
