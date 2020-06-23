@@ -120,7 +120,8 @@
 
 		<!-- Single Blog Post Thumb -->
 		<div class="single-blog-post-thumb">
-			<img src="${pageContext.request.contextPath}/images/bg-img/COA1920.png"
+			<img
+				src="${pageContext.request.contextPath}/images/bg-img/COA1920.png"
 				alt="">
 		</div>
 		<%-- 錯誤表列 --%>
@@ -138,7 +139,6 @@
 					<div class="regular-page-content-wrapper section-padding-80">
 						<form method="post"
 							action="<%=request.getContextPath()%>/lesson/lesson.do"
-							
 							enctype="multipart/form-data">
 							<div class="regular-page-text">
 								<h2>建立課程</h2>
@@ -228,34 +228,19 @@
 								</div>
 
 								<div>
-									<div class="col-md-12 mb-3">
-										<label for="address">課程說明</label>
-										<textarea name="lessdesc"><%=(lessonVO == null) ? "" : lessonVO.getLessdesc()%></textarea>
-										<%--測試ckeditor 4
-										 <div>
-											<script
-												src="https://cdn.ckeditor.com/4.7.3/standard-all/ckeditor.js"></script>
-											<textarea name="editor1"></textarea>
-											<script>
-// 												CKEDITOR.plugins
-// 														.addExternal(
-// 																"codesnippet",
-// 																"https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.7.3/plugins/codesnippet/plugin.js",
-// 																"");
-// 												CKEDITOR
-// 														.replace("editor1", {
-// 																	extraPlugins : "codesnippet",
-// 																	codeSnippet_theme : "solarized_dark"
-// 																});
-												
-											</script>
-										</div>--%>
-									</div>
+<!-- 									<div class="col-md-12 mb-3"> -->
+<!-- 										<label for="address">課程說明</label> -->
+<%-- 										<textarea name="lessdesc"><%=(lessonVO == null) ? "" : lessonVO.getLessdesc()%></textarea> --%>
+										
+										<div class="form-group">
+											<label for="exampleFormControlTextarea1">課程說明</label>
+											<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="lessdesc"><%=(lessonVO == null) ? "" : lessonVO.getLessdesc()%></textarea>
+										</div>
+										
 									<div>
 										<div>
 											<div>
-												<label>上傳課程封面圖片: </label> <br>
-												 <input type="file"
+												<label>上傳課程封面圖片: </label> <br> <input type="file"
 													id="myFile" name="lesspic">
 											</div>
 										</div>
@@ -276,7 +261,8 @@
 
 							<hr class="mb-4">
 							<input type="hidden" name="action" value="insert">
-							<button class="btn btn-primary btn-lg btn-block" type="submit">課程建立>>>下一步 新增時段</button>
+							<button class="btn btn-primary btn-lg btn-block" type="submit">課程建立>>>下一步
+								新增時段</button>
 						</form>
 						<!--表單結束-->
 					</div>
@@ -314,15 +300,14 @@
 	<!-- Popper js -->
 	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
 	<!-- Bootstrap js -->
-	<script
-		src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<!-- Plugins js -->
 	<script src="${pageContext.request.contextPath}/js/plugins.js"></script>
 	<!-- Classy Nav js -->
-	<script
-		src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
 	<!-- Active js -->
-	<script src="${pageContext.request.contextPath}/js/custom-js/lesson/addLesson.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/custom-js/lesson/addLesson.js"></script>
 	<script src="${pageContext.request.contextPath}/js/active.js"></script>
 	<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>

@@ -49,6 +49,17 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 	.title{
 	font-size:20px;
 	}
+
+	.btn-info {
+    margin-left: 20px;
+    margin-top: 20px;
+    }
+    
+    #show{
+    margin-top: 25px;
+    margin-left: 30px;
+    font-size:18px;
+    }
 </style>
 
 </head>
@@ -223,6 +234,7 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 											url 		: '<%=request.getContextPath()%>/lesson/checkTime', 
 											data 		: {
 															jarr:jarr,
+															lessno:<%=lessonVO.getLessno() %>
 														}, 
 											
 											dataType 	: 'json',
@@ -234,12 +246,14 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 											},
 											success:function(data){
 												console.log("data="+data);
-												alert(data);
+ 											
 												if(data=="Success!"){
+													swal("Check "+data, "時段確認 OK", "success");
 													$("#show").text(data);
 													$("#show").css("color","red");
 													$("#send").show();
 							                    }else{
+							                    	swal("請重新選擇時段", data, "error");
 							                    	$("#show").text(data);
 													$("#show").css("color","red");
 							                    }
@@ -347,6 +361,7 @@ $(function() {
   });
 
 </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 
 </html>

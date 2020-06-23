@@ -52,5 +52,9 @@ public class LessonTimeService {
 	public JSONArray getCoachAllLesson(String coano) {
 		return dao.getCoachAllLesson(coano);
 	}
+	
+	public List<String> getOneTime(String lessno) {
+		return dao.getOneTime(lessno);
+	}
 
 }

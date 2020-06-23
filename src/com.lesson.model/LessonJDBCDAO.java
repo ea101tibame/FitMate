@@ -365,7 +365,8 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 
 				for (int i = 1; i <= columnCount; i++) {
 					try {
-						oneLesson.put("lesson", rs.getString("lessno"));
+						oneLesson.put("coano",rs.getString("coano"));
+						oneLesson.put("lessno", rs.getString("lessno"));
 						oneLesson.put("lessname", rs.getString("lessname"));
 						oneLesson.put("lesscur", rs.getString("lesscur"));
 						oneLesson.put("lessprice", rs.getInt("lessprice"));
@@ -489,8 +490,8 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //		}				
 
 		// 查詢某教練的課程資訊 印出JSONArray
-//		JSONArray allLessonArray = dao.getCoachAllLesson("C002");
-//		System.out.println(allLessonArray);
+		JSONArray allLessonArray = dao.getCoachAllLesson("C002");
+		System.out.println(allLessonArray);
 
 //		List<LessonVO> CAllLesson = dao.getCoachLesson("C001");
 //		for(LessonVO allLesson:CAllLesson) {
@@ -508,8 +509,8 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //		dao.update_off("L002");
 //		System.out.print("修改下架成功");
 		
-		JSONArray allcheckTime = dao.checkTime("C001");
-		System.out.println(allcheckTime);
+//		JSONArray allcheckTime = dao.checkTime("C001");
+//		System.out.println(allcheckTime);
 	}
 
 	public static byte[] getPictureByteArray(String path) throws IOException {

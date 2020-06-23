@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +34,8 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	private static final String GET_ALL = "SELECT * FROM LESSON_TIME";
 	private static final String GET_CoachAlltimes = "SELECT LTIME_DATE,LTIME_SS FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String INSERT_DTEAIL = "INSERT INTO LESSON_DETAIL VALUES (?,?)";
+	private static final String GET_ONE_TIME = "SELECT LTIME_DATE,LTIME_SS  FROM LESSON_TIME JOIN LESSON_DETAIL ON LESSON_DETAIL.LTIME_NO=LESSON_TIME.LTIME_NO JOIN LESSON ON LESSON_DETAIL.LESSNO=LESSON.LESSNO WHERE LESSON.LESSNO= ?";
+
 //	private static final String GET_TIMES = "SELECT LESSTIMES FROM LESSON WHERE LESSNO=?";
 //	private static final String UPDATE_TIMES = "UPDATE LESSON SET LESSTIMES=?WHERE LESSNO=?";
 	@Override
@@ -146,7 +149,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	}
 
 	@Override
-	public void delete(String ltime_no,String lessno) {
+	public void delete(String ltime_no, String lessno) {
 		int updateCount_ltime_no = 0;
 
 		Connection con = null;
@@ -169,7 +172,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 			pstmt.setString(1, ltime_no);
 			pstmt.executeUpdate();
 
-			//先把此課程的堂數查出來 減一
+			// 先把此課程的堂數查出來 減一
 //			ResultSet rs = null;
 //			pstmt = con.prepareStatement(GET_TIMES);
 //			pstmt.setString(1, lessno);
@@ -184,9 +187,9 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //			}
 			LessonService lessonSvc = new LessonService();
 			lessonSvc.getOneByPK(lessno);
-			
-			//在更新他的堂數 減一
-			
+
+			// 在更新他的堂數 減一
+
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
@@ -447,6 +450,65 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //		}
 //		JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
 //		System.out.println(allLessonTimeArray);
+		List<String> old = dao.getOneTime("L001");
+		for(String oold:old) {
+			System.out.println(oold);
+		}
 	}
 
+	@Override
+	public List<String> getOneTime(String lessno) {
+		List<String> list = new ArrayList<String>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_TIME);
+			pstmt.setString(1, lessno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Date ltime_date = rs.getDate("ltime_date");
+				String date = ltime_date.toString();
+				String ltime_ss = rs.getString("ltime_ss");
+				String all = date+ltime_ss;
+				list.add(all);
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+
+	}
 }

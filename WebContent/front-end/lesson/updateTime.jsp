@@ -49,6 +49,16 @@ pageContext.setAttribute("Timelist",Timelist);
 	.title{
 	font-size:20px;
 	}
+	.btn-info {
+    margin-left: 20px;
+    margin-top: 20px;
+    }
+    
+    #show{
+    margin-top: 25px;
+    margin-left: 30px;
+    font-size:18px;
+    }
 </style>
 
 </head>
@@ -184,8 +194,86 @@ pageContext.setAttribute("Timelist",Timelist);
 									</div>
 									<input type="hidden" name="ltime_no" value="${lessonTimeVO.ltime_no}">
 								</c:forEach>
-
+									<button type="button" class="btn btn-info" onclick="get()">檢查時段</button>
+									<br>
+									<div id="show"></div>
 								</div>
+								
+									<script>
+
+									function get(){
+										var date='';
+										var time='';
+										$(".form-control").each(function(){
+									    	date=date+ $(this).val()+',';
+									    	
+										});
+										$(".custom-select").each(function(){
+											time=time+ $(this).val()+',';
+										});
+										
+										var strdate= new Array(); 
+										strdate=date.split(",");
+										var strtime= new Array();
+										strtime = time.split(",,");
+										var jsonArr=[];
+																			
+										for(var i=0;i<strdate.length;i++){			
+											var datepush = strdate[i];
+											var timepush = strtime[i];
+											console.log("datepush="+datepush);
+											console.log("timepush="+timepush);
+											var dateAndTime = datepush+timepush;
+											console.log("dateAndTime="+dateAndTime);
+											var jsonObj = {
+	 												"dateAndTime" :dateAndTime,
+	 											};
+											jsonArr.push(jsonObj);
+											console.log("jsonArr="+jsonArr)
+										}
+										var jarr = JSON.stringify( jsonArr );
+										console.log(jarr);
+										
+										$.ajax({
+											type 		: 'POST', 
+											url 		: '<%=request.getContextPath()%>/lesson/checkTime', 
+											data 		: {
+															jarr:jarr,
+															lessno:"<%=lessonVO.getLessno() %>"
+														}, 
+											
+											dataType 	: 'json',
+											contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+											encode 		: true,
+											
+											beforeSend:function(XMLHttpRequest){
+												$("#show").text("時段檢查中...");
+											},
+											success:function(data){
+												console.log("data="+data);
+ 											
+												if(data=="Success!"){
+													swal("Check "+data, "時段確認 OK", "success");
+													$("#show").text(data);
+													$("#show").css("color","red");
+													$("#send").show();
+							                    }else{
+							                    	swal("請重新選擇時段", data, "error");
+							                    	$("#show").text(data);
+													$("#show").css("color","red");
+							                    }
+												
+											},
+											error:function(err){
+												console.log("error="+JSON.stringify(err));
+												
+											},
+								            });
+										
+									
+										}
+
+									</script>
 							</div>
 							<hr class="mb-4">
 							<input type="hidden" name="lessname" value="<%=lessonVO.getLessname() %>">
@@ -270,6 +358,7 @@ $(function() {
   });
 
 </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 
 </html>

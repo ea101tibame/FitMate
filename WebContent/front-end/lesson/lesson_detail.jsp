@@ -1,10 +1,20 @@
+<%@page import="java.util.List"%>
+<%@page import="com.lessonTime.model.LessonTimeService"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.lesson.model.*"%>
 <%
 	LessonVO lessonVO = (LessonVO) request.getAttribute("lessonVO");
+	LessonTimeService ltsvc = new LessonTimeService();
+	String lessno = lessonVO.getLessno();
+	List<String> old = ltsvc.getOneTime(lessno);
+
 %>
+
+          
+         
+         
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +30,17 @@
 <title>FitMate</title>
 
 <!-- Favicon  -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+        <!--jQuery library-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+        <!--Latest compiled and minified JavaScript-->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'>
+<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script> -->
+
 <link rel="icon"
 	href="${pageContext.request.contextPath}/images/core-img/FIT.ico">
 
@@ -28,9 +49,12 @@
 	href="${pageContext.request.contextPath}/css/css/core-style.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/custom-css/regular-page.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/custom-css/lesson/lesson_detail.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap"
 	rel="stylesheet">
+
 	<style>
 .btn-success{
 position: absolute;
@@ -41,6 +65,12 @@ position: absolute;
 position: absolute;
     bottom: 20px;
     right: 20px;
+}
+#title{
+margin-left:50px;
+}
+.btn{
+font-size:15px;
 }
 </style>
 </head>
@@ -180,46 +210,81 @@ position: absolute;
 				alt="">
 		</div>
 
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-12 col-md-8">
-					<div class="regular-page-content-wrapper section-padding-80">
-						<div class="regular-page-text">
-							<h2>課程詳情</h2>
-							
+								  
+ <section>
+ <h1 id="title">${lessonVO.lessname} </h1>
+ <div class="container">
+ <div class="row justify-content-center">
+    <div class="col-6">
+       <div class="thumbnail">
+           <img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="img-responsive" alt="">
+           
+           <div class="caption">
+             <div class="row buttons">
+               
+                 <button class="btn  col-sm-4 col-sm-offset-2 btn-lg" style="background-color:#2894FF; color:#fff;font-size:1em;"  id="follow"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;加入追蹤</button>
+               
+                                
+               <button class="btn col-sm-4 col-sm-offset-1 btn-lg" style="background-color:#fb641b; color:#fff;font-size:1em;"><i class="fa fa-bolt" style="font-size:1.2em;"></i>&nbsp;立即購買</button>
+               </div>
+             
+           </div>
+         </div>
+    </div>
+    <div class="col-6">
+          <div>
+         
 
-								
+          <h4><span class="glyphicon glyphicon-calendar"></span> 查看課程時段 <i class="fa fa-chevron-right" id="button"  ></i></h4>  
+
+          
+          <div class="toggler">
+  <div class="alert alert-primary">
+    <h3 class="alert alert-primary">此堂課程時段如下</h3>
+    <p>
+     	<% 
+   	 for(String a:old) {
+  		out.print(a);
+  		out.print("<br>");
+  	}
+     	%>
+
+    </p>
+  </div>
+</div>
+
+
+           <br>
+  			<jsp:useBean id="lessonSvc" scope="page" class="com.lesson.model.LessonService" />
+           <h4><i class="glyphicon glyphicon-bullhorn"></i><strong>  課程類型 : </strong><c:forEach var="expertiseVO" items="${lessonSvc.allExpByExpno}"> 
+ 				<c:if test="${lessonVO.lesstype==expertiseVO.expno}">${expertiseVO.expdesc}</c:if> 
+ 			</c:forEach> </h4>
+           <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  課程簡介:</strong> ${lessonVO.lessdesc} </h4>
+         
+         <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  課程地點 : </strong>${lessonVO.lessloc} </h4>
+         <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  課程堂數 : </strong>${lessonVO.lesstimes}  堂</h4>
+         <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  販售點數 : </strong> ${lessonVO.lessprice} 點</h4>
+          <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  目前報名人數 :</strong> ${lessonVO.lesscur} 人</h4>
+          <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  最低成團人數 : </strong> ${lessonVO.lessmin} 人</h4>
+           <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  最高人數限制 : </strong> ${lessonVO.lessmax} 人</h4>
+            <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  開始報名日 : </strong> ${lessonVO.lessstart}</h4>
+            <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  截止報名日 : </strong> ${lessonVO.lessend}</h4>
+            <h4><span class="glyphicon glyphicon-thumbs-up"></span><strong>  課程狀態 : </strong> ${lessonVO.lesssta}</h4>
+         </div>   
+         <br>
+          
+             <button type="button" class="btn btn-dark">查看教練介紹</button>
+         
+          
+    </div>
+  </div>
+</div> 
+
+
+    </section>
 						
-								
-								<div class="card-deck col-12">
+</div>
 
-									<div class="card">
-
-										<img
-											src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}"
-											alt="" class="card-img-top" alt="...">
-										<div class="card-body">
-											<h5 class="card-title">${lessonVO.lessname}</h5>
-											<p class="card-text">${lessonVO.lessdesc}</p>
-											<p class="card-text">${lessonVO.lessloc}</p>
-											<p class="card-text">
-												點數:${lessonVO.lessprice}<small class="text-muted">.....</small>
-											</p>
-											<button type="submit" id="follow" class="btn btn-success">加入追蹤</button>
-
-											<button type="submit" class="btn btn-danger">立即購買</button>
-										</div>
-
-									</div>
-
-								</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	<!-- ##### Blog Wrapper Area End ##### -->
 
 	<!-- ##### Footer Area Start ##### -->
@@ -246,8 +311,7 @@ position: absolute;
 	</footer>
 	<!-- ##### Footer Area End ##### -->
 
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
 	<!-- Popper js -->
 	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
 	<!-- Bootstrap js -->
@@ -262,6 +326,16 @@ position: absolute;
 	<script src="${pageContext.request.contextPath}/js/active.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/custom-js/lesson/lesson_detail.js"></script>
+	<script>
+
+	$(document).ready(function(){
+		$(".toggler").hide();
+			
+		  $("#button").click(function(){
+		  $(".toggler").toggle();
+		  }); 
+		});
+</script>
 </body>
 
 </html>

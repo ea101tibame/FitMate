@@ -1,41 +1,60 @@
 package com.lessonDetail.controller;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class LessonDetailServlet
- */
+import com.lesson.model.LessonService;
+import com.lesson.model.LessonVO;
+
+
 @WebServlet("/LessonDetailServlet")
 public class LessonDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public LessonDetailServlet() {
         super();
-        // TODO Auto-generated constructor stub
+      
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		String action = req.getParameter("action");
+		if("show_lesson_detail".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			try {
+				/***************************1.接收請求參數****************************************/
+				String lessno = new String(req.getParameter("lessno"));
+				String coano = new String(req.getParameter("coano"));
+				/***************************2.開始查詢資料****************************************/
+				LessonService lessonSvc = new LessonService();
+				LessonVO lessonVO = lessonSvc.getOneByPK(lessno);
+				
+//				CoachService coachSvc = new CoachService();
+//				CoachVO coachVO = coachSvc.getOneByPK();
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("lessonVO", lessonVO);
+//				req.setAtrribute("coachVO",coachVO);
+				String url ="/front-end/lesson/lesson_detail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+				/***************************其他可能的錯誤處理************************************/
+
+			}catch(Exception e) {
+				throw new ServletException(e);
+			}
+		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+
 
 }

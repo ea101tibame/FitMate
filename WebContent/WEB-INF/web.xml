@@ -46,4 +46,13 @@
   	<url-pattern>/lesson/lessonTime.do</url-pattern>
   </servlet-mapping>   
   
+      <servlet>
+	<servlet-name>LessonDetailServlet</servlet-name>  
+	<servlet-class>com.lessonDetail.controller.LessonDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LessonDetailServlet</servlet-name>
+  	<url-pattern>/lesson/LessonDetailServlet.do</url-pattern>
+  </servlet-mapping>   
+  
 </web-app>

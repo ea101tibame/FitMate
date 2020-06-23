@@ -18,6 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.lesson.model.LessonService;
+import com.lessonTime.model.LessonTimeService;
 
 
 @WebServlet("/checkTime")
@@ -32,8 +33,11 @@ public class checkTime extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("json");
 		res.setCharacterEncoding("UTF-8");
+		
 		/*從前端接收*/ 
 		String[] jarr = req.getParameterValues("jarr");
+		String lessno = req.getParameter("lessno");
+		System.out.println("lessno="+lessno);
 		String front = jarr[0];
 		JsonParser  parser = new JsonParser();
 	    JsonElement elem   = parser.parse( front );
@@ -50,9 +54,18 @@ public class checkTime extends HttpServlet {
 	    for(int i = 0;i < f.size();i++){
 	    	System.out.println( f.get(i));
 	    }
+	    
+	    LessonTimeService ltsvc = new LessonTimeService();
+	    /*後端原本課程時段*/
+	    List<String> old = ltsvc.getOneTime(lessno);
+	    
+	    for(String a:old) {
+	    	System.out.println("後端原本課程時段="+a);
+	    }
+	    
 	    /*---------------------------------------------------------------------------*/
 		 /*從後端傳來*/
-		LessonService lessonService = new LessonService();
+	    LessonService lessonService = new LessonService();
 		JSONArray checkTime = lessonService.checkTime("C001");
 //		System.out.println(checkTime);
 //		System.out.println("checkTime.length()="+checkTime.length());
@@ -71,6 +84,23 @@ public class checkTime extends HttpServlet {
 			for(int j = 0;j < db.size();j++){
 		    	System.out.println(db.get(j));
 		    }
+			/*後端與原本時段比對*/
+			for(int i =0;i<old.size();i++) {
+				for(int j=0;j<db.size();j++) {
+					if(old.get(i).equals(db.get(j))) {
+						db.remove(j);
+						j--;
+						System.out.println("想移除的="+db.remove(j));
+					}
+				}
+				
+			}
+
+			for (String  test: db) {
+		        
+		            System.out.println("db移除後="+test);
+		       
+		    }
 			/*---------------------------------------------------------------------------*/
 			/*前後LIST比對*/
 			
@@ -86,7 +116,7 @@ public class checkTime extends HttpServlet {
 			/*印出重複項目*/
 		    String message =null;
 			for(int j = 0;j < result.size();j++){
-				message="重複時間 請更改="+result.get(j);
+				message="重複時間 請更改此時段 : "+result.get(j);
 		    }
 			 Gson gson = new Gson();
 			 String msg = gson.toJson(message);

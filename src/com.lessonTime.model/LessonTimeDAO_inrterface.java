@@ -22,6 +22,6 @@ public interface LessonTimeDAO_inrterface {
 	//查詢此教練 所有課程與所有時段 送JSONArray到servlet去比對
 	public  JSONArray getCoachAllLesson(String coano);
 	
-	
+	public List<String> getOneTime(String lessno);
 	
 }
