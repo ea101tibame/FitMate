@@ -29,8 +29,6 @@ public class LessonDetailServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		if("show_lesson_detail".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
 			try {
 				/***************************1.接收請求參數****************************************/
 				String lessno = new String(req.getParameter("lessno"));
@@ -39,11 +37,9 @@ public class LessonDetailServlet extends HttpServlet {
 				LessonService lessonSvc = new LessonService();
 				LessonVO lessonVO = lessonSvc.getOneByPK(lessno);
 				
-//				CoachService coachSvc = new CoachService();
-//				CoachVO coachVO = coachSvc.getOneByPK();
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("lessonVO", lessonVO);
-//				req.setAtrribute("coachVO",coachVO);
+
 				String url ="/front-end/lesson/lesson_detail.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);

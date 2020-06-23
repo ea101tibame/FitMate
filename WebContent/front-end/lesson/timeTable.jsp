@@ -89,6 +89,7 @@
 									<li class="none"></li>
 									<li class="none"></li>
 								</ul>
+								
 							</div>
 						</div>
 						<!-- slide open -->
@@ -98,7 +99,9 @@
 									<li class="none l4 a1"><p></p></li>
 									<li class="none l4 a1"><p></p></li>
 									<li class="none l4 a1"><p></p></li>
+									
 								</ul>
+								
 							</div>
 						</div>
 						<!-- slide closed -->
@@ -1073,14 +1076,7 @@
 			<br>
 		</div>
 	</div>
-	<c:forEach var="lessonVO" items="${list}" >
-    <FORM METHOD="get" ACTION="<%=request.getContextPath()%>/lesson/LessonDetailServlet.do" style="margin-bottom: 0px;">
-    			 <button type="submit" class="btn btn-primary">GO買課程</button>
-			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
-			      <input type="hidden" name="coano"  value="${lessonVO.coano}">
-			     <input type="hidden" name="action"	value="show_lesson_detail">
-			     </FORM>
-	</c:forEach>
+
 	<script>
 		function initMenu() {
 
@@ -1129,12 +1125,12 @@
 	 			$(this).find("li").eq(2).attr("class","none");
 	 			$(this).find("li").eq(2).attr("class","none l4 a1");
 	 			$(this).find("li").eq(0).removeAttr("title");
-				$(this).find("p").eq(0).removeAttr("href");
+				$(this).find("p").eq(0).html("");
 	 			$(this).find("li").eq(1).removeAttr("title");
-				$(this).find("p").eq(1).removeAttr("href");
+	 			$(this).find("p").eq(1).html("");
 	 			$(this).find("li").eq(2).removeAttr("title");
-				$(this).find("p").eq(2).removeAttr("href");
-				$('.open').hide();
+	 			$(this).find("p").eq(2).html("");
+				
 			});
 		}
 		}
@@ -1269,18 +1265,6 @@
 			console.log("objlength=" + objlength);
 <%--oobj=[{"coano":"C002","lesssta":"未成團","lesscur":"0","ltime_date":"2020-06-08",
 "lessno":"L002","ltime_ss":"下午","lessname":"TRX懸吊訓練","lesstimes":3,"lessprice":3000},
-{"coano":"C002","lesssta":"未成團","lesscur":"0","ltime_date":"2020-06-15",
-"lessno":"L002","ltime_ss":"下午","lessname":"TRX懸吊訓練","lesstimes":3,"lessprice":3000},
-{"coano":"C002","lesssta":"未成團","lesscur":"0","ltime_date":"2020-06-22","lessno":"L002",
-"ltime_ss":"晚上","lessname":"TRX懸吊訓練","lesstimes":3,"lessprice":3000},
-{"coano":"C002","lesssta":"未成團","lesscur":"0","ltime_date":"2020-07-01",
-"lessno":"L006","ltime_ss":"早上","lessname":"入門衝浪","lesstimes":2,"lessprice":2500},
-{"coano":"C002","lesssta":"未成團","lesscur":"0","ltime_date":"2020-07-07",
-"lessno":"L006","ltime_ss":"早上","lessname":"入門衝浪","lesstimes":2,"lessprice":2500},
-{"coano":"C002","lesssta":"未成團","lesscur":"0","ltime_date":"2020-07-07",
-"lessno":"L007","ltime_ss":"晚上","lessname":"自由潛水","lesstimes":2,"lessprice":2000},
-{"coano":"C002","lesssta":"未成團","lesscur":"0","ltime_date":"2020-07-14",
-"lessno":"L007","ltime_ss":"晚上","lessname":"自由潛水","lesstimes":2,"lessprice":2000}]
 --%>
 			
 			for (var i = 0; i < objlength; i++) {
@@ -1308,47 +1292,33 @@
 					console.log("iddotsul=" + iddotsul);
 					var idopenul = "openul" + (dayinner);
 					console.log("idopenul=" + idopenul);
-					// 	var link = "\""+oobjarr[i].href+"\"";
-
-					// 		console.log(link);
-					// console.log("<a href=\""+oobjarr[i].href"\"><p>"+oobjarr[i].ss+"</p></a>");
+					var head = "<%=request.getContextPath()%>";
+					var first = "/lesson/LessonDetailServlet.do?lessno="
+					var middle = "&coano=";
+					var end="&action=show_lesson_detail";
+					var link = head+first+lessno+middle+coano+end;
+					console.log(link);
+				
 					switch (tt) {
 					case "早上":
-						console.log("有進來0");
-						console.log("#"+iddotsul);
-						console.log("#"+idopenul);
 						$("#"+iddotsul).find("li").eq(0).attr("class","orange");
 						$("#"+idopenul).find("li").eq(0).attr("class","orange l4 a1");
-						// 		$("#"+idopenul).find("li").eq(0).html("<a href="+link+"><p>"+oobjarr[i].ss+"</p></a>");
 						$("#"+idopenul).find("li").eq(0).attr("title","查看詳情");
-						$("#"+idopenul).find("p").eq(0).html(lessname+'<br/><br/>'+"共"+lesstimes+"堂"+'<br/><br/>'+"點數:"+lessprice);
-<%-- 						$("#"+idopenul).find("p").eq(2).attr("href","<%=request.getContextPath()%>/lesson/LessonDetailServlet.do?lessno="+lessno+"+&coano=+"coano"+&action=show_lesson_detail); --%>
-						//lessno=L001&coano=C001&action=show_lesson_detail
-						
+						$("#"+idopenul).find("p").eq(0).html("<a href="+link+">"+lessname+'<br/><br/>'+"共"+lesstimes+"堂"+'<br/><br/>'+"點數:"+lessprice+"</a>");
 						break;
+						
 					case "下午":
-						console.log("有進來1");
-						console.log("#"+iddotsul);
-						console.log("#"+idopenul);
 						$("#"+iddotsul).find("li").eq(1).attr("class","orange");
 						$("#"+idopenul).find("li").eq(1).attr("class","orange l4 a1");
-						// 		$("#"+idopenul).find("li").eq(1).html("<a href="+link+"><p>"+oobjarr[i].ss+"</p></a>");
 						$("#"+idopenul).find("li").eq(1).attr("title","查看詳情");
-						$("#"+idopenul).find("p").eq(1).html(lessname+'<br/><br/>'+"共"+lesstimes+"堂"+'<br/><br/>'+"點數:"+lessprice);
-<%-- 						$("#"+idopenul).find("p").eq(2).attr("href","<%=request.getContextPath()%>/lesson/LessonDetailServlet.do?lessno="+lessno+"+&coano=+"coano"+&action=show_lesson_detail); --%>
-						
+						$("#"+idopenul).find("p").eq(1).html("<a href="+link+">"+lessname+'<br/><br/>'+"共"+lesstimes+"堂"+'<br/><br/>'+"點數:"+lessprice+"</a>");
 						break;
+						
 					case "晚上":
-						console.log("有進來2");
-						console.log("#"+iddotsul);
-						console.log("#"+idopenul);
 						$("#"+iddotsul).find("li").eq(2).attr("class","orange");
 						$("#"+idopenul).find("li").eq(2).attr("class","orange l4 a1");
-						// 		$("#"+idopenul).find("li").eq(2).html("<a href="+link+"><p>"+oobjarr[i].ss+"</p></a>");
 						$("#"+idopenul).find("li").eq(2).attr("title","查看詳情");
-						$("#"+idopenul).find("p").eq(2).html(lessname+'<br/><br/>'+"共"+lesstimes+"堂"+'<br/><br/>'+"點數:"+lessprice);
-<%-- 						$("#"+idopenul).find("p").eq(2).attr("href","<%=request.getContextPath()%>/lesson/LessonDetailServlet.do?lessno="+lessno+"+&coano=+"coano"+&action=show_lesson_detail); --%>
-						
+						$("#"+idopenul).find("p").eq(2).html("<a href="+link+">"+lessname+'<br/><br/>'+"共"+lesstimes+"堂"+'<br/><br/>'+"點數:"+lessprice+"</a>");
 						break;
 					}
 				}
@@ -1356,6 +1326,8 @@
 		}
 
 		add();
+		
+        
 	</script>
 	
 </body>
