@@ -44,20 +44,22 @@ h4{
     
 }
 #back { 
-	background-color: #FFCC80;
+
+    
+	background-color: skyblue;
 	color: #000;
 	left: 93%;
 	border: none;
 	position: absolute;
 	/* width: 75px; */
-	margin-top: 2% !important;
+	margin-top: 5% !important;
 	/* right: 3%; */
 	right: 0;
 	top: 0;
 }
 
 #back:hover { 
-	background-color: #F8b300;
+	background-color: steelblue;
 	color: #000;
 }
 </style>
@@ -133,7 +135,7 @@ h4{
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/css/backend.css">
 
 	<div class="back">
-		<button class="btn btn-outline-success my-2 my-sm-0" onclick="goBack()" id="back">回上頁</button>
+		<button type="button" class="btn btn-primary" onclick="goBack()" id="back">回上頁</button> 
 	</div>
 
 </html>

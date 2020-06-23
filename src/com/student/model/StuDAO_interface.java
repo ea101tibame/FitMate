@@ -13,4 +13,7 @@ public interface StuDAO_interface {
 	public StuVO findByPrimaryKey(String stuno);
 
 	public List<StuVO> getAll();
+
+	public StuVO findByMailNPsw(String stumail, String stupsw);
+
 }

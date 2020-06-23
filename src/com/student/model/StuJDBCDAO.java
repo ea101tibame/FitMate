@@ -24,6 +24,7 @@ public class StuJDBCDAO implements StuDAO_interface {
 	private static final String UPDATE = "UPDATE student set stuname=?, stupsw=?, stumail=?, stutel=?, stuadd=?, stupoint=?, stusta=?, stusex=?, stubir=? where stuno=?";
 	private static final String DELETE = "DELETE FROM student where stuno = ?";
 	private static final String GET_ONE_STMT = "SELECT stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stusex,to_char(stubir,'yyyy-mm-dd') stubir FROM student where stuno = ?";
+	private static final String GET_ONE_BY_MAIL_PSW_STMT = "SELECT stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stusex,stubir,stupic FROM student where stumail = ? AND stupsw=? ";
 	private static final String GET_ALL_STMT = "SELECT stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stusex,to_char(stubir,'yyyy-mm-dd') stubir FROM student order by stuno";
 
 	@Override
@@ -206,7 +207,76 @@ public class StuJDBCDAO implements StuDAO_interface {
 				stuVO.setStusta(rs.getString("stusta"));
 				stuVO.setStusex(rs.getString("stusex"));
 				stuVO.setStubir(rs.getDate("stubir"));
-//				stuVO.setStupic(rs.getBytes("stupic"));
+				stuVO.setStupic(rs.getBytes("stupic"));
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return stuVO;
+	}
+
+	@Override
+	public StuVO findByMailNPsw(String stumail, String stupsw) {
+
+		StuVO stuVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
+			pstmt = con.prepareStatement(GET_ONE_BY_MAIL_PSW_STMT);
+
+			pstmt.setString(1, stumail);
+			pstmt.setString(2, stupsw);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// stuVo
+				stuVO = new StuVO();
+				stuVO.setStuno(rs.getString("stuno"));
+				stuVO.setStuname(rs.getString("stuname"));
+				stuVO.setStupsw(rs.getString("stupsw"));
+				stuVO.setStumail(rs.getString("stumail"));
+				stuVO.setStutel(rs.getString("stutel"));
+				stuVO.setStuadd(rs.getString("stuadd"));
+				stuVO.setStupoint(rs.getInt("stupoint"));
+				stuVO.setStusta(rs.getString("stusta"));
+				stuVO.setStusex(rs.getString("stusex"));
+				stuVO.setStubir(rs.getDate("stubir"));
+				stuVO.setStupic(rs.getBytes("stupic"));
 			}
 
 			// Handle any driver errors
@@ -271,7 +341,7 @@ public class StuJDBCDAO implements StuDAO_interface {
 				stuVO.setStusta(rs.getString("stusta"));
 				stuVO.setStusex(rs.getString("stusex"));
 				stuVO.setStubir(rs.getDate("stubir"));
-//				stuVO.setStupic(rs.getBytes("stupic"));
+				stuVO.setStupic(rs.getBytes("stupic"));
 				list.add(stuVO); // Store the row in the list
 			}
 

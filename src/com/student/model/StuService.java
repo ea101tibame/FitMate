@@ -57,6 +57,10 @@ public class StuService {
 		return dao.findByPrimaryKey(stuno);
 	}
 
+	public StuVO getStuByMailNPsw(String stumail, String stupsw) {
+		return dao.findByMailNPsw(stumail, stupsw);
+	}
+
 	public List<StuVO> getAll() {
 		return dao.getAll();
 	}

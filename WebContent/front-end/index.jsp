@@ -154,18 +154,23 @@
 								<li>
 									<a href="#">教練專區</a>
 									<ul class="dropdown">
-										<li>
-											<a href="student.html">查看課表</a>
-										</li>
-										<li>
-											<a href="student.html">建立課程</a>
-										</li>
-										<li>
-											<a href="student.html">查看課程</a>
-										</li>
-										<li>
-											<a href="student.html">點數兌換</a>
-										</li>
+									    <li><a href="student.html">個人資料</a></li>
+										<li><a href="student.html">查看課表</a></li>
+										<li><a href="student.html">建立課程</a></li>
+										<li><a href="student.html">更新課程</a></li>
+										<li><a href="student.html">點數兌換</a></li>
+									</ul>
+								</li>
+							</c:if>
+							<c:if test="${role == 'student'}">
+								<li>
+									<a href="#">教練專區</a>
+									<ul class="dropdown">
+										 <li><a href="student.html">個人資料</a></li>
+                                    	 <li><a href="student.html">查看課表</a></li>
+                                     	 <li><a href="student.html">購買清單</a></li>
+                                         <li><a href="student.html">錢包管理</a></li>
+                                         <li><a href="student.html">個人信箱</a></li>
 									</ul>
 								</li>
 							</c:if>
@@ -181,14 +186,13 @@
 						</a>
 					</div>
 				</c:if>
-				<c:if test="${role == 'coach' || role == 'student'}">
+				<c:if test="${role == 'student' || role == 'student'}">
 					<div class="user-login-info">
 						<a>
-							<img src="${context}/images/core-img/cancel.svg" alt="" id="logout-btn">
+							<img src="${context}/images/core-img/logout.svg" alt="" id="logout-btn">
 						</a>
 					</div>
 				</c:if>
-
 				<div class="user-login-info">
 					<a href="#">
 						<img src="${context}/images/core-img/email.svg" alt="">
@@ -397,7 +401,7 @@
 								</label>
 								<p class="forgot-pass">忘記密碼?</p>
 								<button type="submit" class="submit">登入</button>
-								<button type="button" class="fb-btn">註冊學員</button>
+								<button type="button" class="fb-btn" href="${context}/front-end/addStudent.jsp">註冊學員</button>
 							</form>
 						</div>
 						<div class="sub-cont">
@@ -428,7 +432,7 @@
 									</label>
 									<p class="forgot-pass">忘記密碼?</p>
 									<button type="submit" class="submit">登入</button>
-									<button type="button" class="fb-btn">註冊教練</button>
+									<button type="button" class="fb-btn" href="${context}/front-end/addCoach.jsp">註冊教練</button>
 								</form>
 							</div>
 						</div>

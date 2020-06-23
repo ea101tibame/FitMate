@@ -10,18 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/login_ForStudent")
-public class LoginForStudent extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+import com.student.model.StuService;
+import com.student.model.StuVO;
 
-	// 【檢查使用者輸入的帳號(stumail) 密碼(stupsw)是否有效】
-	// 【實際上應至資料庫搜尋比對】
-	protected boolean allowUser(String stumail, String stupsw) {
-		if ("tomcat".equals(stumail) && "tomcat".equals(stupsw))
-			return true;
-		else
-			return false;
-	}
+@WebServlet("/loginForStudent.do")
+public class LoginForStudent extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
@@ -31,17 +24,32 @@ public class LoginForStudent extends HttpServlet {
 		// 【取得使用者 帳號(stumail) 密碼(stupsw)】
 		String stumail = req.getParameter("stumail");
 		String stupsw = req.getParameter("stupsw");
+		System.out.println(String.format("student login: stumail: %s, stupsw: %s", stumail, stupsw));
+
+		StuService stuService = new StuService();
+		StuVO stuVO = stuService.getStuByMailNPsw(stumail, stupsw);
 
 		// 【檢查該帳號 , 密碼是否有效】
-		if (!allowUser(stumail, stupsw)) { // 【帳號 , 密碼無效時】
+		if (stuVO == null) { // 【帳號 , 密碼無效時】
 			out.println("<HTML><HEAD><TITLE>Access Denied</TITLE></HEAD>");
-			out.println("<BODY>你的帳號 , 密碼無效!<BR>");
-			out.println("請按此重新登入 <A HREF=" + req.getContextPath() + "/index_ForVisitor.jsp>重新登入</A>");
+			out.println("<BODY>你的帳號或密碼無效!<BR>");
+			out.println("請按此重新登入 <A HREF=" + req.getContextPath() + "/front-end/index.jsp>重新登入</A>");
 			out.println("</BODY></HTML>");
 		} else { // 【帳號 , 密碼有效時, 才做以下工作】
+			// *工作1: 才在session內做已經登入過的標識
 			HttpSession session = req.getSession();
-			session.setAttribute("stumail", stumail); // *工作1: 才在session內做已經登入過的標識
-
+			session.setAttribute("stunno", stuVO.getStuno());
+			session.setAttribute("stuname", stuVO.getStuname());
+			session.setAttribute("stumail", stuVO.getStumail());
+			session.setAttribute("stupsw", stuVO.getStupsw());
+			session.setAttribute("stusex", stuVO.getStusex());
+			session.setAttribute("stutel", stuVO.getStutel());
+			session.setAttribute("stuadd", stuVO.getStuadd());
+			session.setAttribute("stupoint", stuVO.getStupoint());
+			session.setAttribute("stusta", stuVO.getStusta());
+			session.setAttribute("stubir", stuVO.getStubir());
+			session.setAttribute("stupic", stuVO.getStupic());
+			session.setAttribute("role", "student");
 			try {
 				String location = (String) session.getAttribute("location");
 				if (location != null) {
@@ -52,7 +60,7 @@ public class LoginForStudent extends HttpServlet {
 			} catch (Exception ignored) {
 			}
 
-			res.sendRedirect(req.getContextPath() + "/index_ForCoach.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
+			res.sendRedirect(req.getContextPath() + "/front-end/index.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
 		}
 	}
 }

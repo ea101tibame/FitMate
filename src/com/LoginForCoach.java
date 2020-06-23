@@ -38,7 +38,20 @@ public class LoginForCoach extends HttpServlet {
 		} else { // 【帳號 , 密碼有效時, 才做以下工作】
 			// *工作1: 才在session內做已經登入過的標識
 			HttpSession session = req.getSession();
+			session.setAttribute("coano", coaVO.getCoano());
 			session.setAttribute("coaname", coaVO.getCoaname());
+			session.setAttribute("coapsw", coaVO.getCoapsw());
+			session.setAttribute("coamail", coaVO.getCoamail());
+			session.setAttribute("coatel", coaVO.getCoatel());
+			session.setAttribute("coaacc", coaVO.getCoaacc());
+			session.setAttribute("coasta", coaVO.getCoasta());
+			session.setAttribute("coapoint", coaVO.getCoapoint());
+			session.setAttribute("coasex", coaVO.getCoasex());
+			session.setAttribute("coaintro", coaVO.getCoaintro());
+			session.setAttribute("coasctotal", coaVO.getCoasctotal());
+			session.setAttribute("coascqty", coaVO.getCoascqty());
+			session.setAttribute("coapic", coaVO.getCoapic());
+
 			session.setAttribute("role", "coach");
 			try {
 				String location = (String) session.getAttribute("location");
