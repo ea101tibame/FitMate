@@ -41,124 +41,44 @@
 					</div>
 					<div class="classynav">
 						<ul>
-							<li>
-								<a href="${context}/front-end/index.jsp">首頁</a>
-							</li>
-							<li>
-								<a href="${context}/front-end/blog.jsp">消息</a>
-							</li>
+							<li><a href="${context}/front-end/index.jsp">首頁</a></li>
+							<li><a href="${context}/front-end/blog.jsp">消息</a></li>
 							<li>
 								<a href="#">商城</a>
-								<div class="megamenu">
-									<ul class="single-mega cn-col-4">
-										<li class="title">服飾</li>
-										<li>
-											<a href="shop.html">男士服飾</a>
-										</li>
-										<li>
-											<a href="shop.html">女士服飾</a>
-										</li>
-										<li>
-											<a href="shop.html">T-shirts</a>
-										</li>
-										<li>
-											<a href="shop.html">Jackets</a>
-										</li>
-										<li>
-											<a href="shop.html">Trench</a>
-										</li>
-									</ul>
-									<ul class="single-mega cn-col-4">
-										<li class="title">健身相關</li>
-										<li>
-											<a href="shop.html">健身食品</a>
-										</li>
-										<li>
-											<a href="shop.html">健身配件</a>
-										</li>
-										<li>
-											<a href="shop.html">T-shirts</a>
-										</li>
-										<li>
-											<a href="shop.html">Jackets</a>
-										</li>
-										<li>
-											<a href="shop.html">Trench</a>
-										</li>
-									</ul>
-									<ul class="single-mega cn-col-4">
-										<li class="title">促銷專案</li>
-										<li>
-											<a href="shop.html">母親節</a>
-										</li>
-										<li>
-											<a href="shop.html">父親節</a>
-										</li>
-										<li>
-											<a href="shop.html">T-shirts</a>
-										</li>
-										<li>
-											<a href="shop.html">Jackets</a>
-										</li>
-										<li>
-											<a href="shop.html">Trench</a>
-										</li>
-									</ul>
-								</div>
+								<ul class="dropdown">
+									<li><a href="${context}/front-end/product/product.jsp">商城總覽</a></li>
+									<li><a href="${context}/front-end/product/PC001.jsp">男士服飾</a></li>
+									<li><a href="${context}/front-end/product/PC002.jsp">女士服飾</a></li>
+									<li><a href="${context}/front-end/product/PC003.jsp">健身食品</a></li>
+									<li><a href="${context}/front-end/product/PC004.jsp">健身配件</a></li>
+									<li><a href="${context}/front-end/product/PC005.jsp">促銷專案</a></li>
+								</ul>
 							</li>
 							<li>
 								<a href="#">課程</a>
 								<ul class="dropdown">
-									<li>
-										<a href="lessonAlL-page.html">課程總覽</a>
-									</li>
-									<li>
-										<a href="">瑜珈</a>
-									</li>
-									<li>
-										<a href="">肌力訓練</a>
-									</li>
-									<li>
-										<a href="">溜冰/滑板</a>
-									</li>
-									<li>
-										<a href="">有氧課程</a>
-									</li>
-									<li>
-										<a href="">海上/海下運動</a>
-									</li>
-									<li>
-										<a href="">登山健行</a>
-									</li>
-									<li>
-										<a href="">重量訓練</a>
-									</li>
-									<li>
-										<a href="">球類運動</a>
-									</li>
-									<li>
-										<a href="">武術</a>
-									</li>
-									<li>
-										<a href="">其他</a>
-									</li>
+									<li><a href="${context}/front-end/lesson/listAll_lesson.jsp">課程總覽</a></li>
 								</ul>
 							</li>
 							<li>
-								<a href="${context}/front-end/activity.jsp">揪團</a>
+								<a href="#">揪團</a>
+								<ul class="dropdown">
+									<li><a href="${context}/front-end/activity/listAll_activity.jsp">活動總覽</a></li>
+									<li><a href="${context}/front-end/activity/activity_create.jsp">建立活動</a></li>	
+								</ul>
 							</li>
 							<li>
-								<a href="${context}/front-end/blog.jsp">討論區</a>
+								<a href="${context}/front-end/article/listAllArticle.jsp">討論區</a>
 							</li>
 							<c:if test="${role == 'coach'}">
-								<li>
+							   <li>
 									<a href="#">教練專區</a>
 									<ul class="dropdown">
-									    <li><a href="student.html">個人資料</a></li>
-										<li><a href="student.html">查看課表</a></li>
-										<li><a href="student.html">建立課程</a></li>
-										<li><a href="student.html">更新課程</a></li>
-										<li><a href="student.html">點數兌換</a></li>
+									    <li><a href="${context}/front-end/coach/update_coach.jsp">個人資料</a></li>
+										<li><a href="${context}/front-end/lesson/coachTimeTable.jsp">查看課表</a></li>
+										<li><a href="${context}/front-end/lesson/addLesson.jsp">建立課程</a></li>
+										<li><a href="${context}/front-end/lesson/selectLesson.jsp">查詢與更新</a></li>
+										<li><a href="${context}/front-end/redemption/redemption.jsp">點數兌換</a></li>
 									</ul>
 								</li>
 							</c:if>
@@ -166,10 +86,13 @@
 								<li>
 									<a href="#">學員專區</a>
 									<ul class="dropdown">
-										 <li><a href="student.html">個人資料</a></li>
-                                    	 <li><a href="student.html">查看課表</a></li>
-                                     	 <li><a href="student.html">購買清單</a></li>
-                                         <li><a href="student.html">錢包管理</a></li>
+										 <li><a href="${context}/front-end/student/update_student.jsp">個人資料</a></li>
+										 <li><a href="${context}/front-end/lesson_order/lesson_order.jsp">課程報名紀錄</a></li>
+                                    	 <li><a href="${context}/front-end/activity/activity_order.jsp">活動報名紀錄</a></li>
+                                     	 <li><a href="${context}/front-end/product/product_order.jsp">購買清單</a></li>
+                                         <li><a href="${context}/front-end/deposit/deposit.jsp">錢包管理</a></li>
+                                         <li><a href="${context}/front-end/lesson_fav/lesson_fav.jsp">追蹤課程</a></li>
+                                         <li><a href="${context}/front-end/activity_fav/activity_fav.jsp">追蹤活動</a></li>
 									</ul>
 								</li>
 							</c:if>
@@ -178,25 +101,28 @@
 				</div>
 			</nav>
 			<div class="header-meta d-flex clearfix justify-content-end">
+				<c:if test="${role == 'coach'}">
+			  	    <div class="user-login-info">
+			  	    <div style="padding-top:30px; width:200px; font-size:16px; font-family:Microsoft JhengHei; font-weight:bold;"><span style="color:blue;">${coaname}</span>&nbsp&nbsp歡迎登入！</div>
+				    </div>
+			  	</c:if>
+				<c:if test="${role == 'student'}">
+			  	    <div class="user-login-info">
+			  	    <div style="padding-top:30px; width:200px; font-size:16px; font-family:Microsoft JhengHei; font-weight:bold;"><span style="color:blue;">${stuname}</span>&nbsp&nbsp歡迎登入！</div>
+				    </div>
+			  	</c:if>
 				<c:if test="${role != 'coach' && role != 'student'}">
 					<div class="user-login-info" data-toggle="modal" data-target="#login-modal">
-						<a>
-							<img src="${context}/images/core-img/user.svg" alt="">
-						</a>
+						<a><img src="${context}/images/core-img/user.svg" alt=""></a>
 					</div>
 				</c:if>
+				
 				<c:if test="${role == 'coach' || role == 'student'}">
 					<div class="user-login-info">
-						<a>
-							<img src="${context}/images/core-img/logout.svg" alt="" id="logout-btn">
-						</a>
+						<a><img src="${context}/images/core-img/logout.svg" alt="" id="logout-btn"></a>
 					</div>
 				</c:if> 
-				<div class="user-login-info">
-					<a href="#">
-						<img src="${context}/images/core-img/email.svg" alt="">
-					</a>
-				</div>
+					
 			</div>
 		</div>
 	</header>
@@ -400,7 +326,7 @@
 								</label>
 								<p class="forgot-pass">忘記密碼?</p>
 								<button type="submit" class="submit">登入</button>
-								<button type="button" class="fb-btn" href="${context}/front-end/addStudent.jsp">註冊學員</button>
+								<button type="button" class="fb-btn" id="sign-up-student">註冊學員</button>
 							</form>
 						</div>
 						<div class="sub-cont">

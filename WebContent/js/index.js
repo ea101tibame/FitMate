@@ -24,6 +24,10 @@ $(document).ready(function() {
 		window.location.href=context + "/front-end/coach/addCoach.jsp";
 	});
 	
+	$("#sign-up-student").click(function(){
+		window.location.href=context + "/front-end/student/addStudent.jsp";
+	});
+	
 	$("#logo").click(function(){
 		window.location.href=context + "/front-end/index.jsp";
 	});
