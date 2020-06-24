@@ -5,8 +5,6 @@
 <%@ page import="com.coach.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
-<!-- TODO 表格美化  -->
-
 <%
 	pageContext.setAttribute("context", request.getContextPath());
 %>
@@ -18,7 +16,7 @@
 
 <style>
 body {
-
+		background:url("<%=request.getContextPath()%>/images/backend_public/lightblue.png");
 }
 .frame {  
     height: 160px; /*can be anything*/

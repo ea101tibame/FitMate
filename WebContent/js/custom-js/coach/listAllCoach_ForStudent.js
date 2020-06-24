@@ -21,82 +21,49 @@ $(document).ready(function() {
 			field : 'coano',
 			title : '編號',
 			align : 'center',
+			sortable : true
 		}, {
 			field : 'coaname',
 			title : '姓名',
-			align : 'center'
-		}, {
-			field : 'coamail',
-			title : '信箱',
-			align : 'center'
-		}, {
-			field : 'coatel',
-			title : '電話',
-			align : 'center'
-		}, {
-			field : 'coasta',
-			title : '狀態',
-			editable : {
-				type : 'select',
-				title : '狀態',
-				source : [ {
-					text : "授權",
-					value : "授權"
-				}, {
-					text : "未授權",
-					value : "未授權"
-				}, {
-					text : "停權",
-					value : "停權"
-				} ]
-			},
+			align : 'center',
 			sortable : true
 		}, {
 			field : 'coapic',
 			title : '照片',
 			formatter : function(value, row, index) {
-				return '<img src="data:image/png;base64,' + arrayBufferToBase64(row.coapic) + '" width="80px;" height="80px;"/>'
+				return '<img src="data:image/png;base64,' + arrayBufferToBase64(row.coapic) + '" width="100px;" height="100px;"/>'
 			}
 		}, {
 			field : 'coasex',
 			title : '性別',
-			align : 'center'
+			align : 'center',
+			sortable : true
 		}, {
+			field : 'expdesc',
+			title : '專長',
+			align : 'center',
+			sortable : true
+		},{
 			field : 'coasctotal',
 			title : '總評價分數',
-			align : 'center'
+			align : 'center',
+				sortable : true
 		}, {
 			field : 'coascqty',
 			title : '總評價人數',
-			align : 'center'
+			align : 'center',
+			sortable : true
 		}, {
-			title : '專長',
+			title : '教練詳請',
 			formatter : function(value, row, index) {
 				return `<form METHOD="post"
 						action="${context}/coach/coach.do"
 						style="margin-bottom: 0px;">
 						<input type="submit" class="btn btn-outline-primary" value="詳情">
-						<input type="hidden" name="action" value="BackendGetOneForUpdate">
+						<input type="hidden" name="action" value="BackendGetOneForView">
 						<input type="hidden" name="coano" value="${row.coano}">
 					</form>`
 			}
 		} ],
-		onEditableSave : function(field, row, oldValue, $el) {
-			$.ajax({
-				type : "post",
-				url : context + "/coach/coach.do",
-				data : "action=BackendUpdate&coano=" + row.coano + "&coasta=" + row.coasta,
-				success : function(data, status) {
-					if (data.error_code == "0") {
-						alert('提交資料成功');
-					}
-				},
-				error : function() {
-					alert('編輯失敗');
-				},
-				complete : function() {
-				}
-			});
-		},
 	})
 });

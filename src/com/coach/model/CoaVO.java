@@ -15,6 +15,9 @@ public class CoaVO implements java.io.Serializable {
 	private Integer coasctotal;
 	private Integer coascqty;
 
+	// for front-end display not in the data schema
+	private String coapicStr;
+
 	public String getCoano() {
 		return coano;
 	}
@@ -117,6 +120,14 @@ public class CoaVO implements java.io.Serializable {
 
 	public void setCoascqty(Integer coascqty) {
 		this.coascqty = coascqty;
+	}
+
+	public String getCoapicStr() {
+		return coapicStr;
+	}
+
+	public void setCoapicStr(String coapicStr) {
+		this.coapicStr = coapicStr;
 	}
 
 }

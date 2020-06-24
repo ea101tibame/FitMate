@@ -118,7 +118,7 @@ public class StuServlet extends HttpServlet {
 				mailUtil.sendMail(stumail, "Sign Up success!", "your password is " + stupsw);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/front-end/index_ForVisitor.jsp";
+				String url = "/front-end/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 

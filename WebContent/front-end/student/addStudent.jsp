@@ -63,7 +63,7 @@ th, td {
 			</td>
 			<td>
 				<h4>
-					<a href="index_ForVisitor.jsp">回首頁</a>
+					<a href="index.jsp">回首頁</a>
 				</h4>
 			</td>
 		</tr>

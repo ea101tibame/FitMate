@@ -154,6 +154,10 @@ public class CoaServlet extends HttpServlet {
 				expownIn3.read(expown3);
 				expownIn3.close();
 
+				if (expno1.equals(expno2) || expno2.equals(expno3) || expno1.equals(expno3)) {
+					errorMsgs.put("expno", "專長不得重複!");
+				}
+
 				// TODO Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {// 如果有任何錯誤訊息
 					CoaVO coaVO = new CoaVO();
@@ -169,7 +173,7 @@ public class CoaServlet extends HttpServlet {
 
 					req.setAttribute("coaVO", coaVO); // 含有輸入格式錯誤的coaVO物件,也存入req，左邊的coaVO來自addCoach.jsp的第6行，第6行跟第8行有關，而第8行跟第100行有關
 					req.setAttribute("errorMsgs", errorMsgs);
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach_ForCoach.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -187,7 +191,7 @@ public class CoaServlet extends HttpServlet {
 				mailUtil.sendMail(coamail, "Sign Up success!", "your password is " + coapsw);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/front-end/index_ForVisitor.jsp";
+				String url = "/front-end/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
@@ -196,7 +200,7 @@ public class CoaServlet extends HttpServlet {
 				e.printStackTrace();
 				errorMsgs.put("other errors", e.getMessage());
 				req.setAttribute("errorMsgs", errorMsgs);
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach_ForCoach.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -237,7 +241,7 @@ public class CoaServlet extends HttpServlet {
 			}
 		}
 		// 修改一筆教練資料 for backend
-		else if ("BackendGetOneForUpdate".equals(action)) { // 來自listAllCoach.jsp的請求
+		else if ("BackendGetOneForUpdate".equals(action) || "BackendGetOneForView".equals(action)) { // 來自listAllCoach.jsp的請求
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
@@ -246,8 +250,10 @@ public class CoaServlet extends HttpServlet {
 
 				/*************************** 2.開始查詢資料 ****************************************/
 				// get coach data
+				BASE64Encoder encoder = new BASE64Encoder();
 				CoaService coaSvc = new CoaService();
 				CoaVO coaVO = coaSvc.getOneCoa(coano);
+				coaVO.setCoapicStr(encoder.encode(coaVO.getCoapic()));
 
 				// get expertise data
 				ExpOwnService expOwnService = new ExpOwnService();
@@ -257,13 +263,14 @@ public class CoaServlet extends HttpServlet {
 					ExpVO expVO = expService.getOneExp(expOwnVO.getExpno());
 					expOwnVO.setExpdesc(expVO.getExpdesc());
 
-					BASE64Encoder encoder = new BASE64Encoder();
+					// encode bytes to base64 for display purpose
 					expOwnVO.setExpownStr(encoder.encode(expOwnVO.getExpown()));
 				}
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("coaVO", coaVO); // 資料庫取出的coaVO物件,存入req
 				req.setAttribute("expOwnVOs", expOwnVOs);
-				String url = "/back-end/coach/listOneCoach.jsp";
+				String url = "BackendGetOneForView".equals(action) ? "/front-end/coach/listOneCoach_ForStudent.jsp"
+						: "/back-end/coach/listOneCoach.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
@@ -271,7 +278,9 @@ public class CoaServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/coach/listAllCoach.jsp");
+				String url = "BackendGetOneForView".equals(action) ? "/front-end/coach/listAllCoach_ForStudent.jsp"
+						: "/back-end/coach/listAllCoach.jsp";
+				RequestDispatcher failureView = req.getRequestDispatcher(url);
 				failureView.forward(req, res);
 			}
 		} else if ("BackendUpdate".equals(action)) {

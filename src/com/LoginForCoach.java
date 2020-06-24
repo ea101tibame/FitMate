@@ -40,9 +40,9 @@ public class LoginForCoach extends HttpServlet {
 			HttpSession session = req.getSession();
 			session.setAttribute("coano", coaVO.getCoano());
 			session.setAttribute("coaname", coaVO.getCoaname());
-			session.setAttribute("coapsw", coaVO.getCoapsw());
-			session.setAttribute("coamail", coaVO.getCoamail());
-			session.setAttribute("coatel", coaVO.getCoatel());
+//			session.setAttribute("coapsw", coaVO.getCoapsw());
+//			session.setAttribute("coamail", coaVO.getCoamail());
+//			session.setAttribute("coatel", coaVO.getCoatel());
 			session.setAttribute("coaacc", coaVO.getCoaacc());
 			session.setAttribute("coasta", coaVO.getCoasta());
 			session.setAttribute("coapoint", coaVO.getCoapoint());
@@ -50,7 +50,7 @@ public class LoginForCoach extends HttpServlet {
 			session.setAttribute("coaintro", coaVO.getCoaintro());
 			session.setAttribute("coasctotal", coaVO.getCoasctotal());
 			session.setAttribute("coascqty", coaVO.getCoascqty());
-			session.setAttribute("coapic", coaVO.getCoapic());
+//			session.setAttribute("coapic", coaVO.getCoapic());
 
 			session.setAttribute("role", "coach");
 			try {

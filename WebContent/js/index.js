@@ -18,6 +18,14 @@ $(document).ready(function() {
 			complete : function() {
 			}
 		});
-
 	})
+	
+	$("#sign-up-coach").click(function(){
+		window.location.href=context + "/front-end/coach/addCoach.jsp";
+	});
+	
+	$("#logo").click(function(){
+		window.location.href=context + "/front-end/index.jsp";
+	});
+	
 });

@@ -12,6 +12,8 @@
     ##### - PLACE YOUR CUSTOM CSS HERE - #####
     --------------------------------------- */
     body {
-        background-color: #f8b302
+       background:
+		url("<%=request.getContextPath()%>/images/backend_public/lightblue.png");
+	background-position: center center;
     }
 

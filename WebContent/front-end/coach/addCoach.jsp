@@ -12,7 +12,6 @@
 <%
 	CoaVO coaVO = (CoaVO) request.getAttribute("coaVO");
 	ExpOwnVO expownVO = (ExpOwnVO) request.getAttribute("expownVO");
-	ExpVO expVO = (ExpVO) request.getAttribute("expVO");
 %>
 
 
@@ -20,7 +19,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <title>註冊成為教練 - addCoach.jsp</title>
-
+<link rel="icon" href="<%=request.getContextPath()%>/images/core-img/FIT.ico">
 <style>
 table#table-1 {
 	background-color: #CCCCFF;
@@ -76,7 +75,7 @@ th, td {
 			</td>
 			<td>
 				<h4>
-					<a href="index_ForVisitor.jsp">回首頁</a>
+					<a href="index.jsp">回首頁</a>
 				</h4>
 			</td>
 		</tr>
@@ -99,7 +98,7 @@ th, td {
 		<font style="color: red">請修正以下錯誤:</font>
 		<ul>
 			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color: red">${message.key}</li>
+				<%-- <li style="color: red">${message.key}</li> --%>
 				<li style="color: red">${message.value}</li>
 			</c:forEach>
 		</ul>
@@ -167,8 +166,8 @@ th, td {
 			</tr>
 			<jsp:useBean id="expSvc" scope="page" class="com.expertise.model.ExpService" />
 			<tr>
-				<tr>
 				<td>專長:</td>
+				<p>${errorMsgs.expno}</p>
 				<td>
 					<select size="1" name="expno1">
 						<c:forEach var="ExpVO" items="${expSvc.all}">
@@ -192,7 +191,6 @@ th, td {
 						</c:forEach>
 					</select>
 				</td>
-				</tr>
 			</tr>
 			<tr>
 				<tr>

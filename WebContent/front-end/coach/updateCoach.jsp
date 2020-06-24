@@ -4,6 +4,7 @@
 <%@ page import="com.expertise.model.*"%>
 <%@ page import="com.expertise_own.model.*"%>
 <%@ page import="java.util.List"%>
+<%@ page import="sun.misc.BASE64Encoder"%>
 
 <!-- TODO Nullpointerexcption -->
 <!-- TODO 用Ajax在同頁面顯示資料並修改,要套版，不用動態生成table-->
@@ -12,8 +13,24 @@
 
 
 <%
-  CoaVO coaVO = (CoaVO) request.getAttribute("coaVO"); //CoaServlet.java(Concroller), 存入req的coaVO物件
-  List<ExpOwnVO> expOwnVOs = (List) request.getAttribute("expOwnVOs"); //CoaServlet.java(Concroller), 存入req的coaVO物件
+	String coano = (String) session.getAttribute("coano");
+	CoaService coaService = new CoaService();
+	CoaVO coaVO = coaService.getOneCoa(coano);
+	BASE64Encoder encoder = new BASE64Encoder();
+	coaVO.setCoapicStr(encoder.encode(coaVO.getCoapic()));
+	
+	ExpOwnService expOwnService = new ExpOwnService();
+	List<ExpOwnVO> expOwnVOs = expOwnService.getExpOwnsByCoano(coano);
+	ExpService expService = new ExpService();
+	for (ExpOwnVO expOwnVO : expOwnVOs) {
+		ExpVO expVO = expService.getOneExp(expOwnVO.getExpno());
+		expOwnVO.setExpdesc(expVO.getExpdesc());
+
+		// encode bytes to base64 for display purpose
+		expOwnVO.setExpownStr(encoder.encode(expOwnVO.getExpown()));
+	}
+	pageContext.setAttribute("coaVO", coaVO);
+	pageContext.setAttribute("expOwnVOs", expOwnVOs);
 %>
 
 <!DOCTYPE html>
@@ -30,7 +47,8 @@
 		<c:forEach var="expOwnVO" items="${expOwnVOs}">
 		   <p>${expOwnVO.expno}</p>
 		   <p>${expVO.expdesc}</p>
-		   <p>${expOwnVO.expown}</p>
+		   <!-- TODO need to use img tag -->
+		  <%--  <p>${expOwnVO.expownStr}</p> --%>
 		</c:forEach>
 		
 <table class="table table-striped">
@@ -58,14 +76,15 @@
   </thead>
   <tbody>
   	<tr>
-		<td><%=coaVO.getCoano()%></td>
+		<td>${coaVO.coano}</td>
 		<td><%=coaVO.getCoaname()%></td>
 		<td><%=coaVO.getCoamail()%></td>
 		<td><%=coaVO.getCoatel()%></td>
 		<td><%=coaVO.getCoaacc()%></td>
 		<td><%=coaVO.getCoapoint()%></td>
 		<td><%=coaVO.getCoasta()%></td>
-		<td><%=coaVO.getCoapic()%></td>
+		<!-- need to use img tag -->
+		<td><img src="data:image/png;base64,${coaVO.coapicStr}" class="card-img-top expown" style="width: 400px; height: 400px;" alt="證照或獎狀圖">></td>
 		<td><%=coaVO.getCoasex()%></td>
 	    <td><%=coaVO.getCoaintro()%></td>
 	    <td><%=coaVO.getCoaintro()%></td>

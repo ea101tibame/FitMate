@@ -23,7 +23,7 @@
 		<div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
 			<nav class="classy-navbar" id="essenceNav">
 				<a class="nav-brand" href="${context}/front-end/index.jsp">
-					<img src="${context}/images/core-img/logo.png" id="logo" alt="">
+					<img src="${context}/images/core-img/logo.png" alt="">
 				</a>
 				<div class="classy-navbar-toggler">
 					<span class="navbarToggler">
@@ -200,195 +200,13 @@
 			</div>
 		</div>
 	</header>
-	<section class="welcome_area bg-img background-overlay" style="background-image: url(${context}/images/bg-img/yoga.png);">
-		<div class="container h-100">
-			<div class="row h-100 align-items-center">
-				<div class="col-12">
-					<div class="hero-content">
-						<h6>最新商品</h6>
-						<h2>New Arrivals</h2>
-						<a href="#" class="btn essence-btn">View Arrivals</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<div class="top_catagory_area section-padding-80 clearfix">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-12 col-sm-6 col-md-4">
-					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(${context}/images/bg-img/bg-2.jpg);">
-						<div class="catagory-content">
-							<a href="#">揪團運動</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-sm-6 col-md-4">
-					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(${context}/images/bg-img/bg-3.jpg);">
-						<div class="catagory-content">
-							<a href="#">購物商城</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-sm-6 col-md-4">
-					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(${context}/images/bg-img/bg-4.jpg);">
-						<div class="catagory-content">
-							<a href="#">專業教練課</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="cta-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="cta-content bg-img background-overlay" style="background-image: url(${context}/images/bg-img/bg-5.jpg);">
-						<div class="h-100 d-flex align-items-center justify-content-end">
-							<div class="cta--text">
-								<h2>FIND YOUR FITMATE</h2>
-								<a href="#" class="btn essence-btn">查看活動</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<section class="new_arrivals_area section-padding-80 clearfix">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="section-heading text-center">
-						<h2>熱門課程</h2>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="popular-products-slides owl-carousel">
-						<div class="single-product-wrapper">
-							<div class="product-img">
-								<img src="${context}/images/lesson/kids-skateboard-checkered-lifestyle.jpg" alt="">
-								<img class="hover-img" src="${context}/images/lesson/kids-skateboard-checkered-lifestyle.jpg" alt="">
-								<div class="product-favourite">
-									<a href="#" class="favme fa fa-heart"></a>
-								</div>
-							</div>
-							<div class="product-description">
-								<span>入門衝浪</span>
-								<a href="${context}/front-end/lesson/lesson.jsp">
-									<h6>我在烏石港等你一起衝!</h6>
-								</a>
-								<p class="product-price">$800</p>
-								<div class="hover-content">
-									<div class="add-to-cart-btn">
-										<a href="#" class="btn essence-btn">查看詳情</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="single-product-wrapper">
-							<div class="product-img">
-								<img src="${context}/images/coach-img/C001.jpg" alt="">
-								<img class="hover-img" src="${context}/images/coach-img/C001.jpg" alt="">
-								<div class="product-favourite">
-									<a href="#" class="favme fa fa-heart"></a>
-								</div>
-							</div>
-							<div class="product-description">
-								<span>空中瑜珈</span>
-								<a href="single-product-details.html">
-									<h6>超夯的爆汗課程 快揪團挑戰</h6>
-								</a>
-								<p class="product-price">$2000</p>
-								<div class="hover-content">
-									<div class="add-to-cart-btn">
-										<a href="#" class="btn essence-btn">查看詳情</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="single-product-wrapper">
-							<div class="product-img">
-								<img src="${context}/images/coach-img/C004.jpg" alt="">
-								<img class="hover-img" src="${context}/images/coach-img/C004.jpg" alt="">
-								<div class="product-badge offer-badge">
-									<span>HOT</span>
-								</div>
-								<div class="product-favourite">
-									<a href="#" class="favme fa fa-heart"></a>
-								</div>
-							</div>
-							<div class="product-description">
-								<span>mango</span>
-								<a href="${context}/front-end/lesson/lesson.jsp">
-									<h6>TRX懸吊訓練</h6>
-								</a>
-								<p class="product-price">
-									<span class="old-price">$75.00</span>
-									$55.00
-								</p>
-								<div class="hover-content">
-									<div class="add-to-cart-btn">
-										<a href="#" class="btn essence-btn">Add to Cart</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="single-product-wrapper">
-							<div class="product-img">
-								<img src="${context}/images/coach-img/C005.jpg" alt="">
-								<img class="hover-img" src="${context}/images/coach-img/C005.jpg" alt="">
-								<div class="product-badge new-badge">
-									<span>New</span>
-								</div>
-								<div class="product-favourite">
-									<a href="#" class="favme fa fa-heart"></a>
-								</div>
-							</div>
-							<div class="product-description">
-								<span>mango</span>
-								<a href="single-product-details.html">
-									<h6>PETITE Belted Jumper Dress</h6>
-								</a>
-								<p class="product-price">$80.00</p>
-								<div class="hover-content">
-									<div class="add-to-cart-btn">
-										<a href="#" class="btn essence-btn">Add to Cart</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<footer class="footer_area clearfix">
-		<div class="container">
-			<div class="row ">
-				<div class="col-md-12 text-center">
-					<p>
-						Copyright &copy; 2020 by EA101G5
-						<i class="fa fa-heart-o" aria-hidden="true"></i>
-						by FitMate
-						</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</footer>
 	<div class="box">
 		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content login-modal-content">
 					<div class="cont">
 						<div class="form sign-in">
-							<form action="${context}/loginForStudent.do" method="post">
+							<form action="${context}/front/loginForStudent.do" method="post">
 								<h2>學員專區</h2>
 								<label>
 									<span>信箱</span>
@@ -431,7 +249,7 @@
 									</label>
 									<p class="forgot-pass">忘記密碼?</p>
 									<button type="submit" class="submit">登入</button>
-									<button type="button" class="fb-btn" id="sign-up-coach">註冊教練</button>
+									<button type="button" class="fb-btn" href="${context}/front-end/addCoach.jsp">註冊教練</button>
 								</form>
 							</div>
 						</div>
@@ -449,7 +267,7 @@
 		<script src="${context}/js/classy-nav.min.js"></script>
 		<script src="${context}/js/active.js"></script>
 		<script src="${context}/js/index.js"></script>
-		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+	
 </body>
 
 </html>

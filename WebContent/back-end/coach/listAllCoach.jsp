@@ -5,9 +5,6 @@
 <%@ page import="com.coach.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
-<!-- TODO 表格美化  -->
-
-
 <%
 	CoaService coaSvc = new CoaService();
 	List<CoaVO> list = coaSvc.getAll();
@@ -21,9 +18,9 @@
 
 <style>
 body {
-<%-- 	background:
-		url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
-	background-position: center center; --%>
+  background:
+		url("<%=request.getContextPath()%>/images/backend_public/lightblue.png");
+	background-position: center center;
 }
 </style>
 </head>
