@@ -7,8 +7,7 @@
 <%
 	LessonService lessonService = new LessonService();
 	List<LessonVO> list = lessonService.getCoachLesson("C001");
-	pageContext.setAttribute("list",list);
-
+	pageContext.setAttribute("list", list);
 %>
 
 
@@ -43,25 +42,50 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/custom-css/lesson/selectLesson.css">
 <style>
-  table {
-	background-color: #FFE66F;
-    border: 2px solid black;
-    width: 90%;
-    margin: auto;
-   	text-align:center;
-  }
-  tr td{
-  border: 2px solid black;
-  }
-  tr th{
-  border: 2px solid black;
-  }
-.innerpic {
-height:100px;
-width:200px;
+table { 
+background-color: #ffffff; 
+font-size:16px;
+width: 100%; *
+margin: auto; 
+text-align: center; 
+} 
+
+/* tr td { */
+/* 	border: 2px solid black; */
+/* } */
+
+/* tr th { */
+/* 	border: 2px solid black; */
+/* } */
+
+
+.card-img-top {
+	height: 300px;
+	width: 100%;
+}
+
+.gosubmit {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}
+
+.card-deck {
+	margin-top: 20px;
+}
+
+.row {
+	margin-right: 70px;
+	margin-left: 70px;
+}
+
+.img-region {
+	height: 300px;
+	width: 100%;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -143,7 +167,8 @@ width:200px;
 
 		<!-- Single Blog Post Thumb -->
 		<div class="single-blog-post-thumb">
-			<img src="${pageContext.request.contextPath}/images/bg-img/COA1920.png"
+			<img
+				src="${pageContext.request.contextPath}/images/bg-img/COA1920.png"
 				alt="">
 		</div>
 		<%-- 錯誤表列 --%>
@@ -155,83 +180,117 @@ width:200px;
 				</c:forEach>
 			</ul>
 		</c:if>
-		
+
 		<div class="container col-12">
 			<div class="row justify-content-center">
 				<div class="col-12 col-md-12">
 					<div class="regular-page-content-wrapper section-padding-80">
 						<div class="regular-page-text">
 							<h2>查詢課程</h2>
-<table>
-	<tr>
-		<th>課程編號</th>
-		<th>課程名稱</th>
-		<th>課程類型</th>
-		<th>人數上限</th>
-		<th>人數下限</th>
-		<th>課程堂數</th>
-		<th>課程狀態</th>
-		<th>目前報名人數</th>
-		<th>課程點數價格</th>
-		<th>課程地點</th>
-		<th>課程報名起始時間</th>
-		<th>課程報名截止時間</th>
-		<th>課程說明</th>
-		<th>課程圖片</th>
-		<th>修改</th>
-		<th>修改時段</th>
-		<th>下架</th>
-	</tr>
-	<%@ include file="pages/page1.file" %> 
-	<c:forEach var="lessonVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-		
-		<tr>
-			<td>${lessonVO.lessno}</td>
-			<td>${lessonVO.lessname}</td>
-			<jsp:useBean id="lessonSvc" scope="page"
+							<%@ include file="pages/page1.file"%>
+							<c:forEach var="lessonVO" items="${list}" begin="<%=pageIndex%>"
+								end="<%=pageIndex+rowsPerPage-1%>">
+								<table border="1"
+									 class="table table-striped table-dark  align-items-center align-middle" style="table-layout:fixed;word- wrap:break-word; word-break;break-all;">
+									<tr>
+										<td rowspan="8" style="width: 400px;height:250px"  >
+										<img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="rounded float-right img-thumbnail">
+											<table id="innertable" class="table-secondary">
+											<tr>
+												<td>
+											<FORM METHOD="post"
+												ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
+												style="margin-bottom: 0px;">
+												<button type="submit" class="btn btn-warning">修改課程</button>
+												<input type="hidden" name="lessno"
+													value="${lessonVO.lessno}"> <input type="hidden"
+													name="requestURL" value="<%=request.getServletPath()%>">
+												<input type="hidden" name="action" value="getOne_For_Update">
+											</FORM>												
+												</td>
+												<td>
+											<FORM METHOD="post"
+												ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do"
+												style="margin-bottom: 0px;">
+												<button type="submit" class="btn btn-info">修改時段</button>
+												<input type="hidden" name="lessno"
+													value="${lessonVO.lessno}"> <input type="hidden"
+													name="action" value="getOneTime_For_Update">
+											</FORM>												
+												</td>
+												<td>
+											<FORM METHOD="post"
+												ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
+												style="margin-bottom: 0px;">
+												<button type="submit" class="btn btn-secondary"
+													<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>下架課程</button>
+												<input type="hidden" name="lessno"
+													value="${lessonVO.lessno}"> <input type="hidden"
+													name="action" value="off_lesson">
+											</FORM>												
+												</td>
+												
+											</tr>
+											
+											</table>
+
+										
+									<tr  >
+										<td style="width: 130px">課程編號</td>
+										<td style="width: 130px">${lessonVO.lessno}</td>
+										<td style="width: 130px">課程名稱</td>
+										<td style="width: 200px">${lessonVO.lessname}</td>
+									</tr>
+									<tr>
+										<td>課程類型</td>
+										<jsp:useBean id="lessonSvc" scope="page"
 											class="com.lesson.model.LessonService" />
-			<td>
-			<c:forEach var="expertiseVO" items="${lessonSvc.allExpByExpno}">
-				<c:if test="${lessonVO.lesstype==expertiseVO.expno}">${expertiseVO.expdesc}</c:if>
-			</c:forEach>
-			</td>
-			<td>${lessonVO.lessmax}</td>
-			<td>${lessonVO.lessmin}</td>
-			<td>${lessonVO.lesstimes}</td> 
-			<td>${lessonVO.lesssta}</td>
-			<td>${lessonVO.lesscur}</td>
-			<td>${lessonVO.lessprice}</td>
-			<td>${lessonVO.lessloc}</td>
-			<td>${lessonVO.lessstart}</td>
-			<td>${lessonVO.lessend}</td>
-			<td>${lessonVO.lessdesc}</td>
-			<td><img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="innerpic"></td>
+										<td><c:forEach var="expertiseVO"
+												items="${lessonSvc.allExpByExpno}">
+												<c:if test="${lessonVO.lesstype==expertiseVO.expno}">${expertiseVO.expdesc}</c:if>
+											</c:forEach></td>
+										<td>課程狀態</td>
+										<td>${lessonVO.lesssta}</td>
+									</tr>
+									<tr>
+										<td>課程堂數</td>
+										<td>${lessonVO.lesstimes}</td>
+										<td>課程地點</td>
+										<td>${lessonVO.lessloc}</td>
+									</tr>
+									<tr>
+										<td>課程報名起始日</td>
+										<td>${lessonVO.lessstart}</td>
 
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-			     <button type="submit" class="btn btn-danger">修改</button>
-			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
-			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>">
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do" style="margin-bottom: 0px;">
-			     <button type="submit" class="btn btn-success">修改時段</button>
-				 <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
-				 <input type="hidden" name="action" value="getOneTime_For_Update">
-			</FORM>
-			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-			  	 <button type="submit" class="btn btn-secondary" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>下架</button>
-			     <input type="hidden" name="lessno"  value="${lessonVO.lessno}">
-			     <input type="hidden" name="action" value="off_lesson"></FORM>
-			</td>
-		</tr>
-	</c:forEach>
-</table>
-<%@ include file="pages/page2.file" %>
+										<td>課程報名截止日</td>
+										<td>${lessonVO.lessend}</td>
+									</tr>
+									<tr>
+										<td>最小成團人數</td>
+										<td>${lessonVO.lessmin}</td>
+										<td>最多上限人數</td>
+										<td>${lessonVO.lessmax}</td>
+									</tr>
+									<tr>
+										<td>目前報名人數</td>
+										<td>${lessonVO.lesscur}</td>
+										<td>課程點數價格</td>
+										<td>${lessonVO.lessprice}</td>
+									</tr>
 
+										
+										<tr>
+										<td>課程說明</td>
+										<td colspan="3">${lessonVO.lessdesc}</td>
+										</tr>
+									</table>
+									
+
+								
+
+							</c:forEach>
+							<%@ include file="pages/page2.file"%>
+							
 
 						</div>
 					</div>
@@ -240,7 +299,7 @@ width:200px;
 		</div>
 	</div>
 	<!-- ##### Blog Wrapper Area End ##### -->
-	
+
 
 
 	<!-- ##### Footer Area Start ##### -->
@@ -271,18 +330,17 @@ width:200px;
 	<!-- Popper js -->
 	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
 	<!-- Bootstrap js -->
-	<script
-		src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<!-- Plugins js -->
 	<script src="${pageContext.request.contextPath}/js/plugins.js"></script>
 	<!-- Classy Nav js -->
-	<script
-		src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
 	<!-- Active js -->
 	<script src="${pageContext.request.contextPath}/js/active.js"></script>
 	<!-- 打勾修改完成 -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/custom-js/lesson/selectLesson.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/custom-js/lesson/selectLesson.js"></script>
 </body>
 
 </html>
