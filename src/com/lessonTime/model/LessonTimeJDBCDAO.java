@@ -35,8 +35,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	private static final String GET_CoachAlltimes = "SELECT LTIME_DATE,LTIME_SS FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String INSERT_DTEAIL = "INSERT INTO LESSON_DETAIL VALUES (?,?)";
 	private static final String GET_ONE_TIME = "SELECT LTIME_DATE,LTIME_SS  FROM LESSON_TIME JOIN LESSON_DETAIL ON LESSON_DETAIL.LTIME_NO=LESSON_TIME.LTIME_NO JOIN LESSON ON LESSON_DETAIL.LESSNO=LESSON.LESSNO WHERE LESSON.LESSNO= ?";
-
-//	private static final String GET_TIMES = "SELECT LESSTIMES FROM LESSON WHERE LESSNO=?";
+	//	private static final String GET_TIMES = "SELECT LESSTIMES FROM LESSON WHERE LESSNO=?";
 //	private static final String UPDATE_TIMES = "UPDATE LESSON SET LESSTIMES=?WHERE LESSNO=?";
 	@Override
 	public void insert(LessonTimeVO LessonTimeVO, String lessno) {
@@ -149,7 +148,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	}
 
 	@Override
-	public void delete(String ltime_no, String lessno) {
+	public void delete(String ltime_no,String lessno) {
 		int updateCount_ltime_no = 0;
 
 		Connection con = null;
@@ -172,7 +171,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 			pstmt.setString(1, ltime_no);
 			pstmt.executeUpdate();
 
-			// 先把此課程的堂數查出來 減一
+			//先把此課程的堂數查出來 減一
 //			ResultSet rs = null;
 //			pstmt = con.prepareStatement(GET_TIMES);
 //			pstmt.setString(1, lessno);
@@ -187,9 +186,9 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //			}
 			LessonService lessonSvc = new LessonService();
 			lessonSvc.getOneByPK(lessno);
-
-			// 在更新他的堂數 減一
-
+			
+			//在更新他的堂數 減一
+			
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
@@ -511,4 +510,5 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 		return list;
 
 	}
+
 }

@@ -5,8 +5,8 @@
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.lesson.model.*"%>
-<%@ page import="test.expertise.model.*"%>
-<%@ page import="text.coach.model.*"%>
+<%@ page import="com.expertise.model.*"%>
+<%@ page import="com.coach.model.*"%>
 <%@ page import="com.lessonTime.model.*"%>
 
 <%
@@ -49,17 +49,6 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 	.title{
 	font-size:20px;
 	}
-
-	.btn-info {
-    margin-left: 20px;
-    margin-top: 20px;
-    }
-    
-    #show{
-    margin-top: 25px;
-    margin-left: 30px;
-    font-size:18px;
-    }
 </style>
 
 </head>
@@ -234,7 +223,6 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 											url 		: '<%=request.getContextPath()%>/lesson/checkTime', 
 											data 		: {
 															jarr:jarr,
-															lessno:<%=lessonVO.getLessno() %>
 														}, 
 											
 											dataType 	: 'json',
@@ -245,10 +233,8 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 												$("#show").text("時段檢查中...");
 											},
 											success:function(data){
-												console.log("data="+data);
- 											
+												swal("Check "+data, "時段確認 OK", "success");
 												if(data=="Success!"){
-													swal("Check "+data, "時段確認 OK", "success");
 													$("#show").text(data);
 													$("#show").css("color","red");
 													$("#send").show();

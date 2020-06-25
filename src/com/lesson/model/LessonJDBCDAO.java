@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.*;
 import org.json.*;
 
-import test.expertise.model.ExpertiseVO;
+import com.expertise.model.ExpVO;
 
 public class LessonJDBCDAO implements LessonDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
@@ -217,9 +217,9 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 	}
 
 	@Override
-	public List<ExpertiseVO> getAllExpByExpno() {
+	public List<ExpVO> getAllExpByExpno() {
 
-		List<ExpertiseVO> list = new ArrayList<ExpertiseVO>();
+		List<ExpVO> list = new ArrayList<ExpVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -232,7 +232,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				ExpertiseVO expVO = new ExpertiseVO();
+				ExpVO expVO = new ExpVO();
 				expVO.setExpno(rs.getString("expno"));
 				expVO.setExpdesc(rs.getString("expdesc"));
 				list.add(expVO);
@@ -490,8 +490,8 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //		}				
 
 		// 查詢某教練的課程資訊 印出JSONArray
-		JSONArray allLessonArray = dao.getCoachAllLesson("C002");
-		System.out.println(allLessonArray);
+//		JSONArray allLessonArray = dao.getCoachAllLesson("C002");
+//		System.out.println(allLessonArray);
 
 //		List<LessonVO> CAllLesson = dao.getCoachLesson("C001");
 //		for(LessonVO allLesson:CAllLesson) {
@@ -509,8 +509,8 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //		dao.update_off("L002");
 //		System.out.print("修改下架成功");
 		
-//		JSONArray allcheckTime = dao.checkTime("C001");
-//		System.out.println(allcheckTime);
+		JSONArray allcheckTime = dao.checkTime("C001");
+		System.out.println(allcheckTime);
 	}
 
 	public static byte[] getPictureByteArray(String path) throws IOException {

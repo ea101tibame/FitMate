@@ -55,4 +55,13 @@
   	<url-pattern>/lesson/LessonDetailServlet.do</url-pattern>
   </servlet-mapping>   
   
+   <servlet>
+	<servlet-name>ScheduleServlet</servlet-name>  
+	<servlet-class>com.lesson.controller.ScheduleServlet</servlet-class>
+	 <load-on-startup>10</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ScheduleServlet</servlet-name>
+  	<url-pattern>/lesson/ScheduleServlet</url-pattern>
+  </servlet-mapping>   
 </web-app>

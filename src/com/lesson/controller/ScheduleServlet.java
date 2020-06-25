@@ -33,9 +33,9 @@ public class ScheduleServlet extends HttpServlet {
 				LessonService lessonSvc = new LessonService();
 				List<LessonVO> list = lessonSvc.getAllLesson();
 				
-				java.util.Date date = new java.util.Date();
+//				java.util.Date date = new java.util.Date();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				String today = sdf.format(date);
+				String today = sdf.format(scheduledExecutionTime());
 				
 				System.out.println("today="+today);
 				for (int i = 0; i < list.size(); i++) {
@@ -57,8 +57,8 @@ public class ScheduleServlet extends HttpServlet {
 
 			}
 		};
-		// 從2020 6 21 開始每天0:0:0 執行 這個排程
-		Calendar cal = new GregorianCalendar(2020, Calendar.JUNE, 20, 0, 0, 0);
+		// 從2020 6 1 開始每天0:0:0 執行 這個排程
+		Calendar cal = new GregorianCalendar(2020, Calendar.JUNE, 01, 0, 0, 0);
 		timer.scheduleAtFixedRate(task, cal.getTime(), 24 * 60 * 60 * 1000);
 	}
 

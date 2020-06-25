@@ -1,6 +1,6 @@
-package test.expertise.model;
+package com.expertise.model;
 
-public class ExpertiseVO {
+public class ExpVO {
 	private String expno;
 	private String expdesc;
 	public String getExpno() {

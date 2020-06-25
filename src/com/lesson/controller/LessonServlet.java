@@ -28,7 +28,7 @@ public class LessonServlet extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
+
 		doPost(req, res);
 	}
 

@@ -5,8 +5,8 @@
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.lesson.model.*"%>
-<%@ page import="test.expertise.model.*"%>
-<%@ page import="text.coach.model.*"%>
+<%@ page import="com.expertise.model.*"%>
+<%@ page import="com.coach.model.*"%>
 <%@ page import="com.lessonTime.model.*"%>
 
 <%

@@ -42,11 +42,12 @@ public class checkTime extends HttpServlet {
 		JsonParser  parser = new JsonParser();
 	    JsonElement elem   = parser.parse( front );
 	    JsonArray elemArr = elem.getAsJsonArray();
-  
+	    System.out.println("elemArr="+elemArr);
 	    List<String> f = new ArrayList<String>();
 	    for(int i=0;i<elemArr.size()-1;i++) {//扣掉最後一個空字串
 	    	JsonElement first1 = elemArr.get(i).getAsJsonObject().get("dateAndTime");
-			String one = first1.toString().substring(1, 13);
+			String one = first1.toString().substring(1,13);
+			System.out.println("one="+one);
 			f.add(one);
 	    }
 	    System.out.println("前端LIST");
@@ -86,11 +87,14 @@ public class checkTime extends HttpServlet {
 		    }
 			/*後端與原本時段比對*/
 			for(int i =0;i<old.size();i++) {
+				
 				for(int j=0;j<db.size();j++) {
+					
 					if(old.get(i).equals(db.get(j))) {
-						db.remove(j);
-						j--;
 						System.out.println("想移除的="+db.remove(j));
+						db.remove(j);
+						
+						break;
 					}
 				}
 				

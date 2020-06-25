@@ -201,7 +201,7 @@ text-align: center;
 											<FORM METHOD="post"
 												ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
 												style="margin-bottom: 0px;">
-												<button type="submit" class="btn btn-warning">修改課程</button>
+												<button type="submit" class="btn btn-warning" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>修改課程</button>
 												<input type="hidden" name="lessno"
 													value="${lessonVO.lessno}"> <input type="hidden"
 													name="requestURL" value="<%=request.getServletPath()%>">
@@ -212,7 +212,7 @@ text-align: center;
 											<FORM METHOD="post"
 												ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do"
 												style="margin-bottom: 0px;">
-												<button type="submit" class="btn btn-info">修改時段</button>
+												<button type="submit" class="btn btn-info" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>修改時段</button>
 												<input type="hidden" name="lessno"
 													value="${lessonVO.lessno}"> <input type="hidden"
 													name="action" value="getOneTime_For_Update">

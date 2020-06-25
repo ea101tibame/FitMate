@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.json.JSONArray;
 
-import test.expertise.model.ExpertiseVO;
+import com.expertise.model.ExpVO;
 
 public interface LessonDAO_interface {
 	public String insert(LessonVO lessonVO);
@@ -12,7 +12,7 @@ public interface LessonDAO_interface {
 	/*此運動種類有多少課程 用類型查*/
 	public List<LessonVO> findLessonByLessonType(String lesstype);
 	/*查此運動類型的詳細描述 要用到EXPERTISE的VO*/
-	public List<ExpertiseVO> getAllExpByExpno();
+	public List<ExpVO> getAllExpByExpno();
 	/*查詢全部課程 課程總覽*/
 	public List<LessonVO> getAll();
 	/*查詢某教練的課程資訊(一對多)(回傳一串 JSONArray 放入課表用)*/

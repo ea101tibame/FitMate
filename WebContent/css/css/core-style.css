@@ -1,6 +1,5 @@
 /* [Master Stylesheet v-1.0.0] */
 /* :: 1.0 Import Web Fonts */
-@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Ubuntu:300,400,500,700");
 /* :: 2.0 Import All CSS */
 @import url(../css/bootstrap.min.css);
@@ -11,7 +10,6 @@
 @import url(../css/jquery-ui.min.css);
 @import url(../css/nice-select.css);
 @import url(../css/font-awesome.min.css);
-
 /* :: 3.0 Common/Base CSS */
 * {
   margin: 0;

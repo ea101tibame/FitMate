@@ -72,6 +72,12 @@ margin-left:50px;
 .btn{
 font-size:15px;
 }
+.button{
+    cursor: pointer;
+}
+h4{
+font-size:18px;
+}
 </style>
 </head>
 
@@ -235,10 +241,10 @@ font-size:15px;
           <div>
          
 
-          <h4><span class="glyphicon glyphicon-calendar"></span> 查看課程時段 <i class="fa fa-chevron-right" id="button"  ></i></h4>  
+          <h4 class="button"><span class="glyphicon glyphicon-calendar" class="button"></span> 查看課程時段 <i class="fa fa-chevron-right " class="button"  ></i></h4>  
 
           
-          <div class="toggler">
+      <div class="toggler">    
   <div class="alert alert-primary">
     <h3 class="alert alert-primary">此堂課程時段如下</h3>
     <p>
@@ -331,7 +337,7 @@ font-size:15px;
 	$(document).ready(function(){
 		$(".toggler").hide();
 			
-		  $("#button").click(function(){
+		  $(".button").click(function(){
 		  $(".toggler").toggle();
 		  }); 
 		});

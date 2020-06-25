@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.json.JSONArray;
 
-import test.expertise.model.ExpertiseVO;
+import com.expertise.model.ExpVO;
 
 public class LessonService {
 
@@ -67,7 +67,7 @@ public class LessonService {
 		return dao.findLessonByLessonType(lesstype);
 	}
 
-	public List<ExpertiseVO> getAllExpByExpno() {
+	public List<ExpVO> getAllExpByExpno() {
 		return dao.getAllExpByExpno();
 	}
 

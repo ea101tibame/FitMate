@@ -65,6 +65,9 @@ margin-left: 70px;
 	height:300px;
     width:100%;
 }
+.card-text{
+font-size:18px;
+}
 </style>
 
 
@@ -208,7 +211,8 @@ margin-left: 70px;
     <div class="card-body">
       <h5 class="card-title">${lessonVO.lessname}</h5>
       <p class="card-text">${lessonVO.lessdesc}</p>
-      <p class="card-text">點數:${lessonVO.lessprice}<small class="text-muted">.....</small></p>
+      <p class="card-text">堂數:${lessonVO.lesstimes} 點數:${lessonVO.lessprice}<small class="text-muted"></small></p>
+      <p class="card-text">狀態:${lessonVO.lesssta}<small class="text-muted"></small></p>
       
 <!--       <a href="#" class="btn btn-primary">GO買課程</a> -->
 

@@ -56,5 +56,4 @@ public class LessonTimeService {
 	public List<String> getOneTime(String lessno) {
 		return dao.getOneTime(lessno);
 	}
-
 }
