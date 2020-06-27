@@ -64,4 +64,14 @@
   	<servlet-name>ScheduleServlet</servlet-name>
   	<url-pattern>/lesson/ScheduleServlet</url-pattern>
   </servlet-mapping>   
+  
+  	<servlet>
+		<servlet-name>NameServlet</servlet-name>
+		<servlet-class>com.websocketchat.controller.NameServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NameServlet</servlet-name>
+		<url-pattern>/chat.do</url-pattern>
+	</servlet-mapping>
+	
 </web-app>
