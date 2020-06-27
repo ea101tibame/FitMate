@@ -2,14 +2,14 @@
 	pageEncoding="UTF-8"%>
 <% 
 String lessno = (String)request.getAttribute("stuno");
-pageContext.setAttribute("userName","Stu001");
+pageContext.setAttribute("userName","Stu003");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 
 <meta charset="utf-8">
-<title>frontmsg1_include</title>
+<title>frontmsg3_include</title>
 
 <style>
 * {

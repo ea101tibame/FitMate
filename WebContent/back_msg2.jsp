@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <% 
-String lessno = (String)request.getAttribute("stuno");
-pageContext.setAttribute("userName","Stu001");
+// String lessno = (String)request.getAttribute("empno");
+pageContext.setAttribute("userName","System");
+
 %>
 <!DOCTYPE html>
 <html>
 <head>
 
 <meta charset="utf-8">
-<title>frontmsg1_include</title>
+<title>backmsg_include</title>
 
 <style>
 * {
@@ -200,8 +201,8 @@ html, body {
 
 .floating-chat .chat .messages li.other:before {
 	left: -45px;
-	background-image: url(<%=request.getContextPath()%>/images/backend_public/gakki.jpg);
-	/*放管理員照片*/
+	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg);
+	/*放學員照片*/
 }
 
 .floating-chat .chat .messages li.other:after {
@@ -220,8 +221,8 @@ html, body {
 
 .floating-chat .chat .messages li.self:before {
 	right: -45px;
-	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg);
-	/*放學員照片*/
+	background-image: url(<%=request.getContextPath()%>/images/backend_public/gakki.jpg);
+	/*放管理員照片*/
 }
 
 .floating-chat .chat .messages li.self:after {
@@ -339,7 +340,6 @@ margin-right
 0;
 }
 }
-
 .floating-chat .chat .panel {
 	padding: 10px;
 	margin: 0;
@@ -407,7 +407,7 @@ margin-right
 
 .floating-chat .chat .panel li.other:before {
 	left: -45px;
-	background-image: url(<%=request.getContextPath()%>/images/backend_public/gakki.jpg);
+	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg);
 	/*放學員照片*/
 }
 
@@ -427,7 +427,7 @@ margin-right
 
 .floating-chat .chat .panel li.self:before {
 	right: -45px;
-	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg);
+	background-image: url(<%=request.getContextPath()%>/images/backend_public/gakki.jpg);
 	/*放管理員照片*/
 }
 
@@ -435,49 +435,176 @@ margin-right
 	border-right: 10px solid transparent;
 	right: -10px;
 }
-#statusOutput{
-opacity: 0.5;
-}
-
-#row{
-opacity: 0.5;
-}
 </style>
 </head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=Coming+Soon&family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
 	</script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
-	</script>
+	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
 	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-	  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<body onload="connect();" onunload="disconnect();">
-<h3 id="statusOutput" class="statusOutput"></h3>
-<div id="row" ></div>
 
-	<!-- 客服聊天區-->
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="backmsg.css">
+  <!-- Font Awesome File -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<body onload="connect();" onunload="disconnect();">
+<div class="container app">
+    <div class="row app-one">
+
+      <div class="col-sm-4 side">
+        <div class="side-one">
+          <!-- Heading -->
+          <div class="row heading">
+            <div class="col-sm-8 col-xs-3 heading-avatar">
+              <div class="heading-avatar-icon">
+                <img src="<%=request.getContextPath()%>/images/core-img/logo.png"><!-- 放FITMATE-->
+              </div>
+            </div>
+
+            <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
+              <i class="fa fa-comments fa-2x  pull-right" aria-hidden="true"></i>
+            </div>
+          </div>
+          <!-- Heading End -->
+
+         
+          <!--左邊好友列表 -->
+          <div class="row sideBar">
+            <div class="row sideBar-body">
+              <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                <div class="avatar-icon">
+                  <img src="<%=request.getContextPath()%>/images/backend_public/emppic.jpg">
+                  
+                </div>
+              </div>
+              <div class="col-sm-9 col-xs-9 sideBar-main">
+                <div class="row">
+                  <div class="col-sm-8 col-xs-8 sideBar-name">
+                  	<div id="row" class="name-meta"></div>
+                    
+                 
+                  </div>
+            
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- Sidebar End -->
+        </div>
+        <div class="side-two">
+
+
+
+
+
+          <!-- 右邊訊息 歷史訊息區 -->
+
+          <div class="row compose-sideBar">
+            
+           
+            <div class="row sideBar-body">
+              <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                <div class="avatar-icon">
+                  <img src="">
+                </div>
+              </div>
+              <div class="col-sm-9 col-xs-9 sideBar-main">
+                <div class="row">
+                  <div class="col-sm-8 col-xs-8 sideBar-name">
+                    <span class="name-meta">Ankit Jain
+                  </span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Sidebar End -->
+      </div>
+
+      <!-- New Message Sidebar End -->
+
+      <!-- Conversation Start -->
+      <div class="col-sm-8 conversation">
+        <!-- Heading -->
+
+        <!-- Heading End -->
+        <div class="row heading">
+          <div class="col-sm-8 col-xs-7 heading-name">
+            <div class="heading-name-meta"><h3 id="statusOutput" class="statusOutput"></h3></div>  <!-- 選到的名字-->
+            
+          </div>
+        </div>
+        <!-- Message Box -->
+        <div class="row message" id="conversation">
+
+          <div class="row message-body">
+            <div class="col-sm-12 message-main-receiver">
+              <div class="receiver"><!-- 左邊-->
+                <div class="message-text">
+                 學員客訴內容
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row message-body">
+            <div class="col-sm-12 message-main-sender">
+              <div class="sender">
+                <div class="message-text"><!-- 右邊-->
+                  客服回覆區
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Message Box End -->
+
+        <!-- Reply Box -->
+        <div class="row reply">
+          
+          <div class="col-sm-9 col-xs-9 reply-main">
+            <textarea class="form-control" rows="1" id="comment"></textarea><!-- 送出-->
+          </div>
+          <button id="sendMessage" type="submit" >Send</button>
+          
+        </div>
+        <!-- Reply Box End -->
+      </div>
+      <!-- Conversation End -->
+    </div>
+    <!-- App One End -->
+  </div>
+<!-- 舊 -->
+<h3 id="statusOutput" class="statusOutput"></h3>
+<div id="row"></div>
+
+<!-- 客服聊天區-->
 	<div class="floating-chat">
 		<i class="fa fa-comments" aria-hidden="true"></i>
 		<div class="chat">
 			<div class="header">
-				<span class="title"> 線上客服</span>
+				<span class="title"> 客服後台 </span>
 				<button>
 					<i class="fa fa-times" aria-hidden="true"></i>
 				</button>
 
 			</div>
 			<ul class="messages">
-<!-- 				<li class="other">歡迎使用FitMate線上客服，收到訊息後，我們將會盡快回覆您！</li> -->
-<!-- 				<li class="self">這裡是會員的文字</li> -->
-			</ul>
-			<div id="messagesArea" class="panel message-area" >
-				<li class="other">歡迎使用FitMate線上客服，收到訊息後，我們將會盡快回覆您！</li>
-				
-			</div>
+<!-- 				<li class="other">這裡是會員的文字</li> -->
+<!-- 				<li class="self">這裡是員工的文字</li> -->
+			</ul>	
+			<div id="messagesArea" class="panel message-area" ></div>
+			
 				
 			
 
@@ -486,8 +613,7 @@ opacity: 0.5;
 				<input id="message" class="text-box" class="text-field" type="text" placeholder="Message" onkeydown="if (event.keyCode == 13) sendMessage();" /> 
 				
 				<button id="sendMessage" type="submit" onclick="sendMessage();">Send</button>
-				
-<!-- 			<input type="submit" id="sendMessage" class="button" value="Send" onclick="sendMessage();" />  -->
+<!-- 				<input type="submit" id="sendMessage" class="button" value="Send" onclick="sendMessage();" />  -->
 				<input type="hidden" id="connect" class="button" value="Connect" onclick="connect();" /> 
 				<input type="hidden" id="disconnect" class="button" value="Disconnect" onclick="disconnect();" />
 			</div>
@@ -500,18 +626,27 @@ opacity: 0.5;
 	<script src="<%=request.getContextPath()%>/js/backend.js"></script>
 	<!-- 客服聊天區-->
 
+
 </body>
 <script>
 	var MyPoint = "/FriendWS/${userName}";
+	console.log("MyPoint="+MyPoint);
 	var host = window.location.host;
+	console.log("host="+host);
 	var path = window.location.pathname;
+	console.log("path="+path);
 	var webCtx = path.substring(0, path.indexOf('/', 1));
+	console.log("webCtx="+webCtx);
 	var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
-
+	console.log("endPointURL="+endPointURL);
+	
 	var statusOutput = document.getElementById("statusOutput");
 	var messagesArea = document.getElementById("messagesArea");
 	var self = '${userName}';
+	console.log("self="+self);
 	var webSocket;
+	console.log("webSocket="+webSocket);
+
 
 	function connect() {
 		// create a websocket
@@ -565,14 +700,14 @@ opacity: 0.5;
 	
 	function sendMessage() {
 		var inputMessage = document.getElementById("message");
-		var friend = "System";
+		var friend = statusOutput.textContent;
 		var message = inputMessage.value.trim();
 
 		if (message === "") {
 			alert("Input a message");
 			inputMessage.focus();
-// 		} else if (friend === "") {
-// 			alert("Choose a friend");
+		} else if (friend === "") {
+			alert("Choose a friend");
 		} else {
 			var jsonObj = {
 				"type" : "chat",
@@ -589,20 +724,20 @@ opacity: 0.5;
 	// 有好友上線或離線就更新列表
 	function refreshFriendList(jsonObj) {
 		var friends = jsonObj.users;
-// 		var row = document.getElementById("row");
+		var row = document.getElementById("row");
 		row.innerHTML = '';
-// 		for (var i = 0; i < friends.length; i++) {
-// 			if (friends[i] === self) { continue; }
-// 			row.innerHTML +='<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
-// 		}
+		for (var i = 0; i < friends.length; i++) {
+			if (friends[i] === self) { continue; }
+			row.innerHTML +='<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
+		}
 		addListener();
 	}
 	// 註冊列表點擊事件並抓取好友名字以取得歷史訊息
 	function addListener() {
-// 		var container = document.getElementById("row");
-// 		container.addEventListener("mouseout", function(e) {
-			var friend = "System";
-// 			updateFriendName(friend);
+		var container = document.getElementById("row");
+		container.addEventListener("click", function(e) {
+			var friend = e.srcElement.textContent;
+			updateFriendName(friend);
 			var jsonObj = {
 					"type" : "history",
 					"sender" : self,
@@ -610,7 +745,7 @@ opacity: 0.5;
 					"message" : ""
 				};
 			webSocket.send(JSON.stringify(jsonObj));
-// 		});
+		});
 	}
 	
 	function disconnect() {
@@ -620,8 +755,8 @@ opacity: 0.5;
 		document.getElementById('disconnect').disabled = true;
 	}
 	
-// 	function updateFriendName(name) {
-// 		statusOutput.innerHTML = name;
-// 	}
+	function updateFriendName(name) {
+		statusOutput.innerHTML = name;
+	}
 </script>
 </html>

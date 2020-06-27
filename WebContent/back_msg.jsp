@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <% 
 // String lessno = (String)request.getAttribute("empno");
-pageContext.setAttribute("userName","Emp001");
+pageContext.setAttribute("userName","System");
 
 %>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ pageContext.setAttribute("userName","Emp001");
 <head>
 
 <meta charset="utf-8">
-<title>include</title>
+<title>backmsg_include</title>
 
 <style>
 * {
@@ -474,7 +474,7 @@ margin-right
 
 			<div class="footer">
 <!-- 				<div class="text-box" contenteditable="true" disabled="true" id="message" placeholder="Message" onkeydown="if (event.keyCode == 13) sendMessage();"></div> -->
-				<input id="message" class="text-field" type="text" placeholder="Message" onkeydown="if (event.keyCode == 13) sendMessage();" /> 
+				<input id="message" class="text-box" class="text-field" type="text" placeholder="Message" onkeydown="if (event.keyCode == 13) sendMessage();" /> 
 				
 				<button id="sendMessage" type="submit" onclick="sendMessage();">Send</button>
 <!-- 				<input type="submit" id="sendMessage" class="button" value="Send" onclick="sendMessage();" />  -->
@@ -494,15 +494,23 @@ margin-right
 </body>
 <script>
 	var MyPoint = "/FriendWS/${userName}";
+	console.log("MyPoint="+MyPoint);
 	var host = window.location.host;
+	console.log("host="+host);
 	var path = window.location.pathname;
+	console.log("path="+path);
 	var webCtx = path.substring(0, path.indexOf('/', 1));
+	console.log("webCtx="+webCtx);
 	var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
-
+	console.log("endPointURL="+endPointURL);
+	
 	var statusOutput = document.getElementById("statusOutput");
 	var messagesArea = document.getElementById("messagesArea");
 	var self = '${userName}';
+	console.log("self="+self);
 	var webSocket;
+	console.log("webSocket="+webSocket);
+
 
 	function connect() {
 		// create a websocket

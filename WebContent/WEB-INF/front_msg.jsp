@@ -9,7 +9,7 @@ pageContext.setAttribute("userName","Stu001");
 <head>
 
 <meta charset="utf-8">
-<title>frontmsg1_include</title>
+<title>include</title>
 
 <style>
 * {
@@ -407,7 +407,7 @@ margin-right
 
 .floating-chat .chat .panel li.other:before {
 	left: -45px;
-	background-image: url(<%=request.getContextPath()%>/images/backend_public/gakki.jpg);
+	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg);
 	/*放學員照片*/
 }
 
@@ -427,20 +427,13 @@ margin-right
 
 .floating-chat .chat .panel li.self:before {
 	right: -45px;
-	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg);
+	background-image: url(<%=request.getContextPath()%>/images/backend_public/gakki.jpg);
 	/*放管理員照片*/
 }
 
 .floating-chat .chat .panel li.self:after {
 	border-right: 10px solid transparent;
 	right: -10px;
-}
-#statusOutput{
-opacity: 0.5;
-}
-
-#row{
-opacity: 0.5;
 }
 </style>
 </head>
@@ -457,7 +450,7 @@ opacity: 0.5;
 	  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
 <body onload="connect();" onunload="disconnect();">
 <h3 id="statusOutput" class="statusOutput"></h3>
-<div id="row" ></div>
+<div id="row"></div>
 
 	<!-- 客服聊天區-->
 	<div class="floating-chat">
@@ -565,14 +558,14 @@ opacity: 0.5;
 	
 	function sendMessage() {
 		var inputMessage = document.getElementById("message");
-		var friend = "System";
+		var friend = statusOutput.textContent;
 		var message = inputMessage.value.trim();
 
 		if (message === "") {
 			alert("Input a message");
 			inputMessage.focus();
-// 		} else if (friend === "") {
-// 			alert("Choose a friend");
+		} else if (friend === "") {
+			alert("Choose a friend");
 		} else {
 			var jsonObj = {
 				"type" : "chat",
@@ -589,20 +582,20 @@ opacity: 0.5;
 	// 有好友上線或離線就更新列表
 	function refreshFriendList(jsonObj) {
 		var friends = jsonObj.users;
-// 		var row = document.getElementById("row");
+		var row = document.getElementById("row");
 		row.innerHTML = '';
-// 		for (var i = 0; i < friends.length; i++) {
-// 			if (friends[i] === self) { continue; }
-// 			row.innerHTML +='<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
-// 		}
+		for (var i = 0; i < friends.length; i++) {
+			if (friends[i] === self) { continue; }
+			row.innerHTML +='<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
+		}
 		addListener();
 	}
 	// 註冊列表點擊事件並抓取好友名字以取得歷史訊息
 	function addListener() {
-// 		var container = document.getElementById("row");
-// 		container.addEventListener("mouseout", function(e) {
-			var friend = "System";
-// 			updateFriendName(friend);
+		var container = document.getElementById("row");
+		container.addEventListener("click", function(e) {
+			var friend = e.srcElement.textContent;
+			updateFriendName(friend);
 			var jsonObj = {
 					"type" : "history",
 					"sender" : self,
@@ -610,7 +603,7 @@ opacity: 0.5;
 					"message" : ""
 				};
 			webSocket.send(JSON.stringify(jsonObj));
-// 		});
+		});
 	}
 	
 	function disconnect() {
@@ -620,8 +613,8 @@ opacity: 0.5;
 		document.getElementById('disconnect').disabled = true;
 	}
 	
-// 	function updateFriendName(name) {
-// 		statusOutput.innerHTML = name;
-// 	}
+	function updateFriendName(name) {
+		statusOutput.innerHTML = name;
+	}
 </script>
 </html>
