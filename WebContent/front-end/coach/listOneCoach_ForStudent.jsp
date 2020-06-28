@@ -11,84 +11,57 @@
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/custom-css/coach/listOneCoach_ForStudent.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=Coming+Soon&family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
-<link rel="icon" href="<%=request.getContextPath()%>/images/core-img/FIT.ico">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/css/core-style.css">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
 
-<title>教練個人資料 - listOneCoach_ForStudent.jsp</title>
+<title>教練個人資料詳情 - listOneCoach_ForStudent.jsp</title>
 
 </head>
-<body>
+<body style="background: #f8b302;">
 
 	<%@ include file="/front-end/header.jsp"%>
 
-	<div class="single-blog-wrapper">
+	<div class="single-blog-wrapper" style="font-size: 18px; color:white;">
 
 		<div class="single-blog-post-thumb">
 			<img src="<%=request.getContextPath()%>/images/bg-img/coach1920.png" alt="">
 		</div>
 
-		<section id='second'>
-			<div class="container">
-				<div class='row'>
-					<div class='col-md-8 offset-md-2 text-center'>
-						<h3>跟著專業FitMate,一起運動去!!!</h3>
-						<div class='row'>
-							<div class='col-md-4'>
-								<img src="data:image/png;base64,${coaVO.coapicStr}" class="card-img-top expown" style="width: 400px; height: 400px;" alt="證照或獎狀圖">
-								<h5>
-									<span>教練</span>
-									<div>${coaVO.coaname}</div>
-								</h5>
-							</div>
-							<div class='col-md-8 text-left'>
-								<p class='lead'>
-									無論你是一個人 還是多人揪團
-									<br>
-									FitMate 提供你想要的教練課程!!!
-								</p>
-								<div>
-									<span>專長►►</span><c:forEach var="expOwnVO" items="${expOwnVOs}">
-														<p>${expOwnVO.expdesc}</p>
-															</c:forEach></div>
-								<p>教練小檔案</p>
-								<br>
-								<div>
-									<span>性別 ►►</span>
-									${coaVO.coasex}
+		<div class="row" style="margin: 100px;">
+
+			<div class="col">
+				<div class="card" style="height: 500px; border-radius: 20px; background-color: black;">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h5 class="card-title" style="color: white; text-align:center; padding:5px;">跟著專業FitMate,一起運動去!!!</h5>
+								<div class="card-body" style="width: 200; height: 400px; position: relative;">
+									<img src="data:image/png;base64,${coaVO.coapicStr}" class="card-img-top expown" style="width: 400px; height: 400px; max-width: 100%; max-height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 200px; margin: 0 auto;" alt="教練照片">
 								</div>
-								<br>
-								<div>
-									<span>信箱 ►► ${coaVO.coamail}
 								</div>
-								<br>
-								<div>
-									<span>自我介紹 ►► ${coaVO.coaintro}
+								<div class="col">
+									<h5 class="card-title" style="color:#f8b302;">關於我</h5>
+									<p class="card-text">
+									<div>
+										<span>姓名：</span>${coaVO.coaname}</div>
+									<div>
+										<span>性別：</span>${coaVO.coasex}</div>
+									<div>
+										<span>專長：</span>
+										<c:forEach var="expOwnVO" items="${expOwnVOs}">
+											<p style="color: SteelBlue	; font-weight: bolder; font-size: 18px;">${expOwnVO.expdesc}</p>
+										</c:forEach>
+									</div>
+									<div>
+										<span>自我介紹：</span>
+										<br>${coaVO.coaintro}</div>
+									<button type="button" class="btn btn-primary" style="margin-top: 10px">預約教練</button>
 								</div>
-								<br>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</section>
-		<section id='latest'>
-			<div class='container'>
-				<div class='row'>
 
-					<!-- 在此放入課表 -->
-
-				</div>
-			</div>
-		</section>
-	</div>
-<%@ include file="/front-end/footer.jsp"%>
+			<%@ include file="/front-end/footer.jsp"%>
+		</div>
 </body>
 </html>

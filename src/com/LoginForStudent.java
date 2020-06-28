@@ -38,7 +38,7 @@ public class LoginForStudent extends HttpServlet {
 		} else { // 【帳號 , 密碼有效時, 才做以下工作】
 			// *工作1: 才在session內做已經登入過的標識
 			HttpSession session = req.getSession();
-			session.setAttribute("stunno", stuVO.getStuno());
+			session.setAttribute("stuno", stuVO.getStuno());
 			session.setAttribute("stuname", stuVO.getStuname());
 //			session.setAttribute("stumail", stuVO.getStumail());
 //			session.setAttribute("stupsw", stuVO.getStupsw());

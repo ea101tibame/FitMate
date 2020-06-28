@@ -31,7 +31,7 @@
 
 </head>
 
-<body>
+<body style="background: black;">
 
 	<%@ include file="/front-end/header.jsp"%>
 
@@ -41,7 +41,7 @@
 			<img src="<%=request.getContextPath()%>/images/bg-img/coach1920.png" alt="" style="margin-top: 80px;">
 		</div>
 
-		<table id="table" class="display"></table>
+		<table id="table" class="display" style="background: GhostWhite;"></table>
 
 		<%@ include file="/front-end/footer.jsp"%>
 

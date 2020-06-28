@@ -39,10 +39,14 @@ $(document).ready(function() {
 			align : 'center',
 			sortable : true
 		}, {
-			field : 'expdesc',
+			field : 'expdescs',
 			title : '專長',
 			align : 'center',
-			sortable : true
+			sortable : true,
+			formatter : function(value, row, index) {
+				// value.join(",") converts a list into string with specific separator
+				return value.join("<br>");
+			}
 		},{
 			field : 'coasctotal',
 			title : '總評價分數',

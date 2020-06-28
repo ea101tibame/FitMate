@@ -15,6 +15,9 @@ public class StuVO implements java.io.Serializable {
 	private Date stubir;
 	private byte[] stupic;
 
+	// for front-end display not in the data schema
+	private String stupicStr;
+
 	public String getStuno() {
 		return stuno;
 	}
@@ -102,4 +105,13 @@ public class StuVO implements java.io.Serializable {
 	public void setStupic(byte[] stupic) {
 		this.stupic = stupic;
 	}
+
+	public String getStupicStr() {
+		return stupicStr;
+	}
+
+	public void setStupicStr(String stupicStr) {
+		this.stupicStr = stupicStr;
+	}
+
 }

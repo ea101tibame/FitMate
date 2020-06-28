@@ -51,7 +51,7 @@ body {
 				</c:forEach>
 			</ul>
 		</c:if>
-			<table id="table" class="display"></table>
+			<table id="table" class="display" style="background-color:Azure;"></table>
 			
 			
 			

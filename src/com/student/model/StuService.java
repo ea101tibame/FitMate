@@ -33,7 +33,7 @@ public class StuService {
 			Integer stupoint, String stusta, String stusex, java.sql.Date stubir, byte[] stupic) {
 
 		StuVO stuVO = new StuVO();
-
+		stuVO.setStuno(stuno);
 		stuVO.setStuname(stuname);
 		stuVO.setStupsw(stupsw);
 		stuVO.setStumail(stumail);

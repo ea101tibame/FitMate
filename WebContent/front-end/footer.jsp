@@ -6,18 +6,7 @@
 	pageContext.setAttribute("role", session.getAttribute("role"));
 %>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="description" content="">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>FitMate</title>
-<link rel="stylesheet" type="text/css" href="${context}/css/css/core-style.css">
-<link rel="stylesheet" type="text/css" href="${context}/css/custom-css/index.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
-<link rel="stylesheet" type="text/css" href="${context}/css/custom-css/login.css">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
-</head>
+
 <body>
 	
 	<footer class="footer_area clearfix">

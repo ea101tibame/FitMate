@@ -74,7 +74,7 @@
 							   <li>
 									<a href="#">教練專區</a>
 									<ul class="dropdown">
-									    <li><a href="${context}/front-end/coach/update_coach.jsp">個人資料</a></li>
+									    <li><a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a></li>
 										<li><a href="${context}/front-end/lesson/coachTimeTable.jsp">查看課表</a></li>
 										<li><a href="${context}/front-end/lesson/addLesson.jsp">建立課程</a></li>
 										<li><a href="${context}/front-end/lesson/selectLesson.jsp">查詢與更新</a></li>
@@ -86,7 +86,7 @@
 								<li>
 									<a href="#">學員專區</a>
 									<ul class="dropdown">
-										 <li><a href="${context}/front-end/student/update_student.jsp">個人資料</a></li>
+										 <li><a href="${context}/front-end/student/updateStudent.jsp">個人資料</a></li>
 										 <li><a href="${context}/front-end/lesson_order/lesson_order.jsp">課程報名紀錄</a></li>
                                     	 <li><a href="${context}/front-end/activity/activity_order.jsp">活動報名紀錄</a></li>
                                      	 <li><a href="${context}/front-end/product/product_order.jsp">購買清單</a></li>

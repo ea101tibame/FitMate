@@ -15,15 +15,11 @@ import java.util.List;
 import com.ProjectConfig;
 
 public class StuJDBCDAO implements StuDAO_interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "EA101G5";
-	String passwd = "EA101G5";
 
 	private static final String INSERT_STMT = "INSERT INTO student (stuno,stuname,stupsw,stumail,stutel,stusex,stupic,stuadd,stubir) VALUES ('S'||LPAD(to_char(student_seq.NEXTVAL),3,'0'), ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE student set stuname=?, stupsw=?, stumail=?, stutel=?, stuadd=?, stupoint=?, stusta=?, stusex=?, stubir=? where stuno=?";
 	private static final String DELETE = "DELETE FROM student where stuno = ?";
-	private static final String GET_ONE_STMT = "SELECT stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stusex,to_char(stubir,'yyyy-mm-dd') stubir FROM student where stuno = ?";
+	private static final String GET_ONE_STMT = "SELECT stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stupic,stusex,to_char(stubir,'yyyy-mm-dd') stubir FROM student where stuno = ?";
 	private static final String GET_ONE_BY_MAIL_PSW_STMT = "SELECT stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stusex,stubir,stupic FROM student where stumail = ? AND stupsw=? ";
 	private static final String GET_ALL_STMT = "SELECT stuno,stuname,stupsw,stumail,stutel,stuadd,stupoint,stusta,stusex,to_char(stubir,'yyyy-mm-dd') stubir FROM student order by stuno";
 
@@ -93,8 +89,9 @@ public class StuJDBCDAO implements StuDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, stuVO.getStuname());
@@ -143,8 +140,9 @@ public class StuJDBCDAO implements StuDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, stuno);
@@ -186,8 +184,9 @@ public class StuJDBCDAO implements StuDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, stuno);
@@ -215,6 +214,7 @@ public class StuJDBCDAO implements StuDAO_interface {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
+			se.printStackTrace();
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
@@ -323,8 +323,9 @@ public class StuJDBCDAO implements StuDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			Class.forName(ProjectConfig.JDBC_DRIVER);
+			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
+					ProjectConfig.JDBC_USER_PW);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 

@@ -15,10 +15,10 @@
 <link rel="stylesheet" type="text/css" href="${context}/css/css/core-style.css">
 <link rel="stylesheet" type="text/css" href="${context}/css/custom-css/index.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
-<link rel="stylesheet" type="text/css" href="${context}/css/custom-css/login.css">
+<%-- <link rel="stylesheet" type="text/css" href="${context}/css/custom-css/login.css"> --%>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
 </head>
-<body>
+<body id="header">
 	<header class="header_area">
 		<div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
 			<nav class="classy-navbar" id="essenceNav">
@@ -186,14 +186,7 @@
 		<script>
 				var context = "${context}";
 		</script>
-		<script src="${context}/js/jquery/jquery-2.2.4.min.js"></script>
-		<script src="${context}/js/popper.min.js"></script>
-		<script src="${context}/js/bootstrap.min.js"></script>
-		<script src="${context}/js/plugins.js"></script>
-		<script src="${context}/js/classy-nav.min.js"></script>
-		<script src="${context}/js/active.js"></script>
-		<script src="${context}/js/index.js"></script>
-		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+		
 </body>
 
 </html>
