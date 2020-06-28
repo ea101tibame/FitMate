@@ -41,7 +41,7 @@ public class ActivityJNDIDAO implements ActivityDAO_interface {
 	private static final String DELETE = "DELETE　FROM activity where actno = ?";
 	private static final String UPDATE = "UPDATE activity set actname=?,actloc=?,actdate=?,actss=?,actstart=?,actend=?,acttype=?,actprice=?,actmin=?,actmax=?,actdesc=?,actsta=?,actpic=?,stuno=?,coano=? where actno = ?";
 	private static final String GET_TYPE_PSTMT = "SELECT * FROM expertise where expno=?";
-	private static final String GET_CoachAllActivity_PSTMT = "SELECT actno,actname,actloc,to_char(actdate,'yyyy-mm-dd')actdate,actss,acttype,actprice,actcur,actdesc,actsta,stuno FROM activity where coano=?";
+	private static final String GET_CoachAllActivity_PSTMT = "SELECT coano,actno,actname,actloc,to_char(actdate,'yyyy-mm-dd')actdate,actss,acttype,actprice,actcur,actsta,stuno FROM activity where coano=?";
 	private static final String RESERVATION = "SELECT * FROM ACTIVITY WHERE COANO = ?";
 	private static final String UPDATE_STATUS_REGISTRATION = "UPDATE ACTIVITY SET ACTSTA = '預約未上架'  WHERE ACTNO = ?";/* 教練預約更改活動狀態 */
 	private static final String UPDATE_STATUS_LISTING = "UPDATE ACTIVITY SET ACTSTA = '上架未成團'  WHERE ACTNO = ?";/*主揪上架活動開放報名*/
@@ -408,7 +408,7 @@ public class ActivityJNDIDAO implements ActivityDAO_interface {
 			while (rs.next()) {
 				JSONObject oneActivity = new JSONObject();
 				for (int i = 1; i <= columncount; i++) {
-
+					oneActivity.put("coano", rs.getString("coano"));
 					oneActivity.put("actno", rs.getString("actno"));
 					oneActivity.put("actname", rs.getString("actname"));
 					oneActivity.put("actloc", rs.getString("actloc"));
@@ -417,7 +417,7 @@ public class ActivityJNDIDAO implements ActivityDAO_interface {
 					oneActivity.put("acttype", rs.getString("acttype"));
 					oneActivity.put("actprice", rs.getString("actprice"));
 					oneActivity.put("actcur", rs.getString("actcur"));
-					oneActivity.put("actdesc", rs.getString("actdesc"));
+					
 					oneActivity.put("actsta", rs.getString("actsta"));
 					oneActivity.put("stuno", rs.getString("stuno"));
 					allActivityArray.put(oneActivity);

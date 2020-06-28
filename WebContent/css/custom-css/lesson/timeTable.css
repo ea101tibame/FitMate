@@ -6,7 +6,7 @@ body{line-height:1;
 ol,ul{list-style:none;}
 blockquote,q
 blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
-a{color:#487697;text-decoration:none;}
+a{color:#487697;text-decoration:none;font-size: 15px;!important}
 :focus{outline:0;}
 ins{text-decoration:none;}
 del{text-decoration:line-through;}

@@ -21,3 +21,54 @@ div.single_catagory_area:hover::after{
 .single_catagory_area:hover .catagory-content a {
      color: #ffffff;
 }
+
+.modal-content{
+
+    display: block;
+    margin: auto;
+    width: auto !important;  
+    background-color: rgba(0%, 0%, 0%,1) ;
+    padding-top: 100px;
+
+ 
+       
+}
+
+.modal {
+   padding-right: 0px !important;
+
+
+}
+
+
+
+.form {
+
+    padding: 0px !important;
+}
+
+
+.sign-in {
+
+    padding-top: 80px !important;
+}
+
+.sign-up {
+    padding-top: 80px !important;
+}
+
+
+.img__text h2 {
+
+    color: white;
+}
+
+.img__text p {
+
+    color: white;
+}
+
+.modal-open .modal {
+    margin-left: -400px;
+}
+
