@@ -27,4 +27,22 @@
   <servlet-name>PicServlet</servlet-name>
    <url-pattern>/activity/activitypic.do</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>ActivityOrderServlet</servlet-name>
+  <servlet-class>com.activity_order.controller.ActivityOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>ActivityOrderServlet</servlet-name>
+   <url-pattern>/activity_order/activityorder.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>ActivityFavServlet</servlet-name>
+  <servlet-class>com.activity_fav.controller.ActivityFavServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>ActivityFavServlet</servlet-name>
+   <url-pattern>/activity_fav/activityfav.do</url-pattern>
+  </servlet-mapping>
 </web-app>
