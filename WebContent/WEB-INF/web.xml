@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>EA101G5</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>LessonServlet</servlet-name>
+    <servlet-class>com.lesson.controller.LessonServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LessonServlet</servlet-name>
+    <url-pattern>/lesson/lesson.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+	<servlet-name>checkTime</servlet-name>  
+	<servlet-class>com.lesson.controller.checkTime</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>checkTime</servlet-name>
+  	<url-pattern>/lesson/checkTime</url-pattern>
+  </servlet-mapping>  
+  
+   <servlet>
+   	<servlet-name>PicServletJDBC</servlet-name>
+   	<servlet-class>com.lesson.controller.PicServletJDBC</servlet-class>
+   </servlet>
+   <servlet-mapping>
+   	<servlet-name>PicServletJDBC</servlet-name>
+   	<url-pattern>/lesson/PicServletJDBC.do</url-pattern>
+   </servlet-mapping>
+   
+    <servlet>
+	<servlet-name>LessonTimeServlet</servlet-name>  
+	<servlet-class>com.lessonTime.controller.LessonTimeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LessonTimeServlet</servlet-name>
+  	<url-pattern>/lesson/lessonTime.do</url-pattern>
+  </servlet-mapping>   
+  
+      <servlet>
+	<servlet-name>LessonDetailServlet</servlet-name>  
+	<servlet-class>com.lessonDetail.controller.LessonDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LessonDetailServlet</servlet-name>
+  	<url-pattern>/lesson/LessonDetailServlet.do</url-pattern>
+  </servlet-mapping>   
+  
+   <servlet>
+	<servlet-name>ScheduleServlet</servlet-name>  
+	<servlet-class>com.lesson.controller.ScheduleServlet</servlet-class>
+	 <load-on-startup>10</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ScheduleServlet</servlet-name>
+  	<url-pattern>/lesson/ScheduleServlet</url-pattern>
+  </servlet-mapping>   
+  
+  	<servlet>
+		<servlet-name>NameServlet</servlet-name>
+		<servlet-class>com.websocketchat.controller.NameServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NameServlet</servlet-name>
+		<url-pattern>/chat.do</url-pattern>
+	</servlet-mapping>
+	<!-- 民建 -->
+	 <servlet>
+  <servlet-name>ActivityServlet</servlet-name>
+  <servlet-class>com.activity.controller.ActivityServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>ActivityServlet</servlet-name>
+   <url-pattern>/activity/activity.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>PicServlet</servlet-name>
+  <servlet-class>com.activity.controller.PicServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>PicServlet</servlet-name>
+   <url-pattern>/activity/activitypic.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>ActivityOrderServlet</servlet-name>
+  <servlet-class>com.activity_order.controller.ActivityOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>ActivityOrderServlet</servlet-name>
+   <url-pattern>/activity_order/activityorder.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>ActivityFavServlet</servlet-name>
+  <servlet-class>com.activity_fav.controller.ActivityFavServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>ActivityFavServlet</servlet-name>
+   <url-pattern>/activity_fav/activityfav.do</url-pattern>
+  </servlet-mapping>
+	<!-- 聖珊 -->
+	<servlet>
+		<servlet-name>CoaServlet</servlet-name>
+		<servlet-class>com.coach.controller.CoaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoaServlet</servlet-name>
+		<url-pattern>/coach/coach.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StuServlet</servlet-name>
+		<servlet-class>com.student.controller.StuServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StuServlet</servlet-name>
+		<url-pattern>/student/student.do</url-pattern>
+	</servlet-mapping>
+	
+</web-app>
