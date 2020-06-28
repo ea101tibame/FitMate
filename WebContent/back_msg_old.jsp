@@ -437,154 +437,18 @@ margin-right
 }
 </style>
 </head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=Coming+Soon&family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
 	</script>
-	
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+	</script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
 	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-
-	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-  <link rel="stylesheet" href="backmsg.css">
-  <!-- Font Awesome File -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
 <body onload="connect();" onunload="disconnect();">
-<div class="container app">
-    <div class="row app-one">
-
-      <div class="col-sm-4 side">
-        <div class="side-one">
-          <!-- Heading -->
-          <div class="row heading">
-            <div class="col-sm-8 col-xs-3 heading-avatar">
-              <div class="heading-avatar-icon">
-                <img src="<%=request.getContextPath()%>/images/core-img/logo.png"><!-- 放FITMATE-->
-              </div>
-            </div>
-
-            <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
-              <i class="fa fa-comments fa-2x  pull-right" aria-hidden="true"></i>
-            </div>
-          </div>
-          <!-- Heading End -->
-
-         
-          <!--左邊好友列表 -->
-          <div class="row sideBar">
-            <div class="row sideBar-body">
-              <div class="col-sm-3 col-xs-3 sideBar-avatar">
-                <div class="avatar-icon">
-                  <img src="<%=request.getContextPath()%>/images/backend_public/emppic.jpg">
-                  
-                </div>
-              </div>
-              <div class="col-sm-9 col-xs-9 sideBar-main">
-                <div class="row">
-                  <div class="col-sm-8 col-xs-8 sideBar-name">
-                  	<div id="row" class="name-meta"></div>
-                    
-                 
-                  </div>
-            
-                </div>
-              </div>
-            </div>
-
-          </div>
-          <!-- Sidebar End -->
-        </div>
-        <div class="side-two">
-
-
-
-
-
-          <!-- 右邊訊息 歷史訊息區 -->
-
-          <div class="row compose-sideBar">
-            
-           
-            <div class="row sideBar-body">
-              <div class="col-sm-3 col-xs-3 sideBar-avatar">
-                <div class="avatar-icon">
-                  <img src="">
-                </div>
-              </div>
-              <div class="col-sm-9 col-xs-9 sideBar-main">
-                <div class="row">
-                  <div class="col-sm-8 col-xs-8 sideBar-name">
-                    <span class="name-meta">Ankit Jain
-                  </span>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Sidebar End -->
-      </div>
-
-      <!-- New Message Sidebar End -->
-
-      <!-- Conversation Start -->
-      <div class="col-sm-8 conversation">
-        <!-- Heading -->
-
-        <!-- Heading End -->
-        <div class="row heading">
-          <div class="col-sm-8 col-xs-7 heading-name">
-            <div class="heading-name-meta"><h3 id="statusOutput" class="statusOutput"></h3></div>  <!-- 選到的名字-->
-            
-          </div>
-        </div>
-        <!-- Message Box -->
-        <div class="row message" id="conversation">
-
-          <div class="row message-body">
-            <div class="col-sm-12 message-main-receiver">
-              <div class="receiver"><!-- 左邊-->
-                <div class="message-text">
-                 學員客訴內容
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row message-body">
-            <div class="col-sm-12 message-main-sender">
-              <div class="sender">
-                <div class="message-text"><!-- 右邊-->
-                  客服回覆區
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Message Box End -->
-
-        <!-- Reply Box -->
-        <div class="row reply">
-          
-          <div class="col-sm-9 col-xs-9 reply-main">
-            <textarea class="form-control" rows="1" id="comment"></textarea><!-- 送出-->
-          </div>
-          <button id="sendMessage" type="submit" >Send</button>
-          
-        </div>
-        <!-- Reply Box End -->
-      </div>
-      <!-- Conversation End -->
-    </div>
-    <!-- App One End -->
-  </div>
-<!-- 舊 -->
 <h3 id="statusOutput" class="statusOutput"></h3>
 <div id="row"></div>
 
