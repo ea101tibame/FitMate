@@ -22,19 +22,20 @@ public class Activity_orderJNDIDAO implements Acitivity_orderDAO_interface {
 		}
 	}
 
-
 	private static final String INSERT_ORDER_PSTMT = "INSERT INTO　ACTIVITY_ORDER (aord_no,actno,stuno,aord_time)"
 			+ "VALUES (to_char(sysdate,'yyyymmdd')||'-AO'||LPAD(to_char(ACTIVITY_ORDER_seq.NEXTVAL), 3, '0'), ?, ?,CURRENT_TIMESTAMP)";
 	private static final String GET_ALL_PSTMT = "SELECT * FROM ACTIVITY_ORDER order by aord_no";
 	private static final String GET_ONE_PSTMT = "SELECT * FROM ACTIVITY_ORDER where aord_no = ?";
 	private static final String DELETE = "DELETE　FROM ACTIVITY_ORDER where aord_no = ?";
 	private static final String UPDATE = "UPDATE ACTIVITY_ORDER set actno=?, stuno=?,aord_sc=? where aord_no = ?";
-
+	/*Table activity_order*/
+	private static final String GET_STUDENT_ORDER_PSTMT = "SELECT * FROM ACTIVITY_ORDER WHERE ACTNO=?";
+	private static final String GET_ACTIVITY_PSTMT = "SELECT * FROM ACTIVITY_ORDER WHERE STUNO=?";
+	/*Table activity*/
 	private static final String GET_STUDENT_PSTMT = "SELECT * FROM ACTIVITY WHERE ACTNO=?";
-	private static final String GET_ACTIVITY_PSTMT = "SELECT * FROM ACTIVITY WHERE STUNO=?";
 	private static final String UPADTE_ACTIVITY_ACTCUR = "UPDATE ACTIVITY SET ACTCUR = ? , ACTSTA=? WHERE ACTNO = ?";
 
-	// 新增-->06/21 自增主鍵值綁定改寫
+	// 新增(自增主鍵值綁定)
 	@SuppressWarnings("resource")
 	@Override
 	public void insert(Activity_orderVO activity_orderVO) {
@@ -51,8 +52,6 @@ public class Activity_orderJNDIDAO implements Acitivity_orderDAO_interface {
 			pstmt = con.prepareStatement(INSERT_ORDER_PSTMT, cols);
 			pstmt.setString(1, activity_orderVO.getActno());
 			pstmt.setString(2, activity_orderVO.getStuno());
-//			pstmt.setDouble(3, activity_orderVO.getAord_sc());
-//			pstmt.setTimestamp(4, activity_orderVO.getAord_time());
 
 			pstmt.executeUpdate();
 
@@ -94,7 +93,6 @@ public class Activity_orderJNDIDAO implements Acitivity_orderDAO_interface {
 
 			}
 			
-
 			pstmt = con.prepareStatement(UPADTE_ACTIVITY_ACTCUR);
 			pstmt.setInt(1, actcur_count);
 			pstmt.setString(2, actsta);
@@ -175,7 +173,7 @@ public class Activity_orderJNDIDAO implements Acitivity_orderDAO_interface {
 
 	}
 
-	// 刪除
+	// 刪除-->暫不使用
 	@Override
 	public void delete(String aord_no) {
 		Connection con = null;
@@ -329,7 +327,7 @@ public class Activity_orderJNDIDAO implements Acitivity_orderDAO_interface {
 
 		try {
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_STUDENT_PSTMT);
+			pstmt = con.prepareStatement(GET_STUDENT_ORDER_PSTMT);
 			pstmt.setString(1, actno);
 			rs = pstmt.executeQuery();
 

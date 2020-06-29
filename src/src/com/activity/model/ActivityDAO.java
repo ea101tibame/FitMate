@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.activity_order.model.*;
 import com.expertise.model.ExpVO;
 
 import java.sql.*;
@@ -28,21 +27,23 @@ public class ActivityDAO implements ActivityDAO_interface {
 	private static final String DELETE = "DELETE　FROM activity where actno = ?";
 	private static final String UPDATE = "UPDATE activity set actname=?,actloc=?,actdate=?,actss=?,actstart=?,actend=?,acttype=?,actprice=?,actmin=?,actmax=?,actdesc=?,actsta=?,actpic=?,stuno=?,coano=? where actno = ?";
 	private static final String GET_TYPE_PSTMT = "SELECT * FROM expertise where expno=?";
-	private static final String GET_CoachAllActivity_PSTMT = "SELECT actno,actname,actloc,to_char(actdate,'yyyy-mm-dd')actdate,actss,acttype,actprice,actcur,actdesc,actsta,stuno FROM activity where coano=?";
+	private static final String GET_CoachAllActivity_PSTMT = "SELECT actno,actname,actloc,to_char(actdate,'yyyy-mm-dd')actdate,actss,acttype,actprice,actcur,actsta,stuno,coano FROM activity where coano=?";
 	private static final String RESERVATION = "SELECT * FROM ACTIVITY WHERE COANO = ?";
 	private static final String UPDATE_STATUS_REGISTRATION = "UPDATE ACTIVITY SET ACTSTA = '預約未上架'  WHERE ACTNO = ?";/* 教練預約更改活動狀態 */
-	private static final String UPDATE_STATUS_LISTING = "UPDATE ACTIVITY SET ACTSTA = '上架未成團'  WHERE ACTNO = ?";/*主揪上架活動開放報名*/
+	private static final String UPDATE_STATUS_LISTING = "UPDATE ACTIVITY SET ACTSTA = '上架待成團'  WHERE ACTNO = ?";/*主揪上架活動開放報名*/
 	private static final String UPDATE_STATUS_DISCONTINUED = "UPDATE ACTIVITY SET ACTSTA = '下架'  WHERE ACTNO = ?";/* 主揪下架活動或成團人數不足系統自動下架 */
 	private static final String GET_ALL_FOR_HOST_PSTMT = "SELECT actno,actname,actloc,to_char(actdate,'yyyy-mm-dd')actdate,actss,to_char(actstart,'yyyy-mm-dd')actstart,to_char(actend,'yyyy-mm-dd')actend,acttype,actprice,actmin,actmax,actcur,actdesc,actsta,actpic,stuno,coano FROM activity where stuno = ?order by actno";
-	/*activity order 的SQL指令*/
-	private static final String INSERT_ORDER_PSTMT = "INSERT INTO　ACTIVITY_ORDER (aord_no,actno,stuno,aord_time)"
-			+ "VALUES (to_char(sysdate,'yyyymmdd')||'-AO'||LPAD(to_char(ACTIVITY_ORDER_seq.NEXTVAL), 3, '0'), ?, ?,CURRENT_TIMESTAMP)";
-	private static final String GET_STUDENT_PSTMT = "SELECT * FROM ACTIVITY_ORDER WHERE ACTNO=?";
+	
+	private static final String GET_STUDENT_PSTMT = "SELECT * FROM ACTIVITY WHERE ACTNO=?";
 	private static final String UPADTE_ACTIVITY_ACTCUR = "UPDATE ACTIVITY SET ACTCUR = ? , ACTSTA=? WHERE ACTNO = ?";
+	/*Table activity order*/
+	private static final String INSERT_ORDER_PSTMT = "INSERT INTO　ACTIVITY_ORDER (aord_no,actno,stuno,aord_sc,aord_time)"
+			+ "VALUES (to_char(sysdate,'yyyymmdd')||'-AO'||LPAD(to_char(ACTIVITY_ORDER_seq.NEXTVAL), 3, '0'), ?, ?,?,CURRENT_TIMESTAMP)";
 
 	
 	/* 基本--------------------------------------- */
-//	新增
+	
+//  活動新增
 	@Override
 	public void insert(ActivityVO activityVO) {
 		Connection con = null;
@@ -95,7 +96,7 @@ public class ActivityDAO implements ActivityDAO_interface {
 
 	}
 
-//  修改
+//  活動修改
 	@Override
 	public void update(ActivityVO activityVO) {
 
@@ -116,7 +117,6 @@ public class ActivityDAO implements ActivityDAO_interface {
 			pstmt.setDouble(8, activityVO.getActprice());
 			pstmt.setInt(9, activityVO.getActmin());
 			pstmt.setInt(10, activityVO.getActmax());
-//			pstmt.setInt(11, activityVO.getActcur());
 			pstmt.setString(11, activityVO.getActdesc());
 			pstmt.setString(12, activityVO.getActsta());
 			pstmt.setBytes(13, activityVO.getActpic());
@@ -149,7 +149,7 @@ public class ActivityDAO implements ActivityDAO_interface {
 
 	}
 
-//	刪除
+//  活動刪除-->暫不使用
 	@Override
 	public void delete(String actno) {
 
@@ -427,6 +427,7 @@ public class ActivityDAO implements ActivityDAO_interface {
 					oneActivity.put("actdesc", rs.getString("actdesc"));
 					oneActivity.put("actsta", rs.getString("actsta"));
 					oneActivity.put("stuno", rs.getString("stuno"));
+					oneActivity.put("coano", rs.getString("coano"));
 					allActivityArray.put(oneActivity);
 
 				}
@@ -586,7 +587,8 @@ public class ActivityDAO implements ActivityDAO_interface {
 		}
 		return list;
 	}
-// 預約階段  教練確認預約-->更新活動狀態為預約未上架
+	
+// 預約確認  教練確認預約-->更新活動狀態為預約未上架
 	public List<ActivityVO> update_sta_bycoach(String coano) {
 		List<ActivityVO> list = new ArrayList<ActivityVO>();
 		ActivityVO activityVO = null;
@@ -614,8 +616,6 @@ public class ActivityDAO implements ActivityDAO_interface {
 				pstmt.executeUpdate();
 			}
 			
-			
-			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException se) {
@@ -638,13 +638,10 @@ public class ActivityDAO implements ActivityDAO_interface {
 		}
 		return list;
 	}
-//上架  主揪確認活動已預約完成開始上架活動-->更新活動狀態為上架待成團並同時報名
+// 上架  主揪確認活動已預約完成開始上架-->更新活動狀態為上架待成團並同時報名
 	@SuppressWarnings("resource")
 	@Override
-	public List<ActivityVO> update_sta_byhost(String stuno) {
-		List<ActivityVO> list = new ArrayList<ActivityVO>();
-		Activity_orderVO activity_orderVO = new Activity_orderVO();
-		ActivityVO activityVO = null;
+	public void update_sta_byhost(String stuno,String actno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -657,46 +654,23 @@ public class ActivityDAO implements ActivityDAO_interface {
 			pstmt.setString(1, stuno);
 			rs = pstmt.executeQuery(); 
 			
-			while(rs.next()) {
-				activityVO = new ActivityVO();
-				activityVO.setActno(rs.getString("actno"));
-				list.add(activityVO);
-			}
-			
-			for(ActivityVO activityVO1 : list) {
-				pstmt = con.prepareStatement(UPDATE_STATUS_LISTING);
-				pstmt.setString(1, activityVO1.getActno());
-				pstmt.executeUpdate();
-			}
-			//更改狀態完同時新增訂單
-			con.setAutoCommit(false);
-			String cols[] = { "aord_no" };
+			pstmt = con.prepareStatement(UPDATE_STATUS_LISTING);
+			pstmt.setString(1, actno);
+			pstmt.executeUpdate();
 
-			pstmt = con.prepareStatement(INSERT_ORDER_PSTMT, cols);
-			pstmt.setString(1, activity_orderVO.getActno());
-			pstmt.setString(2, activity_orderVO.getStuno());
+			pstmt = con.prepareStatement(INSERT_ORDER_PSTMT);
+			pstmt.setString(1, actno);
+			pstmt.setString(2, stuno);
+			pstmt.setInt(3, 0);
 
 			pstmt.executeUpdate();
 
-			rs = pstmt.getGeneratedKeys();
-
-			String next_aord_no = null;
-			if (rs.next()) {
-				next_aord_no = rs.getString(1);
-				System.out.println("自增主鍵值= " + next_aord_no);
-			} else {
-				System.out.println("未取得自增主鍵值");
-			}
-			
-			activity_orderVO.setAord_no(next_aord_no);
-			
 			pstmt = con.prepareStatement(GET_STUDENT_PSTMT);
-			pstmt.setString(1, activity_orderVO.getActno());
+			pstmt.setString(1, actno);
 			rs =  pstmt.executeQuery();
 			
 			String actsta = null;
 			int actcur_count = 0;
-			String actno = null;
 			
 			while (rs.next()) {
 				if (rs.getInt("actcur") >= rs.getInt("actmin")) {
@@ -754,10 +728,10 @@ public class ActivityDAO implements ActivityDAO_interface {
 				}
 			}
 		}
-		return list;
+		
 	}
 	
-//下架  預約失敗或人數不足系統自動更新活動狀態
+// 下架  預約失敗或人數不足系統自動更新活動狀態
 	public void update_sta_auto(String actno) {
 		
 		Connection con = null;
@@ -792,8 +766,7 @@ public class ActivityDAO implements ActivityDAO_interface {
 		}
 	}
 
-	/* 自定義方法----------------------------------- */
-//傳圖片進資料庫方法
+//  傳圖片進資料庫方法
 	public static byte[] getPictureByteArray(String path) throws IOException {
 		File file = new File(path);
 		FileInputStream fis = new FileInputStream(file);
@@ -810,8 +783,4 @@ public class ActivityDAO implements ActivityDAO_interface {
 	}
 
 	
-
-
-	
-
 }

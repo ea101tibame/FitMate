@@ -6,9 +6,12 @@
 
 
 <%
+    String stuno = (String)session.getAttribute("stuno");
+
 	Activity_orderService activity_orderSvc = new Activity_orderService();
-	List<Activity_orderVO> list = activity_orderSvc.findActivityBystuno("S003");
+	List<Activity_orderVO> list = activity_orderSvc.findActivityBystuno(stuno);
 	pageContext.setAttribute("list", list);
+	System.out.println(list.size());
 %>
 <!DOCTYPE html>
 <html>

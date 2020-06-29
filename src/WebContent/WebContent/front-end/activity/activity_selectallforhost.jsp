@@ -6,7 +6,7 @@
 <%@ page import="com.expertise.model.*"%>
 <%
 	ActivityService activitySvc = new ActivityService();
-	List<ActivityVO> list = activitySvc.getAllForHost("S004");
+	List<ActivityVO> list = activitySvc.getAllForHost("S003");
 	pageContext.setAttribute("list", list);
 %>
 

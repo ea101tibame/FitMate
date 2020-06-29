@@ -5,7 +5,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.activity.model.*"%>
 <%@ page import="com.expertise.model.*"%>
-<%
+<%  
+	
 	ActivityService activitySvc = new ActivityService();
 	List<ActivityVO> list = activitySvc.getAllActivity();
 	pageContext.setAttribute("list", list);
@@ -216,7 +217,7 @@
 							<table border="1"
 								class="table table-dark align-items-center align-middle">
 								<tr>
-									<td rowspan="10" style="width: 480px" align-items-middle><img
+									<td rowspan="10" style="width: 480px;"><img
 										src="<%=request.getContextPath()%>/activity/activitypic.do?actno=${activityVO.actno}"
 										alt="活動圖片" class="rounded float-right img-thumbnail"></td>
 									<td style="width: 130px">活動名稱</td>
@@ -277,7 +278,7 @@
 													ACTION="<%=request.getContextPath()%>/activity_fav/activityfav.do"
 													style="margin-bottom: 0px;">
 													<input type="hidden" value="${activityVO.actno}"
-														name="actno"> <input type="hidden" value="S003"
+														name="actno"> <input type="hidden" value="${activityVO.stuno}"
 														name="stuno"> <input type="hidden" name="action"
 														value="insert">
 													<!-- 							<button type="button" class="btn btn-warning">追蹤活動</button>&nbsp; -->
@@ -290,13 +291,11 @@
 												<FORM METHOD="post"
 													ACTION="<%=request.getContextPath()%>/activity_order/activityorder.do"
 													style="margin-bottom: 0px;">
-													<input type="hidden" value="${activityVO.actno}"
-														name="actno"> <input type="hidden" value="S003"
-														name="stuno"> <input type="hidden" name="action"
-														value="insert">
+													<input type="hidden" value="${activityVO.actno}" name="actno"> 
+													<input type="hidden" value="S003" name="stuno"> 
+													<input type="hidden" name="action" value="insert">
 													<!--  							<button type="button" class="btn btn-danger">報名活動</button>&nbsp; -->
-													<input type="submit" value="立即報名"
-														class="btn btn-danger">
+													<input type="submit" value="立即報名" class="btn btn-danger">
 												</FORM>
 											</div>
 										</div>

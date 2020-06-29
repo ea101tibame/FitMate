@@ -7,7 +7,7 @@ public class Activity_orderService {
 	private Acitivity_orderDAO_interface dao;
 	
 	public Activity_orderService() {
-		dao = new Activity_orderDAO();
+		dao = new Activity_orderJNDIDAO();
 	}
 	
 	//新增
@@ -15,7 +15,6 @@ public class Activity_orderService {
 		Activity_orderVO activity_orderVO = new Activity_orderVO();
 		activity_orderVO.setActno(actno);
 		activity_orderVO.setStuno(stuno);
-//		activity_orderVO.setAord_sc(aord_sc);
 		dao.insert(activity_orderVO);
 		return activity_orderVO;
 	}

@@ -30,7 +30,7 @@ public interface ActivityDAO_interface {
     /*活動狀態更新 教練確認預約更改活動狀態-->未成團*/
 	public List<ActivityVO> update_sta_bycoach(String coano);
 	/*活動狀態更新  主揪上架活動更改活動狀態-->上架待成團(開放報名)*/
-	public List<ActivityVO> update_sta_byhost(String stuno);
+	public void update_sta_byhost(String stuno,String actno);
 	/*活動狀態更新 成團人數不足系統自動更新活動狀態-->下架*/
 	public void update_sta_auto(String actno);
 	

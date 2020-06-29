@@ -167,22 +167,11 @@ public class ActivityOrderServlet extends HttpServlet {
 				} else if (!stuno.trim().matches(stunoReg)) {
 					errorMsgs.add("學員編號為大寫S開頭加上數字，且長度在4位數之間");
 				}
-//				Double aord_sc = null;
-//				try {
-//					aord_sc = new Double(req.getParameter("aord_sc").trim());
-//					System.out.println(aord_sc);
-//				} catch (NumberFormatException e) {
-//					errorMsgs.add("教練評價數請給含小數點並且小於10.0的評價");
-//				}
-//				if (aord_sc > 10.0) {
-//					errorMsgs.add("教練評價數請給含小數點並且小於10.0的評價");
-//				}
 				
 				Activity_orderVO activity_orderVO = new Activity_orderVO();
 				activity_orderVO.setActno(actno);
 				activity_orderVO.setStuno(stuno);
-//				activity_orderVO.setAord_sc(aord_sc);
-				
+
 
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("activity_orderVO", activity_orderVO);
@@ -195,9 +184,12 @@ public class ActivityOrderServlet extends HttpServlet {
 				activity_orderVO = activity_orderSvc.addActivityOrder(actno, stuno);
 				req.setAttribute("activity_orderVO", activity_orderVO);
 				/* 新增完準備轉交 */
-				String url = "/front-end/activity_order/listAllActivityOrder.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);
+				String url = req.getContextPath()+"/front-end/activity_order/listAllActivityOrderforStudent.jsp";
+				req.getSession().setAttribute("actno",actno);
+				req.getSession().setAttribute("stuno",stuno);
+				res.sendRedirect(url);
+				return;
+
 			} catch (Exception e) {
 				errorMsgs.add("新增資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/activity/activity_selectoneforguest.jsp");

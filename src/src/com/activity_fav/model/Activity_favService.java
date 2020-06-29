@@ -6,7 +6,7 @@ public class Activity_favService {
 	private Activity_favDAO_interface dao;
 	
 	public Activity_favService() {
-		dao = new Activity_favDAO() ; 
+		dao = new Activity_favJNDIDAO() ; 
 	}
 	
 	//新增

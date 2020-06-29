@@ -450,14 +450,27 @@ public class ActivityServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
+				
 				String stuno = req.getParameter("stuno");
 				System.out.println(stuno);
+				String actno = req.getParameter("actno");
+				System.out.println(actno);
 
 				ActivityService activitySvc = new ActivityService();
-				activitySvc.update_sta_byhost(stuno);
-				String url = "/activity_order/listAllActivityOrder.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);
+				activitySvc.update_sta_byhost(stuno,actno);
+//				req.setAttribute("stuno",stuno);
+				
+				String url = req.getContextPath()+"/front-end/activity_order/listAllActivityOrderforStudent.jsp";
+				
+				req.getSession().setAttribute("stuno",stuno);
+				res.sendRedirect(url);
+				return;
+//				
+//				RequestDispatcher successView = req.getRequestDispatcher(url);
+//				successView.forward(req, res);
+				
+				
+				
 			} catch (Exception e) {
 				errorMsgs.add("更新狀態失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity/activity_selectallforhost.jsp");
