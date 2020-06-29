@@ -8,13 +8,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-public class Product_favJDBCDAO implements Product_favDAO_interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-//	String url = "jdbc:oracle:thin:@localhost:49161:xe";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String userid = "EA101G5";
-	String passwd = "EA101G5";
+public class Product_favDAO implements Product_favDAO_interface {
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String INSERT_STMT = "INSERT INTO product_fav(stuno,prodno)VALUES(?,?)";
 	private static final String DELETE = "DELETE FROM PRODUCT_FAV where stuno=? and prodno=?";
@@ -27,16 +35,13 @@ public class Product_favJDBCDAO implements Product_favDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, product_favVO.getStuno());
 			pstmt.setString(2, product_favVO.getProdno());
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
 			if (pstmt != null) {
@@ -62,15 +67,12 @@ public class Product_favJDBCDAO implements Product_favDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, stuno);
 			pstmt.setString(2, prodno);
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
@@ -103,8 +105,7 @@ public class Product_favJDBCDAO implements Product_favDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -114,9 +115,6 @@ public class Product_favJDBCDAO implements Product_favDAO_interface {
 				pfVO.setProdno(rs.getString("prodno"));
 				list.add(pfVO); // Store the row in the list
 			}
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -155,8 +153,7 @@ public class Product_favJDBCDAO implements Product_favDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_STUNO_STMT);
 			pstmt.setString(1, stuno);
 			rs = pstmt.executeQuery();
@@ -167,9 +164,7 @@ public class Product_favJDBCDAO implements Product_favDAO_interface {
 				prfVO.setProdno(rs.getString("prodno"));
 				list.add(prfVO);
 			}
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (rs != null) {
@@ -195,32 +190,6 @@ public class Product_favJDBCDAO implements Product_favDAO_interface {
 			}
 		}
 		return list;
-	}
-
-	public static void main(String[] args) {
-		Product_favJDBCDAO dao = new Product_favJDBCDAO();
-
-//		Product_favVO pfVO1=new Product_favVO();
-//		pfVO1.setStuno("S001");
-//		pfVO1.setProdno("P032");
-//		dao.insert(pfVO1);
-
-//		dao.delete("S001", "P032");
-
-//		List<Product_favVO> list = dao.getAll();
-//		for (Product_favVO pfVO2 : list) {
-//			System.out.print(pfVO2.getStuno() + ",");
-//			System.out.print(pfVO2.getProdno() + ",");
-//			System.out.println();
-//		}
-
-		List<Product_favVO> list2 = dao.findByStuno("S001");
-		for (Product_favVO pfVO3 : list2) {
-			System.out.print(pfVO3.getStuno() + ",");
-			System.out.print(pfVO3.getProdno() + ",");
-			System.out.println();
-		}
-
 	}
 
 }

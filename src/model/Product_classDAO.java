@@ -3,12 +3,22 @@ package com.product_class.model;
 import java.sql.*;
 import java.util.*;
 
-public class Product_classJDBCDAO implements Product_classDAO_interface {
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:49161:xe";
-	String userid = "EA101G5";
-	String passwd = "EA101G5";
+public class Product_classDAO implements Product_classDAO_interface {
+
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String INSERT_STMT = "INSERT INTO product_class(pclass_id,pclass_name)VALUES('PC'||LPAD(to_char(PRODUCT_CLASSseq.NEXTVAL), 3, '0'),?)";
 	private static final String UPDATE = "UPDATE PRODUCT_CLASS set pclass_name=? where pclass_id=?";
@@ -22,15 +32,12 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, product_classVO.getPclass_name());
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
 			if (pstmt != null) {
@@ -57,16 +64,13 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 			pstmt.setString(1, product_classVO.getPclass_name());
 			pstmt.setString(2, product_classVO.getPclass_id());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("couldn't load database driver." + e.getMessage());
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
 			if (pstmt != null) {
@@ -92,14 +96,11 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, pclass_id);
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
@@ -129,8 +130,7 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, pclass_id);
@@ -142,8 +142,6 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 				pcVO.setPclass_name(rs.getString("pclass_name"));
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -183,8 +181,7 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -194,10 +191,7 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 				pcVO.setPclass_name(rs.getString("pclass_name"));
 				list.add(pcVO); // Store the row in the list
 			}
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
@@ -226,29 +220,4 @@ public class Product_classJDBCDAO implements Product_classDAO_interface {
 		return list;
 	}
 
-	public static void main(String[] args) {
-		Product_classJDBCDAO dao = new Product_classJDBCDAO();
-
-//		Product_classVO pcVO1=new Product_classVO();
-//		pcVO1.setPclass_name("嚙踝��嚙賡����");
-//		dao.insert(pcVO1);
-
-//		Product_classVO pcVO2=new Product_classVO();
-//		pcVO2.setPclass_id("PC001");
-//		pcVO2.setPclass_name("嚙踐��伐蕭���");
-//		dao.update(pcVO2);
-//		
-//		dao.delete("PC006");
-
-//		Product_classVO pcVO2=dao.findByPrimaryKey("PC001");
-//		System.out.println(pcVO2.getPclass_id());
-//		System.out.println(pcVO2.getPclass_name());
-
-//		List<Product_classVO> list = dao.getAll();
-//		for (Product_classVO pcVO3 : list) {
-//			System.out.print(pcVO3.getPclass_id() + ",");
-//			System.out.print(pcVO3.getPclass_name() + ",");
-//			System.out.println();
-//		}
-	}
 }

@@ -7,14 +7,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
-Product_orderService prod_ordSvc = new Product_orderService();
-List<Product_orderVO> list = prod_ordSvc.getAll();
-pageContext.setAttribute("list", list);
+Product_orderVO product_orderVO = (Product_orderVO)request.getAttribute("product_orderVO");
 %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>FitMate管理後台</title>
+<title>FitMate後台新增</title>
 <meta charset="utf-8">
 
 <style>
@@ -88,11 +86,11 @@ body {
 			<h2>商品訂單管理</h2>
 		</div>
 
-		<%@ include file="page1.file"%>
+		
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
 				<tr class="table1">
-					<th>訂單編號</th>
+					
 					<th>學員</th>
 					<th>訂購日期</th>
 					<th>總金額</th>
@@ -101,10 +99,9 @@ body {
 					<th>運費</th>
 					<th>修改</th>
 				</tr>
-				<c:forEach var="product_orderVO" items="${list}"
-					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+			
 					<tr>
-						<td id="${product_orderVO.pordno}">${product_orderVO.pordno}</td>
+						
 						<td>${product_orderVO.stuno}</td>
 						<td>${product_orderVO.porddate}</td>
 						<td>${product_orderVO.pordtotal}</td>
@@ -114,11 +111,10 @@ body {
 						<td>
 							<form method="post"
 								action="<%=request.getContextPath()%>/product/product_order.html">
-								<input type="submit" value="修改"
-									class="btn btn-outline-success my-2 my-sm-0"> 
-								<input
+								<input type="submit" value="新增"
+									class="btn btn-outline-success my-2 my-sm-0"> <input
 									type="hidden" name="pordno" value="${product_orderVO.pordno}">
-								<input type="hidden" name="action" value="getOne_For_Update">
+								<input type="hidden" name="action" value="insert">
 							</form>
 						</td>
 					</tr>
@@ -152,10 +148,10 @@ body {
 
 
 
-				</c:forEach>
+				
 			</table>
 		</div>
-		<%@ include file="page2.file"%>
+		
 	</div>
 	<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 </body>

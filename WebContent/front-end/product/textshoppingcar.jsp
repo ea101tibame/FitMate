@@ -48,8 +48,9 @@ Vector<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingca
 		</table>
 
 			<form name="checkoutForm" action="<%=request.getContextPath()%>/Shopping.html" method="POST">
+				
 				<input type="hidden" name="action"	value="CHECKOUT"> 
-               <input type="submit" value="付款結帳">
+                <input type="submit" value="付款結帳">
 			</form>
 	</div>
 

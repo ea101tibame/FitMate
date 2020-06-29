@@ -47,5 +47,27 @@
 		<servlet-name>product_orderServlet</servlet-name>
 		<url-pattern>/product/product_order.html</url-pattern>
 	</servlet-mapping>
+	
+	
+		<servlet>
+		<servlet-name>Sale_projectServlet</servlet-name>
+		<servlet-class>com.sale_project.controller.Sale_projectServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>	
+		<servlet-name>Sale_projectServlet</servlet-name>
+		<url-pattern>/product/sale_project.html</url-pattern>
+	</servlet-mapping>
+	
+			<servlet>
+		<servlet-name>Product_favServlet</servlet-name>
+		<servlet-class>com.product_fav.controller</servlet-class>
+	</servlet>
+	<servlet-mapping>	
+		<servlet-name>Product_favServlet</servlet-name>
+		<url-pattern>/back-end/product/product_fav.html</url-pattern>
+	</servlet-mapping>
+	
+	
+
 </web-app>
 

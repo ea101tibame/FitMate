@@ -74,77 +74,56 @@ body {
 
 		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
 		<div id="main">
-			<h1>促銷管理</h1>
-			<div class="row">
-			<div class="col-10">
-			</div>
-			<div class="col-1">
-				<form
-					action="<%=request.getContextPath()%>/back-end/product/addSale_project.jsp">
-					<INPUT TYPE="SUBMIT" VALUE="新增促銷專案" class="btn btn-warning">
-				</form>
-			</div>
+			<h2>促銷管理</h2>
 		</div>
-		</div>
-
 		<c:if test="${not empty errorMsgs}">
-				請修正以下錯誤：
-				<ul>
+			<font style="color: red">請修正以下錯誤:</font>
+			<ul>
 				<c:forEach var="message" items="${errorMsgs}">
-					<li>${message}</li>
+					<li style="color: red">${message}</li>
 				</c:forEach>
 			</ul>
 		</c:if>
-		<%@ include file="page1.file"%>
+		<h4>1.促銷專案</h4>
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
 				<tr>
-					<th>促銷編號</th>
-					<th>促銷開始日期</th>
-					<th>促銷結束日期</th>
-					<th>修改</th>
+					<td class="text-right">促銷專案編號</td>
+					<td class="text-left">${sale_projectVO.sapro_no}</td>
 				</tr>
-				<c:forEach var="sale_projectVO" items="${list}"
-					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1 %>">
-					<tr>
-					
-						<td>${sale_projectVO.sapro_no}</td>
-						<td>${sale_projectVO.sapro_start}</td>
-						<td>${sale_projectVO.sapro_end}</td>
-						<td>
-				<form method="post" action="<%=request.getContextPath()%>/product/sale_project.html">
-					<input type="submit" value="修改" class="btn btn-outline-success my-2 my-sm-0"> 
-					<input type="hidden" name="sapro_no" value="${sale_projectVO.sapro_no}">
-					<input type="hidden" name="action" value="getOne_For_Update">
-				</form>
-						</td>
-					</tr>
-					<tr>
-						<th colspan="2">促銷商品名稱</th>
-						<th colspan="2">促銷價格</th>
-					</tr>
-					<jsp:useBean id="sale_listSvc" scope="page"
-						class="com.sale_list.model.Sale_listService" />
-					<c:forEach var="sale_listVO" items="${sale_listSvc.all}">
-						<c:if test="${sale_projectVO.sapro_no==sale_listVO.sapro_no}">
-							<tr>
-								<td colspan="2">
-								<jsp:useBean id="prodSvc" scope="page" class="com.product.model.ProductService" />
-								<c:forEach var="productVO" items="${prodSvc.all}">
-									<c:if test="${productVO.prodno==sale_listVO.prodno}">
-									${productVO.prodname}
-									</c:if>
-								</c:forEach>
-								</td>
-								<td colspan="2">${sale_listVO.sapro_price}</td>
-							</tr>
-						</c:if>
-					</c:forEach>
-				</c:forEach>
+				<tr>
+					<td class="text-right">促銷專案名稱</td>
+					<td class="text-left">
+					<input type="text" name="sapro_name" value="sapro_name" size="30"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-right">促銷開始日期</td>
+					<td class="text-left">
+					<input type="date" value="${sale_projectVO.sapro_start}" name="sapro_start" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-right">促銷結束日期</td>
+					<td class="text-left">
+					<input type="date" value="${sale_projectVO.sapro_end}" name="sapro_start" size="45"/>
+					</td>
+				</tr>
 			</table>
-			<div class="newprod"></div>
 		</div>
-		<%@ include file="page2.file"%>
+		<h4>2.促銷商品明細 <input type="button" value="新增商品" class="btn btn-primary"></h4>
+		<div class="table-responsive-sm table-hover table-success">
+			<table class="table align-items-center">
+				<tr>
+					<th>商品名稱</th>
+					<th>促銷價格</th>
+					<th>修改</th>
+					<th>刪除</th>
+				</tr>		
+			</table>
+		</div>
+
+
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 </body>
 </html>

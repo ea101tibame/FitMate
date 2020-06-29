@@ -90,6 +90,7 @@ body {
 				action="<%=request.getContextPath()%>/product/product.do"
 				name="form1" enctype="multipart/form-data">
 			<tr>
+			
 				<td>商品類別</td>
 				<td><jsp:useBean id="product_classSvc" scope="page"
 						class="com.product_class.model.Product_classService" /> <select

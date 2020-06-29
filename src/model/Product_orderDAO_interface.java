@@ -12,4 +12,5 @@ public interface Product_orderDAO_interface {
 	public Product_orderVO findByPrimaryKey(String pordno);
 	public List<Product_orderVO>getAll();
 	public void insertWithPordList(Product_orderVO product_orderVO,List<Product_order_listVO> list);
-}
+	public List<Product_orderVO>getAllByStuno(String stuno);
+ }

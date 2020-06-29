@@ -3,6 +3,8 @@ package com.sale_project.model;
 import java.sql.Date;
 import java.util.List;
 
+import com.sale_list.model.Sale_listVO;
+
 public class Sale_projectService {
 	private Sale_projectDAO_interface dao;
 	
@@ -38,5 +40,9 @@ public class Sale_projectService {
 	
 	public List<Sale_projectVO>getAll(){
 		return dao.getAll();
+	}
+	
+	public void insertWithSaleList(Sale_projectVO sale_projectVO, List<Sale_listVO> list) {
+		dao.insertWithSaleList(sale_projectVO, list);
 	}
 }

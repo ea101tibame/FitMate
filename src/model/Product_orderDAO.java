@@ -4,22 +4,31 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import com.product_order.model.Product_orderVO;
 import com.product_order_list.model.Product_order_listJDBCDAO;
 import com.product_order_list.model.Product_order_listVO;
 
-public class Product_orderJDBCDAO implements Product_orderDAO_interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-//	String url = "jdbc:oracle:thin:@localhost:49161:xe";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String userid = "EA101G5";
-	String passwd = "EA101G5";
+public class Product_orderDAO implements Product_orderDAO_interface {
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
-	private static final String INSERT_STMT = "INSERT INTO product_order(pordno,stuno,porddate,pordtotal,recipient,phonenumber,pordadd,pordsta,fare)VALUES(to_char(sysdate,'yyyymmdd')||'-PO'||LPAD(to_char(PRODUCT_ORDERseq.NEXTVAL), 3, '0'),?,CURRENT_TIMESTAMP,?,?,?,?,?,?)";
-	private static final String UPDATE = "UPDATE product_order set stuno=?, pordtotal=?,recipient=?,phonenumber=?,pordadd=?,pordsta=?,fare=? where pordno=?";
+	private static final String INSERT_STMT = "INSERT INTO product_order(pordno,stuno,porddate,pordtotal,pordadd,pordsta,fare)VALUES(to_char(sysdate,'yyyymmdd')||'-PO'||LPAD(to_char(PRODUCT_ORDERseq.NEXTVAL), 3, '0'),?,CURRENT_TIMESTAMP,?,?,?,?)";
+	private static final String UPDATE = "UPDATE product_order set stuno=?, pordtotal=?, pordadd=?,pordsta=?,fare=? where pordno=?";
 	private static final String DELETE = "DELETE FROM product_order where pordno=?";
-	private static final String GET_ONE_STMT = "SELECT pordno,stuno,porddate,pordtotal,recipient,phonenumber,pordadd,pordsta,fare from product_order where pordno=?";
-	private static final String GET_ALL_STMT = "SELECT pordno,stuno,porddate,pordtotal,recipient,phonenumber,pordadd,pordsta,fare from product_order order by pordno";
+	private static final String GET_ONE_STMT = "SELECT pordno,stuno,porddate,pordtotal,pordadd,pordsta,fare from product_order where pordno=?";
+	private static final String GET_ALL_STMT = "SELECT pordno,stuno,porddate,pordtotal,pordadd,pordsta,fare from product_order order by pordno";
 	private static final String GET_ALL_BY_STUNO = "SELECT * FROM product_order where stuno=?";
 
 	@Override
@@ -28,21 +37,16 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, product_orderVO.getStuno());
 			pstmt.setInt(2, product_orderVO.getPordtotal());
-			pstmt.setString(3, product_orderVO.getRecipient());
-			pstmt.setString(4, product_orderVO.getPhonenumber());
-			pstmt.setString(5, product_orderVO.getPordadd());
-			pstmt.setString(6, product_orderVO.getPordsta());
-			pstmt.setInt(7, product_orderVO.getFare());
+			pstmt.setString(3, product_orderVO.getPordadd());
+			pstmt.setString(4, product_orderVO.getPordsta());
+			pstmt.setInt(5, product_orderVO.getFare());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
@@ -70,21 +74,16 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 			pstmt.setString(1, product_orderVO.getStuno());
 			pstmt.setInt(2, product_orderVO.getPordtotal());
-			pstmt.setString(3, product_orderVO.getRecipient());
-			pstmt.setString(4, product_orderVO.getPhonenumber());
-			pstmt.setString(5, product_orderVO.getPordadd());
-			pstmt.setString(6, product_orderVO.getPordsta());
-			pstmt.setInt(7, product_orderVO.getFare());
-			pstmt.setString(8, product_orderVO.getPordno());
+			pstmt.setString(3, product_orderVO.getPordadd());
+			pstmt.setString(4, product_orderVO.getPordsta());
+			pstmt.setInt(5, product_orderVO.getFare());
+			pstmt.setString(6, product_orderVO.getPordno());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
@@ -111,14 +110,11 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, pordno);
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
@@ -148,8 +144,7 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, pordno);
@@ -161,16 +156,12 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 				poVO.setStuno(rs.getString("stuno"));
 				poVO.setPorddate(rs.getDate("porddate"));
 				poVO.setPordtotal(rs.getInt("pordtotal"));
-				poVO.setRecipient(rs.getString("recipient"));
-				poVO.setPhonenumber(rs.getString("phonenumber"));
 				poVO.setPordadd(rs.getString("pordadd"));
 				poVO.setPordsta(rs.getString("pordsta"));
 				poVO.setFare(rs.getInt("fare"));
 
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -210,8 +201,7 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -221,16 +211,11 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 				poVO.setStuno(rs.getString("stuno"));
 				poVO.setPorddate(rs.getDate("porddate"));
 				poVO.setPordtotal(rs.getInt("pordtotal"));
-				poVO.setRecipient(rs.getString("recipient"));
-				poVO.setPhonenumber(rs.getString("phonenumber"));
 				poVO.setPordadd(rs.getString("pordadd"));
 				poVO.setPordsta(rs.getString("pordsta"));
 				poVO.setFare(rs.getInt("fare"));
 				list.add(poVO);
 			}
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -270,8 +255,7 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_BY_STUNO);
 
 			pstmt.setString(1, stuno);
@@ -282,15 +266,11 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 				poVO.setPordno(rs.getString("pordno"));
 				poVO.setPorddate(rs.getDate("porddate"));
 				poVO.setPordtotal(rs.getInt("pordtotal"));
-				poVO.setRecipient(rs.getString("recipient"));
-				poVO.setPhonenumber(rs.getString("phonenumber"));
 				poVO.setPordadd(rs.getString("pordadd"));
 				poVO.setPordsta(rs.getString("pordsta"));
 				poVO.setFare(rs.getInt("fare"));
 				list.add(poVO);
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
@@ -303,19 +283,16 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			con.setAutoCommit(false);
 
 			String cols[] = { "PORDNO" };
 			pstmt = con.prepareStatement(INSERT_STMT, cols);
 			pstmt.setString(1, product_orderVO.getStuno());
 			pstmt.setInt(2, product_orderVO.getPordtotal());
-			pstmt.setString(3, product_orderVO.getRecipient());
-			pstmt.setString(4, product_orderVO.getPhonenumber());
-			pstmt.setString(5, product_orderVO.getPordadd());
-			pstmt.setString(6, product_orderVO.getPordsta());
-			pstmt.setInt(7, product_orderVO.getFare());
+			pstmt.setString(3, product_orderVO.getPordadd());
+			pstmt.setString(4, product_orderVO.getPordsta());
+			pstmt.setInt(5, product_orderVO.getFare());
 			pstmt.executeUpdate();
 
 			String next_pordno = null;
@@ -339,8 +316,6 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 			System.out.println("list.size()-B" + list.size());
 			System.out.println("新增部門編號" + next_pordno + "時，共有訂單詳情" + list.size() + "筆同時被新增");
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			if (con != null) {
 				try {
@@ -368,87 +343,6 @@ public class Product_orderJDBCDAO implements Product_orderDAO_interface {
 				}
 			}
 		}
-
-	}
-
-	public static void main(String[] args) {
-		Product_orderJDBCDAO dao = new Product_orderJDBCDAO();
-//測試新增		
-//		Product_orderVO poVO1 = new Product_orderVO();
-//		poVO1.setStuno("S001");
-//		poVO1.setPordtotal(999);
-//		poVO1.setRecipient("洪一中");
-//		poVO1.setPhonenumber("0988526536");
-//		poVO1.setPordadd("桃園市龜山區萬壽路二段98號");
-//		poVO1.setPordsta("待出貨");
-//		poVO1.setFare(80);
-//		dao.insert(poVO1);
-
-//測試修改
-//		Product_orderVO poVO2=new Product_orderVO();
-//		poVO2.setStuno("S001");
-//		poVO2.setPordtotal(999);
-//		poVO2.setRecipient("王柏融");
-//		poVO2.setPhonenumber("0988526536");
-//		poVO2.setPordadd("桃園市中壢區龍東路37號");
-//		poVO2.setPordsta("待出貨");
-//		poVO2.setFare(0);
-//		poVO2.setPordno("20200628-PO011");
-//		dao.update(poVO2);
-
-//測試刪除
-//		dao.delete("20200628-PO011");
-
-//測試查一筆
-//		Product_orderVO poVO2=dao.findByPrimaryKey("20200607-PO001");
-//		System.out.print(poVO2.getPordno()+" ");
-//		System.out.print(poVO2.getStuno()+" ");
-//		System.out.print(poVO2.getPorddate()+" ");
-//		System.out.print(poVO2.getPordtotal()+" ");
-//		System.out.print(poVO2.getRecipient()+" ");
-//		System.out.print(poVO2.getPhonenumber()+" ");
-//		System.out.print(poVO2.getPordadd()+" ");
-//		System.out.print(poVO2.getPordsta()+" ");
-//		System.out.print(poVO2.getFare()+" ");
-
-//測試查全部
-//		List<Product_orderVO> list = dao.getAll();
-//		for (Product_orderVO poVO3 : list) {
-//			System.out.print(poVO3.getPordno()+" ");
-//			System.out.print(poVO3.getStuno()+" ");
-//			System.out.print(poVO3.getPorddate()+" ");
-//			System.out.print(poVO3.getPordtotal()+" ");
-//			System.out.print(poVO3.getPordadd()+" ");
-//			System.out.print(poVO3.getPordsta()+" ");
-//			System.out.print(poVO3.getFare()+" ");
-//			System.out.println();
-//		}
-
-//		Product_orderVO poVO4 = new Product_orderVO();
-//		poVO4.setStuno("S001");
-//		poVO4.setPordtotal(300);
-//		poVO4.setRecipient("中島卓也");
-//		poVO4.setPhonenumber("0952635689");
-//		poVO4.setPordadd("中壢區莒光路25號");
-//		poVO4.setPordsta("待出貨");
-//		poVO4.setFare(80);
-//
-//		List<Product_order_listVO> testList = new ArrayList<Product_order_listVO>();
-//		Product_order_listVO polVO5 = new Product_order_listVO();
-//		polVO5.setProdno("P001");
-//		polVO5.setPord_listqty(new Integer(2));
-//		polVO5.setPord_listprice(new Integer(100));
-//
-//		Product_order_listVO polVO6 = new Product_order_listVO();
-//		polVO6.setProdno("P002");
-//		polVO6.setPord_listqty(new Integer(2));
-//		polVO6.setPord_listprice(new Integer(149));
-//
-//		testList.add(polVO5);
-//		testList.add(polVO6);
-//
-//		dao.insertWithPordList(poVO4, testList);
-
 	}
 
 }

@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.product_fav.model.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<%@ page import="com.sale_project.model.*"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%--JSTLI18N標籤庫--%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
-Sale_projectService saproSvc = new Sale_projectService();
-List<Sale_projectVO> list = saproSvc.getAll();
-pageContext.setAttribute("list", list);
+Product_favVO product_favVO=(Product_favVO)request.getAttribute("product_favVO");
 %>
 <!DOCTYPE html>
 <html>
@@ -74,77 +71,32 @@ body {
 
 		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
 		<div id="main">
-			<h1>促銷管理</h1>
-			<div class="row">
-			<div class="col-10">
-			</div>
-			<div class="col-1">
-				<form
-					action="<%=request.getContextPath()%>/back-end/product/addSale_project.jsp">
-					<INPUT TYPE="SUBMIT" VALUE="新增促銷專案" class="btn btn-warning">
-				</form>
-			</div>
-		</div>
+			<h2>商品追蹤管理</h2>
 		</div>
 
+		<p>以學員編號查詢
 		<c:if test="${not empty errorMsgs}">
-				請修正以下錯誤：
-				<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li>${message}</li>
+			<font style="color:red">請修正以下錯誤:</font>
+			<ul>
+			    <c:forEach var="message" items="${errorMsgs}">
+					<li style="color:red">${message}</li>
 				</c:forEach>
 			</ul>
 		</c:if>
-		<%@ include file="page1.file"%>
-		<div class="table-responsive-sm table-hover table-success">
-			<table class="table align-items-center">
-				<tr>
-					<th>促銷編號</th>
-					<th>促銷開始日期</th>
-					<th>促銷結束日期</th>
-					<th>修改</th>
-				</tr>
-				<c:forEach var="sale_projectVO" items="${list}"
-					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1 %>">
-					<tr>
-					
-						<td>${sale_projectVO.sapro_no}</td>
-						<td>${sale_projectVO.sapro_start}</td>
-						<td>${sale_projectVO.sapro_end}</td>
-						<td>
-				<form method="post" action="<%=request.getContextPath()%>/product/sale_project.html">
-					<input type="submit" value="修改" class="btn btn-outline-success my-2 my-sm-0"> 
-					<input type="hidden" name="sapro_no" value="${sale_projectVO.sapro_no}">
-					<input type="hidden" name="action" value="getOne_For_Update">
-				</form>
-						</td>
-					</tr>
-					<tr>
-						<th colspan="2">促銷商品名稱</th>
-						<th colspan="2">促銷價格</th>
-					</tr>
-					<jsp:useBean id="sale_listSvc" scope="page"
-						class="com.sale_list.model.Sale_listService" />
-					<c:forEach var="sale_listVO" items="${sale_listSvc.all}">
-						<c:if test="${sale_projectVO.sapro_no==sale_listVO.sapro_no}">
-							<tr>
-								<td colspan="2">
-								<jsp:useBean id="prodSvc" scope="page" class="com.product.model.ProductService" />
-								<c:forEach var="productVO" items="${prodSvc.all}">
-									<c:if test="${productVO.prodno==sale_listVO.prodno}">
-									${productVO.prodname}
-									</c:if>
-								</c:forEach>
-								</td>
-								<td colspan="2">${sale_listVO.sapro_price}</td>
-							</tr>
-						</c:if>
-					</c:forEach>
-				</c:forEach>
-			</table>
-			<div class="newprod"></div>
+		<div class="alert alert-primary" role="alert">
+			<form action="<%=request.getContextPath()%>/back-end/product/product_fav.html" method="post">
+				<input type="search" name="stuno" value="<%=(product_favVO == null) ? "" : product_favVO.getStuno()%>" placeholder="請輸入學員編號" />
+				<input type="submit" value="送出">
+				<input type="hidden" name="action" value="getOne_For_Display">
+			</form>
 		</div>
-		<%@ include file="page2.file"%>
+		
+
+
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
+
+
+
+
 </body>
 </html>

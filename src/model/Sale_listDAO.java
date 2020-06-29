@@ -8,28 +8,36 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-public class Sale_listJDBCDAO implements Sale_listDAO_interface {
+public class Sale_listDAO implements Sale_listDAO_interface {
 
-	String driver = "oracle.jdbc.driver.OracleDriver";
-//	String url = "jdbc:oracle:thin:@localhost:49161:xe";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String userid = "EA101G5";
-	String passwd = "EA101G5";
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String INSERT_STMT = "INSERT INTO Sale_list(sapro_no,prodno,sapro_price)VALUES(?,?,?)";
 	final String UPDATE = "UPDATE sale_list set sapro_price=? where sapro_no=? and prodno=?";
 	private static final String DELETE = "DELETE FROM sale_list where sapro_no=? and prodno=?";
 	private static final String GET_ALL_STMT = "SELECT * from sale_list order by sapro_no";
-	private static final String GET_SAPRONO ="SELECT * from sale_list where SAPRO_NO=?";
+	private static final String GET_SAPRONO = "SELECT * from sale_list where SAPRO_NO=?";
+
 	@Override
 	public void insert(Sale_listVO sale_listVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, sale_listVO.getSapro_no());
@@ -37,8 +45,6 @@ public class Sale_listJDBCDAO implements Sale_listDAO_interface {
 			pstmt.setInt(3, sale_listVO.getSapro_price());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
@@ -65,16 +71,13 @@ public class Sale_listJDBCDAO implements Sale_listDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 			pstmt.setInt(1, sale_listVO.getSapro_price());
 			pstmt.setString(2, sale_listVO.getSapro_no());
 			pstmt.setString(3, sale_listVO.getProdno());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
@@ -101,16 +104,13 @@ public class Sale_listJDBCDAO implements Sale_listDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, sapro_no);
 			pstmt.setString(2, prodno);
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
@@ -139,23 +139,20 @@ public class Sale_listJDBCDAO implements Sale_listDAO_interface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url , userid , passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_SAPRONO);
 			pstmt.setString(1, sapro_no);
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				slVO = new Sale_listVO();
 				slVO.setSapro_no(rs.getString("sapro_no"));
 				slVO.setProdno(rs.getString("prodno"));
 				slVO.setSapro_price(rs.getInt("sapro_price"));
 				list.add(slVO);
 			}
-		}catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -195,8 +192,7 @@ public class Sale_listJDBCDAO implements Sale_listDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -207,9 +203,6 @@ public class Sale_listJDBCDAO implements Sale_listDAO_interface {
 				slVO.setSapro_price(rs.getInt("sapro_price"));
 				list.add(slVO);
 			}
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -238,18 +231,19 @@ public class Sale_listJDBCDAO implements Sale_listDAO_interface {
 		}
 		return list;
 	}
+
 	@Override
 	public void insert2(Sale_listVO sale_listVO, Connection con) {
 		PreparedStatement pstmt = null;
 		try {
-			pstmt=con.prepareStatement(INSERT_STMT);
-			
+			pstmt = con.prepareStatement(INSERT_STMT);
+
 			pstmt.setString(1, sale_listVO.getSapro_no());
 			pstmt.setString(2, sale_listVO.getProdno());
 			pstmt.setInt(3, sale_listVO.getSapro_price());
-			
+
 			pstmt.executeUpdate();
-			
+
 		} catch (SQLException se) {
 			if (con != null) {
 				try {
@@ -257,12 +251,10 @@ public class Sale_listJDBCDAO implements Sale_listDAO_interface {
 					System.err.println("rolled back-從sale_list");
 					con.rollback();
 				} catch (SQLException excep) {
-					throw new RuntimeException("rollback error occured. "
-							+ excep.getMessage());
+					throw new RuntimeException("rollback error occured. " + excep.getMessage());
 				}
 			}
-			throw new RuntimeException("A database error occured. "
-					+ se.getMessage());
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
 			if (pstmt != null) {
@@ -275,49 +267,5 @@ public class Sale_listJDBCDAO implements Sale_listDAO_interface {
 		}
 
 	}
-	
-
-	public static void main(String[] args) {
-		Sale_listJDBCDAO dao = new Sale_listJDBCDAO();
-//皜祈岫�憓�
-//		Sale_listVO slVO1=new Sale_listVO();
-//		slVO1.setSapro_no("SA010");
-//		slVO1.setProdno("P002");
-//		slVO1.setSapro_price(200);
-//		dao.insert(slVO1);
-
-//皜祈岫靽格
-
-//		Sale_listVO slVO2=new Sale_listVO();
-//		slVO2.setSapro_price(100);
-//		slVO2.setSapro_no("SA010");
-//		slVO2.setProdno("P002");
-//		dao.update(slVO2);
-
-//皜祈岫�� 
-//		dao.delete("SA010", "P002");
-		
-		
-//皜祈岫�銝�蝑�
-//		List<Sale_listVO> list = dao.findBySaprono("SA001");
-//		for(Sale_listVO slVO3 : list) {
-//			System.out.print(slVO3.getSapro_no()+" ");
-//			System.out.print(slVO3.getProdno()+" ");
-//			System.out.print(slVO3.getSapro_price());
-//			System.out.println();
-//		}
-		
-
-////皜祈岫�閰Ｗ�
-//		List<Sale_listVO> list2 = dao.getAll();
-//		for (Sale_listVO slVO4 : list2) {
-//			System.out.print(slVO4.getSapro_no() + " ");
-//			System.out.print(slVO4.getProdno() + " ");
-//			System.out.print(slVO4.getSapro_price() + " ");
-//			System.out.println();
-//
-//		}
-	}
-
 
 }

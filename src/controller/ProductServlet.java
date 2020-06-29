@@ -34,7 +34,7 @@ public class ProductServlet extends HttpServlet {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				String str = req.getParameter("prodno");
 				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("請輸入員工編號");
+					errorMsgs.add("請輸入商品編號");
 				}
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/product/productManage.jsp");
@@ -46,7 +46,7 @@ public class ProductServlet extends HttpServlet {
 				try {
 					prodno = new String(str);
 				} catch (Exception e) {
-					errorMsgs.add("員工編號格式不正確");
+					errorMsgs.add("商品編號格式不正確");
 				}
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/product/productManage.jsp");
@@ -224,7 +224,7 @@ public class ProductServlet extends HttpServlet {
 				//商品類別編號
 				String pclass_id = req.getParameter("pclass_id");
 				//商品名稱
-				String prodnameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
+				String prodnameReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{2,10}$";
 				String prodname = req.getParameter("prodname").trim();
 				if (prodname == null || prodname.trim().length() == 0) {
 					errorMsgs.add("商品名稱請勿空白");

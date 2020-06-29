@@ -1,15 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<%@ page import="com.product.model.*" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%--JSTLI18N標籤庫--%>
-
-<%
-	ProductService prodSvc = new ProductService();
-	List<ProductVO> list = prodSvc.getAll();
-	pageContext.setAttribute("list",list);
-%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -209,175 +199,87 @@
                     <li><span>運費:</span> <span>80元</span></li>
                     <li><span>總計:</span> <span>$232.00</span></li>
                 </ul>
-                <div class="checkout-btn mt-100">
                     <a href="checkout.html" class="btn essence-btn">結  帳</a>
-                </div>
             </div>
         </div>
     </div>
     <!-- ##### Right Side Cart End ##### -->
+	<div class="container">
+		<div class="row">
+		<h2>追蹤清單</h2>
+		</div>
+		<div class="row">
+		您預期購買的商品總數2項，共1頁，目前顯示第1頁
+		</div>
+		<div class="row alert alert-primary">
+			<div class="col-2"><img src="<%=request.getContextPath()%>/images/product/P009.PNG"></div>
+			<div class="col-10">
+				<div class="row" style="height:60px"><h4>商品名稱</h4></div>
+				<div class="row">商品價格:456</div>
+				<div class="row">柔軟而靈活的piqué針織為高爾夫球手提供了基本的舒適性，並允許您在超過22°C的溫度下進行比賽，這要歸功於能夠排汗的棉質和滌綸織物。</div>
+				<div class="row"></div>
+				<div class="row">
+					<div class="col-9"></div>
+					<div class="col-3">
+					<a href="#" class="essence-btn">加入購物車</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row alert alert-primary">
+			<div class="col-2"><img src="<%=request.getContextPath()%>/images/product/P010.PNG"></div>
+			<div class="col-10">
+				<div class="row" style="height:60px"><h4>商品名稱</h4></div>
+				<div class="row">商品價格:456</div>
+				<div class="row">柔軟而靈活的piqué針織為高爾夫球手提供了基本的舒適性，並允許您在超過22°C的溫度下進行比賽，這要歸功於能夠排汗的棉質和滌綸織物。</div>
+				<div class="row"></div>
+				<div class="row">
+					<div class="col-9"></div>
+					<div class="col-3">
+					<a href="#" class="essence-btn">加入購物車</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row alert alert-primary">
+			<div class="col-2"><img src="<%=request.getContextPath()%>/images/product/P032.PNG"></div>
+			<div class="col-10">
+				<div class="row" style="height:60px"><h4>商品名稱</h4></div>
+				<div class="row">商品價格:456</div>
+				<div class="row">柔軟而靈活的piqué針織為高爾夫球手提供了基本的舒適性，並允許您在超過22°C的溫度下進行比賽，這要歸功於能夠排汗的棉質和滌綸織物。</div>
+				<div class="row"></div>
+				<div class="row">
+					<div class="col-9"></div>
+					<div class="col-3">
+					<a href="#" class="essence-btn">加入購物車</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row alert alert-primary">
+			<div class="col-2"><img src="<%=request.getContextPath()%>/images/product/P006.PNG"></div>
+			<div class="col-10">
+				<div class="row" style="height:60px"><h4>商品名稱</h4></div>
+				<div class="row">商品價格:456</div>
+				<div class="row">柔軟而靈活的piqué針織為高爾夫球手提供了基本的舒適性，並允許您在超過22°C的溫度下進行比賽，這要歸功於能夠排汗的棉質和滌綸織物。</div>
+				<div class="row"></div>
+				<div class="row">
+					<div class="col-9"></div>
+					<div class="col-3">
+					<a href="#" class="essence-btn">加入購物車</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <!-- ##### Breadcumb Area Start ##### -->
-    <div class="breadcumb_area bg-img" style="background-image: url(<%=request.getContextPath()%>/images/product/breadcumb.jpg);">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-12">
-                    <div class="page-title text-center">
-                        <h2>FitMate購物商城</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ##### Breadcumb Area End ##### -->
-
-    <!-- ##### Shop Grid Area Start ##### -->
-    <section class="shop_grid_area section-padding-80">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-4 col-lg-3">
-                    <div class="shop_sidebar_area">
-
-                        <!-- ##### Single Widget ##### -->
-                        <div class="widget catagory mb-50">
-                            <!-- Widget Title -->
-                            <h6 class="widget-title mb-30 pclass-title">商品分類</h6>
-
-                            <!--  Catagories  -->
-                            <div class="catagories-menu">
-                                <ul id="menu-content2" class="menu-content collapse show">
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#clothing">
-                                        <a href="#">服飾</a>
-                                        <ul class="sub-menu collapse show" id="clothing">
-                                            <li><a href="#">所有服飾</a></li>
-                                            <li><a href="#">男士服飾</a></li>
-                                            <li><a href="#">女士服飾</a></li>
-                                         
-                                        </ul>
-                                    </li>
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#shoes" class="collapsed">
-                                        <a href="#">健身相關</a>
-                                        <ul class="sub-menu collapse" id="shoes">
-                                            <li><a href="#">所有健身相關</a></li>
-                                            <li><a href="#">健身食品</a></li>
-                                            <li><a href="#">健身配件</a></li>
-                                        </ul>
-                                    </li>
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#accessories" class="collapsed">
-                                        <a href="#">促銷專案</a>
-                                        <ul class="sub-menu collapse" id="accessories">
-                                            <li><a href="#">父親節促銷</a></li>
-                                            <li><a href="#">滿千免運</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- ##### Single Widget ##### -->
-                        <div class="widget brands mb-50">
-                            <!-- Widget Title 2 -->
-                            <!-- 左邊欄位預留加功能 -->
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-8 col-lg-9">
-                    <div class="shop_grid_product_area">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="product-topbar d-flex align-items-center justify-content-between">
-                                    <!-- Total Products -->
-                                    <div class="total-products">
-                                        <p><span>186</span> 件商品</p>
-                                    </div>
-                                    <!-- Sorting -->
-                                    <div class="product-sorting d-flex">
-                                        <p>排序方式</p>
-                                        <form action="#" method="get">
-                                            <select name="select" id="sortByselect">
-                                                <option value="value">最新上架</option>
-                                                <option value="value">價格：由高到低</option>
-                                                <option value="value">價格：由低到高</option>
-                                            </select>
-                                            <input type="submit" class="d-none" value="">
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-<%@ include file="page1.file" %>   
- <div class="row col-12">   
-<c:forEach var="productVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-
-                            <!-- Single Product -->
-                          
-                            <div class="col-12 col-sm-3 col-lg-4">
-                                <div class="single-product-wrapper">
-                                    <!-- Product Image -->
-                                    <div class="product-img">
-                          			
-                          				<img src="<%= request.getContextPath()%>/product/product.pic?prodno=${productVO.prodno}" alt="">
-                          				
-                                        
-                                        <!-- Product Badge -->
-                                        <div class="product-badge offer-badge">
-                                            <span>限時優惠</span>
-                                        </div>
-                                        <!-- Favourite -->
-                                        <div class="product-favourite">
-                                            <a href="#" class="favme fa fa-heart"></a>
-                                        </div>
-                                    </div>
-
-                                    <!-- Product Description -->
-                                    <div class="product-description">
-              
-                               
-                                            <h6>
-
-        <form method="post" action="${pageContext.request.contextPath}/Shopping.html">
-         <input type="submit" value="${productVO.prodname}" class="btn btn-outline-success my-2 my-sm-0">
-         <input type="hidden" name="action" value="getOne_For_Display">
-         <input type="hidden" name="prodno" value="${productVO.prodno}">
-        </form>
-                                            </h6>
-                          
-                                        <p class="product-price"><span class="old-price">舊價格</span>${productVO.prodprice}</p>
-
-                                        <!-- Hover Content -->
-                                        <div class="hover-content">
-                                            <!-- Add to Cart -->
-                                            <div class="add-to-cart-btn">
-                               			<a href="#" class="btn essence-btn">Add to Cart</a>
-                      
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-	</c:forEach>
+			
 	</div>
-     <%@ include file="page2.file" %>                    
 
 
-
-                </div>
-            </div>
-        </div>
-
-    <!-- ##### Shop Grid Area End ##### -->
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer_area clearfix">
         <div class="container">
-           
-
     <div class="row ">
                 <div class="col-md-12 text-center">
                     <p>

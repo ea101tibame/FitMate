@@ -10,20 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.product.model.ProductVO;
 import com.product_order.model.*;
+import com.product_order_list.model.Product_order_listVO;
 
 public class product_orderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-
+		System.out.println("action=" + action);
 		if ("getOne_For_Update".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -31,7 +33,7 @@ public class product_orderServlet extends HttpServlet {
 			try {
 				/****************************** 1.接收請求參數 *****************************/
 				String pordno = new String(req.getParameter("pordno"));
-				System.out.println("getOne_For_Update的訂單編號為"+pordno);
+				System.out.println("getOne_For_Update的訂單編號為" + pordno);
 				/****************************** 2.開始查詢資料 ****************************/
 				Product_orderService prod_ordSvc = new Product_orderService();
 				Product_orderVO product_orderVO = prod_ordSvc.getOnePo(pordno);
@@ -53,25 +55,30 @@ public class product_orderServlet extends HttpServlet {
 
 			try {
 				String pordadd = req.getParameter("pordadd");
-				System.out.println("訂單地址為"+pordadd);
+				System.out.println("訂單地址為" + pordadd);
 				String pordno = req.getParameter("pordno");
-System.out.println("訂單編號為:"+pordno);
-				Integer pordtotal=null;
+				System.out.println("訂單編號為:" + pordno);
+				Integer pordtotal = null;
 				pordtotal = new Integer(req.getParameter("pordtotal"));
-System.out.println("訂單總金額為"+pordtotal);
-String stuno = req.getParameter("stuno");
-System.out.println("學員編號為"+stuno);
-				
+				System.out.println("訂單總金額為" + pordtotal);
+				String recipient = req.getParameter("recipient");
+				System.out.println("收件人為" + recipient);
+				String phonenumber = req.getParameter("phonenumber");
+				System.out.println("收件人電話為" + phonenumber);
+				String stuno = req.getParameter("stuno");
+				System.out.println("學員編號為" + stuno);
 				String pordsta = req.getParameter("pordsta");
-System.out.println("訂單狀態為"+pordsta);
-				Integer fare=null;
+				System.out.println("訂單狀態為" + pordsta);
+				Integer fare = null;
 				fare = new Integer(req.getParameter("fare"));
-System.out.println("運費為"+fare);
+				System.out.println("運費為" + fare);
 
 				Product_orderVO product_orderVO = new Product_orderVO();
 				product_orderVO.setPordno(pordno);
 				product_orderVO.setStuno(stuno);
 				product_orderVO.setPordtotal(pordtotal);
+				product_orderVO.setRecipient(recipient);
+				product_orderVO.setPhonenumber(phonenumber);
 				product_orderVO.setPordadd(pordadd);
 				product_orderVO.setPordsta(pordsta);
 				product_orderVO.setFare(fare);
@@ -85,7 +92,8 @@ System.out.println("運費為"+fare);
 				}
 				/************* 2.開始修改資料 **************************/
 				Product_orderService prod_ordSvc = new Product_orderService();
-				product_orderVO = prod_ordSvc.updatePo(pordno, stuno, pordtotal, pordadd, pordsta, fare);
+				product_orderVO = prod_ordSvc.updatePo(pordno, stuno, pordtotal, recipient, phonenumber, pordadd,
+						pordsta, fare);
 				/************* 3.修改完成，準備轉交 **************************/
 				req.setAttribute("product_orderVO", product_orderVO);
 				String url = "/back-end/product/product_orderManage.jsp";
@@ -98,6 +106,87 @@ System.out.println("運費為"+fare);
 				failureView.forward(req, res);
 			}
 		}
-	}
 
+		if ("insert".equals(action)) {
+			
+			System.out.println("23132132123s");
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("erroeMsgs", errorMsgs);
+
+			try {
+				String stuno = req.getParameter("stuno").trim();
+				String stunonameReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{2,10}$";
+				if (stuno == null || stuno.trim().length() == 0) {
+					errorMsgs.add("姓名請勿空白");
+				} else if (!stuno.trim().matches(stunonameReg)) {
+					errorMsgs.add("姓名只能是中文、英文，且長度需在2-10之間");
+				}
+
+				String recipient = req.getParameter("recipient").trim();
+				String recipientReg = "^[(\u4e00-\u9fa5)(a-zA-Z)]{2,10}$";
+				if (recipient == null || recipient.trim().length() == 0) {
+					errorMsgs.add("收件人姓名請勿空白");
+				} else if (!stuno.trim().matches(recipientReg)) {
+					errorMsgs.add("收件人姓名只能是中文、英文，且長度需在2-10之間");
+				}
+
+				Integer pordtotal = Integer.parseInt(req.getParameter("amount"));
+
+				String phonenumber = req.getParameter("phonenumber").trim();
+				String phonenumberReg = "^[0-9]";
+				if (phonenumber == null || phonenumber.trim().length() == 0) {
+					errorMsgs.add("電話請勿空白");
+				} else if (!phonenumber.trim().matches(phonenumberReg)) {
+					errorMsgs.add("電話只能填寫數字");
+				}
+
+				String pordadd = req.getParameter("pordadd").trim();
+
+				if (pordadd == null || pordadd.trim().length() == 0) {
+					errorMsgs.add("地址請勿空白");
+				}
+
+				Product_orderVO product_orderVO = new Product_orderVO();
+				product_orderVO.setStuno(stuno);
+				product_orderVO.setPordtotal(pordtotal);
+				product_orderVO.setRecipient(recipient);
+				product_orderVO.setPhonenumber(phonenumber);
+				product_orderVO.setPordadd(pordadd);
+
+				String[] prodno = req.getParameterValues("prodno");
+
+				for (String item : prodno) {
+					System.out.println(item);
+				}
+
+				String[] prodname = req.getParameterValues("prodname");
+				for (String item : prodname) {
+					System.out.println(item);
+				}
+				String[] prodprice = req.getParameterValues("prodprice");
+				for (String item : prodprice) {
+					System.out.println(item);
+				}
+				String[] qty = req.getParameterValues("qty");
+				for (String item : qty) {
+					System.out.println(item);
+				}
+			
+
+				/************* 2.開始新增資料 **************************/
+				Product_orderService prod_ordSvc = new Product_orderService();
+				product_orderVO = prod_ordSvc.addPo(stuno, pordtotal, recipient, phonenumber, pordadd, "未出貨", 80);
+				req.setAttribute("product_orderVO", product_orderVO);
+				String url = "/back-end/product/thankBuy.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				return;
+			} catch (Exception e) {
+				errorMsgs.add("新增資料失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/product/textindex.jsp");
+				failureView.forward(req, res);
+			}
+		}
+
+	}
 }

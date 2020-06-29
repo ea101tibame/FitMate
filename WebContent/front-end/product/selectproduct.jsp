@@ -9,6 +9,7 @@
 	ProductService prodSvc = new ProductService();
 	List<ProductVO> list = prodSvc.getAll();
 	pageContext.setAttribute("list",list);
+	
 %>
 <!DOCTYPE html>
 <html lang="en">

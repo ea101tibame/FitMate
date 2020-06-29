@@ -1,12 +1,9 @@
-<%@page import="java.util.Vector"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ page import="com.product.model.*"%>
-<%@ page import="com.product_order.model.*"%>
-<%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-	Product_orderVO product_orderVO = (Product_orderVO) request.getAttribute("product_orderVO");
+    ProductVO productVO = (ProductVO) request.getAttribute("productVO");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,20 +34,8 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/custom-css/product/product.css">
 <style>
-* {
-	font-family: 微軟正黑體;
-}
-
 .single_product_details_area {
 	margin-left: 20%;
-}
-
-table {
-	font-size: 20px;
-}
-
-#adj {
-	font-size: 20px;
 }
 </style>
 </head>
@@ -134,7 +119,6 @@ table {
 					<!-- Nav End -->
 				</div>
 			</nav>
-
 
 			<!-- Header Meta Data -->
 			<div class="header-meta d-flex clearfix justify-content-end">
@@ -247,121 +231,56 @@ table {
 		</div>
 	</div>
 	<!-- ##### Right Side Cart End ##### -->
-	<!-- ##### Breadcumb Area Start ##### -->
-	<div class="breadcumb_area bg-img"
-		style="background-image: url(<%=request.getContextPath()%>/images/product/breadcumb.jpg);">
-		<div class="container h-100">
-			<div class="row h-100 align-items-center">
-				<div class="col-12">
-					<div class="page-title text-center">
-						<h2>確認結帳</h2>
+
+	<!-- ##### Single Product Details Area Start ##### -->
+	<section class="single_product_details_area d-flex align-items-center">
+
+		<!-- 單一商品圖片 -->
+
+		<div class="single_product_thumb clearfix" id="product_pic">
+
+			<img src="<%= request.getContextPath()%>/product/product.pic?prodno=${productVO.prodno}"
+				alt="">
+
+		</div>
+
+		<!-- 單一商品資訊-->
+		<div class="single_product_desc clearfix">
+
+			<a href="cart.html">
+				<h2>${productVO.prodname}</h2>
+			</a>
+			<p class="product-price">
+			${productVO.prodprice}
+			</p>
+			<p class="product-desc">${productVO.proddesc}</p>
+
+			<!-- form -->
+			<form class="cart-form clearfix" method="post">
+				<!-- 加入追蹤、購物車 -->
+				<div class="cart-fav-box d-flex align-items-center">
+					<!-- Cart -->
+					<button type="submit" name="addtocart" value="5"
+						class="btn essence-btn">Add to cart</button>
+					<!-- Favourite -->
+					<div class="product-favourite ml-4">
+						<a href="#" class="favme fa fa-heart"></a>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
-	</div>
-		<c:if test="${not empty errorMsgs}">
-	請修正以下錯誤
-	<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li>${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
-	<!-- 結帳分上下開始 -->
-	<div class="container">
-
-		<h3>第一步：確認商品明細：</h3>
-		<!--商品明細開始 -->
-		<table class="table table-striped align-items-center">
-			<tr>
-				<th>商品編號</th>
-				<th>商品名稱</th>
-				<th>商品價格</th>
-				<th>數量</th>
-			</tr>
-			<form action="#" method="post" action="<%=request.getContextPath()%>/product/product_order.html">
-			<%
-				@SuppressWarnings("unchecked")
-				Vector<ProductVO> buylist = (Vector<ProductVO>) session.getAttribute("shoppingcart");
-				String amount = (String) request.getAttribute("amount");
-			%>
-			<%
-				for (int i = 0; i < buylist.size(); i++) {
-					ProductVO order = buylist.get(i);
-					String prodno = order.getProdno();
-					String prodname = order.getProdname();
-					Integer prodprice = order.getProdprice();
-					Integer qty = order.getQty();
-			%>
-			<tr>
-				<td><%=prodno%></td>
-				<td><%=prodname%></td>
-				<td><%=prodprice%></td>
-				<td><%=qty%></td>
-			</tr>
-			<%
-				}
-			%>
-			<tr>
-			
-				<td colspan="2"><a href="#" id="adj">返回上頁:調整商品項目</a></td>
-				<td colspan="2" style="text-align: right;">運費:80 <font
-					size="+2">總金額：${amount}</font>
-				</td>
-			</tr>
-		</table>
-		<!-- 商品明細結束 -->
-
-		<h3>第二步：確認商品明細：</h3>
-		
-			<div class="row">
-				<div class="col-md-12 mb-3">
-					<label for="stuno"><h4>學員編號：</h4><span></span></label> <input
-						type="text" class="form-control" id="stuno" value="<%=(product_orderVO == null) ? "" : product_orderVO.getStuno()%>"
-						name="recipient">
-				</div>
-			
-				<div class="col-md-12 mb-3">
-					<label for="recipient"><h4>收件人：</h4><span></span></label> <input
-						type="text" class="form-control" id="recipient" value="<%=(product_orderVO == null) ? "" : product_orderVO.getRecipient()%>"
-						name="recipient">
-				</div>
-
-				<div class="col-12 mb-3">
-					<label for="phonenumber"><h4>收件人電話號碼</h4></label>
-					<input type="text" class="form-control" id="phonenumber" value="<%=(product_orderVO == null) ? "" : product_orderVO.getPhonenumber()%>">
-				</div>
-
-				<div class="col-12 mb-3">
-					<label for="pordadd"><h4>收件地址</h4> <span></span></label> <input
-						type="text" class="form-control mb-3" id="pordadd" value="<%=(product_orderVO == null) ? "" : product_orderVO.getPordadd()%>">
-
-				</div>
-
-				<div class="align-items-center">
-				<input type=hidden value="insert" name="action">
-				<input type="submit" value="送出訂單">
-				</div>
-				
-
-			</div>
-		</form>
+	</section>
+	<!-- ##### Single Product Details Area End ##### -->
 
 
-
-	</div>
-
-
-	<!-- 結帳分上下結束 -->
 
 	<!-- ##### Footer Area Start ##### -->
 	<footer class="footer_area clearfix">
 		<div class="container">
 
 
-			<div class="row cokl">
-				<div class="col-12 col-md-12 text-center">
+			<div class="row ">
+				<div class="col-md-12 text-center">
 					<p>
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						Copyright &copy;

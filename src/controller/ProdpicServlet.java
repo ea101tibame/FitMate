@@ -56,6 +56,7 @@ public class ProdpicServlet extends HttpServlet {
 	public void init() throws ServletException {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:49161:xe", "EA101G5", "EA101G5");
 			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "EA101G5", "EA101G5");
 		} catch (ClassNotFoundException e) {
 			throw new UnavailableException("Couldn't load JdbcOdbcDriver");

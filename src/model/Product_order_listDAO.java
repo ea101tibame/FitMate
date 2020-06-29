@@ -4,14 +4,23 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import com.product_class.model.Product_classVO;
 
-public class Product_order_listJDBCDAO implements Product_order_listDAO_interface {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-//	String url = "jdbc:oracle:thin:@localhost:49161:xe";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String userid = "EA101G5";
-	String passwd = "EA101G5";
+public class Product_order_listDAO implements Product_order_listDAO_interface {
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String INSERT_STMT 
 	= "INSERT INTO product_order_list(prodno,pordno,pord_listqty,pord_listprice)VALUES(?,?,?,?)";
@@ -26,8 +35,7 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, product_order_listVO.getProdno());
@@ -36,9 +44,7 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 			pstmt.setInt(4, product_order_listVO.getPord_listprice());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
 			if (pstmt != null) {
@@ -64,8 +70,7 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 			pstmt.setInt(1, product_order_listVO.getPord_listqty());
 			pstmt.setInt(2, product_order_listVO.getPord_listprice());
@@ -73,9 +78,7 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 			pstmt.setString(4, product_order_listVO.getPordno());
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("couldn't load database driver." + e.getMessage());
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
 			if (pstmt != null) {
@@ -101,17 +104,14 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, prodno);
 			pstmt.setString(2, pordno);
 
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver." + e.getMessage());
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured." + se.getMessage());
 		} finally {
 			if (pstmt != null) {
@@ -141,8 +141,7 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 		ResultSet rs = null;
 		
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_PORDNO_STMT);
 			pstmt.setString(1, pordno);
 			rs = pstmt.executeQuery();
@@ -157,8 +156,6 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 				list.add(polVO);
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -197,8 +194,7 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -210,10 +206,7 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 				polVO.setPord_listprice(rs.getInt("pord_listprice"));
 				list.add(polVO);
 			}
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
@@ -249,7 +242,6 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-		
 			pstmt.setString(1, product_order_listVO.getProdno());
 			pstmt.setString(2, product_order_listVO.getPordno());
 			pstmt.setInt(3, product_order_listVO.getPord_listqty());
@@ -260,7 +252,6 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 		} catch (SQLException se) {
 			if (con != null) {
 				try {
-					// 3��身摰���xception�����atch��憛
 					System.err.print("Transaction is being ");
 					System.err.println("rolled back-�product_order_list");
 					con.rollback();
@@ -284,62 +275,5 @@ public class Product_order_listJDBCDAO implements Product_order_listDAO_interfac
 
 	}
 	
-	public static void main(String[] args) {
-		Product_order_listJDBCDAO dao = new Product_order_listJDBCDAO();
-
-//皜祈岫�憓�		
-//		Product_order_listVO polVO1 = new Product_order_listVO();
-//		polVO1.setProdno("P021");
-//		polVO1.setPordno("20200101-PO001");
-//		polVO1.setPord_listqty(1);
-//		polVO1.setPord_listprice(99);
-//		
-//		dao.insert(polVO1);
-
-//皜祈岫靽格
-//		Product_order_listVO polVO2 = new Product_order_listVO();
-//		polVO2.setPord_listqty(1);
-//		polVO2.setPord_listprice(10000);
-//		polVO2.setProdno("P021");
-//		polVO2.setPordno("20200101-PO001");
-//
-//		dao.update(polVO2);
-
-//皜祈岫��
-//		dao.delete("P021","20200101-PO001");
-
-		// 皜祈岫���
-//		List<Product_order_listVO> list = dao.getAll();
-//		for (Product_order_listVO polVO3 : list) {
-//			System.out.print(polVO3.getProdno() + " ");
-//			System.out.print(polVO3.getPordno() + " ");
-//			System.out.print(polVO3.getPord_listqty() + " ");
-//			System.out.print(polVO3.getPord_listprice() + " ");
-//			System.out.println();
-
-//		Product_order_listVO polVO5= dao.findByProdno("P005");
-//		List<Product_order_listVO> list2 =dao.findByProdno("P005");
-//		for(Product_order_listVO polVO5 :list2) {
-//			System.out.print(polVO5.getProdno() + " ");
-//			System.out.print(polVO5.getPordno() + " ");
-//			System.out.print(polVO5.getPord_listqty() + " ");
-//			System.out.print(polVO5.getPord_listprice() + " ");
-//			System.out.println();
-//		}
-		
-//皜祈岫敺��楊��閰Ｗ���
-		List<Product_order_listVO> list2 = dao.findByPordno("20200330-PO001");
-		for (Product_order_listVO polVO6 : list2) {
-			System.out.print(polVO6.getProdno() + ",");
-			System.out.print(polVO6.getPordno() + ",");
-			System.out.print(polVO6.getPord_listqty() + ",");
-			System.out.print(polVO6.getPord_listprice() + ",");
-			System.out.println();
-		}
-		
-		
-
-	}
-
 
 }

@@ -70,6 +70,35 @@ public class ProductVO implements Serializable{
 	public void setProdsta(String prodsta) {
 		this.prodsta = prodsta;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((prodname == null) ? 0 : prodname.hashCode());
+		result = prime * result + ((prodno == null) ? 0 : prodno.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductVO other = (ProductVO) obj;
+		if (prodname == null) {
+			if (other.prodname != null)
+				return false;
+		} else if (!prodname.equals(other.prodname))
+			return false;
+		if (prodno == null) {
+			if (other.prodno != null)
+				return false;
+		} else if (!prodno.equals(other.prodno))
+			return false;
+		return true;
+	}
 	
 	
 

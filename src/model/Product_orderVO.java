@@ -9,10 +9,11 @@ public class Product_orderVO implements Serializable{
 	private String stuno;
 	private Date porddate;
 	private int pordtotal;
+	private String recipient;
+	private String phonenumber;
 	private String pordadd;
 	private String pordsta;
 	private int fare;
-	
 	
 	public String getPordno() {
 		return pordno;
@@ -38,6 +39,18 @@ public class Product_orderVO implements Serializable{
 	public void setPordtotal(int pordtotal) {
 		this.pordtotal = pordtotal;
 	}
+	public String getRecipient() {
+		return recipient;
+	}
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
+	}
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
+	}
 	public String getPordadd() {
 		return pordadd;
 	}
@@ -56,6 +69,9 @@ public class Product_orderVO implements Serializable{
 	public void setFare(int fare) {
 		this.fare = fare;
 	}
+	
+	
+
 	
 	
 }
