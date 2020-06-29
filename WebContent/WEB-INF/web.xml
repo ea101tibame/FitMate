@@ -51,6 +51,23 @@
 		<url-pattern>/employee/employeePic.do</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>DepositServlet</servlet-name>
+		<servlet-class>com.deposit.controller.DepositServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DepositServlet</servlet-name>
+		<url-pattern>/deposit/deposit.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RedemptionServlet</servlet-name>
+		<servlet-class>com.redemption.controller.RedemptionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RedemptionServlet</servlet-name>
+		<url-pattern>/redemption/redemption.do</url-pattern>
+	</servlet-mapping>
 	
 
 	<filter>
@@ -65,7 +82,6 @@
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
-	</filter-mapping>
- 	
+	</filter-mapping>	
 	
 </web-app>

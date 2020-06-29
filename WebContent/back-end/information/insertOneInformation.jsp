@@ -19,7 +19,7 @@
 <html>
 <head>
 <title>新增消息</title>
-<script src="<%=request.getContextPath()%>/ckeditor/ckeditor.js"></script>
+<script src="<%=request.getContextPath()%>/back-end/ckeditor/ckeditor.js"></script>
 </head>
 <body>
 	<div id="div1">
@@ -63,7 +63,7 @@ function confirm(){
 	}
 }
 
-CKEDITOR.replace('cke', {});
+CKEDITOR.replace('cke');
 </script>
 </body>
 </html>

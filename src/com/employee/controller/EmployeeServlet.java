@@ -291,17 +291,17 @@ public class EmployeeServlet extends HttpServlet {
 				EmployeeVO empVO = empSvc.forgetPsw(eacc, email);
 
 				req.setAttribute("empVO", empVO);
-				String url = "/backend_index.jsp";
+				String url = "/back-end/backend_index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/forgetPsw.jsp");
+				RequestDispatcher failView = req.getRequestDispatcher("/back-end/forgetPsw.jsp");
 				failView.forward(req, res);
 			}
 		}
-		// 登入驗證(表單action無法轉到controller處理,filter直接過濾重導回首頁)
+		// 登入驗證
 		if ("logincheck".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -323,7 +323,7 @@ public class EmployeeServlet extends HttpServlet {
 				
 				if(!epsw.matches(epswCheck)) {
 					errorMsgs.add("密碼錯誤,拒絕登入");
-					res.sendRedirect(req.getContextPath() + "/loginFail.jsp");
+					res.sendRedirect(req.getContextPath() + "/back-end/loginFail.jsp");
 				} else {
 					HttpSession session = req.getSession();
 					session.setAttribute("empVO", empVO);
@@ -335,15 +335,14 @@ public class EmployeeServlet extends HttpServlet {
 							return ;
 						}
 					} catch (Exception ignored) {}
-					
-					res.sendRedirect(req.getContextPath()+ "/back-end/employee/loginSuccess.jsp");
+					res.sendRedirect(req.getContextPath()+ "/back-end/backend_index.jsp");
 				}
 		}
 		//登出(移除session中的資料)
 		if("logout".equals(action)) {
 			HttpSession session = req.getSession();
 			session.removeAttribute("empVO");
-			String url = "/backend_index.jsp";
+			String url = "/back-end/backend_index.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		}

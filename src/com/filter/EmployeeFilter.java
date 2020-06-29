@@ -36,7 +36,7 @@ public class EmployeeFilter implements Filter{
 		if(empVO==null) {
 			session.setAttribute("location", req.getRequestURI());
 			//返回首頁登入
-			res.sendRedirect(req.getContextPath()+"/backend_index.jsp");
+			res.sendRedirect(req.getContextPath()+"/back-end/backend_index.jsp");
 			return ;
 		} else {
 			chain.doFilter(request, response);

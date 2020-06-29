@@ -1,15 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.employee.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ page import="com.employee.model.*"%>
 <%
-	EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
+ 	EmployeeVO empVO = (EmployeeVO)session.getAttribute("empVO");
+	session.setAttribute("empVO", empVO);
 %>
+
+<!DOCTYPE html>
 <html>
 <head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <title>FitMate管理後台</title>
 <meta charset="utf-8">
+
+<style>
+	body{ 
+		background:url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
+		background-position: center center;
+	}
+	.main{
+		text-align:center;
+		margin-top:15%;
+	}
+	
+</style>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -42,32 +58,16 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
 <link rel='stylesheet'
 	href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/css/backend.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/css/backend.css">
 
-<style>
-.pic {
-	height: 140px;
-	width: 120px;
-}
-
-body {
-	background:
-		url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
-	background-position: center center;
-}
-
-#main {
-	margin-left: 5px;
-}
-</style>
+	
 
 </head>
 
 <body>
 
 	<%@ include file="/back-end/backinclude_test.jsp"%>
-
+	
 	<!-- 主要內文區開始 -->
 	<div class="article side-open">
 		<!-- logo區開始 -->
@@ -77,39 +77,33 @@ body {
 		<!-- logo區結束 -->
 
 		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
-
-
 		<div id="main">
-			<h1>FitMate員工資料</h1>
-			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工列表</a> <a
-				href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
+			<h2></h2>
 		</div>
-		<div class="table-responsive-sm table-hover table-success">
-			<table class="table align-items-center">
-				<tr>
-					<th>員工編號</th>
-					<th>員工姓名</th>
-					<th>員工帳號</th>
-					<th>員工信箱</th>
-					<th>雇用日期</th>
-					<th>員工照片</th>
-					<th>員工權限</th>
-				</tr>
-				<tr>
-					<td>${empVO.empno}</td>
-					<td>${empVO.ename}</td>
-					<td>${empVO.eacc}</td>
-					<td>${empVO.email}</td>
-					<td>${empVO.edate}</td>
-					<td><img src="<%=request.getContextPath()%>/employee/employeePic.do?empno=${empVO.empno}" class="pic"></td>
-					<td>${empVO.esta}</td>
-				</tr>
-			</table>
-
-
-			<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
+	<%if (session.getAttribute("empVO")==null) {%>	
+		<div class="main">
+			<p>歡迎來到FitMate後臺管理頁面</p><br>
+			<p>若需要進行任何操作請先點擊右上角進行登入</p>
 		</div>
+	<%}else{ %>	
+		<div class="main" id=loginsuccess>
+			<p>管理員 ${empVO.ename} 您好</p>
+			<br><br>
+			<p>請點選左邊選單進行功能操作</p>
+		</div>
+	<%} %>
+		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 	</div>
+
+<script>
+
+	$(document).ready(function(){
+		$('#loginsuccess').show(function(){
+			swal('こんにちは','FitMate管理システムへようこそ','success');
+		});
+	});
+
+</script>
 
 </body>
 </html>

@@ -43,6 +43,7 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 		private static final String FORGET_PSW = "SELECT EPSW , ENAME , EMAIL FROM EMPLOYEE WHERE EACC = ? AND EMAIL = ? ";
 		//登入驗證(給帳號讓servlet比對密碼)
 		private static final String LOGIN = "SELECT EMPNO , ENAME , EPSW FROM EMPLOYEE WHERE EACC = ? ";
+		
 		@Override
 		public void insertEmp(EmployeeVO empVO) {
 			

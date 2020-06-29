@@ -14,6 +14,7 @@
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>FitMate管理後台</title>
 <meta charset="utf-8">
 <link rel="stylesheet"
@@ -70,7 +71,7 @@ body {
 
 <body>
 
-	<%@ include file="/backinclude_test.jsp"%>
+	<%@ include file="/back-end/backinclude_test.jsp"%>
 
 	<!-- 主要內文區開始 -->
 	<div class="article side-open">
@@ -87,7 +88,7 @@ body {
 
 		<div id="main">
 			<h1>FitMate所有員工資料</h1>
-			<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回首頁</a>
+			<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
 		</div>
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
@@ -115,7 +116,7 @@ body {
 							class="pic"></td>
 						<td>${empVO.esta}</td>
 						<td>
-							<form
+							<form 
 								action="<%=request.getContextPath()%>/employee/employee.do"
 								method="post" style="margin-bottom: 0px;">
 								<input type="submit" value="更新資料"
@@ -125,14 +126,10 @@ body {
 							</form>
 						</td>
 						<td>
-							<form
-								action="<%=request.getContextPath()%>/employee/employee.do"
-								method="post" style="margin-bottom: 0px;">
-								<input type="submit" value="刪除資料"
-									onclick="javascript:return bye();"
-									class="btn btn-outline-success my-2 my-sm-0"> <input
-									type="hidden" name="empno" value="${empVO.empno}"> <input
-									type="hidden" name="action" value="deleteOneEmp">
+							<form action="<%=request.getContextPath()%>/employee/employee.do" method="post" style="margin-bottom: 0px;">
+								<input type="button" value="刪除資料" class="btn btn-outline-success my-2 my-sm-0"> 
+								<input type="hidden" name="empno" value="${empVO.empno}"> 
+								<input type="hidden" name="action" value="deleteOneEmp">
 							</form>
 						</td>
 						
@@ -146,15 +143,29 @@ body {
 		</div>
 	</div>
 	<script>
-		function bye() {
-			var msg = '你真的要把人家給刪掉嗎OAQ?';
-			if (confirm(msg) == true) {
-				return true;
-			} else {
-				return false;
-			}
-		}
 		
+		$(document).ready(function(){
+			$('input:button').on('click',function(e){
+				e.preventDefault();
+				swal({
+					title:'注意',
+					text:'你確定要刪除這名員工嗎?',
+					icon:'warning',
+					buttons:true,
+					dangerMode:true
+				}).then(function(isConfirm){
+					if(isConfirm){
+						swal('成功','已將此名員工刪除','success');
+						setTimeout(function(){
+							$('input:button').parent().submit();
+						},1500);
+					} else {
+						swal('取消','你已經取消刪除作業','error');
+					}
+				});
+			});
+		});
+			
 	</script>
 
 </body>

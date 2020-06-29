@@ -17,7 +17,7 @@
 %>
 <html>
 <head>
-<script src="<%=request.getContextPath()%>/ckeditor/ckeditor.js"></script>
+<script src="<%=request.getContextPath()%>/back-end/ckeditor/ckeditor.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <title>修改消息</title>
 </head>
@@ -69,7 +69,7 @@ function bye(){
 	}
 }
 
-CKEDITOR.replace('cke', {});
+CKEDITOR.replace('cke');
 </script>	
 
 </body>

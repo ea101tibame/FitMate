@@ -69,7 +69,7 @@ body {
 
 <body>
 
-	<%@ include file="/backinclude_test.jsp"%>
+	<%@ include file="/back-end/backinclude_test.jsp"%>
 
 	<!-- 主要內文區開始 -->
 	<div class="article side-open">
@@ -95,7 +95,7 @@ body {
 			<a><c:forEach var="message" items="${errorMsgs}">${errorMsgs}</c:forEach></a>
 		</c:if>
 
-		<form action="employee.do" method="post" enctype="multipart/form-data">
+		<form action="<%=request.getContextPath()%>/employee/employee.do" method="post" enctype="multipart/form-data">
 			<div class="table-responsive-sm table-hover table-success">
 				<table class="table align-items-center">
 					<tr>
@@ -109,8 +109,7 @@ body {
 					<tr>
 						<td>員工帳號:</td>
 						<td><input type="hidden" name="eacc" value="${empVO.eacc}">${empVO.eacc}</td>
-					</tr>
-					<tr>
+						
 						<td><input type="hidden" name="epsw" value="${empVO.epsw}"></td>
 					</tr>
 					<tr>
@@ -137,8 +136,8 @@ body {
 				</table>
 				<br>
 			</div>
-			<br> <input type="submit" value="修改送出"
-				onclick="javascript:return bye();" id="confirm" class="btn btn-outline-success my-2 my-sm-0"> <input
+			<br> <input type="button" value="修改送出"
+			 id="confirm" class="btn btn-outline-success my-2 my-sm-0"> <input
 				type="hidden" value="alter" name="action"> <input
 				type="hidden" name="empno" value="${empVO.empno}">
 		</form>
@@ -161,14 +160,27 @@ body {
 			}
 		}
 
-		function bye() {
-			var msg = '確定送出修改資料嗎?';
-			if (confirm(msg) == true) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+		$(document).ready(function(){
+			$('input:button').on('click',function(e){
+				e.preventDefault();
+				swal({
+					title:'注意',
+					text:'你確定要修改這名員工的資料嗎?',
+					icon:'warning',
+					buttons:true,
+					dangerMode:true
+				}).then(function(isConfirm){
+					if(isConfirm){
+						swal('成功','你已經成功修改','success');
+						setTimeout(function(){
+							$('input:button').parent('form').submit();
+						},1500);
+					} else {
+						swal('取消','你已經取消修改作業','error');
+					}
+				});
+			});
+		});
 	</script>
 </body>
 </html>

@@ -71,7 +71,7 @@ body {
 
 <body>
 
-	<%@ include file="/backinclude_test.jsp"%>
+	<%@ include file="/back-end/backinclude_test.jsp"%>
 
 	<!-- 主要內文區開始 -->
 	<div class="article side-open">
@@ -110,7 +110,7 @@ body {
 							value="<%= (empVO==null)? "" : empVO.getEacc()%>"></td>
 					</tr>
 					<tr>
-						<td>員工信箱:</td>
+						<td>員工信箱:<br><font color=red size=3px><b>*員工密碼信件將寄至此信箱</b></font></td>
 						<td><input type="email" name="email" value="<%= (empVO==null)? "" : empVO.getEmail()%>"></td>
 					</tr>
 					<tr>
@@ -137,8 +137,8 @@ body {
 				<br>
 			</div>
 			<br> <input type="hidden" name="action" value="insert">
-			<input type="submit" value="新增送出" id="confirm"
-				onclick="javascript:return bye();" class="btn btn-outline-success my-2 my-sm-0">
+			<input type="button" value="新增送出" id="confirm"
+				 class="btn btn-outline-success my-2 my-sm-0">
 		</form>
 
 
@@ -161,37 +161,27 @@ function readURL(input){
 	}
 }
 
-
-
-function bye(){
-	var msg = '確定新增嗎?';
-	if(confirm(msg)==true){
-		return true ;
-	} else {
-		return false ;
-	}
-}
-
-// swal.setDefaults({
-// 	confirmButtonText:"確定",
-// 	cancleButtonText:"取消"
-// });
-
-// $(function(){
-// 	$("input:button").click(function(){
-// 		swal({
-// 			title:"確定新增?",
-// 			type:"question",
-// 			showCancelButton:true
-// 		}).then(function(){
-// 			if(result.value){
-// 				swal("完成","一筆員工資料已新增","success");
-// 			} else {
-// 				swal("取消","員工資料尚未新增","erroe");
-// 			}
-// 		});
-// 	});
-// });
+$(document).ready(function(){
+	$('input:button').on('click',function(e){ //input的type不能用submit,擋不下送出
+		e.preventDefault();	//避免form表單的預設送出
+		swal({
+			title:'注意',	//swal標準結構1
+			text:'你確定要新增這名員工嗎?', //swal標準結構2
+			icon:'warning', //swal標準結構3
+			buttons:true, //顯示取消button
+			dangerMode:true //確認button上紅色
+		}).then(function(isConfirm){ //.then()表示按了第一個swal後要接著做的事情,用匿名函式傳isConfirm=swal的確認值
+			if(isConfirm){ 
+				$('input:button').parent('form').submit();	//找到那個要傳出去的form表單標籤(不建議用id/class),用submit()執行送出
+				setTimeout(function(){	//設定swal彈出的時間&順序
+					swal('成功','你已經新增一名員工','success');
+				},5000);
+			} else {
+				swal('取消','你已經取消新增作業','error');
+			}
+		});
+	});
+});
 
 </script>
 

@@ -8,8 +8,23 @@
 %>
 <html>
 <head>
-<title>FitMate管理後台</title>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <meta charset="utf-8">
+<style>
+
+	body { 
+		background:url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
+		background-position: center center;
+	}
+	
+	
+	#confirm , #result{
+		margin-left: 46%;
+	}
+	
+	
+</style>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -42,33 +57,13 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
 <link rel='stylesheet'
 	href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/css/backend.css">
-
-<style>
-.pic {
-	height: 140px;
-	width: 120px;
-}
-
-body {
-	background:
-		url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
-	background-position: center center;
-}
-
-#main {
-	margin-left: 5px;
-}
-</style>
-
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/css/backend.css">
 </head>
 
 <body>
 
 	<%@ include file="/back-end/backinclude_test.jsp"%>
-
-	<!-- 主要內文區開始 -->
+<!-- 主要內文區開始 -->
 	<div class="article side-open">
 		<!-- logo區開始 -->
 		<div id="logo">
@@ -77,39 +72,46 @@ body {
 		<!-- logo區結束 -->
 
 		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
-
-
 		<div id="main">
-			<h1>FitMate員工資料</h1>
-			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工列表</a> <a
-				href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
+			<h2>忘記密碼</h2>
+			<a href="employee_select_page.jsp">返回首頁</a>
 		</div>
-		<div class="table-responsive-sm table-hover table-success">
-			<table class="table align-items-center">
-				<tr>
-					<th>員工編號</th>
-					<th>員工姓名</th>
-					<th>員工帳號</th>
-					<th>員工信箱</th>
-					<th>雇用日期</th>
-					<th>員工照片</th>
-					<th>員工權限</th>
-				</tr>
-				<tr>
-					<td>${empVO.empno}</td>
-					<td>${empVO.ename}</td>
-					<td>${empVO.eacc}</td>
-					<td>${empVO.email}</td>
-					<td>${empVO.edate}</td>
-					<td><img src="<%=request.getContextPath()%>/employee/employeePic.do?empno=${empVO.empno}" class="pic"></td>
-					<td>${empVO.esta}</td>
-				</tr>
-			</table>
+		
+		<c:if test="${not empty errorMsgs}">
+			<a>看看你的錯:</a>
+			<br>
+			<a><c:forEach var="message" items="${errorMsgs}">${message}</c:forEach></a>
+		</c:if>
 
-
-			<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
-		</div>
+		<form action="<%=request.getContextPath()%>/employee/employee.do" method="post">
+		
+		<table class="table align-items-center">
+			<tr>
+				<td>請輸入員工帳號</td>
+				<td><input type="text" name="eacc"></td>
+			</tr>
+			<tr>
+				<td>請輸入員工信箱</td>
+				<td><input type="email" name="email"></td>
+			</tr>
+		</table>
+				<input type="hidden" name="action" value="forgetPsw">
+				<input type="submit" value="送出查詢" class="btn btn-outline-success my-2 my-sm-0" id="confirm">
+		</form>
+		<br><br>
+		
+		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 	</div>
+	
+<script>
+	
+	$("#confirm").click(function(){
+		setTimeout(function(){
+			swal('成功','信件已寄出,請耐心等待','success',{button:'確認'})
+		},5000);		
+	});
+	
+</script>
 
 </body>
 </html>

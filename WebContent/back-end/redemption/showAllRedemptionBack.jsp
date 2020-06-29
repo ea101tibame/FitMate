@@ -1,15 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="com.employee.model.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.redemption.model.*"%>
 
 <%
-	EmployeeVO empVO = (EmployeeVO) request.getAttribute("empVO");
+	RedemptionService redSvc = new RedemptionService();
+	List<RedemptionVO> redlist = redSvc.showAll();
+	pageContext.setAttribute("redlist", redlist);
 %>
 <html>
 <head>
-<title>FitMate管理後台</title>
 <meta charset="utf-8">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<title>FitMate管理後台</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -44,72 +49,85 @@
 	href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/css/css/backend.css">
-
 <style>
-.pic {
-	height: 140px;
-	width: 120px;
-}
 
 body {
 	background:
 		url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
 	background-position: center center;
 }
-
 #main {
 	margin-left: 5px;
 }
 </style>
-
 </head>
-
 <body>
 
 	<%@ include file="/back-end/backinclude_test.jsp"%>
-
+	
 	<!-- 主要內文區開始 -->
 	<div class="article side-open">
 		<!-- logo區開始 -->
 		<div id="logo">
-			<img src="<%=request.getContextPath()%>/images/backend_public/logo.png" alt="">
+			<img
+				src="<%=request.getContextPath()%>/images/backend_public/logo.png"
+				alt="">
 		</div>
 		<!-- logo區結束 -->
-
-		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
-
-
 		<div id="main">
-			<h1>FitMate員工資料</h1>
-			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工列表</a> <a
-				href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
+			<h1>FitMate教練點數兌換申請審核</h1>
+			<a href="<%=request.getContextPath()%>/back-end/backend_index.jsp">返回後台首頁</a>
 		</div>
+		
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
 				<tr>
-					<th>員工編號</th>
-					<th>員工姓名</th>
-					<th>員工帳號</th>
-					<th>員工信箱</th>
-					<th>雇用日期</th>
-					<th>員工照片</th>
-					<th>員工權限</th>
+					<th>兌換編號</th>
+					<th>教練編號</th>
+					<th>申請日期</th>
+					<th>兌換金額</th>
+					<th>處理狀態</th>
 				</tr>
-				<tr>
-					<td>${empVO.empno}</td>
-					<td>${empVO.ename}</td>
-					<td>${empVO.eacc}</td>
-					<td>${empVO.email}</td>
-					<td>${empVO.edate}</td>
-					<td><img src="<%=request.getContextPath()%>/employee/employeePic.do?empno=${empVO.empno}" class="pic"></td>
-					<td>${empVO.esta}</td>
-				</tr>
+				<c:forEach var="redVO" items="${redlist}">
+					<tr>
+						<td>${redVO.redno}</td>
+						<td>${redVO.coano}</td>
+						<td><fmt:formatDate value="${redVO.reddate}" type="both"/></td>
+						<td>${redVO.redprice}</td>
+						<td id="sta">${redVO.redsta}</td>
+						<td>
+							<input type="button" value="審核" id="check" class="btn btn-outline-success my-2 my-sm-0">
+							<input type="hidden" name="action" value="change" id="change">
+							<input type="hidden" name="redno" value="${redVO.redno}" id="redno">
+						</td>
+					</tr>
+				</c:forEach>
 			</table>
+			
 
 
 			<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 		</div>
 	</div>
+<script>
 
+	$(document).ready(function(){
+		$('#check').click(function(){
+			$.ajax({
+				url:"<%=request.getContextPath()%>/redemption/redemption.do",
+				type:"post",
+				data:{
+					action:"$('#change').val()",
+					redno:"$('#redno').val()"
+				},
+				success:function(){
+					$('#sta').innerHtml="${redVO.redsta}";
+					swal('成功','已審核完畢','success');
+				}
+			});
+		});
+	});
+
+</script>	
 </body>
 </html>
