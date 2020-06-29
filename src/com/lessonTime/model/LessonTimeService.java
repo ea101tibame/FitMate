@@ -9,7 +9,7 @@ public class LessonTimeService {
 	private LessonTimeDAO_inrterface dao;
 
 	public LessonTimeService() {
-		dao = new LessonTimeJDBCDAO();//之後轉JNDI
+		dao = new LessonTimeDAO();//之後轉JNDI
 	}
 
 	public LessonTimeVO addLessonTime(java.sql.Date ltime_date, String ltime_ss ,String lessno) {
@@ -37,8 +37,8 @@ public class LessonTimeService {
 
 	}
 
-	public void deleteLessonTime(String ltime_no,String lessno) {
-		dao.delete(ltime_no,lessno);
+	public void deleteLessonTime(String lessno) {
+		dao.delete(lessno);
 	}
 
 	public List<LessonTimeVO> findTimeByPK(String lessno) {

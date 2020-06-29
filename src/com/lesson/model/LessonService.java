@@ -12,7 +12,7 @@ public class LessonService {
 	private LessonDAO_interface dao;
 	
 	public LessonService() {
-		dao = new LessonJDBCDAO();//之後轉JNDI
+		dao = new LessonDAO();//之後轉JNDI
 	}
 
 	public String addLesson(String coano,String lessname,Integer lessmax,Integer lessmin,Integer lesscur,String lesstype,String lessloc,Integer lessprice,String lessdesc,java.sql.Date lessstart,java.sql.Date lessend,String lesssta,Integer lesstimes,byte[] lesspic) {

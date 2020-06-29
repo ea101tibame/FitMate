@@ -18,7 +18,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 	private static final String GET_TYPE_STMT = "SELECT * FROM LESSON WHERE LESSTYPE=?";
 	private static final String Get_ExpByExpno_STMT = "SELECT * FROM EXPERTISE";
 	private static final String GET_ALL = "SELECT * FROM LESSON ";
-	private static final String GET_CoachAllLesson_STMT = "SELECT * FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
+	private static final String GET_CoachAllLesson_STMT = "SELECT * FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=? and LESSSTA ='未成團'";
 	private static final String Get_CoachLesson = "SELECT * FROM LESSON WHERE COANO=?";
 	private static final String Get_OneByPK = "SELECT * FROM LESSON WHERE LESSNO=?";
 	private static final String UPDATE_OFF = "UPDATE LESSON SET LESSSTA = '下架' WHERE LESSNO = ?";
@@ -490,7 +490,7 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //		}				
 
 		// 查詢某教練的課程資訊 印出JSONArray
-//		JSONArray allLessonArray = dao.getCoachAllLesson("C002");
+//		JSONArray allLessonArray = dao.getCoachAllLesson("C001");
 //		System.out.println(allLessonArray);
 
 //		List<LessonVO> CAllLesson = dao.getCoachLesson("C001");
@@ -509,8 +509,8 @@ public class LessonJDBCDAO implements LessonDAO_interface {
 //		dao.update_off("L002");
 //		System.out.print("修改下架成功");
 		
-		JSONArray allcheckTime = dao.checkTime("C001");
-		System.out.println(allcheckTime);
+//		JSONArray allchecCkTime = dao.checkTime("C001");
+//		System.out.println(allcheckTime);
 	}
 
 	public static byte[] getPictureByteArray(String path) throws IOException {

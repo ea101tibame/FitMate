@@ -27,15 +27,16 @@ import com.lessonDetail.model.LessonDetailVO;
 
 public class LessonTimeDAO implements LessonTimeDAO_inrterface {
 	//建立連線池
-	private static DataSource ds = null;
-	static {
-		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
-		} catch (NamingException e) {
-			e.printStackTrace();
+		private static DataSource ds = null;
+		static {
+			try {
+				Context ctx = new InitialContext();
+				ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
 		}
-	}
+
 	private static final String INSERT = "INSERT INTO LESSON_TIME VALUES ('LT'||LPAD(to_char(LTIME_NO_seq.NEXTVAL), 3, '0'),?,?)";
 	private static final String UPDATE = "UPDATE LESSON_TIME set LTIME_DATE =?, LTIME_SS=? where LTIME_NO =? ";
 	private static final String DELETE_LessonDetail = "DELETE FROM LESSON_DETAIL where LTIME_NO =?";
@@ -45,6 +46,7 @@ public class LessonTimeDAO implements LessonTimeDAO_inrterface {
 	private static final String GET_CoachAlltimes = "SELECT LTIME_DATE,LTIME_SS FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String INSERT_DTEAIL = "INSERT INTO LESSON_DETAIL VALUES (?,?)";
 	private static final String GET_ONE_TIME = "SELECT LTIME_DATE,LTIME_SS  FROM LESSON_TIME JOIN LESSON_DETAIL ON LESSON_DETAIL.LTIME_NO=LESSON_TIME.LTIME_NO JOIN LESSON ON LESSON_DETAIL.LESSNO=LESSON.LESSNO WHERE LESSON.LESSNO= ?";
+	private static final String GET_TIMENO = "SELECT lesson_detail.ltime_no FROM lesson_detail JOIN lesson_time ON lesson_time.ltime_no=lesson_detail.ltime_no WHERE lessno=?";
 	//	private static final String GET_TIMES = "SELECT LESSTIMES FROM LESSON WHERE LESSNO=?";
 //	private static final String UPDATE_TIMES = "UPDATE LESSON SET LESSTIMES=?WHERE LESSNO=?";
 	@Override
@@ -54,6 +56,7 @@ public class LessonTimeDAO implements LessonTimeDAO_inrterface {
 		String next_time = null;
 		ResultSet rs = null;
 		try {
+
 			con = ds.getConnection();
 			// 1.設定於pstmt.executeUpdate()之前
 			con.setAutoCommit(false);// 開始交易
@@ -88,7 +91,7 @@ public class LessonTimeDAO implements LessonTimeDAO_inrterface {
 			con.commit();// 所以在交易之前 有任何問題 都是rollback
 			con.setAutoCommit(true);
 
-		
+			
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -117,6 +120,7 @@ public class LessonTimeDAO implements LessonTimeDAO_inrterface {
 		PreparedStatement pstmt = null;
 
 		try {
+
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
@@ -150,36 +154,46 @@ public class LessonTimeDAO implements LessonTimeDAO_inrterface {
 	}
 
 	@Override
-	public void delete(String ltime_no,String lessno) {
-		int updateCount_ltime_no = 0;
+	public void delete(String lessno) {
+		
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-
+		List<String> list = new ArrayList<String>();
+		ResultSet rs = null;
 		try {
 			con = ds.getConnection();
 
 			// 1●設定於 pstm.executeUpdate()之前
 			con.setAutoCommit(false);
+			
+			//先拿到時段的編號
+			pstmt = con.prepareStatement(GET_TIMENO);
+			pstmt.setString(1, lessno);
+			rs = pstmt.executeQuery();
 
-			// 先刪除明細
+			while (rs.next()) {
+				list.add(rs.getString("ltime_no"));
+			}
+			
+			// 先刪除明細 看有多少堂 就跑回圈都刪掉
+			for(int i = 0 ; i < list.size(); i++) {
 			pstmt = con.prepareStatement(DELETE_LessonDetail);
-			pstmt.setString(1, ltime_no);
-			updateCount_ltime_no = pstmt.executeUpdate();
+			String no = list.get(i);
+			System.out.println("no="+no);
+			
+			pstmt.setString(1, no);
+			pstmt.executeUpdate();
+			
 			// 再刪除時段
 			pstmt = con.prepareStatement(DELETE_LessonTime);
-			pstmt.setString(1, ltime_no);
+			pstmt.setString(1, no);
 			pstmt.executeUpdate();
-
-			LessonService lessonSvc = new LessonService();
-			lessonSvc.getOneByPK(lessno);
-			
-			//在更新他的堂數 減一
+			}
 			
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
-			System.out.println("刪除時段編號" + ltime_no + ",共有明細" + updateCount_ltime_no + "筆數同時被刪除");
 
 			
 			// Handle any SQL errors
@@ -220,6 +234,7 @@ public class LessonTimeDAO implements LessonTimeDAO_inrterface {
 		ResultSet rs = null;
 
 		try {
+
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE);
 

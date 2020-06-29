@@ -87,7 +87,7 @@ body {
 .heading-avatar-icon img {
 /*   border-radius: 50%; */
   height: 40px;
-  width: 200px;
+  width: 100%;
 }
 
 .heading-name {
@@ -467,6 +467,11 @@ body {
 }
 
 @media screen and (max-width: 700px) {
+	.h2{
+	font-size: 25px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+	}
   .app {
     top: 0;
     height: 100%;

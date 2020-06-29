@@ -12,7 +12,7 @@ public class LessonDetailService {
 	private LessonDetailDAO_interface dao;
 	
 	public LessonDetailService() {
-		dao = new LessonDetailJDBCDAO();//之後轉JNDI
+		dao = new LessonDetailDAO();//之後轉JNDI
 	}
 //不確定能不能拿到LessonDetailVO
 	public LessonDetailVO addLessonDetail(String lessno,String ltime_no, String ltime_ss,java.sql.Date ltime_date) {
