@@ -273,7 +273,7 @@
 			function() {
 				expNumber += 1;
 				 $("#coach-table").after(
-					"<div class='card-group'>" 
+					 "<div class='card-group'>" 
 					  +"<div class='card'>"
 						+"<div class='frame'>"
 						+"<div class='preview'>"
@@ -299,16 +299,68 @@
 								+"</div>"
 		                       +"</div>"
 		                  +"</div>");
-		                            
+				 
+				/*  + "<div class='card-group'>"
+					+ "<c:forEach var='expOwnVO' items='${expOwnVOs}'>"
+						+ "<div class='card'>"
+						+ "<div class='frame'>專長:"	
+							+ "<a href='#' class='pop'>專業證照/比賽獎狀:"
+								+ "<img id='previewPicExp' src='' + context + '/images/noData/nopic.jpg' style='width: 480px; height: 480px;'>" 
+								+ "</a>"
+								+ "<div class='modal fade' id='imagemodal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>"
+								  + "<div class='modal-dialog' data-dismiss='modal'>"
+								    + "<div class='modal-content'>"      
+								    +"<div class='modal-body'>"
+								        +"<button type='button' class='close' data-dismiss='modal'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>"
+								        + "<img src='' class='imagepreview' style='width: 100%;' >"
+								      + "</div>" 
+								    + "</div>"
+								  + "</div>"
+								+ "</div>"
+							+ "</div>"
+							+ "<div class="card-body">"
+							 + "<input type='FILE' class='exp-preview' name='expown' + expNumber + ' size='45' placeholder='請上證照/獎狀' />"
+							  + "<select size='1' name='expno" + expNumber + "'>" 
+					             + "<c:forEach var='expVO' items='${expSvc.all}'>"
+									+ "<option value='${expVO.expno}'}>${expVO.expdesc}" 
+									+ "</c:forEach>" 
+									+ "</select></td>" 
+							  + "<input type='button' value='刪除專長' class='delete-exp'>"
+							+ "</div>"
+						+ "</div>"
+					+ "</c:forEach>	"
+				  + "</div>"); */ 
+
 							
-				             /*"<table>" + "<td>專長:" + "<select size='1' name='expno" + expNumber + "'>" + "<c:forEach var='expVO' items='${expSvc.all}'>"
-								+ "<option value='${expVO.expno}'}>${expVO.expdesc}" + "</c:forEach>" + "</select></td>" + "<tr>" + "<td>" + "專業證照/比賽獎狀:"
-								+ "<input type='FILE' class='exp-preview' name='expown" + expNumber + "' size='45' placeholder='請上證照/獎狀' />" + "</td>" + "</tr>" + "<tr>" + "<td>"
-								+ "<img id='previewPicExp' src='" + context + "/images/noData/nopic.jpg' style='width: 480px; height: 480px;'>" + "</td>" + "</tr>" + "<tr>"
-								+ "<td>" + "<input type='button' value='刪除專長' class='delete-exp'>" + "</td>" + "</tr>" + "</table>" + "<br>"); */
+				             /*"<table>"
+				             + "<td>專長:" 
+				             + "<select size='1' name='expno" + expNumber + "'>" 
+				             + "<c:forEach var='expVO' items='${expSvc.all}'>"
+								+ "<option value='${expVO.expno}'}>${expVO.expdesc}" 
+								+ "</c:forEach>" 
+								+ "</select></td>" 
+								+ "<tr>"
+								+ "<td>" 
+								+ "專業證照/比賽獎狀:"
+								+ "<input type='FILE' class='exp-preview' name='expown" + expNumber + "' size='45' placeholder='請上證照/獎狀' />" 
+								+ "</td>" 
+								+ "</tr>" 
+								+ "<tr>" 
+								+ "<td>"
+								+ "<img id='previewPicExp' src='" + context + "/images/noData/nopic.jpg' style='width: 480px; height: 480px;'>" 
+								+ "</td>" 
+								+ "</tr>" 
+								+ "<tr>"
+								+ "<td>" 
+								+ "<input type='button' value='刪除專長' class='delete-exp'>"
+								+ "</td>"
+								+ "</tr>" 
+								+ "</table>" 
+								+ "<br>"); */
+								
 				// bind click event for new element
 				$(".exp-preview").change(function() {
-					readURL(this, $(this).closest("div.preview").find("img"));
+					readURL(this, $(this).closest("div.card-group").find("img"));
 				});
 
 				$(".delete-exp").click(function() {
