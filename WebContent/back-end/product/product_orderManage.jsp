@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
-Product_orderService prod_ordSvc = new Product_orderService();
+	Product_orderService prod_ordSvc = new Product_orderService();
 List<Product_orderVO> list = prod_ordSvc.getAll();
 pageContext.setAttribute("list", list);
 %>
@@ -115,8 +115,7 @@ body {
 							<form method="post"
 								action="<%=request.getContextPath()%>/product/product_order.html">
 								<input type="submit" value="修改"
-									class="btn btn-outline-success my-2 my-sm-0"> 
-								<input
+									class="btn btn-outline-success my-2 my-sm-0"> <input
 									type="hidden" name="pordno" value="${product_orderVO.pordno}">
 								<input type="hidden" name="action" value="getOne_For_Update">
 							</form>

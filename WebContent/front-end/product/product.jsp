@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.product.model.*" %>
+<%@ page import="com.product_fav.model.*" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%--JSTLI18N標籤庫--%>
 
 <%
@@ -32,6 +33,30 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/css/core-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/custom-css/product/product.css">
+    
+    <style>
+     .single-product-wrapper .product-img .product-favourite button {
+      position: absolute;
+      height: 25px;
+      width: 45px;
+      font-size: 14px;
+      color: #ccc;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      line-height: 25px;
+      background-color: #ffffff;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      opacity: 0;
+      visibility: hidden; }
+      .single-product-wrapper .product-img .product-favourite button.active {
+        opacity: 1;
+        visibility: visible; }
+       .single-product-wrapper:hover .product-img .product-favourite button {
+    opacity: 1;
+    visibility: visible; }
+    </style>
 </head>
 
 <body>
@@ -328,13 +353,22 @@
                                         <div class="product-badge offer-badge">
                                             <span>限時優惠</span>
                                         </div>
-                                        <!-- Favourite -->
+<!-- Favourite -->
+<form action="<%=request.getContextPath()%>/back-end/product/product_fav.html" method="post">
                                         <div class="product-favourite">
-                                            <a href="#" class="favme fa fa-heart"></a>
+                                        <jsp:useBean id="product_favSvc" scope="page"
+						class="com.product_fav.model.Product_favService" />
+<!-- 	                                            <a href="#" class="favme fa fa-heart" type="submit">   </a> -->
+	                                           <button class="favme fa fa-heart" type="submit" <c:if test="${stuno==S002 && productVO.prodno==product_favVO.prodno}">value="Disabled" disabled</c:if>></button>
+
+	                                            <input type="hidden" name="prodno" value="${productVO.prodno}">
+	                                            <input type="hidden" name="stuno" value="S002"> 
+	                                            <input type="hidden" name="action" value="insert">
                                         </div>
+                                         </form>
                                     </div>
 
-                                    <!-- Product Description -->
+<!-- Product Description -->
                                     <div class="product-description">
               
                                

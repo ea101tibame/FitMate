@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.product.model.*"%>
+<%@ page import="com.product_fav.model.*"%>
+<%@ page import="java.util.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	Product_favVO product_favVO = (Product_favVO) request.getAttribute("product_favVO");
+	Product_favService product_favSvc = new Product_favService();
+	List<Product_favVO> list = product_favSvc.getOnePf("S002");
+	pageContext.setAttribute("list", list);
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,6 +33,9 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/css/core-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/custom-css/product/product.css">
+    <style>
+    
+    </style>
 </head>
 
 <body>
@@ -209,72 +223,61 @@
 		<h2>追蹤清單</h2>
 		</div>
 		<div class="row">
-		您預期購買的商品總數2項，共1頁，目前顯示第1頁
+<%@ include file="page1.file" %>   
 		</div>
+		<c:forEach var="product_favVO" items="${list}">
 		<div class="row alert alert-primary">
-			<div class="col-2"><img src="<%=request.getContextPath()%>/images/product/P009.PNG"></div>
+		<jsp:useBean id="productSvc" scope="page" class="com.product.model.ProductService" />
+		<c:forEach var="productVO" items="${productSvc.all}">
+			<c:if test="${product_favVO.prodno==productVO.prodno}">
+			<div class="col-2"><img src="<%= request.getContextPath()%>/product/product.pic?prodno=${product_favVO.prodno}"></div>
+			</c:if>
+			</c:forEach>
 			<div class="col-10">
-				<div class="row" style="height:60px"><h4>商品名稱</h4></div>
-				<div class="row">商品價格:456</div>
-				<div class="row">柔軟而靈活的piqué針織為高爾夫球手提供了基本的舒適性，並允許您在超過22°C的溫度下進行比賽，這要歸功於能夠排汗的棉質和滌綸織物。</div>
+				<div class="row" style="float:right">
+					<form method="post" action="<%=request.getContextPath()%>/back-end/product/product_fav.html">
+						<input type="submit" value="X" style="border:none; background-color:#cce5ff; outline:none">
+						<input type="hidden" name="action" value="delete">
+						<input type="hidden" name="prodno" value="${product_favVO.prodno}">
+						<input type="hidden" name="prodno" value="${product_favVO.stuno}">
+					</form>
+				</div>
+				<div class="row" style="height:60px">
+				<h4>
+				<c:forEach var="productVO" items="${productSvc.all}">
+					<c:if test="${product_favVO.prodno==productVO.prodno}">
+						${productVO.prodname}
+					</c:if>
+				</c:forEach>
+		</h4></div>
+				<div class="row">商品價格:
+				<c:forEach var="productVO" items="${productSvc.all}">
+					<c:if test="${product_favVO.prodno==productVO.prodno}">
+						${productVO.prodprice}
+					</c:if>
+				</c:forEach>
+				</div>
+				
+				<div class="row">
+				<c:forEach var="productVO" items="${productSvc.all}">
+					<c:if test="${product_favVO.prodno==productVO.prodno}">
+						${productVO.proddesc}
+					</c:if>
+				</c:forEach>
+				</div>
 				<div class="row"></div>
 				<div class="row">
 					<div class="col-9"></div>
 					<div class="col-3">
 					<a href="#" class="essence-btn">加入購物車</a>
 					</div>
+					
 				</div>
 			</div>
 		</div>
-		<div class="row alert alert-primary">
-			<div class="col-2"><img src="<%=request.getContextPath()%>/images/product/P010.PNG"></div>
-			<div class="col-10">
-				<div class="row" style="height:60px"><h4>商品名稱</h4></div>
-				<div class="row">商品價格:456</div>
-				<div class="row">柔軟而靈活的piqué針織為高爾夫球手提供了基本的舒適性，並允許您在超過22°C的溫度下進行比賽，這要歸功於能夠排汗的棉質和滌綸織物。</div>
-				<div class="row"></div>
-				<div class="row">
-					<div class="col-9"></div>
-					<div class="col-3">
-					<a href="#" class="essence-btn">加入購物車</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row alert alert-primary">
-			<div class="col-2"><img src="<%=request.getContextPath()%>/images/product/P032.PNG"></div>
-			<div class="col-10">
-				<div class="row" style="height:60px"><h4>商品名稱</h4></div>
-				<div class="row">商品價格:456</div>
-				<div class="row">柔軟而靈活的piqué針織為高爾夫球手提供了基本的舒適性，並允許您在超過22°C的溫度下進行比賽，這要歸功於能夠排汗的棉質和滌綸織物。</div>
-				<div class="row"></div>
-				<div class="row">
-					<div class="col-9"></div>
-					<div class="col-3">
-					<a href="#" class="essence-btn">加入購物車</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row alert alert-primary">
-			<div class="col-2"><img src="<%=request.getContextPath()%>/images/product/P006.PNG"></div>
-			<div class="col-10">
-				<div class="row" style="height:60px"><h4>商品名稱</h4></div>
-				<div class="row">商品價格:456</div>
-				<div class="row">柔軟而靈活的piqué針織為高爾夫球手提供了基本的舒適性，並允許您在超過22°C的溫度下進行比賽，這要歸功於能夠排汗的棉質和滌綸織物。</div>
-				<div class="row"></div>
-				<div class="row">
-					<div class="col-9"></div>
-					<div class="col-3">
-					<a href="#" class="essence-btn">加入購物車</a>
-					</div>
-				</div>
-			</div>
-		</div>
-
-			
+		</c:forEach>
 	</div>
-
+<%@ include file="page2.file" %>   
 
 
     <!-- ##### Footer Area Start ##### -->

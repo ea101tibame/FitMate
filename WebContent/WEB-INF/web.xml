@@ -60,7 +60,7 @@
 	
 			<servlet>
 		<servlet-name>Product_favServlet</servlet-name>
-		<servlet-class>com.product_fav.controller</servlet-class>
+		<servlet-class>com.product_fav.controller.Product_favServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>	
 		<servlet-name>Product_favServlet</servlet-name>

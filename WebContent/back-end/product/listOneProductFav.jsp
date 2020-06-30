@@ -2,14 +2,19 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.product_fav.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
-	Product_favVO product_favVO = (Product_favVO) request.getAttribute("product_favVO");
+Product_favService product_favSvc = new Product_favService();
+// Product_favVO product_favVO=(Product_favVO)request.getAttribute("product_favVO.stuno");
+List<Product_favVO> list = product_favSvc.getOnePf("S002");
+pageContext.setAttribute("list", list);
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>FitMate管理後台</title>
-<meta charset="utf-8">
+<!-- <meta charset="utf-8"> -->
 
 <style>
 body {
@@ -60,15 +65,15 @@ body {
 		<div id="main">
 			<h2>學員追蹤商品紀錄</h2>
 		</div>
-		
 		<a
 			href="<%=request.getContextPath()%>/back-end/product/product_favManage.jsp">回追蹤首頁</a><br>
+
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
 				<tr>
-					<th>商品類別</th>
+					<th>學員編號</th>
 					<th>商品編號</th>
-					<c:forEach var="product_favVO" items="${product_favVO.all}">
+					<c:forEach var="product_favVO" items="${list}">
 						<tr>
 							<td>${product_favVO.stuno}</td>
 							<td>${product_favVO.prodno}</td>
@@ -76,7 +81,7 @@ body {
 					</c:forEach>
 			</table>
 		</div>
-
+</div>
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 </body>
 </html>

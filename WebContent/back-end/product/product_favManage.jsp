@@ -1,16 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.product_fav.model.*" %>
+<%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
-Product_favVO product_favVO=(Product_favVO)request.getAttribute("product_favVO");
+Product_favService product_favSvc = new Product_favService();
+List<Product_favVO> list = product_favSvc.getAll();
+pageContext.setAttribute("list", list);
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>FitMate管理後台</title>
-<meta charset="utf-8">
+<!-- <meta charset="utf-8"> -->
 
 <style>
 body {
@@ -74,7 +77,7 @@ body {
 			<h2>商品追蹤管理</h2>
 		</div>
 
-		<p>以學員編號查詢
+		<p>所有商品追蹤
 		<c:if test="${not empty errorMsgs}">
 			<font style="color:red">請修正以下錯誤:</font>
 			<ul>
@@ -85,13 +88,27 @@ body {
 		</c:if>
 		<div class="alert alert-primary" role="alert">
 			<form action="<%=request.getContextPath()%>/back-end/product/product_fav.html" method="post">
-				<input type="search" name="stuno" value="<%=(product_favVO == null) ? "" : product_favVO.getStuno()%>" placeholder="請輸入學員編號" />
+				<input type="text" name="stuno" placeholder="請輸入學員編號" />
 				<input type="submit" value="送出">
 				<input type="hidden" name="action" value="getOne_For_Display">
 			</form>
 		</div>
+<%@ include file="page1.file"%>	
+		<table>
+			<tr>
+				<th>學員編號</th>
+				<th>追蹤商品編號</th>
+			</tr>
+		<c:forEach var="product_favVO" items="${list}" begin="<%=pageIndex%>"
+					end="<%=pageIndex+rowsPerPage-1%>">
+			<tr>
+				<th>${product_favVO.stuno}</th>
+				<th>${product_favVO.prodno}</th>
+			</tr>
+		</c:forEach>
+		</table>
 		
-
+</div>
 
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 
