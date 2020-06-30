@@ -381,7 +381,7 @@
 								</div>
 								<div class="col-6">
 									<img id="previewPic"
-										src="<%=request.getContextPath()%>/image/NOPIC.PNG"
+										src="<%=request.getContextPath()%>/images/activity/A000.jpg"
 										style="width: 300px; height: 300px;"><br>
 								</div>
 

@@ -176,8 +176,6 @@ public class ActivityServlet extends HttpServlet {
 				if (actmin > actmax) {
 					errorMsgs.add("最小成團不得超過最大上限人數");
 				}
-//				Integer actcur = new Integer(req.getParameter("actcur"));
-//				System.out.println(actcur);
 
 				String actdesc = req.getParameter("actdesc");
 				System.out.println(actdesc);
@@ -225,7 +223,6 @@ public class ActivityServlet extends HttpServlet {
 				activityVO.setActprice(actprice);
 				activityVO.setActmin(actmin);
 				activityVO.setActmax(actmax);
-//				activityVO.setActcur(actcur);
 				activityVO.setActdesc(actdesc);
 				activityVO.setActsta(actsta);
 				activityVO.setActpic(actpic);
@@ -247,6 +244,7 @@ public class ActivityServlet extends HttpServlet {
 				req.setAttribute("activityVO", activityVO);
 				String url = "/front-end/activity/activity_selectallforhost.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
+				req.setAttribute("update","修改成功");
 				successView.forward(req, res);
 
 			} catch (Exception e) {
@@ -332,15 +330,9 @@ public class ActivityServlet extends HttpServlet {
 				if (actmin > actmax) {
 					errorMsgs.add("最小成團不得超過最大上限人數");
 				}
-//				Integer actcur = new Integer(req.getParameter("actcur"));
-//				System.out.println(actcur);
-
 				String actdesc = req.getParameter("actdesc");
 				System.out.println(actdesc);
-
-//				String actsta = req.getParameter("actsta");
-//				System.out.println(actsta);
-
+				
 				Part part = req.getPart("actpic");
 				InputStream in = part.getInputStream();
 				System.out.println(in.available());
@@ -376,9 +368,7 @@ public class ActivityServlet extends HttpServlet {
 				activityVO.setActprice(actprice);
 				activityVO.setActmin(actmin);
 				activityVO.setActmax(actmax);
-//				activityVO.setActcur(actcur);
 				activityVO.setActdesc(actdesc);
-//				activityVO.setActsta(actsta);
 				activityVO.setActpic(actpic);
 				activityVO.setStuno(stuno);
 				activityVO.setCoano(coano);
@@ -397,6 +387,7 @@ public class ActivityServlet extends HttpServlet {
 				/* 新增完準備轉交 */
 				String url = "/front-end/activity/activity_selectallforhost.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
+				req.setAttribute("insert","新增成功");
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("新增資料失敗:" + e.getMessage());
@@ -460,14 +451,15 @@ public class ActivityServlet extends HttpServlet {
 				activitySvc.update_sta_byhost(stuno,actno);
 //				req.setAttribute("stuno",stuno);
 				
-				String url = req.getContextPath()+"/front-end/activity_order/listAllActivityOrderforStudent.jsp";
+				String url = "/front-end/activity/activity_selectallforhost.jsp";
 				
-				req.getSession().setAttribute("stuno",stuno);
-				res.sendRedirect(url);
-				return;
+//				req.getSession().setAttribute("stuno",stuno);
+//				res.sendRedirect(url);
+//				return;
 //				
-//				RequestDispatcher successView = req.getRequestDispatcher(url);
-//				successView.forward(req, res);
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				req.setAttribute("listing","上架成功");
+				successView.forward(req, res);
 				
 				
 				

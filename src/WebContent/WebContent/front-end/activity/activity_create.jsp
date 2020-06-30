@@ -375,7 +375,7 @@
 								</div>
 								<div class="col-6">
 									<img id="previewPic"
-										src="<%=request.getContextPath()%>/image/NOPIC.PNG"
+										src="<%=request.getContextPath()%>/images/activity/A000.jpg"
 										style="width: 300px; height: 300px;"><br>
 								</div>
 
@@ -392,7 +392,8 @@
 							<div class="col-1"></div>
 							<div class="col-10">
 								<input type="hidden" name="action" value="insert">
-								<button class="btn btn-primary btn-lg btn-block" type="submit">送出新增</button>
+								<button id = "insert" class="btn btn-primary btn-lg btn-block" type="submit">送出新增</button>
+								
 							</div>
 						</div>
 					</FORM>
@@ -402,6 +403,7 @@
 			</div>
 		</div>
 	</div>
+
 	<!-- ##### Blog Wrapper Area End ##### -->
 
 	<!-- ##### Footer Area Start ##### -->
@@ -445,6 +447,8 @@
 	<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 
 </body>
+
+
 
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>

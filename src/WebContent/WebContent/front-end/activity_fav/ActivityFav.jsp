@@ -7,7 +7,7 @@
 
 <%
 	Activity_favService activity_favSvc = new Activity_favService();
-	List<Activity_favVO> list = activity_favSvc.findActivityByPrimaryKey("S003");
+	List<Activity_favVO> list = activity_favSvc.findActivityByPrimaryKey("S001");
 	// List<Activity_favVO> activityfavlist = activity_favSvc.findStudentByPrimaryKey("A001");
 	pageContext.setAttribute("list", list);
 	
@@ -285,7 +285,7 @@ table {
 												ACTION="<%=request.getContextPath()%>/activity_fav/activityfav.do"
 												style="margin-bottom: 0px;">
 												<input type="submit" class="btn btn-primary" value="刪除">
-												<input type="hidden" name="stuno" value="S003"> 
+												<input type="hidden" name="stuno" value="S001"> 
 												<input type="hidden" name="actno" value="${activity_favVO.actno}">
 												<input type="hidden" name="action" value="delete">
 											</FORM>

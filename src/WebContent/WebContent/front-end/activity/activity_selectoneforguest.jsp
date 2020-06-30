@@ -292,7 +292,7 @@
 													ACTION="<%=request.getContextPath()%>/activity_order/activityorder.do"
 													style="margin-bottom: 0px;">
 													<input type="hidden" value="${activityVO.actno}" name="actno"> 
-													<input type="hidden" value="S003" name="stuno"> 
+													<input type="hidden" value="${activityVO.stuno}" name="stuno"> 
 													<input type="hidden" name="action" value="insert">
 													<!--  							<button type="button" class="btn btn-danger">報名活動</button>&nbsp; -->
 													<input type="submit" value="立即報名" class="btn btn-danger">

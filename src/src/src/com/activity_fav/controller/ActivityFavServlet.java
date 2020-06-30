@@ -136,11 +136,10 @@ public class ActivityFavServlet extends HttpServlet {
 		if ("insert".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			
 			try {
 				/* 接受請求參數 */
 				String actno = req.getParameter("actno");
-//				System.out.println(actno);
+				System.out.println(actno);
 				String actnoReg = "^[A]{1}\\d{3}$";
 				if (actno == null || actno.trim().length() == 0) {
 					errorMsgs.add("請輸入活動編號");
@@ -162,7 +161,7 @@ public class ActivityFavServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("activity_favVO", activity_favVO);
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/activity/activity_selectoneforguest.jsp");
+							.getRequestDispatcher("/front-end/activity/activity_selectoneforguest.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -174,7 +173,7 @@ public class ActivityFavServlet extends HttpServlet {
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("新增資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/activity/activity_selectoneforguest.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity/activity_selectoneforguest.jsp");
 				failureView.forward(req, res);
 			}
 		}

@@ -13,12 +13,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <meta charset="UTF-8">
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
 
 <!-- Title  -->
 <title>查詢主揪發起全部活動 - listAllActivityForHost.jsp</title>
@@ -390,6 +391,22 @@
 			</div>
 		</div>
 	</div>
+<c:if test="${not empty insert}">
+		<script>
+			swal("新增成功", "", "success");
+		</script>
+</c:if>
+<c:if test="${not empty update}">
+		<script>
+			swal("修改成功", "", "success");
+		</script>
+</c:if>
+
+<c:if test="${not empty listing}">
+		<script>
+			swal("上架成功", "", "success");
+		</script>
+</c:if>
 
 
 
