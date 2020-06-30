@@ -35,6 +35,7 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	private static final String GET_CoachAlltimes = "SELECT LTIME_DATE,LTIME_SS FROM LESSON JOIN LESSON_DETAIL ON LESSON_DETAIL.LESSNO=LESSON.LESSNO JOIN LESSON_TIME ON LESSON_TIME.LTIME_NO=LESSON_DETAIL.LTIME_NO WHERE COANO=?";
 	private static final String INSERT_DTEAIL = "INSERT INTO LESSON_DETAIL VALUES (?,?)";
 	private static final String GET_ONE_TIME = "SELECT LTIME_DATE,LTIME_SS  FROM LESSON_TIME JOIN LESSON_DETAIL ON LESSON_DETAIL.LTIME_NO=LESSON_TIME.LTIME_NO JOIN LESSON ON LESSON_DETAIL.LESSNO=LESSON.LESSNO WHERE LESSON.LESSNO= ?";
+	private static final String GET_TIMENO = "SELECT lesson_detail.ltime_no FROM lesson_detail JOIN lesson_time ON lesson_time.ltime_no=lesson_detail.ltime_no WHERE lessno=?";
 	//	private static final String GET_TIMES = "SELECT LESSTIMES FROM LESSON WHERE LESSNO=?";
 //	private static final String UPDATE_TIMES = "UPDATE LESSON SET LESSTIMES=?WHERE LESSNO=?";
 	@Override
@@ -148,12 +149,13 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 	}
 
 	@Override
-	public void delete(String ltime_no,String lessno) {
-		int updateCount_ltime_no = 0;
+	public void delete(String lessno) {
+		
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-
+		List<String> list = new ArrayList<String>();
+		ResultSet rs = null;
 		try {
 
 			Class.forName(driver);
@@ -161,38 +163,34 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 
 			// 1●設定於 pstm.executeUpdate()之前
 			con.setAutoCommit(false);
+			
+			//先拿到時段的編號
+			pstmt = con.prepareStatement(GET_TIMENO);
+			pstmt.setString(1, lessno);
+			rs = pstmt.executeQuery();
 
-			// 先刪除明細
+			while (rs.next()) {
+				list.add(rs.getString("ltime_no"));
+			}
+			
+			// 先刪除明細 看有多少堂 就跑回圈都刪掉
+			for(int i = 0 ; i < list.size(); i++) {
 			pstmt = con.prepareStatement(DELETE_LessonDetail);
-			pstmt.setString(1, ltime_no);
-			updateCount_ltime_no = pstmt.executeUpdate();
+			String no = list.get(i);
+			System.out.println("no="+no);
+			
+			pstmt.setString(1, no);
+			pstmt.executeUpdate();
+			
 			// 再刪除時段
 			pstmt = con.prepareStatement(DELETE_LessonTime);
-			pstmt.setString(1, ltime_no);
+			pstmt.setString(1, no);
 			pstmt.executeUpdate();
-
-			//先把此課程的堂數查出來 減一
-//			ResultSet rs = null;
-//			pstmt = con.prepareStatement(GET_TIMES);
-//			pstmt.setString(1, lessno);
-//
-//			rs = pstmt.executeQuery();
-//			int times = 0;
-//					
-//			while (rs.next()) {
-//				LessonVO lessonVO= new LessonVO();
-//				lessonVO.setLesstimes(rs.getInt("lesstimes"));
-//				
-//			}
-			LessonService lessonSvc = new LessonService();
-			lessonSvc.getOneByPK(lessno);
-			
-			//在更新他的堂數 減一
+			}
 			
 			// 2●設定於 pstm.executeUpdate()之後
 			con.commit();
 			con.setAutoCommit(true);
-			System.out.println("刪除時段編號" + ltime_no + ",共有明細" + updateCount_ltime_no + "筆數同時被刪除");
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
@@ -430,8 +428,8 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //		System.out.println("修改成功");
 
 //	//同時刪除 並更新堂數
-//	dao.delete("LT001");
-//	System.out.println("刪除成功");
+	dao.delete("L014");
+	System.out.println("刪除成功");
 //	
 //	List<LessonTimeVO> list = dao.getAll();
 //		for (LessonTimeVO aLT : list) {
@@ -449,10 +447,10 @@ public class LessonTimeJDBCDAO implements LessonTimeDAO_inrterface {
 //		}
 //		JSONArray allLessonTimeArray = dao.getCoachAllLesson("C001");
 //		System.out.println(allLessonTimeArray);
-		List<String> old = dao.getOneTime("L001");
-		for(String oold:old) {
-			System.out.println(oold);
-		}
+//		List<String> old = dao.getOneTime("L001");
+//		for(String oold:old) {
+//			System.out.println(oold);
+//		}
 	}
 
 	@Override

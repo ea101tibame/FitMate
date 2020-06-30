@@ -228,10 +228,10 @@ font-size:18px;
            <div class="caption">
              <div class="row buttons">
                
-                 <button class="btn  col-sm-4 col-sm-offset-2 btn-lg" style="background-color:#2894FF; color:#fff;font-size:1em;"  id="follow"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;加入追蹤</button>
+                 <button class="btn  col-sm-4 col-sm-offset-2 btn-lg" style="background-color:#2894FF; color:#fff;font-size:1em;"  id="follow" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;加入追蹤</button>
                
                                 
-               <button class="btn col-sm-4 col-sm-offset-1 btn-lg" style="background-color:#fb641b; color:#fff;font-size:1em;"><i class="fa fa-bolt" style="font-size:1.2em;"></i>&nbsp;立即購買</button>
+               <button class="btn col-sm-4 col-sm-offset-1 btn-lg" style="background-color:#fb641b; color:#fff;font-size:1em;"<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>><i class="fa fa-bolt" style="font-size:1.2em;"></i>&nbsp;立即購買</button>
                </div>
              
            </div>

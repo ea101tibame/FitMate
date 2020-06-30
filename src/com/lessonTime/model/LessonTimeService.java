@@ -37,8 +37,8 @@ public class LessonTimeService {
 
 	}
 
-	public void deleteLessonTime(String ltime_no,String lessno) {
-		dao.delete(ltime_no,lessno);
+	public void deleteLessonTime(String lessno) {
+		dao.delete(lessno);
 	}
 
 	public List<LessonTimeVO> findTimeByPK(String lessno) {

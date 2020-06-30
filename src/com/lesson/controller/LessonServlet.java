@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 
 import com.lesson.model.LessonService;
 import com.lesson.model.LessonVO;
+import com.lessonTime.model.LessonTimeService;
 
 @WebServlet("/LessonVO")
 @MultipartConfig
@@ -355,8 +356,12 @@ public class LessonServlet extends HttpServlet {
 				/***************************1.接收請求參數****************************************/
 				String lessno = new String(req.getParameter("lessno"));
 				/***************************2.開始查詢資料****************************************/
+				//手動下架課程 改狀態為下架  (課程不刪 只改狀態 )
 				LessonService lessonSvc = new LessonService();
 				lessonSvc.update_off(lessno);
+				//刪除對應的時段跟明細 課表更新
+				LessonTimeService ltimeSvc = new LessonTimeService();
+				ltimeSvc.deleteLessonTime(lessno);
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				
 				String url ="/front-end/lesson/selectLesson.jsp";
