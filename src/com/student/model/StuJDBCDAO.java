@@ -34,6 +34,7 @@ public class StuJDBCDAO implements StuDAO_interface {
 			Class.forName(ProjectConfig.JDBC_DRIVER);
 			con = DriverManager.getConnection(ProjectConfig.JDBC_URL, ProjectConfig.JDBC_USER_ID,
 					ProjectConfig.JDBC_USER_PW);
+
 			String[] returnColumn = { "stuno" };
 			pstmt = con.prepareStatement(INSERT_STMT, returnColumn);
 			pstmt.setString(1, stuVO.getStuname());
@@ -57,6 +58,7 @@ public class StuJDBCDAO implements StuDAO_interface {
 		catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 		}
+
 		// Handle any SQL errors
 		catch (SQLException se) {
 			se.printStackTrace();
@@ -106,11 +108,11 @@ public class StuJDBCDAO implements StuDAO_interface {
 			pstmt.setString(10, stuVO.getStuno());
 
 			pstmt.executeUpdate();
-
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
+		}
+		// Handle any driver errors
+		catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
+
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -148,10 +150,11 @@ public class StuJDBCDAO implements StuDAO_interface {
 			pstmt.setString(1, stuno);
 
 			pstmt.executeUpdate();
-
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
+		}
+		// Handle any driver errors
+		catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -208,10 +211,11 @@ public class StuJDBCDAO implements StuDAO_interface {
 				stuVO.setStubir(rs.getDate("stubir"));
 				stuVO.setStupic(rs.getBytes("stupic"));
 			}
-
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
+		}
+		// Handle any driver errors
+		catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -278,10 +282,11 @@ public class StuJDBCDAO implements StuDAO_interface {
 				stuVO.setStubir(rs.getDate("stubir"));
 				stuVO.setStupic(rs.getBytes("stupic"));
 			}
-
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
+		}
+		// Handle any driver errors
+		catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -345,10 +350,11 @@ public class StuJDBCDAO implements StuDAO_interface {
 				stuVO.setStupic(rs.getBytes("stupic"));
 				list.add(stuVO); // Store the row in the list
 			}
-
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
+		}
+		// Handle any driver errors
+		catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -392,83 +398,6 @@ public class StuJDBCDAO implements StuDAO_interface {
 		baos.close();
 		fis.close();
 		return baos.toByteArray();// 回傳管子內建的byte陣列，取得裝有位元資料的byte陣列 陣列
-	}
-
-	public static void main(String[] args) {
-
-		StuJDBCDAO dao = new StuJDBCDAO();
-
-		// insert
-//		StuVO stuVO1 = new StuVO();
-//		stuVO1.setStuname("痴痴");
-//		stuVO1.setStupsw("showwhite0");
-//		stuVO1.setStumail("shengshan1992@gmail.com");
-//		stuVO1.setStutel("0945685236");
-//		stuVO1.setStuadd("宜蘭市大坡路11巷25號");
-//		stuVO1.setStupoint(10000);
-//		stuVO1.setStusta("已驗證");
-//		stuVO1.setStusex("女");
-//		stuVO1.setStubir(java.sql.Date.valueOf("1992-01-01"));
-//		try {
-//			byte[] pic = getPicByteArray("WebContent/student-image/S011.png");
-//			stuVO1.setStupic(pic);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		dao.insert(stuVO1);
-
-		// update
-//		StuVO stuVO2 = new StuVO();
-//		
-//		stuVO2.setStuname("白痴公主");
-//		stuVO2.setStupsw("showwhite0");
-//		stuVO2.setStumail("shengshan1992@gmail.com");
-//		stuVO2.setStutel("0945685236");
-//		stuVO2.setStuadd("宜蘭市大坡路11巷25號");
-//		stuVO2.setStupoint(10000);
-//		stuVO2.setStusta("已驗證");
-//		stuVO2.setStusex("女");
-//		stuVO2.setStubir(java.sql.Date.valueOf("1992-01-01"));
-//		stuVO2.setStuno("S011");
-//		
-//		dao.update(stuVO2);
-
-		// delete
-//		dao.delete("S011");
-
-//		// find one
-//		StuVO stuVO3 = dao.findByPrimaryKey("S010");
-//		System.out.print(stuVO3.getStuno() + ",");
-//		System.out.print(stuVO3.getStuname() + ",");
-//		System.out.print(stuVO3.getStupsw() + ",");
-//		System.out.print(stuVO3.getStumail() + ",");
-//		System.out.print(stuVO3.getStutel() + ",");
-//		System.out.print(stuVO3.getStuadd() + ",");
-//		System.out.print(stuVO3.getStupoint() + ",");
-//		System.out.print(stuVO3.getStusta() + ",");
-//		System.out.print(stuVO3.getStusex() + ",");
-//		System.out.print(stuVO3.getStubir() + ",");
-//		System.out.print(stuVO3.getStupic());
-
-//		System.out.println("---------------------");
-//
-//		// find all
-		List<StuVO> list = dao.getAll();
-		for (StuVO aStu : list) {
-			System.out.print(aStu.getStuno() + ",");
-			System.out.print(aStu.getStuname() + ",");
-			System.out.print(aStu.getStupsw() + ",");
-			System.out.print(aStu.getStumail() + ",");
-			System.out.print(aStu.getStutel() + ",");
-			System.out.print(aStu.getStuadd() + ",");
-			System.out.print(aStu.getStupoint() + ",");
-			System.out.print(aStu.getStusta() + ",");
-			System.out.print(aStu.getStusex() + ",");
-			System.out.print(aStu.getStubir() + ",");
-//			System.out.print(aStu.getStupic());
-			System.out.println();
-		}
 	}
 
 }

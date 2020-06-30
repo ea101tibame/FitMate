@@ -4,6 +4,7 @@
 <%
 	pageContext.setAttribute("context", request.getContextPath());
 	pageContext.setAttribute("role", session.getAttribute("role"));
+	pageContext.setAttribute("successMsg", session.getAttribute("successMsg"));
 %>
 <html>
 <head>
@@ -17,6 +18,7 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" type="text/css" href="${context}/css/custom-css/login.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 </head>
 <body>
 	<header class="header_area">
@@ -41,58 +43,107 @@
 					</div>
 					<div class="classynav">
 						<ul>
-							<li><a href="${context}/front-end/index.jsp">首頁</a></li>
-							<li><a href="${context}/front-end/blog.jsp">消息</a></li>
+							<li>
+								<a href="${context}/front-end/index.jsp">首頁</a>
+							</li>
+							<li>
+								<a href="${context}/front-end/blog.jsp">消息</a>
+							</li>
 							<li>
 								<a href="#">商城</a>
 								<ul class="dropdown">
-									<li><a href="${context}/front-end/product/product.jsp">商城總覽</a></li>
-									<li><a href="${context}/front-end/product/PC001.jsp">男士服飾</a></li>
-									<li><a href="${context}/front-end/product/PC002.jsp">女士服飾</a></li>
-									<li><a href="${context}/front-end/product/PC003.jsp">健身食品</a></li>
-									<li><a href="${context}/front-end/product/PC004.jsp">健身配件</a></li>
-									<li><a href="${context}/front-end/product/PC005.jsp">促銷專案</a></li>
+									<li>
+										<a href="${context}/front-end/product/product.jsp">商城總覽</a>
+									</li>
+									<li>
+										<a href="${context}/front-end/product/PC001.jsp">男士服飾</a>
+									</li>
+									<li>
+										<a href="${context}/front-end/product/PC002.jsp">女士服飾</a>
+									</li>
+									<li>
+										<a href="${context}/front-end/product/PC003.jsp">健身食品</a>
+									</li>
+									<li>
+										<a href="${context}/front-end/product/PC004.jsp">健身配件</a>
+									</li>
+									<li>
+										<a href="${context}/front-end/product/PC005.jsp">促銷專案</a>
+									</li>
 								</ul>
 							</li>
 							<li>
 								<a href="#">課程</a>
 								<ul class="dropdown">
-									<li><a href="${context}/front-end/lesson/listAll_lesson.jsp">課程總覽</a></li>
+									<li>
+										<a href="${context}/front-end/lesson/listAll_lesson.jsp">課程總覽</a>
+									</li>
 								</ul>
 							</li>
 							<li>
 								<a href="#">揪團</a>
 								<ul class="dropdown">
-									<li><a href="${context}/front-end/activity/listAll_activity.jsp">活動總覽</a></li>
-									<li><a href="${context}/front-end/activity/activity_create.jsp">建立活動</a></li>	
+									<li>
+										<a href="${context}/front-end/activity/listAll_activity.jsp">活動總覽</a>
+									</li>
+									<li>
+										<a href="${context}/front-end/activity/activity_create.jsp">建立活動</a>
+									</li>
 								</ul>
 							</li>
 							<li>
 								<a href="${context}/front-end/article/listAllArticle.jsp">討論區</a>
 							</li>
 							<c:if test="${role == 'coach'}">
-							   <li>
+								<li>
 									<a href="#">教練專區</a>
 									<ul class="dropdown">
-									    <li><a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a></li>
-										<li><a href="${context}/front-end/lesson/coachTimeTable.jsp">查看課表</a></li>
-										<li><a href="${context}/front-end/lesson/addLesson.jsp">建立課程</a></li>
-										<li><a href="${context}/front-end/lesson/selectLesson.jsp">查詢與更新</a></li>
-										<li><a href="${context}/front-end/redemption/redemption.jsp">點數兌換</a></li>
+										<li>
+											<a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/lesson/coachTimeTable.jsp">查看課表</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/lesson/addLesson.jsp">建立課程</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/lesson/selectLesson.jsp">查詢與更新</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/redemption/redemption.jsp">點數兌換</a>
+										</li>
 									</ul>
 								</li>
 							</c:if>
-						    <c:if test="${role == 'student'}">
+							<c:if test="${role == 'student'}">
 								<li>
 									<a href="#">學員專區</a>
 									<ul class="dropdown">
-										 <li><a href="${context}/front-end/student/updateStudent.jsp">個人資料</a></li>
-										 <li><a href="${context}/front-end/lesson_order/lesson_order.jsp">課程報名紀錄</a></li>
-                                    	 <li><a href="${context}/front-end/activity/activity_order.jsp">活動報名紀錄</a></li>
-                                     	 <li><a href="${context}/front-end/product/product_order.jsp">購買清單</a></li>
-                                         <li><a href="${context}/front-end/deposit/deposit.jsp">錢包管理</a></li>
-                                         <li><a href="${context}/front-end/lesson_fav/lesson_fav.jsp">追蹤課程</a></li>
-                                         <li><a href="${context}/front-end/activity_fav/activity_fav.jsp">追蹤活動</a></li>
+										<li>
+											<a href="${context}/front-end/student/updateStudent.jsp">個人資料</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/lesson_order/lesson_order.jsp">課程報名紀錄</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/activity/activity_order.jsp">活動報名紀錄</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/product/product_order.jsp">購買商品清單</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/deposit/deposit.jsp">錢包管理</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/lesson_fav/lesson_fav.jsp">追蹤課程</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/activity_fav/activity_fav.jsp">追蹤活動</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/product/product_fav.jsp">追蹤商品</a>
+										</li>
 									</ul>
 								</li>
 							</c:if>
@@ -102,27 +153,37 @@
 			</nav>
 			<div class="header-meta d-flex clearfix justify-content-end">
 				<c:if test="${role == 'coach'}">
-			  	    <div class="user-login-info">
-			  	    <div style="padding-top:30px; width:200px; font-size:16px; font-family:Microsoft JhengHei; font-weight:bold;"><span style="color:blue;">${coaname}</span>&nbsp&nbsp歡迎登入！</div>
-				    </div>
-			  	</c:if>
-				<c:if test="${role == 'student'}">
-			  	    <div class="user-login-info">
-			  	    <div style="padding-top:30px; width:200px; font-size:16px; font-family:Microsoft JhengHei; font-weight:bold;"><span style="color:blue;">${stuname}</span>&nbsp&nbsp歡迎登入！</div>
-				    </div>
-			  	</c:if>
-				<c:if test="${role != 'coach' && role != 'student'}">
-					<div class="user-login-info" data-toggle="modal" data-target="#login-modal">
-						<a><img src="${context}/images/core-img/user.svg" alt=""></a>
+					<div class="user-login-info">
+						<div style="padding-top: 30px; width: 200px; font-size: 16px; font-family: Microsoft JhengHei; font-weight: bold;">
+							<span style="color: blue;">${coaname}</span>
+							&nbsp&nbsp歡迎登入！
+						</div>
 					</div>
 				</c:if>
-				
+				<c:if test="${role == 'student'}">
+					<div class="user-login-info">
+						<div style="padding-top: 30px; width: 200px; font-size: 16px; font-family: Microsoft JhengHei; font-weight: bold;">
+							<span style="color: blue;">${stuname}</span>
+							&nbsp&nbsp歡迎登入！
+						</div>
+					</div>
+				</c:if>
+				<c:if test="${role != 'coach' && role != 'student'}">
+					<div class="user-login-info" data-toggle="modal" data-target="#login-modal">
+						<a>
+							<img src="${context}/images/core-img/user.svg" alt="">
+						</a>
+					</div>
+				</c:if>
+
 				<c:if test="${role == 'coach' || role == 'student'}">
 					<div class="user-login-info">
-						<a><img src="${context}/images/core-img/logout.svg" alt="" id="logout-btn"></a>
+						<a>
+							<img src="${context}/images/core-img/logout.svg" alt="" id="logout-btn">
+						</a>
 					</div>
-				</c:if> 
-					
+				</c:if>
+
 			</div>
 		</div>
 	</header>
@@ -365,9 +426,6 @@
 				</div>
 			</div>
 		</div>
-		<script>
-				var context = "${context}";
-		</script>
 		<script src="${context}/js/jquery/jquery-2.2.4.min.js"></script>
 		<script src="${context}/js/popper.min.js"></script>
 		<script src="${context}/js/bootstrap.min.js"></script>
@@ -376,6 +434,15 @@
 		<script src="${context}/js/active.js"></script>
 		<script src="${context}/js/index.js"></script>
 		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+		<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+		<script>
+			var context = "${context}";
+			var successMsg = "${successMsg}";
+			alert(successMsg);
+			if (successMsg !== "") {
+				swal("干得好", successMsg, "success");
+			}
+		</script>
 </body>
 
 </html>

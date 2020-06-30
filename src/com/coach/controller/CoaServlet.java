@@ -105,14 +105,14 @@ public class CoaServlet extends HttpServlet {
 				String coamail = req.getParameter("coamail").trim();
 				System.out.println("coamail: " + coamail);
 				String coamailRege = "\\p{Alpha}\\w{2,15}[@][a-z0-9]{3,}[.]\\p{Lower}{2,}";
-				if (coamail == null || coamail.trim().length() == 0) {
+				if (coamail == null || coamail.trim().length() == 0 || !coamail.matches(coamailRege)) {
 					errorMsgs.put("coamail", "信箱:必需包含@，且@前必需含字母(2~15個)，@後可以是字母或(和)數字(至少3個)，.後至少兩個小寫字母");
 				}
 
 				String coatel = req.getParameter("coatel").trim();
 				System.out.println("coatel: " + coatel);
 				String coatelRege = "/^09[0-9]{8}$/";
-				if (coatel == null || coatel.trim().length() == 0) {
+				if (coatel == null || coatel.trim().length() == 0 || !coatel.matches(coatelRege)) {
 					errorMsgs.put("coatel", "電話:必需是09開頭且後方接著0-9，共八個數字");
 				}
 
@@ -187,6 +187,7 @@ public class CoaServlet extends HttpServlet {
 				mailUtil.sendMail(coamail, "Sign Up success!", "your password is " + coapsw);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				req.setAttribute("successMsg", "sign up success!");
 				String url = "/front-end/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);

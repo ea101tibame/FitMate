@@ -28,169 +28,175 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
 
+
+
 </head>
 
 
 <body>
-    <%@ include file="/front-end/header.jsp"%>
-			
+	<%@ include file="/front-end/header.jsp"%>
+
 	<div class="single-blog-wrapper">
 
 		<div class="single-blog-post-thumb">
 			<img src="<%=request.getContextPath()%>/images//bg-img/COA1920.png" alt="">
 		</div>
-		<FORM  class="form" METHOD="post" ACTION="<%=request.getContextPath()%>/coach/coach.do" name="form1" enctype="multipart/form-data">  
-		<div class="container">
-			<div class="regular-page-content-wrapper section-padding-80">
-	          <h3>註冊成為教練:</h3>
-	          <%-- 錯誤表列 --%>
-			<c:if test="${not empty errorMsgs}">
-				<font style="color: red">請修正以下錯誤:</font>
-				<ul>
-					<c:forEach var="message" items="${errorMsgs}">
-						<%-- <li style="color: red">${message.key}</li> --%>
-						<li style="color: red">${message.value}</li>
-					</c:forEach>
-				</ul>
-			</c:if>
-				<div class="container">
-					<div class="row flex-lg-nowrap">
-						<div class="col">
-							<div class="row">
-								<div class="col mb-3">
-									<div class="card">
-										<div class="card-body">
-											<div class="e-profile">
-												<div class="row">
-													<div class="col-12 col-sm-auto mb-3">
-														<div class="mx-auto" style="width: 140px;">
-															<div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-																<span><img id="previewPic" src="<%=request.getContextPath()%>/images/noData/nopic2.jpg" style="width: 140px; height: 140px; border-radius: .25rem;"></span>
+		<FORM class="form" METHOD="post" ACTION="<%=request.getContextPath()%>/coach/coach.do" name="form1" enctype="multipart/form-data">
+			<div class="container">
+				<div class="regular-page-content-wrapper section-padding-80">
+					<h3>註冊成為教練:</h3>
+					<%-- 錯誤表列 --%>
+					<c:if test="${not empty errorMsgs}">
+						<font style="color: red">請修正以下錯誤:</font>
+						<ul>
+							<c:forEach var="message" items="${errorMsgs}">
+								<%-- <li style="color: red">${message.key}</li> --%>
+								<li style="color: red">${message.value}</li>
+							</c:forEach>
+						</ul>
+					</c:if>
+					<div class="container">
+						<div class="row flex-lg-nowrap">
+							<div class="col">
+								<div class="row">
+									<div class="col mb-3">
+										<div class="card">
+											<div class="card-body">
+												<div class="e-profile">
+													<div class="row">
+														<div class="col-12 col-sm-auto mb-3">
+															<div class="mx-auto" style="width: 140px;">
+																<div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+																	<span>
+																		<img id="previewPic" src="<%=request.getContextPath()%>/images/noData/nopic2.jpg" style="width: 140px; height: 140px; border-radius: .25rem;">
+																	</span>
+																</div>
+															</div>
+														</div>
+														<div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+															<div class="text-center text-sm-left mb-2 mb-sm-0">
+																<h4 id="title" class="pt-sm-2 pb-1 mb-0 text-nowrap"></h4>
+																<p class="mb-0"></p>
+																<div class="text-muted">
+																	<small></small>
+																</div>
+																<div class="mt-2">
+																	<i class="fa fa-fw fa-camera"></i>
+																	<input type="FILE" id="pic" name="coapic" size="45" value="" placeholder="上傳照片" />
+																</div>
+															</div>
+															<div class="text-center text-sm-right">
+																<span class="badge badge-secondary">FITMATE專業教練申請</span>
+																<div class="text-muted">
+																	<small></small>
+																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
-														<div class="text-center text-sm-left mb-2 mb-sm-0">
-															<h4 id="title" class="pt-sm-2 pb-1 mb-0 text-nowrap"></h4>
-															<p class="mb-0"></p>
-															<div class="text-muted">
-																<small></small>
-															</div>
-															<div class="mt-2">
-																    <i class="fa fa-fw fa-camera"></i><input type="FILE" id="pic" name="coapic" size="45" value="" placeholder="上傳照片" />
-															</div>
-														</div>
-														<div class="text-center text-sm-right">
-															<span class="badge badge-secondary">FITMATE專業教練申請</span>
-															<div class="text-muted">
-																<small></small>
-															</div>
-														</div>
-													</div>
-												</div>
-												<ul class="nav nav-tabs">
-													<li class="nav-item">
-														<a href="" class="active nav-link">設定</a>
-													</li>
-												</ul>
-												<div class="tab-content pt-3">
-													<div class="tab-pane active">
-		    											<table id="coach-table">
-															<div class="row">
-																<div class="col">
-																	<div class="row">
-																		<div class="col">
-																			<div class="form-group">
-																				<label>姓名</label>
-																				<input class="form-control" type="TEXT" id="coaname" name="coaname" size="45" value="${param.coaname}" placeholder="請輸入姓名" />
-																				<p style="font-color:red;">${errorMsgs.coaname}</p>
+													<ul class="nav nav-tabs">
+														<li class="nav-item">
+															<a href="" class="active nav-link">設定</a>
+														</li>
+													</ul>
+													<div class="tab-content pt-3">
+														<div class="tab-pane active">
+															<table id="coach-table">
+																<div class="row">
+																	<div class="col">
+																		<div class="row">
+																			<div class="col">
+																				<div class="form-group">
+																					<label>姓名</label>
+																					<input class="form-control" type="TEXT" id="coaname" name="coaname" size="45" value="${param.coaname}" placeholder="請輸入姓名" />
+																					<p style="font-color: red;">${errorMsgs.coaname}</p>
+																				</div>
+																			</div>
+																			<div class="col">
+																				<div class="form-group">
+																					<label>電話</label>
+																					<input class="form-control" type="TEXT" name="coatel" size="45" value="${param.coatel}" placeholder="請輸入電話" />
+																					<p style="font-color: red;">${errorMsgs.coatel}</p>
+																				</div>
 																			</div>
 																		</div>
-																		<div class="col">
-																			<div class="form-group">
-																				<label>電話</label>
-																				<input class="form-control" type="TEXT" name="coatel" size="45" value="${param.coatel}" placeholder="請輸入電話" />
-																				<p style="font-color:red;">${errorMsgs.coatel}</p>
+																		<div class="row">
+																			<div class="col">
+																				<div class="form-group">
+																					<label>信箱</label>
+																					<input class="form-control" type="TEXT" name="coamail" size="45" value="${param.coamail}" placeholder="請輸入信箱" />
+																					<p style="font-color: red;">${errorMsgs.coamail}</p>
+																				</div>
 																			</div>
 																		</div>
-																	</div>
-																	<div class="row">
-																		<div class="col">
-																			<div class="form-group">
-																				<label>信箱</label>
-																				<input class="form-control" type="TEXT" name="coamail" size="45" value="${param.coamail}" placeholder="請輸入信箱" />
-																				<p style="font-color:red;">${errorMsgs.coamail}</p>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="row">
-																		<div class="col mb-3">
-																			<div class="form-group">
-																				<label>自我介紹</label>
-																				<textarea class="form-control" name="coaintro" rows="5" value="${param.coaintro}"placeholder="請輸入自我介紹"></textarea>
-																				<%-- <input type="TEXT" name="coaintro" size="45" value="${param.coaintro}" placeholder="請輸入自我介紹" /> --%>
-																				<p>${errorMsgs.coaintro}</p>
+																		<div class="row">
+																			<div class="col mb-3">
+																				<div class="form-group">
+																					<label>自我介紹</label>
+																					<textarea class="form-control" name="coaintro" rows="5" placeholder="請輸入自我介紹">${param.coaintro}</textarea>
+																					<p>${errorMsgs.coaintro}</p>
+																				</div>
 																			</div>
 																		</div>
 																	</div>
 																</div>
-															</div>
-															<div class="row">
-																<div class="col-12 col-sm-6 mb-3">
-																	<div class="row">
-																		<div class="col">
-																			<div class="form-group">
-																				<label>匯款帳戶</label>
-																				<input class="form-control" type="TEXT" name="coaacc" size="45" value="${param.coaacc}" placeholder="請輸入帳戶" />
-																				<p style="font-color:red;">${errorMsgs.coaacc}</p>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="row">
-																		<div class="col">
-																			<div class="form-group">
-																			</div>
-																		</div>
-																	</div>
-																	<div class="row">
-																		<div class="col">
-																			<div class="form-group">
-                                                  							<label><span class="d-none d-xl-inline"></span></label>
-																			<button type="button" class="btn btn-success" id="add-exp">新增專長</button>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<div class="col-12 col-sm-5 offset-sm-1 mb-3">
-																	<div class="mb-2">
-																		<b>性別</b>
-																	</div>
-																	<div class="row">
-																		<div class="col">
-																			<div class="custom-controls-stacked px-2">
-																				<div class="custom-control custom-checkbox">
-																					<input type="radio" name="coasex" size="45" value="男" checked="true" />
-																					<label>男</label>
+																<div class="row">
+																	<div class="col-12 col-sm-6 mb-3">
+																		<div class="row">
+																			<div class="col">
+																				<div class="form-group">
+																					<label>匯款帳戶</label>
+																					<input class="form-control" type="TEXT" name="coaacc" size="45" value="${param.coaacc}" placeholder="請輸入帳戶" />
+																					<p style="font-color: red;">${errorMsgs.coaacc}</p>
 																				</div>
-																				<div class="custom-control custom-checkbox">
-																					<input type="radio" name="coasex" size="45" value="女" />
-																					<label>女</label>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="col">
+																				<div class="form-group"></div>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="col">
+																				<div class="form-group">
+																					<label>
+																						<span class="d-none d-xl-inline"></span>
+																					</label>
+																					<button type="button" class="btn btn-success" id="add-exp">新增專長</button>
 																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-5 offset-sm-1 mb-3">
+																		<div class="mb-2">
+																			<b>性別</b>
+																		</div>
+																		<div class="row">
+																			<div class="col">
+																				<div class="custom-controls-stacked px-2">
+																					<div class="custom-control custom-checkbox">
+																						<input type="radio" name="coasex" size="45" value="男" checked="true" />
+																						<label>男</label>
+																					</div>
+																					<div class="custom-control custom-checkbox">
+																						<input type="radio" name="coasex" size="45" value="女" />
+																						<label>女</label>
+																					</div>
 
+																				</div>
 																			</div>
 																		</div>
 																	</div>
 																</div>
-															</div>
-															<div class="row">
-																<div class="col d-flex justify-content-end">
-																<jsp:useBean id="expSvc" scope="page" class="com.expertise.model.ExpService" />
-																<input type="hidden" name="action" value="insert" />
-																<input  class="btn btn-primary" type="submit" value="送出新增" />
+																<div class="row">
+																	<div class="col d-flex justify-content-end">
+																		<jsp:useBean id="expSvc" scope="page" class="com.expertise.model.ExpService" />
+																		<input type="hidden" name="action" value="insert" />
+																		<input class="btn btn-primary" type="submit" value="送出新增" id="addCoach" />
+																	</div>
 																</div>
-															</div>
-														</table>
-													 
+															</table>
+
+														</div>
 													</div>
 												</div>
 											</div>
@@ -199,21 +205,20 @@
 								</div>
 							</div>
 						</div>
+
 					</div>
-
 				</div>
-			</div>
-		 </form>
-		</div>
+		</form>
+	</div>
 
-		<%@ include file="/front-end/footer.jsp"%>
+	<%@ include file="/front-end/footer.jsp"%>
 
 </body>
-    <script src="<%=request.getContextPath()%>/js/custom-js/coach/coach-form.js"></script>
-	<!-- <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script> -->
-	<script>
+<script src="<%=request.getContextPath()%>/js/custom-js/coach/addCoach.js"></script>
 
-	var context = "<%=request.getContextPath()%>";
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script> -->
+<script>
+	
 	var expNumber = 0;
 
 	$("#pic").change(function() {
@@ -228,49 +233,31 @@
 			reader.readAsDataURL(input.files[0]);
 		}
 	}
-	$("#add-exp").click(function(){
-		expNumber += 1;
-		$("#coach-table").after(
-			"<table>" +
-				"<td>專長:" +
-					"<select size='1' name='expno"+expNumber+"'>"+
-						"<c:forEach var='ExpVO' items='${expSvc.all}'>" +
-							"<option value='${ExpVO.expno}' ${(ExpVO.expno==ExpVO.expno)? 'selected':''}>${ExpVO.expdesc}" + 
-						"</c:forEach>" +
-					"</select></td>"+
-				"<tr>" +
-					"<td>" +
-						"專業證照/比賽獎狀:"+
-						/* TODO */
-						"<input type='FILE' class='exp-preview' name='expown"+expNumber+"' size='45' placeholder='請上證照/獎狀' />" +
-					"</td>"+
-				"</tr>"+
-				"<tr>"+
-					"<td>"+
-						"<img id='previewPicExp' src='"+context+"/images/noData/nopic.jpg' style='width: 480px; height: 480px;'>"+
-					"</td>"+
-				"</tr>"+
-				"<tr>"+
-					"<td>"+
-						"<input type='button' value='刪除專長' class='delete-exp'>"+
-					"</td>"+
-				"</tr>"+
-			"</table>"+
-			"<br>"
-			);
-		// bind click event for new element
-		$(".exp-preview").change(function() {
-			readURL(this, $(this).parent().parent().parent().find("img"));
-		});
-		
-		$(".delete-exp").click(function(){
-		    $(this).parent().parent().parent().remove();
-		}); 		
-		
-	});
-	$("#coaname").keyup(function(){
+	$("#add-exp").click(
+			function() {
+				expNumber += 1;
+				$("#coach-table").after(
+						"<table>" + "<td>專長:" + "<select size='1' name='expno"+expNumber+"'>" + "<c:forEach var='ExpVO' items='${expSvc.all}'>"
+								+ "<option value='${ExpVO.expno}' ${(ExpVO.expno==ExpVO.expno)? 'selected':''}>${ExpVO.expdesc}" + "</c:forEach>" + "</select></td>" + "<tr>"
+								+ "<td>" + "專業證照/比賽獎狀:" +
+								"<input type='FILE' class='exp-preview' name='expown"+expNumber+"' size='45' placeholder='請上證照/獎狀' />" + "</td>" + "</tr>" + "<tr>" + "<td>"
+								+ "<img id='previewPicExp' src='"+context+"/images/noData/nopic.jpg' style='width: 480px; height: 480px;'>" + "</td>" + "</tr>" + "<tr>" + "<td>"
+								+ "<input type='button' value='刪除專長' class='delete-exp'>" + "</td>" + "</tr>" + "</table>" + "<br>");
+				// bind click event for new element
+				$(".exp-preview").change(function() {
+					readURL(this, $(this).parent().parent().parent().find("img"));
+				});
+				
+				
+
+				$(".delete-exp").click(function() {
+					$(this).parent().parent().parent().remove();
+				});
+
+			});
+	$("#coaname").keyup(function() {
 		$("#title").html($(this).val());
 	});
-	
 </script>
-		</html>
+
+</html>

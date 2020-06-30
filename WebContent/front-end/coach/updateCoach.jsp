@@ -276,7 +276,7 @@
 					"<div class='card-group'>" 
 					  +"<div class='card'>"
 						+"<div class='frame'>"
-						+"<div>"
+						+"<div class='preview'>"
 						+ "專業證照/比賽獎狀:<BR>"
 						+ "<input type='FILE' class='exp-preview' name='expown" + expNumber + "' size='45' placeholder='請上證照/獎狀' />"
 							+ "</div>"
@@ -308,11 +308,11 @@
 								+ "<td>" + "<input type='button' value='刪除專長' class='delete-exp'>" + "</td>" + "</tr>" + "</table>" + "<br>"); */
 				// bind click event for new element
 				$(".exp-preview").change(function() {
-					readURL(this, $(this).parent().parent().parent().find("img"));
+					readURL(this, $(this).closest("div.preview").find("img"));
 				});
 
 				$(".delete-exp").click(function() {
-					$(this).parent().parent().remove();
+					$(this).parent().parent().parent().remove();
 				});
 			});
 </script>
