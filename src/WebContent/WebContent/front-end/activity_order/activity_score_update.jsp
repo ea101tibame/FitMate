@@ -1,18 +1,10 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page import="java.util.*"%>
-<%@ page import="com.activity.model.*"%>
-
-
-<jsp:useBean id="activitySvc" scope="page"
-	class="com.activity.model.ActivityService" />
+<%@ page import="com.activity_order.model.*"%>
 
 <%
-	List<ActivityVO> list = activitySvc.getAllActivity();
-	pageContext.setAttribute("list", list);
+	Activity_orderVO activity_orderVO = (Activity_orderVO) request.getAttribute("activity_orderVO");
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,9 +15,8 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-
 <!-- Title  -->
-<title>FitMateæ´»å‹•è©³æƒ… - listAllActivityForGuest.jsp</title>
+<title>¬¡°Ê­q³æ­×§ï - update_activityorder_input.jsp</title>
 <!-- Favicon  -->
 <link rel="icon" href="img/core-img/favicon.ico">
 
@@ -49,7 +40,6 @@
 	position: absolute;
 	bottom: 20px;
 	right: 20px;
-
 }
 
 .card-deck {
@@ -65,10 +55,13 @@
 	height: 300px;
 	width: 100%;
 }
+
+table {
+	font-family: ·L³n¥¿¶ÂÅé;
+}
 </style>
 
 </head>
-
 <body>
 	<!-- ##### Header Area Start ##### -->
 	<header class="header_area">
@@ -95,63 +88,63 @@
 					<!-- Nav Start -->
 					<div class="classynav">
 						<ul>
-							<li><a href="index.html">é¦–é </a></li>
-							<li><a href="blog.html">æ¶ˆæ¯</a></li>
-							<li><a href="#">å•†åŸ</a>
+							<li><a href="index.html">­º­¶</a></li>
+							<li><a href="blog.html">®ø®§</a></li>
+							<li><a href="#">°Ó«°</a>
 								<div class="megamenu">
 									<ul class="single-mega cn-col-4">
-										<li class="title">æœé£¾</li>
-										<li><a href="shop.html">ç”·å£«æœé£¾</a></li>
-										<li><a href="shop.html">å¥³å£«æœé£¾</a></li>
+										<li class="title">ªA¹¢</li>
+										<li><a href="shop.html">¨k¤hªA¹¢</a></li>
+										<li><a href="shop.html">¤k¤hªA¹¢</a></li>
 										<li><a href="shop.html">T-shirts</a></li>
 										<li><a href="shop.html">Jackets</a></li>
 										<li><a href="shop.html">Trench</a></li>
 									</ul>
 
 									<ul class="single-mega cn-col-4">
-										<li class="title">å¥èº«ç›¸é—œ</li>
-										<li><a href="shop.html">å¥èº«é£Ÿå“</a></li>
-										<li><a href="shop.html">å¥èº«é…ä»¶</a></li>
+										<li class="title">°·¨­¬ÛÃö</li>
+										<li><a href="shop.html">°·¨­­¹«~</a></li>
+										<li><a href="shop.html">°·¨­°t¥ó</a></li>
 										<li><a href="shop.html">T-shirts</a></li>
 										<li><a href="shop.html">Jackets</a></li>
 										<li><a href="shop.html">Trench</a></li>
 									</ul>
 
 									<ul class="single-mega cn-col-4">
-										<li class="title">ä¿ƒéŠ·å°ˆæ¡ˆ</li>
-										<li><a href="shop.html">æ¯è¦ªç¯€</a></li>
-										<li><a href="shop.html">çˆ¶è¦ªç¯€</a></li>
+										<li class="title">«P¾P±M®×</li>
+										<li><a href="shop.html">¥À¿Ë¸`</a></li>
+										<li><a href="shop.html">¤÷¿Ë¸`</a></li>
 										<li><a href="shop.html">T-shirts</a></li>
 										<li><a href="shop.html">Jackets</a></li>
 										<li><a href="shop.html">Trench</a></li>
 									</ul>
 
 								</div></li>
-							<li><a href="#">èª²ç¨‹</a>
+							<li><a href="#">½Òµ{</a>
 								<ul class="dropdown">
-									<li><a href="index.html">èª²ç¨‹ç¸½è¦½</a></li>
-									<li><a href="shop.html">ç‘œçˆ</a></li>
-									<li><a href="single-uct-details.html">è‚ŒåŠ›è¨“ç·´</a></li>
-									<li><a href="checkout.html">æºœå†°/æ»‘æ¿</a></li>
-									<li><a href="blog.html">æœ‰æ°§èª²ç¨‹</a></li>
-									<li><a href="single-blog.html">æµ·ä¸Š/æµ·ä¸‹é‹å‹•</a></li>
-									<li><a href="regular-page.html">ç™»å±±å¥è¡Œ</a></li>
-									<li><a href="contact.html">é‡é‡è¨“ç·´</a></li>
-									<li><a href="contact.html">çƒé¡é‹å‹•</a></li>
-									<li><a href="contact.html">æ­¦è¡“</a></li>
-									<li><a href="contact.html">å…¶ä»–</a></li>
+									<li><a href="index.html">½Òµ{Á`Äı</a></li>
+									<li><a href="shop.html">·ìÏÉ</a></li>
+									<li><a href="single-uct-details.html">¦Ù¤O°V½m</a></li>
+									<li><a href="checkout.html">·È¦B/·ÆªO</a></li>
+									<li><a href="blog.html">¦³®ñ½Òµ{</a></li>
+									<li><a href="single-blog.html">®ü¤W/®ü¤U¹B°Ê</a></li>
+									<li><a href="regular-page.html">µn¤s°·¦æ</a></li>
+									<li><a href="contact.html">­«¶q°V½m</a></li>
+									<li><a href="contact.html">²yÃş¹B°Ê</a></li>
+									<li><a href="contact.html">ªZ³N</a></li>
+									<li><a href="contact.html">¨ä¥L</a></li>
 								</ul></li>
-							<li><a href="contact.html">æªåœ˜</a></li>
-							<li><a href="#">å­¸å“¡</a>
+							<li><a href="contact.html">´ª¹Î</a></li>
+							<li><a href="#">¾Ç­û</a>
 								<ul class="dropdown">
-									<li><a href="index.html">å€‹äººè³‡æ–™</a></li>
-									<li><a href=".html">æŸ¥çœ‹èª²è¡¨</a></li>
-									<li><a href=".html">è³¼è²·æ¸…å–®</a></li>
-									<li><a href=".html">éŒ¢åŒ…ç®¡ç†</a></li>
-									<li><a href=".html">å€‹äººä¿¡ç®±</a></li>
+									<li><a href="index.html">­Ó¤H¸ê®Æ</a></li>
+									<li><a href=".html">¬d¬İ½Òªí</a></li>
+									<li><a href=".html">ÁÊ¶R²M³æ</a></li>
+									<li><a href=".html">¿ú¥]ºŞ²z</a></li>
+									<li><a href=".html">­Ó¤H«H½c</a></li>
 
 								</ul></li>
-							<li><a href="blog.html">è¨è«–å€</a></li>
+							<li><a href="blog.html">°Q½×°Ï</a></li>
 
 						</ul>
 					</div>
@@ -186,74 +179,63 @@
 		</div>
 	</header>
 	<!-- ##### Header Area End ##### -->
+	<%-- ¿ù»~ªí¦C --%>
+	<c:if test="${not empty errorMsgs}">
+		<font style="color: red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+		<ul>
+			<c:forEach var="message" items="${errorMsgs}">
+				<li style="color: red">${message}</li>
+			</c:forEach>
+		</ul>
+	</c:if>
+	<div class="container col-12">
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-12">
+				<div class="regular-page-content-wrapper section-padding-60">
+					<FORM METHOD="post" ACTION="activityorder.do" name="form1">
+						<!-- ªí³æ¶}©l -->
+						<div class="regular-page-text">
+							<h2 class="text-black">§ó§ï±Ğ½mµû»ù</h2>
+							<table class="table table-dark table-hover">
+								<tr>
 
-	<!-- ##### Blog Wrapper Area Start ##### -->
-	<div class="single-blog-wrapper">
+									<td class="text-left justify-content-left">¬¡°Ê­q³æ½s¸¹:<font color=red><b>*</b></font>
+									<td class="align-middle">${activity_orderVO.aord_no}
+									<input type="hidden" name="aord_no" id="aord_no" value="${activity_orderVO.aord_no}">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-left justify-content-left">¬¡°Ê½s¸¹:
+									<td class="align-middle">${activity_orderVO.actno}
+									<input type="hidden" name="actno" id="actno" value="${activity_orderVO.actno}">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-left justify-content-left">¾Ç­û½s¸¹:</td>
+									<td class="align-middle">${activity_orderVO.stuno}
+									<input type="hidden" name="stuno" id="stuno" value="${activity_orderVO.stuno}">
+									</td>
+								</tr>
+								<tr>
+									<td class="text-left justify-content-left">±Ğ½mµû»ù¼Æ:</td>
+									<td class="align-middle"><input type="text" name="aord_sc" size="45"
+										value="${activity_orderVO.aord_sc}" placeholder="½Ğ¿é¤J±Ğ½mµû»ù¼Æ" /></td>
+								</tr>
 
-		<!-- Single Blog Post Thumb -->
-		<div class="single-blog-post-thumb">
-			<img
-				src="${pageContext.request.contextPath}/images/bg-img/actDetail1920.png"
-				alt="">
-		</div>
-
-		<div class="container col-12">
-			<div class="row justify-content-center">
-
-				<%-- éŒ¯èª¤è¨Šæ¯è¡¨åˆ— --%>
-				<c:if test="${not empty errorMsgs}">
-					<font style="color: red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
-					<ul>
-						<c:forEach var="message" items="${errorMsgs}">
-							<li style="color: red">${message}</li>
-						</c:forEach>
-					</ul>
-				</c:if>
-
-
-				<c:forEach var="activityVO" items="${list}">
-
-					<div class="card-deck col-md-4">
-
-						<div class="card">
-
-							<%--     <img src="<%=request.getContextPath()%>/activity/activitypic.do?actno=${activityVO.actno}" alt="" class="card-img-top" alt=""> --%>
-							<div class="card-img-top img-region"
-								style="background:url('<%=request.getContextPath()%>/activity/activitypic.do?actno=${activityVO.actno}');background-size:cover;background-position: center;"></div>
-
-							<div class="card-body">
-								<h5 class="card-title">${activityVO.actname}</h5>
-								<p class="card-text">${activityVO.actdesc}</p>
-								<p class="card-text">
-									æ´»å‹•é»æ•¸:${activityVO.actprice}<small class="text-muted"></small>
-								</p>
-
-								<!--       <a href="#" class="btn btn-primary">GOè²·èª²ç¨‹</a> -->
-
-								<FORM METHOD="post"
-									ACTION="<%=request.getContextPath()%>/activity/activity.do"
-									style="margin-bottom: 0px;">
-									<input type="submit" value="æ›´å¤šè©³æƒ…..." class="gosubmit"
-										class="btn btn-outline-warning"> <input type="hidden"
-										name="actno" value="${activityVO.actno}"> <input
-										type="hidden" name="action" value="getOne_For_Guest">
-								</FORM>
-
-							</div>
-
+							</table>
 						</div>
-
-					</div>
-
-
-				</c:forEach>
-
-
+						<input type="hidden" name="aord_no"
+							value="${activity_orderVO.aord_no}"> <input type="hidden"
+							name="action" value="update"> <input type="submit" class="btn btn-primary"
+							value="­×§ï">
+					</FORM>
+					<!-- ªí³æµ²§ô -->
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- ##### Blog Wrapper Area End ##### -->
-	
+
 	<!-- ##### Footer Area Start ##### -->
 	<footer class="footer_area clearfix">
 		<div class="container">
@@ -268,7 +250,7 @@
 							document.write(new Date().getFullYear());
 						</script>
 						by EA101G5 <i class="fa fa-heart-o" aria-hidden="true"></i> by
-						FitMate</a>
+						FitMate
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 					</p>
 				</div>

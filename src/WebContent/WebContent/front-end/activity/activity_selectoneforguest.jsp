@@ -313,6 +313,47 @@
 	</div>
 
 
+<!-- ##### Blog Wrapper Area End ##### -->
+
+
+	<!-- ##### Footer Area Start ##### -->
+	<footer class="footer_area clearfix">
+		<div class="container">
+
+
+			<div class="row ">
+				<div class="col-md-12 text-center">
+					<p>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						Copyright &copy;
+						<script>
+							document.write(new Date().getFullYear());
+						</script>
+						by EA101G5 <i class="fa fa-heart-o" aria-hidden="true"></i> by
+						FitMate
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</footer>
+	<!-- ##### Footer Area End ##### -->
+
+	<!-- jQuery (Necessary for All JavaScript Plugins) -->
+	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
+	<!-- Popper js -->
+	<script
+		src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
+	<!-- Bootstrap js -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<!-- Plugins js -->
+	<script src="${pageContext.request.contextPath}/js/plugins.js"></script>
+	<!-- Classy Nav js -->
+	<script src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
+	<!-- Active js -->
+	<script src="${pageContext.request.contextPath}/js/active.js"></script>
+
 
 </body>
 </html>

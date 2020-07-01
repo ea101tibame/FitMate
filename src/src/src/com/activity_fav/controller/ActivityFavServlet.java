@@ -42,7 +42,7 @@ public class ActivityFavServlet extends HttpServlet {
 				}
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/activity_fav/selectActivityFav_page.jsp");
+							.getRequestDispatcher("/front-end/activity_fav/activity_favorite_manage.jsp");
 					failureView.forward(req, res);
 					return;
 
@@ -54,18 +54,18 @@ public class ActivityFavServlet extends HttpServlet {
 				}
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/activity_fav/selectActivityFav_page.jsp");
+							.getRequestDispatcher("/front-end/activity_fav/activity_favorite_manage.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
 				req.setAttribute("activity_favVO", activity_favVO);
-				String url = "/front-end/activity_fav/listOneActivityFav.jsp";
+				String url = "/front-end/activity_fav/activity_favorite_manage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/activity_fav/selectActivityFav_page.jsp");
+						.getRequestDispatcher("/front-end/activity_fav/activity_favorite_manage.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -80,12 +80,12 @@ public class ActivityFavServlet extends HttpServlet {
 				Activity_favService activity_favSvc = new Activity_favService();
 				List<Activity_favVO> activity_favVO = activity_favSvc.findActivityByPrimaryKey(stuno);
 				req.setAttribute("activity_favVO", activity_favVO);
-				String url = "/front-end/activity_fav/update_activityfav_input.jsp";
+				String url = "/front-end/activity_fav/activity_favorite_manage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity_fav/selectActivityFav_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity_fav/activity_favorite_manage.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -112,7 +112,7 @@ public class ActivityFavServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("activity_favVO", activity_favVO);
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/front-end/activity_fav/ActivityFav.jsp");
+							.getRequestDispatcher("/front-end/activity_fav/activity_favorite_manage.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -121,14 +121,14 @@ public class ActivityFavServlet extends HttpServlet {
 				activity_favSvc.deleteActivityFav(actno, stuno);
 				/* 修改完轉交 */
 				req.setAttribute("activity_favVO", activity_favVO);
-				String url = "/front-end/activity_fav/ActivityFav.jsp";
+				String url = "/front-end/activity_fav/activity_favorite_manage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/front-end/activity_fav/ActivityFav.jsp");
+						.getRequestDispatcher("/front-end/activity_fav/activity_favorite_manage.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -168,8 +168,10 @@ public class ActivityFavServlet extends HttpServlet {
 				Activity_favService activity_favSvc = new Activity_favService();
 				activity_favVO = activity_favSvc.addActivityFav(actno, stuno);
 				req.setAttribute("activity_favVO", activity_favVO);
-				String url = "/front-end/activity_fav/ActivityFav.jsp";
+				
+				String url = "/front-end/activity_fav/activity_favorite_manage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
+				req.setAttribute("insert","追蹤成功");
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("新增資料失敗:" + e.getMessage());

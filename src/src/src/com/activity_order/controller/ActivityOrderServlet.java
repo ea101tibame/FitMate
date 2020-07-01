@@ -79,12 +79,12 @@ public class ActivityOrderServlet extends HttpServlet {
 				Activity_orderVO activity_orderVO = activity_orderSvc.getOneActivityOrder(aord_no);
 				/* 查詢完準備轉交 */
 				req.setAttribute("activity_orderVO", activity_orderVO);
-				String url = "/front-end/activity_order/update_activityscore.jsp";
+				String url = "/front-end/activity_order/activity_score_update.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity_order/listAllActivityOrderforStudent.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity_order/activity_order_manage.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -126,7 +126,7 @@ public class ActivityOrderServlet extends HttpServlet {
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("activity_orderVO", activity_orderVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity_order/update_activityscore.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity_order/activity_score_update.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -135,13 +135,13 @@ public class ActivityOrderServlet extends HttpServlet {
 				activity_orderVO = activity_orderSvc.updateActivityOrder(aord_no, actno, stuno, aord_sc);
 				/* 修改完準備轉交 */
 				req.setAttribute("activity_orderVO", activity_orderVO);
-				String url = "/front-end/activity_order/listAllActivityOrderforStudent.jsp";
+				String url = "/front-end/activity_order/activity_order_manage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity_order/update_activityscore.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity_order/activity_score_update.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -184,11 +184,16 @@ public class ActivityOrderServlet extends HttpServlet {
 				activity_orderVO = activity_orderSvc.addActivityOrder(actno, stuno);
 				req.setAttribute("activity_orderVO", activity_orderVO);
 				/* 新增完準備轉交 */
-				String url = req.getContextPath()+"/front-end/activity_order/listAllActivityOrderforStudent.jsp";
-				req.getSession().setAttribute("actno",actno);
-				req.getSession().setAttribute("stuno",stuno);
-				res.sendRedirect(url);
-				return;
+//				String url = req.getContextPath()+"/front-end/activity_order/activity_order_manage.jsp";
+				String url = "/front-end/activity_order/activity_order_manage.jsp";
+//				req.getSession().setAttribute("actno",actno);
+//				req.getSession().setAttribute("stuno",stuno);
+				
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				req.setAttribute("insert", "報名成功");
+				successView.forward(req, res);
+//				res.sendRedirect(url);
+//				return;
 
 			} catch (Exception e) {
 				errorMsgs.add("新增資料失敗:" + e.getMessage());

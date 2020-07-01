@@ -429,6 +429,7 @@ public class ActivityServlet extends HttpServlet {
 				activitySvc.update_sta_bycoach(coano);
 				String url = "/front-end/activity/activity_selectallforcoach.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
+				req.setAttribute("checkstatus","預約確認成功");
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("更新狀態失敗:" + e.getMessage());
