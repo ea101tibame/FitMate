@@ -5,7 +5,7 @@
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-	Product_favVO product_favVO = (Product_favVO) request.getAttribute("product_favVO");
+// 	Product_favVO product_favVO = (Product_favVO) request.getAttribute("product_favVO");
 	Product_favService product_favSvc = new Product_favService();
 	List<Product_favVO> list = product_favSvc.getOnePf("S002");
 	pageContext.setAttribute("list", list);
@@ -34,7 +34,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/custom-css/product/product.css">
     <style>
-    
+footer{
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:100px;
+}
     </style>
 </head>
 
@@ -239,7 +244,7 @@
 						<input type="submit" value="X" style="border:none; background-color:#cce5ff; outline:none">
 						<input type="hidden" name="action" value="delete">
 						<input type="hidden" name="prodno" value="${product_favVO.prodno}">
-						<input type="hidden" name="prodno" value="${product_favVO.stuno}">
+						<input type="hidden" name="stuno" value="${product_favVO.stuno}">
 					</form>
 				</div>
 				<div class="row" style="height:60px">

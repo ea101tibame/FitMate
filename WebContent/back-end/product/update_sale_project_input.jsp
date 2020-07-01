@@ -5,9 +5,7 @@
 <%@ page import="com.sale_project.model.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%--JSTLI18N標籤庫--%>
 <%
-Sale_projectService saproSvc = new Sale_projectService();
-List<Sale_projectVO> list = saproSvc.getAll();
-pageContext.setAttribute("list", list);
+Sale_projectVO sale_projectVO = (Sale_projectVO)request.getAttribute("sale_projectVO");
 %>
 <!DOCTYPE html>
 <html>
@@ -23,33 +21,20 @@ body {
 }
 </style>
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=Coming+Soon&family=Noto+Sans+TC:wght@700&display=swap"
 	rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js">
 	
 </script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js">
 	
 </script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-	crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
 	
 </script>
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
-	integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
 <link rel='stylesheet'
@@ -94,7 +79,7 @@ body {
 				<tr>
 					<td class="text-right">促銷專案名稱</td>
 					<td class="text-left">
-					<input type="text" name="sapro_name" value="sapro_name" size="30"/>
+					<input type="text" value="${sale_projectVO.sapro_name}" name="sapro_name" size="30"/>
 					</td>
 				</tr>
 				<tr>
@@ -106,7 +91,7 @@ body {
 				<tr>
 					<td class="text-right">促銷結束日期</td>
 					<td class="text-left">
-					<input type="date" value="${sale_projectVO.sapro_end}" name="sapro_start" size="45"/>
+					<input type="date" value="${sale_projectVO.sapro_end}" name="sapro_end" size="45"/>
 					</td>
 				</tr>
 			</table>
@@ -119,7 +104,23 @@ body {
 					<th>促銷價格</th>
 					<th>修改</th>
 					<th>刪除</th>
-				</tr>		
+				</tr>
+  <jsp:useBean id="sale_listSvc" scope="page" class="com.sale_list.model.Sale_listService" /> 
+	  <c:forEach var="sale_listVO" items="${sale_listSvc.all}">
+	  	<c:if test="${sale_projectVO.sapro_no==sale_listVO.sapro_no}">
+					<tr>
+			<jsp:useBean id="productSvc" scope="page" class="com.product.model.ProductService" /> 
+				  <c:forEach var="productVO" items="${productSvc.all}">
+				  	<c:if test="${productVO.prodno==sale_listVO.prodno}">
+				  	<th>${productVO.prodname}</th>
+				  </c:if>
+				  </c:forEach>
+						<th>${sale_listVO.sapro_price}</th>
+						<th>修改</th>
+						<th>刪除</th>
+					</tr>
+		</c:if>
+		</c:forEach>	
 			</table>
 		</div>
 

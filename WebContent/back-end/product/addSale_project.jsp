@@ -6,8 +6,7 @@
 
 <%
 	Sale_projectVO sale_projectVO = (Sale_projectVO) request.getAttribute("sale_projectVO");
-	Sale_listVO sale_listVO = (Sale_listVO) request.getAttribute("Sale_listVO");
-	
+	Sale_listVO sale_listVO = (Sale_listVO) request.getAttribute("Sale_listVO");	
 %>
 
 <!DOCTYPE html>
@@ -62,6 +61,14 @@
 		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
 		<div id="main">
 			<h1>新增促銷專案</h1>
+					<c:if test="${not empty errorMsgs}">
+	請修正以下錯誤
+	<ul>
+				<c:forEach var="message" items="${errorMsgs}">
+					<li>${message}</li>
+				</c:forEach>
+			</ul>
+		</c:if>
 			<div class="row">
 			<div class="col-10">
 			</div>
@@ -72,15 +79,17 @@
 		</div>
 			
 		</div>
+		<div class="spot" style="display:none">
+		促銷商品編號：<input type="text" class="spot" style="margin-right: 20px" name="prodno" value="<%=(sale_listVO == null) ? "" : sale_listVO.getProdno()%>">&nbsp;
+		促銷商品價格：<input  type="text" class="spot test" name="sapro_price" value="<%=(sale_listVO == null) ? "" : sale_listVO.getSapro_price()%>"><span>刪除</span>
+	</div>
 			
-		
-
-		<div class="table-responsive-sm table-hover table-success">
+	<div class="table-responsive-sm table-hover table-success">
 		<form id="myForm" method="post" action="<%=request.getContextPath()%>/product/sale_project.html" name="addSale_project">
 		<table class="table align-items-center">
 			<tr>
 				<td>促銷專案名稱：</td>
-				<td>請輸入促銷專案名稱</td>
+				<td><input type="text" name="sapro_name" value="<%=(sale_projectVO == null) ? "" : sale_projectVO.getSapro_name()%>" placeholder="請輸入促銷專案名稱"/></td>
 			</tr>
 			<tr>
 				<td>促銷開始日期：</td>
@@ -92,19 +101,13 @@
 			</tr>
 		</table>
 		
-		</div>
+	</div>
 
 <div class="table-responsive-sm table-hover table-success">
 
 
 <input type="button" name="" value="新增商品" placeholder="" id="btnAddSpot" class="btn btn-outline-success my-2 my-sm-0">
 <br>
-
-	<div class="spot" style="display:none">
-		促銷商品編號：<input type="text" class="spot" style="margin-right: 20px" name="prodno" value="<%=(sale_listVO == null) ? "" : sale_listVO.getProdno()%>">&nbsp;
-		促銷商品價格：<input type="text" class="spot" name="sapro_price" value="<%=(sale_listVO == null) ? "" : sale_listVO.getSapro_price()%>"><span>刪除</span>
-	</div>
-
 				<input type="hidden" name="action" value="insert">
 				<input type="submit" value="送出新增" class="btn btn-outline-success my-2 my-sm-0"> 
 </form>
@@ -113,45 +116,29 @@
 		
 <script type="text/javascript">
 
-function $id(id){//讓之後要做getElementById的物件都直接用這個回傳 不用再寫一次
+function $id(id){
 	return document.getElementById(id);
 }
 
-function addSpot(){//加上景點
-	//拿到要加景點的位置myForm
+function addSpot(){
 	let myForm = $id("myForm");
-	//送出按鈕的位置
 	let btnSend = $id("btnSend");
-	//找到要加的元素 這一包 但是用querySelector 要用 CSS來找 所以要加.
 	let spot = document.querySelector(".spot");
-	//把要增加的 從spot複製一份
-	let newSpot = spot.cloneNode(true);//複製
-	//把原本none改為可見
-	newSpot.style.display = "";//令其可見
-	//cloneNode只能複製標籤 不能複製JS行為 要自己補上行為 
-	//點垃圾桶可以刪掉整個的這個動作
-	//spot內只有垃圾桶這一個img 索引值0
-	//當垃圾桶被點到 就移除整個
-	newSpot.getElementsByTagName("span")[0].onclick = removeSpot;//註冊垃圾桶
-	//把要新增的景點newSpot 放在btnSend之前
+	let newSpot = spot.cloneNode(true);
+	newSpot.style.display = "";
+	newSpot.getElementsByTagName("span")[0].onclick = removeSpot;
 	myForm.insertBefore(newSpot,btnSend);
 }
 
-function removeSpot(e){//只能移除孩子 不可以移除自己
-	//從myForm去找 removeChild是他的div(那個景點整包)
-	//這整包是從你點的那個垃圾桶 往上找到他的爸爸 就是div
+function removeSpot(e){
 	$id("myForm").removeChild(e.target.parentNode);
-	
 }
-
 window.addEventListener("load",function(){
-//跑一段動畫
 
-//btnAddSpot.onclick 加景點
-//當最上面那個增加的圖 被點的時候 就增加一個景點
 $id("btnAddSpot").onclick = addSpot;
-//ocument.querySelector(".spot img").onlick = removeSpot;
+
 })
+
 
 </script>
 

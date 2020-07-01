@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
-	Product_orderService prod_ordSvc = new Product_orderService();
+Product_orderService prod_ordSvc = new Product_orderService();
 List<Product_orderVO> list = prod_ordSvc.getAll();
 pageContext.setAttribute("list", list);
 %>
@@ -85,7 +85,7 @@ body {
 
 		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
 		<div id="main">
-			<h2>商品訂單管理</h2>
+			<h1>商品訂單管理</h1>
 		</div>
 
 		<%@ include file="page1.file"%>

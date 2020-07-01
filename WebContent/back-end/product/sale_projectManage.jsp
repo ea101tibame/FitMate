@@ -3,10 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.sale_project.model.*"%>
+<%@ page import="com.sale_list.model.*"%>
+<%@ page import="com.product.model.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><%--JSTLI18N標籤庫--%>
 <%
-Sale_projectService saproSvc = new Sale_projectService();
-List<Sale_projectVO> list = saproSvc.getAll();
+Sale_projectService sale_projectSvc = new Sale_projectService();
+List<Sale_projectVO> list = sale_projectSvc.getAll();
 pageContext.setAttribute("list", list);
 %>
 <!DOCTYPE html>
@@ -23,33 +25,19 @@ body {
 }
 </style>
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=Coming+Soon&family=Noto+Sans+TC:wght@700&display=swap"
 	rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js">
 	
 </script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous">
-	
-</script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-	crossorigin="anonymous">
-	
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
 </script>
 <link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
-	integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
-	crossorigin="anonymous">
+	href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
 <link rel='stylesheet'
@@ -100,6 +88,7 @@ body {
 			<table class="table align-items-center">
 				<tr>
 					<th>促銷編號</th>
+					<th>促銷專案</th>
 					<th>促銷開始日期</th>
 					<th>促銷結束日期</th>
 					<th>修改</th>
@@ -107,8 +96,8 @@ body {
 				<c:forEach var="sale_projectVO" items="${list}"
 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1 %>">
 					<tr>
-					
 						<td>${sale_projectVO.sapro_no}</td>
+						<td>${sale_projectVO.sapro_name}</td>
 						<td>${sale_projectVO.sapro_start}</td>
 						<td>${sale_projectVO.sapro_end}</td>
 						<td>
@@ -119,27 +108,6 @@ body {
 				</form>
 						</td>
 					</tr>
-					<tr>
-						<th colspan="2">促銷商品名稱</th>
-						<th colspan="2">促銷價格</th>
-					</tr>
-					<jsp:useBean id="sale_listSvc" scope="page"
-						class="com.sale_list.model.Sale_listService" />
-					<c:forEach var="sale_listVO" items="${sale_listSvc.all}">
-						<c:if test="${sale_projectVO.sapro_no==sale_listVO.sapro_no}">
-							<tr>
-								<td colspan="2">
-								<jsp:useBean id="prodSvc" scope="page" class="com.product.model.ProductService" />
-								<c:forEach var="productVO" items="${prodSvc.all}">
-									<c:if test="${productVO.prodno==sale_listVO.prodno}">
-									${productVO.prodname}
-									</c:if>
-								</c:forEach>
-								</td>
-								<td colspan="2">${sale_listVO.sapro_price}</td>
-							</tr>
-						</c:if>
-					</c:forEach>
 				</c:forEach>
 			</table>
 			<div class="newprod"></div>

@@ -257,15 +257,11 @@
 
 			<!-- form -->
 			<form class="cart-form clearfix" method="post">
-				<!-- 加入追蹤、購物車 -->
+
 				<div class="cart-fav-box d-flex align-items-center">
 					<!-- Cart -->
 					<button type="submit" name="addtocart" value="5"
 						class="btn essence-btn">Add to cart</button>
-					<!-- Favourite -->
-					<div class="product-favourite ml-4">
-						<a href="#" class="favme fa fa-heart"></a>
-					</div>
 				</div>
 			</form>
 		</div>

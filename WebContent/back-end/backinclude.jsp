@@ -469,8 +469,8 @@ margin-right
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/shopping.png" alt="">
 						商城管理</a>
 					<ul class="sub-menu">
-						<li><a href="#">商品資料管理</a></li>
-						<li><a href="#">商品訂單管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/product/productManage.jsp">商品資料管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/product/product_orderManage.jsp">商品訂單管理</a></li>
 					</ul></li>
 
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/coach.png" alt="">
@@ -482,7 +482,7 @@ margin-right
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/news.png" alt="">
 						消息管理</a>
 					<ul class="sub-menu">
-						<li><a href="#">促銷審核</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/product/sale_projectManage.jsp">促銷審核</a></li>
 					</ul></li>
 
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/talk.png" alt="">
