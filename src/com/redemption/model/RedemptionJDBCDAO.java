@@ -22,8 +22,11 @@ public class RedemptionJDBCDAO implements RedemptionDAO_interface{
 	//查教練所有兌換紀錄(for後台)
 	private static final String SELECT_ALL = "SELECT * FROM REDEMPTION ORDER BY REDDATE DESC";
 	//更改兌換狀態
-	private static final String UPDATE_STA = "UPDATE REDEMPTION SET REDSTA = '已處理' WHERE REDNO = ?";
-	
+	private static final String UPDATE_STA = "UPDATE REDEMPTION SET REDSTA = '已審核' WHERE REDNO = ?";
+	//更改教練點數
+	private static final String UPDATE_COAPOINT = "UPDATE COACH SET COAPOINT = ? WHERE COANO = ?";
+	//查教練的兌換點數by coano
+	private static final String SELECT_REDPRICE = "SELECT REDPRICE FROM REDEMPTION WHERE COANO = ?";
 	@Override
 	public List<RedemptionVO> selectAllRed(String coano) {
 		
@@ -205,11 +208,51 @@ public class RedemptionJDBCDAO implements RedemptionDAO_interface{
 					e.printStackTrace(System.err);
 				}
 			}
-		}
-		
-		
+		}	
 		
 	}
+	@Override
+	public void updatePoint(String coano, Integer coapoint) {
+		Connection con = null ;
+		PreparedStatement pstmt = null ;
+		
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url,userid,passwd);
+			pstmt = con.prepareStatement(UPDATE_COAPOINT);
+			pstmt.setString(1, coano);
+			pstmt.setInt(2, coapoint);
+			pstmt.executeUpdate();
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+	
+	
+
 	//JDBC TEST OK
 		public static void main(String[] args) {
 			RedemptionJDBCDAO dao = new RedemptionJDBCDAO();
@@ -219,9 +262,9 @@ public class RedemptionJDBCDAO implements RedemptionDAO_interface{
 //			dao.insertRed(redVO);
 //			System.out.println("新增成功");
 //			
-			dao.updateSta("20200629-RED014");
-			System.out.println("修改成功");
-			
+//			dao.updateSta("20200629-RED014");
+//			System.out.println("修改成功");
+//			
 //			List<RedemptionVO>redlist = dao.selectAll();
 //			for(RedemptionVO red : redlist) {
 //				System.out.println(red.getRedno());
@@ -230,7 +273,12 @@ public class RedemptionJDBCDAO implements RedemptionDAO_interface{
 //				System.out.println(red.getRedprice());
 //				System.out.println(red.getRedsta());
 //			}
+			dao.updateSta("20200701-RED012");
+			System.out.println("success");
 		}
+
+		
+		
 
 		
 

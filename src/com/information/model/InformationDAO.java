@@ -22,15 +22,15 @@ public class InformationDAO implements InformationDAO_interface {
 		}
 		
 		//新增消息
-		public static final String INSERT_STMT = "INSERT INTO INFORMATION VALUES ('IN'||LPAD(to_char(INNO_SEQ.NEXTVAL),3,'0'),?,?,?)";
+		public static final String INSERT_STMT = "INSERT INTO INFORMATION VALUES ('IN'||LPAD(to_char(INNO_SEQ.NEXTVAL),3,'0'),?,?,?,?)";
 		//列出所有消息(依日期排序)
-		private static final String GET_ALL_STMT_BYDATE = "SELECT INNO , INDATE , INTITLE , INDESC FROM INFORMATION ORDER BY INDATE DESC";
+		private static final String GET_ALL_STMT_BYDATE = "SELECT * FROM INFORMATION ORDER BY INDATE DESC";
 		//列出單一消息(基本不用)
-		private static final String GET_ONE_STMT = "SELECT INNO , INDATE , INTITLE , INDESC FROM INFORMATION WHERE INNO = ?";
+		private static final String GET_ONE_STMT = "SELECT * FROM INFORMATION WHERE INNO = ?";
 		//刪除消息
 		private static final String DELETE = "DELETE FROM INFORMATION WHERE INNO = ? ";
 		//更新消息(配合排程)
-		private static final String UPDATE = "UPDATE INFORMATION SET INDATE = ? , INTITLE = ? , INDESC = ? WHERE INNO = ? ";
+		private static final String UPDATE = "UPDATE INFORMATION SET INDATE = ? , INTYPE = ? ,INTITLE = ? , INDESC = ? WHERE INNO = ? ";
 		
 		@Override
 		public void insertInfo(InformationVO InfVO) {
@@ -43,8 +43,9 @@ public class InformationDAO implements InformationDAO_interface {
 				pstmt = con.prepareStatement(INSERT_STMT);
 				
 				pstmt.setDate(1, InfVO.getIndate());
-				pstmt.setString(2, InfVO.getIntitle());
-				pstmt.setString(3, InfVO.getIndesc());
+				pstmt.setString(3, InfVO.getIntitle());
+				pstmt.setString(2, InfVO.getIntype());
+				pstmt.setString(4, InfVO.getIndesc());
 				
 				pstmt.executeUpdate();
 			}  catch (SQLException se) {
@@ -80,9 +81,10 @@ public class InformationDAO implements InformationDAO_interface {
 				pstmt = con.prepareStatement(UPDATE);
 				
 				pstmt.setDate(1, InfVO.getIndate());
-				pstmt.setString(2, InfVO.getIntitle());
-				pstmt.setString(3, InfVO.getIndesc());
-				pstmt.setString(4, InfVO.getInno());
+				pstmt.setString(2, InfVO.getIntype());
+				pstmt.setString(3, InfVO.getIntitle());
+				pstmt.setString(4, InfVO.getIndesc());
+				pstmt.setString(5, InfVO.getInno());
 				
 				pstmt.executeUpdate();
 			}  catch (SQLException se) {
@@ -163,7 +165,8 @@ public class InformationDAO implements InformationDAO_interface {
 					infVO.setInno(rs.getString("inno"));
 					infVO.setIndate(rs.getDate("indate"));
 					infVO.setIntitle(rs.getString("intitle"));
-					infVO.setIndesc(rs.getString("indesc"));		
+					infVO.setIndesc(rs.getString("indesc"));	
+					infVO.setIntype(rs.getString("intype"));
 				}
 			}  catch (SQLException se) {
 				throw new RuntimeException("A database error occured. "
@@ -208,6 +211,7 @@ public class InformationDAO implements InformationDAO_interface {
 					infVO.setIndate(rs.getDate("indate"));
 					infVO.setIntitle(rs.getString("intitle"));
 					infVO.setIndesc(rs.getString("indesc"));
+					infVO.setIntype(rs.getString("intype"));
 					inflist.add(infVO);
 				}
 			} catch (SQLException se) {

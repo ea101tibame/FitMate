@@ -27,6 +27,7 @@ public class EmployeeServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("text/html; charset=UTF-8");
 		String action = req.getParameter("action");
+		
 		// 找一個員工
 		if ("getOne_Display".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();

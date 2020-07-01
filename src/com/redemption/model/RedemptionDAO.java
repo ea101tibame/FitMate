@@ -1,7 +1,6 @@
 package com.redemption.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +11,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import com.coach.model.CoaVO;
 
 public class RedemptionDAO implements RedemptionDAO_interface{
 	
@@ -33,7 +34,9 @@ public class RedemptionDAO implements RedemptionDAO_interface{
 		//查教練所有兌換紀錄(for後台)
 		private static final String SELECT_ALL = "SELECT * FROM REDEMPTION ORDER BY REDDATE DESC";
 		//更改兌換狀態
-		private static final String UPDATE_STA = "UPDATE REDEMPTION SET REDSTA = '已審核' WHERE REDNO = ?";
+		private static final String UPDATE_REDSTA = "UPDATE REDEMPTION SET REDSTA = '已審核' WHERE REDNO = ?";
+		//更改教練點數
+		private static final String UPDATE_COAPOINT = "UPDATE COACH SET COAPOINT = ? WHERE COANO = ?";
 		
 		@Override
 		public List<RedemptionVO> selectAllRed(String coano) {
@@ -173,7 +176,7 @@ public class RedemptionDAO implements RedemptionDAO_interface{
 			
 			try {
 				con = ds.getConnection();
-				pstmt = con.prepareStatement(UPDATE_STA);
+				pstmt = con.prepareStatement(UPDATE_REDSTA);
 				pstmt.setString(1, redno);
 				pstmt.executeUpdate();
 				
@@ -197,10 +200,43 @@ public class RedemptionDAO implements RedemptionDAO_interface{
 					}
 				}
 			}
+				
+		}
+
+		@Override
+		public void updatePoint(String coano , Integer coapoint) {
 			
+			Connection con = null ;
+			PreparedStatement pstmt = null ;
 			
+			try {
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(UPDATE_COAPOINT);
+				pstmt.setString(2, coano);
+				pstmt.setInt(1, coapoint);
+				pstmt.executeUpdate();
+				
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
 			
 		}
-	
 	
 }

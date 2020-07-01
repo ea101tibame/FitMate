@@ -4,7 +4,7 @@
 <%@ page import="com.coach.model.*"%>
 
 <%
-	CoachVO coaVO = (CoachVO)session.getAttribute("coaVO");
+	CoaVO coaVO = (CoaVO)session.getAttribute("coaVO");
 %>
 <html>
 <head>

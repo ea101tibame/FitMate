@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.deposit.model.*;
-import com.student.model.StudentVO;
+import com.student.model.*;
 
 public class DepositServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -77,12 +77,19 @@ public class DepositServlet extends HttpServlet {
 				failureView.forward(req, res);
 				return;
 			}
-			
+			//新增儲值紀錄
 			DepositService depSvc = new DepositService();
 			depVO = depSvc.addDeposit(stuno, depprice);
+			//抓學員現有點數
+			StuService stuSvc = new StuService();
+			StuVO stuVO = stuSvc.getOneStu(stuno);
+			Integer oldpoint = stuVO.getStupoint();
+			//更新點數(+)
+			Integer newpoint = oldpoint + depprice ;
+			depSvc.alterStuPoint(stuno, newpoint);
 			
 			req.setAttribute("depVO", depVO);
-			String url = "/front-end/deposit/showAllDeposit.jsp";
+			String url = "/front-end/deposit/deposit_index.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 			

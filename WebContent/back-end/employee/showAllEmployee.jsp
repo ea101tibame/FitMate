@@ -119,16 +119,20 @@ body {
 							<form 
 								action="<%=request.getContextPath()%>/employee/employee.do"
 								method="post" style="margin-bottom: 0px;">
-								<input type="submit" value="更新資料"
-									class="btn btn-outline-success my-2 my-sm-0"> <input
-									type="hidden" name="empno" value="${empVO.empno}"> <input
-									type="hidden" name="action" value="alterOneEmp">
+								<input type="submit" value="更新資料" class="btn btn-outline-success my-2 my-sm-0">
+								<input type="hidden" name="empno" value="${empVO.empno}">
+<%-- 								<input type="hidden" name="requestURI" value="<%=request.getRequestURI()%>"> --%>
+<%-- 								<input type="hidden" name="whichPage" value="${whichPage}">  --%>
+								<input type="hidden" name="action" value="alterOneEmp">
+									
 							</form>
 						</td>
 						<td>
 							<form action="<%=request.getContextPath()%>/employee/employee.do" method="post" style="margin-bottom: 0px;">
 								<input type="button" value="刪除資料" class="btn btn-outline-success my-2 my-sm-0"> 
 								<input type="hidden" name="empno" value="${empVO.empno}"> 
+<%-- 								<input type="hidden" name="requestURI" value="<%=request.getRequestURI()%>"> --%>
+<%-- 								<input type="hidden" name="whichPage" value="${whichPage}">  --%>
 								<input type="hidden" name="action" value="deleteOneEmp">
 							</form>
 						</td>

@@ -25,8 +25,8 @@
 	<div id="div1">
 		<h3>修改消息</h3>
 		<img alt="" src="images/logo1.png" width="100" height="32" border="0">
-		<a href="showAllInformation.jsp">返回消息列表</a>
-		<a href="information_select_page.jsp">返回首頁</a>
+		<a href="<%=request.getContextPath()%>/back-end/information/showAllInformation.jsp">返回消息列表</a>
+		<a href="<%=request.getContextPath()%>/back-end/information/information_select_page.jsp">返回首頁</a>
 	</div>
 	<c:if test="${not empty errorMsgs}">
 		<a>看看你的錯:</a><br>
@@ -38,6 +38,10 @@
 		<tr>
 			<td>消息編號:<font color="red"><b>*</b></font></td>
 			<td>${infVO.inno}</td>
+		</tr>
+		<tr>
+			<td>類別:</td>
+			<td>${infVO.intype}</td>
 		</tr>
 		<tr>
 			<td>發布日期:</td>
@@ -56,6 +60,7 @@
 	<input type="submit" value="修改送出" onclick="javascript:return bye();">
 	<input type="hidden" value="alter" name="action">	
 	<input type="hidden" value="${infVO.inno}" name="inno">
+	<input type="hidden" name="intype" value="${infVO.intype}">
 	
 	</form>
 <script>

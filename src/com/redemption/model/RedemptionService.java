@@ -29,4 +29,8 @@ public class RedemptionService {
 	public void alterRed (String redno) {
 		reddao.updateSta(redno);
 	}
+	
+	public void alterCoaPoint (String coano , Integer newpoint) {
+		reddao.updatePoint(coano, newpoint);
+	}
 }

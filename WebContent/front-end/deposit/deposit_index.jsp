@@ -4,7 +4,7 @@
 <%@ page import="com.student.model.*"%>
 
 <%
-	StudentVO stuVO = (StudentVO) session.getAttribute("stuVO");
+	StuVO stuVO = (StuVO) session.getAttribute("stuVO");
 %>
 
 <html>

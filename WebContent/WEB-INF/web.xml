@@ -76,6 +76,8 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>EmployeeFilter</filter-name>
+		<url-pattern>/back-end/information/*</url-pattern>
+		<url-pattern>/back-end/redemption/*</url-pattern>
 		<url-pattern>/back-end/employee/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>

@@ -86,7 +86,7 @@ body {
 <jsp:useBean id="infSvc" scope="page" class="com.information.model.InformationService" />
 
 <li>
-<form action="/information/information.do" method="post">
+<form action="<%=request.getContextPath()%>/information/information.do" method="post">
 	<b>依編號選擇</b>
 	<select size="1" name="inno">
 		<c:forEach var="infVO" items="${infSvc.allInfByDate}">
@@ -99,7 +99,7 @@ body {
 </li>
 
 <li>
-<form action="information.do" method="post">
+<form action="<%=request.getContextPath()%>/information/information.do" method="post">
 	<b>依發布日期選擇</b>
 	<select size="1" name="inno">
 		<c:forEach var="infVO" items="${infSvc.allInfByDate}">
@@ -115,9 +115,9 @@ body {
 <h3>消息管理</h3>
 
 <ul>
-	<li><a href='insertOneInformation.jsp'>點此</a>新增消息</li>
+	<li><a href='<%=request.getContextPath()%>/back-end/information/insertOneInformation.jsp'>點此</a>新增消息</li>
 </ul>
-	<a href="<%=request.getContextPath()%>/backend_index.jsp">返回後台首頁</a>
+	
 </div>
 
 </body>

@@ -495,8 +495,21 @@ margin-right
 			<ul class="menu">
 				<li><a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp"><img src="<%=request.getContextPath()%>/images/backend_public/employee.png" alt="">
 						平台員工管理</a>
+<!-- 					<ul class="sub-menu"> -->
+<!-- 						<li><a href="#">管理員權限設定</a></li> -->
+<!-- 					</ul> -->
+					</li>
+					
+				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/news.png" alt="">
+						消息管理</a>
 					<ul class="sub-menu">
-						<li><a href="#">管理員權限設定</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/information/information_select_page.jsp">消息管理</a></li>
+					</ul></li>
+					
+				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/complain.png" alt="">
+						客訴管理</a>
+					<ul class="sub-menu">
+						<li><a href="#">客訴管理</a></li>
 					</ul></li>
 
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/shopping.png" alt="">
@@ -510,25 +523,15 @@ margin-right
 						教練管理</a>
 					<ul class="sub-menu">
 						<li><a href="#">教練權限管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/redemption/showAllRedemptionBack.jsp">點數兌換審核</a></li>
 					</ul></li>
 
-				<li><a href="<%=request.getContextPath()%>/back-end/information/information_select_page.jsp"><img src="<%=request.getContextPath()%>/images/backend_public/news.png" alt="">
-						消息管理</a>
-					<ul class="sub-menu">
-						<li><a href="#">促銷審核</a></li>
-					</ul></li>
 
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/talk.png" alt="">
 						討論區管理</a>
 					<ul class="sub-menu">
 						<li><a href="#">文章管理</a></li>
 						<li><a href="#">檢舉管理</a></li>
-					</ul></li>
-
-				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/complain.png" alt="">
-						客訴管理</a>
-					<ul class="sub-menu">
-						<li><a href="#">客訴管理</a></li>
 					</ul></li>
 
 			</ul>

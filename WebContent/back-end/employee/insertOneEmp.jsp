@@ -136,7 +136,8 @@ body {
 				</table>
 				<br>
 			</div>
-			<br> <input type="hidden" name="action" value="insert">
+			<br> 
+			<input type="hidden" name="action" value="insert">
 			<input type="button" value="新增送出" id="confirm"
 				 class="btn btn-outline-success my-2 my-sm-0">
 		</form>

@@ -76,17 +76,16 @@ body {
 		<!-- logo區結束 -->
 		<div id="main">
 			<h1>FitMate教練點數兌換申請審核</h1>
-			<a href="<%=request.getContextPath()%>/back-end/backend_index.jsp">返回後台首頁</a>
 		</div>
 		
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
 				<tr>
-					<th>兌換編號</th>
-					<th>教練編號</th>
+					<th>申請兌換編號</th>
+					<th>申請教練編號</th>
 					<th>申請日期</th>
-					<th>兌換金額</th>
-					<th>處理狀態</th>
+					<th>申請兌換金額</th>
+					<th>審核狀態</th>
 				</tr>
 				<c:forEach var="redVO" items="${redlist}">
 					<tr>
@@ -96,9 +95,11 @@ body {
 						<td>${redVO.redprice}</td>
 						<td id="sta">${redVO.redsta}</td>
 						<td>
-							<input type="button" value="審核" id="check" class="btn btn-outline-success my-2 my-sm-0">
+						<form action="<%=request.getContextPath()%>/redemption/redemption.do" method="post">
+							<input type="button" value="審核" class="btn btn-outline-success my-2 my-sm-0">
 							<input type="hidden" name="action" value="change" id="change">
-							<input type="hidden" name="redno" value="${redVO.redno}" id="redno">
+							<input type="hidden" name="redno" value="${redVO.redno}">
+						</form>
 						</td>
 					</tr>
 				</c:forEach>
@@ -111,22 +112,27 @@ body {
 	</div>
 <script>
 
-	$(document).ready(function(){
-		$('#check').click(function(){
-			$.ajax({
-				url:"<%=request.getContextPath()%>/redemption/redemption.do",
-				type:"post",
-				data:{
-					action:"$('#change').val()",
-					redno:"$('#redno').val()"
-				},
-				success:function(){
-					$('#sta').innerHtml="${redVO.redsta}";
-					swal('成功','已審核完畢','success');
-				}
-			});
+$(document).ready(function(){
+	$('input:button').on('click',function(e){
+		e.preventDefault();
+		swal({
+			title:'注意',
+			text:'你確定要通過該教練的兌換申請?',
+			icon:'warning',
+			buttons:true,
+			dangerMode:true
+		}).then(function(isConfirm){
+			if(isConfirm){
+				swal('成功','審核完畢','success');
+				setTimeout(function(){
+					$('input:button').parent('form').submit();
+				},1500);
+			} else {
+				swal('取消','取消審核','error');
+			}
 		});
 	});
+});
 
 </script>	
 </body>

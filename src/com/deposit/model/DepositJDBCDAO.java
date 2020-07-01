@@ -132,5 +132,11 @@ public class DepositJDBCDAO implements DepositDAO_interface{
 		}
 		
 	}
+
+	@Override
+	public void alterStuPoint(String stuno, Integer newpoint) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

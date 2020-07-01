@@ -6,4 +6,5 @@ public interface DepositDAO_interface {
 	
 	public void insertDep (DepositVO depVO);
 	public List<DepositVO> selectAll (String stuno);
+	public void alterStuPoint (String stuno , Integer newpoint);
 }

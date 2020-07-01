@@ -6,10 +6,9 @@
 <%@ page import="java.util.*"%>
 
 <%
-	String coano = (String)request.getAttribute("coano");
+	String coano = (String)session.getAttribute("coano");
 	RedemptionService redSvc = new RedemptionService();
-	List<RedemptionVO> deplist = redSvc.showAllRed(coano);
-	pageContext.setAttribute("deplist", deplist);
+	List<RedemptionVO>redlist = redSvc.showAllRed(coano); 
 %>
 <html>
 <head>

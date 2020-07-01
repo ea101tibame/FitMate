@@ -9,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.coach.model.*;
 import com.redemption.model.*;
 
 public class RedemptionServlet extends HttpServlet {
@@ -28,13 +30,13 @@ public class RedemptionServlet extends HttpServlet {
 		if("showAll".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
 			
 			try {
-				String coano = req.getParameter("coano");
-				RedemptionService redSvc = new RedemptionService();
-				List<RedemptionVO>redlist = redSvc.showAllRed(coano);
+				CoaVO coaVO = (CoaVO) session.getAttribute("coaVO");
+				String coano = coaVO.getCoano();
 				
-				req.setAttribute("redlist", redlist);
+				req.setAttribute("coano", coano);	//轉交coano到view層jsp,在view層new一個Service呼叫all給coano做查詢				
 				String url = "/front-end/redemption/showAllRedemption.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -57,13 +59,27 @@ public class RedemptionServlet extends HttpServlet {
 				try {
 					redprice = new Integer(req.getParameter("redprice").trim());
 				} catch (NumberFormatException e) {
-					redprice = 0 ;
+					errorMsgs.add("兌換點數不可為0,請重新確認");
 				}
-				
 				RedemptionVO redVO = new RedemptionVO();
 				redVO.setCoano(coano);
-				redVO.setRedprice(redprice);
-				
+				redVO.setRedprice(redprice);								
+				//抓教練現有點數
+				CoaService coaSvc = new CoaService();
+				CoaVO coaVO = coaSvc.getOneCoa(coano);
+				Integer coapoint = coaVO.getCoapoint();
+				//點數兌換判斷
+				if(redprice > coapoint) {
+					errorMsgs.add("申請點數超過您目前持有點數,請重新確認");
+				} else {
+					//新增記錄到後台表格
+					RedemptionService redSvc = new RedemptionService();
+					redVO = redSvc.addRed(coano, redprice);
+					//點數相減後更新到教練表格
+					Integer newpoint = coapoint - redprice ;
+					redSvc.alterCoaPoint(coano, newpoint);
+				}
+
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("redVO", redVO); 
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/redemption/addOneRedemption.jsp");
@@ -71,22 +87,19 @@ public class RedemptionServlet extends HttpServlet {
 					return;
 				}
 				
-				RedemptionService redSvc = new RedemptionService();
-				redVO = redSvc.addRed(coano, redprice);
-				
 				req.setAttribute("redVO", redVO);
-				String url = "/front-end/redemption/showAllRedemption.jsp";
+				String url = "/front-end/redemption/redemption_index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/front-end/redemption/insertRedemption.jsp");
+				RequestDispatcher failView = req.getRequestDispatcher("/front-end/redemption/redemption_index.jsp");
 				failView.forward(req, res);
 			}
 		}
 		
-		//更改兌換狀態(ajax預定)
+		//更改兌換狀態(ajax預定)(目前form版)
 		if("change".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -95,11 +108,15 @@ public class RedemptionServlet extends HttpServlet {
 				String redno = req.getParameter("redno");
 				RedemptionService redSvc = new RedemptionService();
 				redSvc.alterRed(redno);
+				
 				req.setAttribute("redno", redno);
-					
+				String url = "/back-end/redemption/showAllRedemptionBack.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/front-end/deposit/deposit_index.jsp");
+				RequestDispatcher failView = req.getRequestDispatcher("/back-end/deposit/deposit_index.jsp");
 				failView.forward(req, res);
 				}
 		}

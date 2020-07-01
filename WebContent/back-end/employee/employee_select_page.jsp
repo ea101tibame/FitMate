@@ -119,7 +119,7 @@ body {
 			<li><a href='<%=request.getContextPath()%>/back-end/employee/insertOneEmp.jsp'>點此</a>新增員工</li>
 		</ul>
 		
-		<a href="<%=request.getContextPath()%>/back-end/backend_index.jsp">返回後台首頁</a>
+		
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 	</div>
 
