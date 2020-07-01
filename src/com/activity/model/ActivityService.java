@@ -113,5 +113,7 @@ public class ActivityService {
 	public void update_sta_auto(String actno) {
 		dao.update_sta_auto(actno);
 	};
-	
+	public JSONArray checkTime(String coano) {
+		return dao.checkTime(coano);
+	}
 }

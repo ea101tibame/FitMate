@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.*;
 
+import com.activity.model.ActivityService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -65,21 +66,36 @@ public class checkTime extends HttpServlet {
 	    }
 	    
 	    /*---------------------------------------------------------------------------*/
-		 /*從後端傳來*/
+		 /*從後端傳來 課程時間*/
 	    LessonService lessonService = new LessonService();
 		JSONArray checkTime = lessonService.checkTime("C001");
 //		System.out.println(checkTime);
 //		System.out.println("checkTime.length()="+checkTime.length());
 		List<String> db = new ArrayList<String>();
+		
 		 try {
+			 
 			for(int j=0;j<checkTime.length();j++) {
-			JSONObject  result = checkTime.getJSONObject(j);
-			String ss = result.getString("ltime_ss");
-			String date1= result.getString("ltime_date");
-			String str = date1+ss;
-			db.add(str);
+				JSONObject  result = checkTime.getJSONObject(j);
+				String ss = result.getString("ltime_ss");
+				String date1= result.getString("ltime_date");
+				String str = date1+ss;
+				System.out.println("教練課程="+str);
+				db.add(str);
+			}
 			
-		}
+		/*從後端傳來 揪團時間*/
+		ActivityService	actSvc = new ActivityService();
+		JSONArray checkActTime = actSvc.checkTime("C001");
+		
+			for(int j=0;j<checkActTime.length();j++) {
+				JSONObject  result = checkActTime.getJSONObject(j);
+				String ss = result.getString("actss");
+				String date1= result.getString("actdate");
+				String str = date1+ss;
+				System.out.println("揪團課程="+str);
+				db.add(str);
+			}	
 			System.out.println("後端LIST");
 			 /*後端LIST*/
 			for(int j = 0;j < db.size();j++){
@@ -102,7 +118,7 @@ public class checkTime extends HttpServlet {
 
 			for (String  test: db) {
 		        
-		            System.out.println("db移除後="+test);
+		            System.out.println("db移除原時段後="+test);
 		       
 		    }
 			/*---------------------------------------------------------------------------*/
@@ -147,8 +163,6 @@ public class checkTime extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
-		 
 	}
 
 }

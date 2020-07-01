@@ -34,7 +34,7 @@ public interface ActivityDAO_interface {
 	/*活動狀態更新 成團人數不足系統自動更新活動狀態-->下架*/
 	public void update_sta_auto(String actno);
 	
-	
+	public JSONArray checkTime(String coano);
     
 }
 

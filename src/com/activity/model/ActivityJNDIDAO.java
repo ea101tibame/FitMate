@@ -52,7 +52,7 @@ public class ActivityJNDIDAO implements ActivityDAO_interface {
 			+ "VALUES (to_char(sysdate,'yyyymmdd')||'-AO'||LPAD(to_char(ACTIVITY_ORDER_seq.NEXTVAL), 3, '0'), ?, ?,CURRENT_TIMESTAMP)";
 	private static final String GET_STUDENT_PSTMT = "SELECT * FROM ACTIVITY WHERE ACTNO=?";
 	private static final String UPADTE_ACTIVITY_ACTCUR = "UPDATE ACTIVITY SET ACTCUR = ? , ACTSTA=? WHERE ACTNO = ?";
-
+	private static final String CHECKTIME="SELECT ACTDATE,ACTSS FROM ACTIVITY WHERE COANO=?";
 	
 	/* 基本--------------------------------------- */
 //	新增
@@ -787,9 +787,64 @@ public class ActivityJNDIDAO implements ActivityDAO_interface {
 		return baos.toByteArray();
 	}
 
-	
+	@Override
+	public JSONArray checkTime(String coano) {
+		JSONArray allTimes = new JSONArray();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(CHECKTIME);
 
-	
+			pstmt.setString(1, coano);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				JSONObject oneAct = new JSONObject();
+
+				for (int i = 1; i <= 2; i++) {
+					try {
+						java.sql.Date sqlDate = rs.getDate("actdate");
+						String actdate = sqlDate.toString();
+						oneAct.put("actdate", actdate);
+						oneAct.put("actss", rs.getString("actss"));
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				allTimes.put(oneAct);
+			}
+		
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+		return allTimes;
+	}
 
 }

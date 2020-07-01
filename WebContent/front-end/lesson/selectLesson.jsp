@@ -5,9 +5,8 @@
 <%@ page import="com.lesson.model.*"%>
 
 <%
-	String coano = (String)session.getAttribute("coano");
 	LessonService lessonService = new LessonService();
-	List<LessonVO> list = lessonService.getCoachLesson(coano);
+	List<LessonVO> list = lessonService.getCoachLesson("C001");
 	pageContext.setAttribute("list", list);
 %>
 
