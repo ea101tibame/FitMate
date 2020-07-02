@@ -22,7 +22,7 @@
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+<%@ include file="/front-end/header.jsp"%>
 <title>學員資料修改 - updateStudent.jsp</title>
 
 <!-- Favicon  -->
@@ -38,7 +38,7 @@
 
 
 <body>
-	<%@ include file="/front-end/header.jsp"%>
+	
 
 	<div class="single-blog-wrapper" style="background-color: black;">
 		<div class="single-blog-post-thumb">

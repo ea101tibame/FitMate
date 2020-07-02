@@ -43,8 +43,10 @@ public class LessonServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+				String coano = req.getParameter("coano");
+				System.out.println("coano="+coano);
 				String lessname = req.getParameter("lessname");
-				System.out.println("lessname"+lessname);
+//				System.out.println("lessname"+lessname);
 				if (lessname == null || lessname.trim().length() == 0) {
 					errorMsgs.add("課堂名稱: 請勿空白");
 				}
@@ -56,9 +58,9 @@ public class LessonServlet extends HttpServlet {
 				Integer lessmax = null;
 
 				try {
-					lessmax = new Integer(req.getParameter("lessmax").trim());
+					lessmax = new Integer(req.getParameter("lessmax"));
 
-				} catch (NumberFormatException e) {
+				} catch (Exception e) {
 					errorMsgs.add("上限人數請填數字");
 				}
 
@@ -69,7 +71,7 @@ public class LessonServlet extends HttpServlet {
 						errorMsgs.add("下限人數不可高於上限人數");
 					}
 					
-				} catch (NumberFormatException e) {
+				} catch (Exception e) {
 					errorMsgs.add("下限人數請填數字");
 				}
 
@@ -77,25 +79,25 @@ public class LessonServlet extends HttpServlet {
 				try {
 					lessprice = new Integer(req.getParameter("lessprice"));
 
-				} catch (NumberFormatException e) {
+				} catch (Exception e) {
 					errorMsgs.add("課程欲售點數請填數字");
 				}
 
 				String city = req.getParameter("city");
-				System.out.println(city);
+//				System.out.println(city);
 				String town = req.getParameter("town");
-				System.out.println(town);
+//				System.out.println(town);
 				String lesslocAdd = req.getParameter("lesslocAdd");
-				System.out.println(lesslocAdd);
+//				System.out.println(lesslocAdd);
 				String lessloc = city+town+lesslocAdd;
 
 				java.sql.Date lessstart = java.sql.Date.valueOf(req.getParameter("lessstart"));
 				java.sql.Date lessend = java.sql.Date.valueOf(req.getParameter("lessend"));
 				Integer lesstimes = null;
 				try {
-					lesstimes = new Integer(req.getParameter("lesstimes").trim());
+					lesstimes = new Integer(req.getParameter("lesstimes"));
 
-				} catch (NumberFormatException e) {
+				} catch (Exception e) {
 					lessprice = 0;
 					errorMsgs.add("課程堂數請填數字");
 				}
@@ -103,7 +105,7 @@ public class LessonServlet extends HttpServlet {
 				String lessdesc = req.getParameter("lessdesc");
 
 				LessonVO lessonVO = new LessonVO();
-				lessonVO.setCoano("C004");
+				lessonVO.setCoano(coano);
 				lessonVO.setLessname(lessname);
 				lessonVO.setLessmax(lessmax);
 				lessonVO.setLessmin(lessmin);
@@ -138,13 +140,14 @@ public class LessonServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				LessonService lessonSvc = new LessonService();
-				String lessno_seq = lessonSvc.addLesson("C001", lessname, lessmax, lessmin, 0, lesstype, lessloc, lessprice,
+				String lessno_seq = lessonSvc.addLesson(coano, lessname, lessmax, lessmin, 0, lesstype, lessloc, lessprice,
 						lessdesc, lessstart, lessend, "未成團", lesstimes, img);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				
 				
 				req.setAttribute("lessno_seq", lessno_seq);
+				
 				String url = "/front-end/lesson/addTime.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
@@ -215,23 +218,26 @@ public class LessonServlet extends HttpServlet {
 			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
 				String lessno = req.getParameter("lessno");
+				
 				String lessname = req.getParameter("lessname");
+				
 				if (lessname == null || lessname.trim().length() == 0) {
 					errorMsgs.add("課堂名稱: 請勿空白");
 				}
 				String lesstype = req.getParameter("lesstype");
+				
 				if(lesstype ==  null || lesstype.trim().length() == 0) {
 					errorMsgs.add("請選擇課堂類型");
 				}
-
+System.out.println("lesstype="+lesstype);
 				Integer lessmax = null;
-
 				try {
-					lessmax = new Integer(req.getParameter("lessmax").trim());
+					lessmax = new Integer(req.getParameter("lessmax"));
 
-				} catch (NumberFormatException e) {
+				} catch (Exception e) {
 					errorMsgs.add("上限人數請填數字");
 				}
+				
 
 				Integer lessmin = null;
 				try {
@@ -239,16 +245,16 @@ public class LessonServlet extends HttpServlet {
 					if(lessmax<lessmin) {
 						errorMsgs.add("下限人數不可高於上限人數");
 					}
-					
-				} catch (NumberFormatException e) {
-					errorMsgs.add("下限人數請填數字");
+				} catch (Exception e) {
+						errorMsgs.add("下限人數請填數字");					
 				}
-
+				
+				
 				Integer lessprice = null;
 				try {
 					lessprice = new Integer(req.getParameter("lessprice"));
 
-				} catch (NumberFormatException e) {
+				} catch (Exception e) {
 					errorMsgs.add("課程欲售點數請填數字");
 				}
 
@@ -260,9 +266,9 @@ public class LessonServlet extends HttpServlet {
 				
 				Integer lesstimes = null;
 				try {
-					lesstimes = new Integer(req.getParameter("lesstimes").trim());
+					lesstimes = new Integer(req.getParameter("lesstimes"));
 
-				} catch (NumberFormatException e) {
+				} catch (Exception e) {
 					lessprice = 0;
 					errorMsgs.add("課程堂數請填數字");
 				}
@@ -270,6 +276,9 @@ public class LessonServlet extends HttpServlet {
 				String lessdesc = req.getParameter("lessdesc");
 				//拿現在人數
 				int lesscur =0;
+				String lesssta = null;
+				String coano = null;
+				
 				//圖片
 				byte[] img=null;
 				Part part = req.getPart("lesspic");
@@ -286,19 +295,23 @@ public class LessonServlet extends HttpServlet {
 					//拿現在人數
 					lesscur = lessVO.getLesscur(); 
 //					img=LessonVO.getLesspic();
+					//拿現在狀態
+					lesssta = lessVO.getLesssta();
+					//拿教練編號
+					coano = lessVO.getCoano();
 				}
 				
 				in.close();
+			
 				
-				//String coano = new String (req.getParameter("coano"));
 				LessonVO lessonVO = new LessonVO();
-				lessonVO.setCoano("C001");
+				lessonVO.setCoano(coano);
 				lessonVO.setLessno(lessno);
 				lessonVO.setLessname(lessname);
 				lessonVO.setLessmax(lessmax);
 				lessonVO.setLessmin(lessmin);
 				
-				lessonVO.setLesscur(0);//先寫死 想辦法撈目前資料
+				lessonVO.setLesscur(lesscur);//撈目前資料
 				lessonVO.setLesstype(lesstype);
 				lessonVO.setLessloc(lessloc);
 				lessonVO.setLessprice(lessprice);
@@ -306,7 +319,7 @@ public class LessonServlet extends HttpServlet {
 
 				lessonVO.setLessstart(lessstart);
 				lessonVO.setLessend(lessend);
-				lessonVO.setLesssta("未成團");
+				lessonVO.setLesssta(lesssta);
 				lessonVO.setLesstimes(lesstimes);
 				
 //				Part part = req.getPart("lesspic");
@@ -318,6 +331,7 @@ public class LessonServlet extends HttpServlet {
 
 				if (!errorMsgs.isEmpty()) {
 					for (String str : errorMsgs) {
+						System.out.println(str);
 					}
 					
 					req.setAttribute("lessonVO", lessonVO); // 含有輸入格式錯誤的LessonVO物件,也存入req
@@ -328,13 +342,14 @@ public class LessonServlet extends HttpServlet {
 
 				/*************************** 2.開始修改資料***************************************/
 				LessonService lessonSvc = new LessonService();
-				lessonVO = lessonSvc.updateLesson(lessno,"C001",lessname, lessmax, lessmin,lesscur ,lesstype, lessloc, lessprice,
-						lessdesc, lessstart, lessend, "未成團", lesstimes, img);
+				lessonVO = lessonSvc.updateLesson(lessno,coano,lessname, lessmax, lessmin,lesscur ,lesstype, lessloc, lessprice,
+						lessdesc, lessstart, lessend, lesssta, lesstimes, img);
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) ***********/
 				req.setAttribute("lessonVO",lessonVO);// 資料庫update成功後,正確的的LessonVO物件,存入req
 				String url = "/front-end/lesson/selectOneLesson.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				req.setAttribute("updateLesson","課程修改成功");
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/

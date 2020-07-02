@@ -45,8 +45,11 @@ public class Lesson_favServlet extends HttpServlet {
 					/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
 					String stuno = req.getParameter("Stuno");
 					String lessno = req.getParameter("Lessno");
+					String rurl = req.getParameter("rurl");
+//					System.out.println(stuno);
+//					System.out.println(rurl);
 					
-		
+					
 					String stunoReg = "^[S]{1}\\d{3}$";
 					if (stunoReg == null || stuno.trim().length() == 0) {
 						errorMsgs.add("stuno: 請勿空白");
@@ -75,7 +78,10 @@ public class Lesson_favServlet extends HttpServlet {
 					
 					/***************************2.開始新增資料***************************************/
 					Lesson_favService lesson_favSvc = new Lesson_favService();
+					LessonService lessonSvc = new LessonService();
+					LessonVO lessonVO = lessonSvc.getOneByPK(lessno);
 					
+					req.setAttribute("lessonVO", lessonVO);
 					//System.out.println(stuno+"," + coano +"," + comdate +"," + comdesc +"," + comsta);
 					
 					Lesson_favVO lesson_favVO = lesson_favSvc.addLesson_fav(stuno, lessno);
@@ -83,7 +89,7 @@ public class Lesson_favServlet extends HttpServlet {
 					
 					/***************************3.新增完成,準備轉交(Send the Success view)***********/
 		
-					String url = "/front-end/lesson_fav/addlesson_fav.jsp";
+					
 					//HttpSession session =req.getSession();
 					//String location = (String)session.getAttribute("location");
 //		            
@@ -91,9 +97,9 @@ public class Lesson_favServlet extends HttpServlet {
 					
 //		            
 //		            res.sendRedirect(url);
-
-		            req.setAttribute("lesson_favVO", lesson_favVO);
-					RequestDispatcher successView = req.getRequestDispatcher(url); 
+					req.setAttribute("lesson_favVO", lesson_favVO);
+					req.setAttribute("followOK","追蹤成功");
+					RequestDispatcher successView = req.getRequestDispatcher(rurl); 
 					successView.forward(req, res);				
 					
 					/***************************其他可能的錯誤處理**********************************/

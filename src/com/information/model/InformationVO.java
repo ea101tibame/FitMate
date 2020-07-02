@@ -7,6 +7,14 @@ public class InformationVO implements java.io.Serializable{
 	private String inno ;
 	private Date indate ;
 	private String intitle ;
+	private String intype ;
+	
+	public String getIntype() {
+		return intype;
+	}
+	public void setIntype(String intype) {
+		this.intype = intype;
+	}
 	public String getIntitle() {
 		return intitle;
 	}

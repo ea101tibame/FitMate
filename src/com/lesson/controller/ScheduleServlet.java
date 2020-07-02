@@ -27,7 +27,7 @@ public class ScheduleServlet extends HttpServlet {
 			// 把未成團課程自動下架
 			public void run() {
 
-				System.out.println("工作排定的時間 = " + new Date(scheduledExecutionTime()));
+//				System.out.println("工作排定的時間 = " + new Date(scheduledExecutionTime()));
 				System.out.println("已建立排程!");   
 				
 				LessonService lessonSvc = new LessonService();
@@ -37,20 +37,20 @@ public class ScheduleServlet extends HttpServlet {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				String today = sdf.format(scheduledExecutionTime());
 				
-				System.out.println("today="+today);
+//				System.out.println("today="+today);
 				for (int i = 0; i < list.size(); i++) {
 					java.sql.Date lessend = list.get(i).getLessend();
-					System.out.println("第"+i+"lessend="+lessend);
+//					System.out.println("第"+i+"lessend="+lessend);
 					// 截止日與今日一樣
 					if (lessend.toString().equals(today)) {
-						System.out.println("true 截止日與今日一樣");
+//						System.out.println("true 截止日與今日一樣");
 						// 狀態又是未成團
 						if (list.get(i).getLesssta().equals("未成團")) {
-							System.out.println("第"+i+"list.get(i).getLesssta()="+list.get(i).getLesssta());
-							System.out.println("狀態又是未成團");
+//							System.out.println("第"+i+"list.get(i).getLesssta()="+list.get(i).getLesssta());
+//							System.out.println("狀態又是未成團");
 							// 把它下架
 							lessonSvc.update_off(list.get(i).getLessno());
-							System.out.println("下架成功");
+//							System.out.println("下架成功");
 						}
 					}
 				}

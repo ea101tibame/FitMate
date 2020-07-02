@@ -40,9 +40,16 @@
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 </head>
-
+<style>
+.err{
+margin-bottom:20px;
+}
+.title{
+font-size:16px;
+}
+</style>
 <body>
-	<header class="header_area">
+		<header class="header_area">
 		<div
 			class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
 			<!-- Classy Menu -->
@@ -66,21 +73,38 @@
 					<!-- Nav Start -->
 					<div class="classynav">
 						<ul>
-							<li><a href="index.html">首頁</a></li>
+							<li><a href="${pageContext.request.contextPath}/front-end/index.jsp">首頁</a></li>
 							<li><a href="blog.html">消息</a></li>
 
-							</li>
-
-
-							<li><a href="#">教練</a>
+							<li>
+								<a href="#">課程</a>
 								<ul class="dropdown">
-									<li><a href="index.html">個人資料</a></li>
-									<li><a href="coachTimeTable.jsp">查看課表</a></li>
-									<li><a href="addLesson.jsp">建立課程</a></li>
-									<li><a href="selectLesson.jsp">查看課程</a></li>
-									<li><a href=".html">點數兌換</a></li>
+									<li>
+										<a href="${pageContext.request.contextPath}/front-end/lesson/listAll_lesson.jsp">課程總覽</a>
+									</li>
+								</ul>
 
-								</ul></li>
+
+							<li>
+									<a href="#">教練專區</a>
+									<ul class="dropdown">
+										<li>
+											<a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/coachTimeTable.jsp">查看課表</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/addLesson.jsp">建立課程</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/selectLesson.jsp">查詢與更新</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/redemption/redemption.jsp">點數兌換</a>
+										</li>
+									</ul>
+								</li>
 							<li><a href="blog.html">討論區</a></li>
 
 						</ul>
@@ -122,15 +146,7 @@
 			<img src="${pageContext.request.contextPath}/images/bg-img/COA1920.png"
 				alt="">
 		</div>
-		<%-- 錯誤表列 --%>
-		<c:if test="${not empty errorMsgs}">
-			<font style="color: red">請修正以下錯誤:</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red">${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
+		
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-12 col-md-12">
@@ -139,26 +155,36 @@
 							<div class="regular-page-text">
 								<h2>課程資料修改</h2>
 								<!--表單開始-->
-
-
+							
+							<%-- 錯誤表列 --%>
+								<c:if test="${not empty errorMsgs}">
+								<div class="err">
+									<font style="color: red" >請修正以下錯誤:</font>
+									<ul>
+										<c:forEach var="message" items="${errorMsgs}">
+											<li style="color: red" >${message}</li>
+										</c:forEach>
+									</ul>
+								</div>	
+								</c:if>
 
 
 								<div class="row">
 									<div class="col-md-12 mb-3">
-										<label for="firstName">課程名稱</label> 
+										<label for="firstName" class="title">課程名稱</label> 
 										<input type="text"
 											class="form-control" name="lessname"
 											value="<%=lessonVO.getLessname()%>">
 
 									</div>
 									<div class="col-md-12 mb-3">
-										<label for="country">課程類型</label>
+										<label for="country" class="title">課程類型</label>
 										<jsp:useBean id="lessonSvc" scope="page"
 											class="com.lesson.model.LessonService" />
 
 										<select class="custom-select d-block " name="lesstype">
 											<c:forEach var="expertiseVO" items="${lessonSvc.allExpByExpno}">
-												<option value="${lessonVO.lesstype}" ${(lessonVO.lesstype==expertiseVO.expno)?'selected':'' }>${expertiseVO.expdesc}
+												<option value="${expertiseVO.expno}" ${(lessonVO.lesstype==expertiseVO.expno)?'selected':'' }>${expertiseVO.expdesc}
 											</c:forEach>
 										</select>
 											
@@ -167,14 +193,14 @@
 
 
 									<div class="col-md-12 mb-3">
-										<label for="lastName">人數上限(最多幾位學生)</label> <input type="text"
+										<label for="lastName" class="title">人數上限(最多幾位學生)</label> <input type="text"
 											class="form-control" name="lessmax"
 											value="<%=lessonVO.getLessmax()%>">
 
 									</div>
 
 									<div class="col-md-12 mb-3">
-										<label for="lastName">人數下限(下限人數到即開團)</label> <input type="text"
+										<label for="lastName" class="title">人數下限(下限人數到即開團)</label> <input type="text"
 											class="form-control" name="lessmin"
 											value="<%=lessonVO.getLessmin()%>">
 
@@ -184,7 +210,8 @@
 
 
 								<div class="mb-3">
-<!-- 									<label for="address">課程欲售點數</label> <input type="text" -->
+									<label for="address" class="title">課程欲售點數</label> 
+<!-- 									<input type="text" -->
 <!-- 										class="form-control" name="lessprice" -->
 <%-- 										value="<%=lessonVO.getLessprice()%>"> --%>
 										
@@ -196,27 +223,27 @@
 								</div>
 
 								<div class="mb-3">
-									<label for="address">課程地點</label> <input type="text"
+									<label for="address" class="title">課程地點</label> <input type="text"
 										class="form-control" name="lessloc"
 										value="<%=lessonVO.getLessloc()%>">
 
 								</div>
 
 								<div class="mb-3">
-									<label for="address">課程報名開始</label> <input type="text"
+									<label for="address" class="title">課程報名開始</label> <input type="text"
 										class="form-control" id="from" name="lessstart"
 										value="<%=lessonVO.getLessstart()%>">
 
 								</div>
 								<div class=" mb-3">
-									<label for="address">課程報名截止</label> <input type="text"
+									<label for="address" class="title">課程報名截止</label> <input type="text"
 										class="form-control" id="to" name="lessend"
 										value="<%=lessonVO.getLessend()%>">
 
 								</div>
 
 								<div class="mb-3">
-									<label for="address" >課程堂數</label>
+									<label for="address" class="title">課程堂數</label>
 									 <input type="text"
 										class="form-control" disabled value="<%=lessonVO.getLesstimes()%>"><li style="color: red" font-size="16px">堂數不可修改</li></input>
 									<input type="hidden"
@@ -228,22 +255,22 @@
 								</div>
 
 								<div>
-									<div class="col-md-12 mb-3">
-										<label for="address">課程說明</label>
-										<textarea name="lessdesc"><%=lessonVO.getLessdesc()%></textarea>
+									<div class="col-md-12 mb-3" >
+										<label for="address" class="title">課程說明</label>
+										<textarea name="lessdesc"  class="form-control" id="exampleFormControlTextarea1" rows="3"><%=lessonVO.getLessdesc()%></textarea>
 									</div>
 									<div>
-									<label>原始封面圖片: </label> <br> 
+									<label class="title">原始封面圖片: </label> <br> 
 										<img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="innerpic">
 										
 										<div>
 											<div>
-												<label>上傳新課程封面圖片: </label> <br> 
+												<label class="title">上傳新課程封面圖片: </label> <br> 
 												<input type="file" id="myFile" name="lesspic" >
 											</div>
 										</div>
 										<div>
-											<label>圖片預覽: </label>
+											<label class="title">圖片預覽: </label>
 											<div id="preview"></div>
 											
 										</div>

@@ -217,10 +217,10 @@ img {
   right: 60px;
   text-align: center;
   width: 40px; }
-  @media only screen and (max-width: 767px) {
+ /* @media only screen and (max-width: 767px) {
     #scrollUp {
       bottom: 30px;
-      right: 30px; } }
+      right: 30px; } }*/
 
 /* Essence Button */
 .essence-btn {

@@ -21,4 +21,8 @@ public class DepositService {
 	public List<DepositVO> showAllDep (String stuno){
 		return depdao.selectAll(stuno);
 	}
+	
+	public void alterStuPoint (String stuno , Integer stupoint) {
+		depdao.alterStuPoint(stuno, stupoint);
+	}
 }

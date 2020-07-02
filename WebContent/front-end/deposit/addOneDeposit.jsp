@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.deposit.model.*"%>
+<%@ page import="com.student.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-	String stuno = (String)request.getAttribute("stuno");
+	String stuno = (String)session.getAttribute("stuno");
+	StuService stuSvc = new StuService();
+	StuVO stuVO = stuSvc.getOneStu(stuno);
+	Integer stupoint = stuVO.getStupoint();
+	pageContext.setAttribute("stuVO", stuVO);
 %>
 
 <html>
@@ -33,13 +38,13 @@
 		<form action="<%=request.getContextPath()%>/deposit/deposit.do" method="post">
 			<table>
 				<tr>
-					<td><input type="hidden" name="stuno" value="${stuno}"></td>
 					<td>請輸入儲值金額</td>
 					<td><input type="number" name="depprice"></td>
 				</tr>
 			</table><br>
 			<input type="button" value="進入線上付款頁面" id="confirm">
 			<input type="hidden" name="action" value="insert">
+			<input type="hidden" name="stuno" value="${stuVO.stuno}">
 		</form>	
 
 <script>
@@ -54,13 +59,13 @@
 				dangerMode:true
 			}).then(function(isConfirm){
 				if(isConfirm){
-				window.open('creditcard_index.html','線上刷卡',config='height=1080px,width=1920px');
+				window.open('/EA101G5_All_0702_4/front-end/deposit/creditcard_index.html','線上刷卡',config='height=1080px,width=1920px');
 				setTimeout(function(){
-					swal('成功','你已經完成儲值作業	   請靜待頁面跳轉','success');
+					swal('成功','你已經完成儲值作業	請靜待頁面跳轉','success');
 				},1000);	
 				setTimeout(function(){
 					$('input:button').parent('form').submit();
-				},24000);
+				},4000);
 				} else {
 					swal('取消','已取消儲值作業','error');
 				}

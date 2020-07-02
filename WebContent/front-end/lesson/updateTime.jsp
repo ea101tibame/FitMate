@@ -64,8 +64,7 @@ pageContext.setAttribute("Timelist",Timelist);
 </head>
 
 <body>
-	<header class="header_area">
-	
+		<header class="header_area">
 		<div
 			class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
 			<!-- Classy Menu -->
@@ -89,16 +88,38 @@ pageContext.setAttribute("Timelist",Timelist);
 					<!-- Nav Start -->
 					<div class="classynav">
 						<ul>
-							<li><a href="index.html">首頁</a></li>
+							<li><a href="${pageContext.request.contextPath}/front-end/index.jsp">首頁</a></li>
 							<li><a href="blog.html">消息</a></li>
-							<li><a href="#">教練</a>
+
+							<li>
+								<a href="#">課程</a>
 								<ul class="dropdown">
-									<li><a href="index.html">個人資料</a></li>
-									<li><a href="coachTimeTable.jsp">查看課表</a></li>
-									<li><a href="addLesson.jsp">建立課程</a></li>
-									<li><a href="selectLesson.jsp">查看課程</a></li>
-									<li><a href=".html">點數兌換</a></li>
-								</ul></li>
+									<li>
+										<a href="${pageContext.request.contextPath}/front-end/lesson/listAll_lesson.jsp">課程總覽</a>
+									</li>
+								</ul>
+
+
+							<li>
+									<a href="#">教練專區</a>
+									<ul class="dropdown">
+										<li>
+											<a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/coachTimeTable.jsp">查看課表</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/addLesson.jsp">建立課程</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/selectLesson.jsp">查詢與更新</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/redemption/redemption.jsp">點數兌換</a>
+										</li>
+									</ul>
+								</li>
 							<li><a href="blog.html">討論區</a></li>
 
 						</ul>

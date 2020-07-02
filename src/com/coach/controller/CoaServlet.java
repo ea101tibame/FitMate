@@ -15,6 +15,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.json.JSONArray;
@@ -33,6 +34,7 @@ import sun.misc.BASE64Encoder;
 
 @MultipartConfig
 public class CoaServlet extends HttpServlet {
+
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		res.setContentType("application/json");
@@ -81,6 +83,7 @@ public class CoaServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
 		// 新增一筆教練資料
 		if ("insert".equals(action)) { // 來自addCoach.jsp的請求
 			Map<String, String> errorMsgs = new HashMap<String, String>();
@@ -229,6 +232,11 @@ public class CoaServlet extends HttpServlet {
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("coaVO", coaVO); // 資料庫取出的coaVO物件,存入req
 				req.setAttribute("expOwnVOs", expOwnVOs);
+				
+				//為課表加
+				HttpSession session = req.getSession();
+				session.setAttribute("coano", coaVO.getCoano());
+				
 				String url = "BackendGetOneForView".equals(action) ? "/front-end/coach/listOneCoach_ForStudent.jsp"
 						: "/back-end/coach/listOneCoach.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -388,5 +396,53 @@ public class CoaServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
+		if("getOne".equals(action)) {
+			
+			String coano = req.getParameter("coano");
+			CoaService coaSvc = new CoaService();
+			CoaVO coaVO = coaSvc.getOneCoa(coano);
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			try {
+				
+				/*************************** 2.開始查詢資料 ****************************************/
+				// get coach data
+				BASE64Encoder encoder = new BASE64Encoder();
+				
+				coaVO.setCoapicStr(encoder.encode(coaVO.getCoapic()));
+
+				// get expertise data
+				ExpOwnService expOwnService = new ExpOwnService();
+				List<ExpOwnVO> expOwnVOs = expOwnService.getExpOwnsByCoano(coano);
+				ExpService expService = new ExpService();
+				for (ExpOwnVO expOwnVO : expOwnVOs) {
+					ExpVO expVO = expService.getOneExp(expOwnVO.getExpno());
+					expOwnVO.setExpdesc(expVO.getExpdesc());
+
+					// encode bytes to base64 for display purpose
+					expOwnVO.setExpownStr(encoder.encode(expOwnVO.getExpown()));
+				}
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				req.setAttribute("coaVO", coaVO); // 資料庫取出的coaVO物件,存入req
+				req.setAttribute("expOwnVOs", expOwnVOs);
+				
+				//為課表加
+				HttpSession session = req.getSession();
+				session.setAttribute("coano", coaVO.getCoano());
+				
+				String url = "/front-end/coach/listOneCoach_ForStudent.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
+				String url = "BackendGetOneForView".equals(action) ? "/front-end/coach/listAllCoach_ForStudent.jsp"
+						: "/back-end/coach/listAllCoach.jsp";
+				RequestDispatcher failureView = req.getRequestDispatcher(url);
+				failureView.forward(req, res);
+		}
 	}
-}
+}}

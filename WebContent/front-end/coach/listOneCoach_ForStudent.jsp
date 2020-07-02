@@ -4,6 +4,7 @@
 <%@ page import="com.expertise_own.model.*"%>
 <%@ page import="java.util.List"%>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>教練個人資料詳情 - listOneCoach_ForStudent.jsp</title>
-
+<style>
+.monyyyy {
+    width: 750px;
+    height: 30px;
+    overflow: auto;
+    position: relative;
+}
+</style>
 </head>
 <body style="background: #f8b302;">
 
@@ -60,8 +68,17 @@
 					</div>
 				</div>
 			</div>
-
-			<%@ include file="/front-end/footer.jsp"%>
+			
+<div class="row" style="margin: 100px;">
+			<div class="col">
+			<%@ include file="/front-end/lesson/timeTable.jsp" %> 
+			</div>
 		</div>
+			
+		</div>
+		
+		
+		
+		<%@ include file="/front-end/footer.jsp"%>
 </body>
 </html>

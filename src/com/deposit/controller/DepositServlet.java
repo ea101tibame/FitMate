@@ -56,17 +56,16 @@ public class DepositServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
-			
 			try {
 			String stuno = req.getParameter("stuno");	//input hidden
-			
+			System.out.println(stuno);
 			Integer depprice = null ;
 			try {
 				depprice = new Integer(req.getParameter("depprice").trim());
 			} catch (NumberFormatException e) {
 				depprice = 0 ;
 			}
-			
+			System.out.println(depprice);
 			DepositVO depVO = new DepositVO();
 			depVO.setStuno(stuno);
 			depVO.setDepprice(depprice);
@@ -77,12 +76,19 @@ public class DepositServlet extends HttpServlet {
 				failureView.forward(req, res);
 				return;
 			}
-			
+			//新增儲值紀錄
 			DepositService depSvc = new DepositService();
 			depVO = depSvc.addDeposit(stuno, depprice);
+			//抓學員現有點數
+			StuService stuSvc = new StuService();
+			StuVO stuVO = stuSvc.getOneStu(stuno);
+			Integer oldpoint = stuVO.getStupoint();
+			//更新點數(+)
+			Integer newpoint = oldpoint + depprice ;
+			depSvc.alterStuPoint(stuno, newpoint);
 			
 			req.setAttribute("depVO", depVO);
-			String url = "/front-end/deposit/showAllDeposit.jsp";
+			String url = "/front-end/deposit/deposit_index.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 			
@@ -112,9 +118,11 @@ public class DepositServlet extends HttpServlet {
 				errorMsgs.add("系統提示:" + e.getMessage());
 				RequestDispatcher failView = req.getRequestDispatcher("/front-end/deposit/deposit_index.jsp");
 				failView.forward(req, res);
-				}
 			}
 		}
+		
+		
+	}
 	
-
+		
 }

@@ -11,18 +11,21 @@ public class InformationService {
 		infdao = new InformationDAO();
 	}
 	
-	public InformationVO addInf(Date indate , String intitle ,String indesc) {
+	public InformationVO addInf(Date indate , String intype , String intitle ,String indesc) {
 		InformationVO infVO = new InformationVO();
 		infVO.setIndate(indate);
+		infVO.setIntype(intype);
 		infVO.setIntitle(intitle);
 		infVO.setIndesc(indesc);
 		infdao.insertInfo(infVO);
 		return infVO ;
 	}
 	
-	public InformationVO alterInf (Date indate , String indesc , String inno) {
+	public InformationVO alterInf (Date indate , String intype , String intitle ,String indesc , String inno) {
 		InformationVO infVO = new InformationVO();
+		infVO.setIntitle(intitle);
 		infVO.setIndate(indate);
+		infVO.setIntype(intype);
 		infVO.setIndesc(indesc);
 		infVO.setInno(inno);
 		infdao.modifyInfo(infVO);

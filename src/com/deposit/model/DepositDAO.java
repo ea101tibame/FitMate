@@ -25,10 +25,12 @@ public class DepositDAO implements DepositDAO_interface{
 			}
 		}
 
-		//點數儲值
+		//新增點數儲值紀錄
 		private static final String INSERT_STMT = "INSERT INTO DEPOSIT VALUES (to_char(sysdate,'yyyymmdd')||'-DEP'||LPAD(to_char(DEPOSIT_SEQ.nextval), 3, '0'),?,CURRENT_TIMESTAMP,?)";
 		//查單一學員所有儲值紀錄
 		private static final String SELECT_ALL_BYDEPNO = "SELECT * FROM DEPOSIT WHERE STUNO = ?";
+		//學員點數增加
+		private static final String ADD_STUPOINT = "UPDATE STUDENT SET STUPOINT = ? WHERE STUNO = ?";
 		
 		@Override
 		public void insertDep(DepositVO depVO) {
@@ -112,5 +114,41 @@ public class DepositDAO implements DepositDAO_interface{
 				}
 			}
 			return deplist;
+		}
+
+		@Override
+		public void alterStuPoint(String stuno, Integer newpoint) {
+			
+			Connection con = null ;
+			PreparedStatement pstmt = null ;
+			
+			try {
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(ADD_STUPOINT);
+				pstmt.setString(2,stuno);
+				pstmt.setInt(1, newpoint);
+				pstmt.executeUpdate();
+				
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			
 		}
 }

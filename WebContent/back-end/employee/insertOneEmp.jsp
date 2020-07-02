@@ -71,7 +71,7 @@ body {
 
 <body>
 
-	<%@ include file="/back-end/backinclude_test.jsp"%>
+	<%@ include file="/back-end/backinclude.jsp"%>
 
 	<!-- 主要內文區開始 -->
 	<div class="article side-open">
@@ -136,7 +136,8 @@ body {
 				</table>
 				<br>
 			</div>
-			<br> <input type="hidden" name="action" value="insert">
+			<br> 
+			<input type="hidden" name="action" value="insert">
 			<input type="button" value="新增送出" id="confirm"
 				 class="btn btn-outline-success my-2 my-sm-0">
 		</form>

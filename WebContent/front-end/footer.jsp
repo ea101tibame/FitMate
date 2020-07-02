@@ -1,14 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<%
-	pageContext.setAttribute("context", request.getContextPath());
-	pageContext.setAttribute("role", session.getAttribute("role"));
-%>
+
 <html>
 
 <body>
-	
+
 	<footer class="footer_area clearfix">
 		<div class="container">
 			<div class="row ">
@@ -24,13 +21,17 @@
 		</div>
 	</footer>
 	
-		<script src="${context}/js/jquery/jquery-2.2.4.min.js"></script>
+</body>
+<script src="${context}/js/jquery/jquery-2.2.4.min.js"></script>
 		<script src="${context}/js/popper.min.js"></script>
 		<script src="${context}/js/bootstrap.min.js"></script>
 		<script src="${context}/js/plugins.js"></script>
 		<script src="${context}/js/classy-nav.min.js"></script>
 		<script src="${context}/js/active.js"></script>
 		<script src="${context}/js/index.js"></script>
-</body>
-
+<!-- 		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script> -->
+		<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+ 		<script> 
+ 			var context = "${context}";
+ 		</script> 
 </html>

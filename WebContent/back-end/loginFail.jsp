@@ -52,7 +52,7 @@
 </head>
 
 <body>
-	<%@ include file="/back-end/backinclude_test.jsp"%>
+	<%@ include file="/back-end/backinclude.jsp"%>
 
 	<!-- 主要內文區開始 -->
 	<div class="article side-open">

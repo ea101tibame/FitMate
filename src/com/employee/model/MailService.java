@@ -1,6 +1,5 @@
 package com.employee.model;
 import java.util.Properties;
-
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -12,28 +11,29 @@ import javax.mail.internet.MimeMessage;
 
 public class MailService {
 	
-		public void getNewPsw (EmployeeVO empVO) {
-			
-			String ename = empVO.getEname();
-			String to = empVO.getEmail();
-			String epsw = empVO.getEpsw();
-			String subject = "密碼通知信件";
-			String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
-				
-			MailService mSvc = new MailService();
-			mSvc.sendMail(to, subject, messageText);
-		}
+//		public void getNewPsw (EmployeeVO empVO) {
+//			
+//			String ename = empVO.getEname();
+//			String to = empVO.getEmail();
+//			String epsw = empVO.getEpsw();
+//			String subject = "密碼通知信件";
+//			String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
+//				
+//			MailService mSvc = new MailService();
+//			mSvc.sendMail(to, subject, messageText);
+//		}
 		
-		public void forgetPsw (EmployeeVO empVO) {
-			String ename = empVO.getEname();
-			String to = empVO.getEmail();			
-			String epsw = empVO.getEpsw();
-			String subject = "忘記密碼通知信件";
-			String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
-			
-			MailService mSvc = new MailService();
-			mSvc.sendMail(to, subject, messageText);
-		}
+//		public void forgetPsw (EmployeeVO empVO) {
+//			String ename = empVO.getEname();
+//			String to = empVO.getEmail();			
+//			String epsw = empVO.getEpsw();
+//			String subject = "忘記密碼通知信件";
+//			String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
+//			
+//			MailService mSvc = new MailService();
+//			mSvc.sendMail(to, subject, messageText);
+//		}
+	
 	
 	// 設定傳送郵件:至收信人的Email信箱,Email主旨,Email內容
 		public void sendMail(String to, String subject, String messageText) {

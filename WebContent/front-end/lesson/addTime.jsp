@@ -49,13 +49,28 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 	.title{
 	font-size:20px;
 	}
+	
+	.btn-info {
+    margin-left: 20px;
+    margin-top: 20px;
+    }
+    
+	#show{
+    margin-top: 25px;
+    margin-left: 30px;
+    font-size:18px;
+    }
+   
+	.err{
+	margin-bottom:20px;
+	}
+
 </style>
 
 </head>
 
 <body>
-	<header class="header_area">
-	
+		<header class="header_area">
 		<div
 			class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
 			<!-- Classy Menu -->
@@ -79,16 +94,38 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 					<!-- Nav Start -->
 					<div class="classynav">
 						<ul>
-							<li><a href="index.html">首頁</a></li>
+							<li><a href="${pageContext.request.contextPath}/front-end/index.jsp">首頁</a></li>
 							<li><a href="blog.html">消息</a></li>
-							<li><a href="#">教練</a>
+
+							<li>
+								<a href="#">課程</a>
 								<ul class="dropdown">
-									<li><a href="index.html">個人資料</a></li>
-									<li><a href="coachTimeTable.jsp">查看課表</a></li>
-									<li><a href="addLesson.jsp">建立課程</a></li>
-									<li><a href="selectLesson.jsp">查看課程</a></li>
-									<li><a href=".html">點數兌換</a></li>
-								</ul></li>
+									<li>
+										<a href="${pageContext.request.contextPath}/front-end/lesson/listAll_lesson.jsp">課程總覽</a>
+									</li>
+								</ul>
+
+
+							<li>
+									<a href="#">教練專區</a>
+									<ul class="dropdown">
+										<li>
+											<a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/coachTimeTable.jsp">查看課表</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/addLesson.jsp">建立課程</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/selectLesson.jsp">查詢與更新</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/redemption/redemption.jsp">點數兌換</a>
+										</li>
+									</ul>
+								</li>
 							<li><a href="blog.html">討論區</a></li>
 
 						</ul>
@@ -131,15 +168,7 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 				src="${pageContext.request.contextPath}/images/bg-img/COA1920.png"
 				alt="">
 		</div>
-		<%-- 錯誤表列 --%>
-		<c:if test="${not empty errorMsgs}">
-			<font style="color: red">請修正以下錯誤:</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red">${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
+		
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-12 col-md-12">
@@ -150,7 +179,19 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 							<div class="regular-page-text">
 								<h2>建立時段</h2>
 								<!--表單開始-->
-
+								
+						<%-- 錯誤表列 --%>
+								<c:if test="${not empty errorMsgs}">
+								<div class="err">
+									<font style="color: red" >請修正以下錯誤:</font>
+									<ul>
+										<c:forEach var="message" items="${errorMsgs}">
+											<li style="color: red" >${message}</li>
+										</c:forEach>
+									</ul>
+								</div>	
+								</c:if>
+								
 								<div class="row">
 									<div class="col-md-12 mb-3">
 										<label class="title">課程名稱>>><%=lessonVO.getLessname() %></label>
@@ -230,7 +271,8 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 											encode 		: true,
 											
 											beforeSend:function(XMLHttpRequest){
-												$("#show").text("時段檢查中...");
+												$("#show").text("時段請勿空白");
+												$("#show").css("color","red");
 											},
 											success:function(data){
 												swal("Check "+data, "時段確認 OK", "success");

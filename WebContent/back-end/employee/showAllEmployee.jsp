@@ -71,7 +71,7 @@ body {
 
 <body>
 
-	<%@ include file="/back-end/backinclude_test.jsp"%>
+	<%@ include file="/back-end/backinclude.jsp"%>
 
 	<!-- 主要內文區開始 -->
 	<div class="article side-open">
@@ -90,6 +90,7 @@ body {
 			<h1>FitMate所有員工資料</h1>
 			<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
 		</div>
+		<%@ include file="page1.file"%>
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
 				<tr>
@@ -101,7 +102,6 @@ body {
 					<th>員工圖片</th>
 					<th>員工權限</th>
 				</tr>
-				<%@ include file="page1.file"%>
 				<c:forEach var="empVO" items="${emplist}" begin="<%=pageIndex%>"
 					end="<%=pageIndex+rowsPerPage-1%>">
 
@@ -119,16 +119,20 @@ body {
 							<form 
 								action="<%=request.getContextPath()%>/employee/employee.do"
 								method="post" style="margin-bottom: 0px;">
-								<input type="submit" value="更新資料"
-									class="btn btn-outline-success my-2 my-sm-0"> <input
-									type="hidden" name="empno" value="${empVO.empno}"> <input
-									type="hidden" name="action" value="alterOneEmp">
+								<input type="submit" value="更新資料" class="btn btn-outline-success my-2 my-sm-0">
+								<input type="hidden" name="empno" value="${empVO.empno}">
+<%-- 								<input type="hidden" name="requestURI" value="<%=request.getRequestURI()%>"> --%>
+<%-- 								<input type="hidden" name="whichPage" value="${whichPage}">  --%>
+								<input type="hidden" name="action" value="alterOneEmp">
+									
 							</form>
 						</td>
 						<td>
 							<form action="<%=request.getContextPath()%>/employee/employee.do" method="post" style="margin-bottom: 0px;">
 								<input type="button" value="刪除資料" class="btn btn-outline-success my-2 my-sm-0"> 
 								<input type="hidden" name="empno" value="${empVO.empno}"> 
+<%-- 								<input type="hidden" name="requestURI" value="<%=request.getRequestURI()%>"> --%>
+<%-- 								<input type="hidden" name="whichPage" value="${whichPage}">  --%>
 								<input type="hidden" name="action" value="deleteOneEmp">
 							</form>
 						</td>

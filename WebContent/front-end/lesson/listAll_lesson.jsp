@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.lesson.model.*" %>
-
+<%@ page import="com.coach.model.*" %>
 
 
 <jsp:useBean id="lessonSvc" scope="page" class="com.lesson.model.LessonService" />
@@ -74,113 +74,91 @@ font-size:18px;
 </head>
 
 <body>
-     <!-- ##### Header Area Start ##### -->
-    <header class="header_area">
-        <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
-            <!-- Classy Menu -->
-            <nav class="classy-navbar" id="essenceNav">
-                <!-- Logo -->
-                <a class="nav-brand" href="index.html"><img src="${pageContext.request.contextPath}/images/core-img/logo.png" alt=""></a>
-                <!-- Navbar Toggler -->
-                <div class="classy-navbar-toggler">
-                    <span class="navbarToggler"><span></span><span></span><span></span></span>
-                </div>
-                <!-- Menu -->
-                <div class="classy-menu">
-                    <!-- close btn -->
-                    <div class="classycloseIcon">
-                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                    </div>
-                    <!-- Nav Start -->
-                    <div class="classynav">
-                        <ul>
-                            <li><a href="index.html">首頁</a></li>
-                            <li><a href="blog.html">消息</a></li>
-                            <li><a href="#">商城</a>
-                                <div class="megamenu">
-                                    <ul class="single-mega cn-col-4">
-                                        <li class="title">服飾</li>
-                                        <li><a href="shop.html">男士服飾</a></li>
-                                        <li><a href="shop.html">女士服飾</a></li>
-                                        <li><a href="shop.html">T-shirts</a></li>
-                                        <li><a href="shop.html">Jackets</a></li>
-                                        <li><a href="shop.html">Trench</a></li>
-                                    </ul>
+    	<header class="header_area">
+		<div
+			class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+			<!-- Classy Menu -->
+			<nav class="classy-navbar" id="essenceNav">
+				<!-- Logo -->
+				<a class="nav-brand" href="index.html"><img
+					src="${pageContext.request.contextPath}/images/core-img/logo.png"
+					alt=""></a>
+				<!-- Navbar Toggler -->
+				<div class="classy-navbar-toggler">
+					<span class="navbarToggler"><span></span><span></span><span></span></span>
+				</div>
+				<!-- Menu -->
+				<div class="classy-menu">
+					<!-- close btn -->
+					<div class="classycloseIcon">
+						<div class="cross-wrap">
+							<span class="top"></span><span class="bottom"></span>
+						</div>
+					</div>
+					<!-- Nav Start -->
+					<div class="classynav">
+						<ul>
+							<li><a href="${pageContext.request.contextPath}/front-end/index.jsp">首頁</a></li>
+							<li><a href="blog.html">消息</a></li>
 
-                                    <ul class="single-mega cn-col-4">
-                                        <li class="title">健身相關</li>
-                                        <li><a href="shop.html">健身食品</a></li>
-                                        <li><a href="shop.html">健身配件</a></li>
-                                        <li><a href="shop.html">T-shirts</a></li>
-                                        <li><a href="shop.html">Jackets</a></li>
-                                        <li><a href="shop.html">Trench</a></li>
-                                    </ul>
-                                   
-                                    <ul class="single-mega cn-col-4">
-                                        <li class="title">促銷專案</li>
-                                        <li><a href="shop.html">母親節</a></li>
-                                        <li><a href="shop.html">父親節</a></li>
-                                        <li><a href="shop.html">T-shirts</a></li>
-                                        <li><a href="shop.html">Jackets</a></li>
-                                        <li><a href="shop.html">Trench</a></li>
-                                    </ul>
-               
-                                </div>
-                            </li>
-                            <li><a href="#">課程</a>
-                                <ul class="dropdown">
-                                    <li><a href="index.html">課程總覽</a></li>
-                                    <li><a href="shop.html">瑜珈</a></li>
-                                    <li><a href="single-uct-details.html">肌力訓練</a></li>
-                                    <li><a href="checkout.html">溜冰/滑板</a></li>
-                                    <li><a href="blog.html">有氧課程</a></li>
-                                    <li><a href="single-blog.html">海上/海下運動</a></li>
-                                    <li><a href="regular-page.html">登山健行</a></li>
-                                    <li><a href="contact.html">重量訓練</a></li>
-                                    <li><a href="contact.html">球類運動</a></li>
-                                    <li><a href="contact.html">武術</a></li>
-                                    <li><a href="contact.html">其他</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="contact.html">揪團</a></li>
-                            <li><a href="#">學員</a>
-                                <ul class="dropdown">
-                                    <li><a href="index.html">個人資料</a></li>
-                                    <li><a href=".html">查看課表</a></li>
-                                     <li><a href=".html">購買清單</a></li>
-                                    <li><a href=".html">錢包管理</a></li>
-                                    <li><a href=".html">個人信箱</a></li>
+							<li>
+								<a href="#">課程</a>
+								<ul class="dropdown">
+									<li>
+										<a href="${pageContext.request.contextPath}/front-end/lesson/listAll_lesson.jsp">課程總覽</a>
+									</li>
+								</ul>
 
-                                </ul>
-                            </li>
-                            <li><a href="blog.html">討論區</a></li>
-                            
-                        </ul>
-                    </div>
-                    <!-- Nav End -->
-                </div>
-            </nav>
 
-            <!-- Header Meta Data -->
-            <div class="header-meta d-flex clearfix justify-content-end">
-                <!-- Search Area -->
-            
-                <!-- User Login Info -->
-                                <div class="user-login-info">
-                    <a href="#"><img src="${pageContext.request.contextPath}/images/core-img/heart.svg" alt=""></a>
-                </div>
-                <div class="user-login-info">
-                    <a href="#"><img src="${pageContext.request.contextPath}/images/core-img/user.svg" alt=""></a>
-                </div>
-                 <div class="user-login-info">
-                    <a href="#"><img src="${pageContext.request.contextPath}/images/core-img/email.svg" alt=""></a>
-                </div>
-                
+							<li>
+									<a href="#">教練專區</a>
+									<ul class="dropdown">
+										<li>
+											<a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/coachTimeTable.jsp">查看課表</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/addLesson.jsp">建立課程</a>
+										</li>
+										<li>
+											<a href="${pageContext.request.contextPath}/front-end/lesson/selectLesson.jsp">查詢與更新</a>
+										</li>
+										<li>
+											<a href="${context}/front-end/redemption/redemption.jsp">點數兌換</a>
+										</li>
+									</ul>
+								</li>
+							<li><a href="blog.html">討論區</a></li>
 
-            </div>
+						</ul>
+					</div>
+					<!-- Nav End -->
+				</div>
+			</nav>
 
-        </div>
-    </header>
+			<!-- Header Meta Data -->
+			<div class="header-meta d-flex clearfix justify-content-end">
+				<!-- Search Area -->
+
+				<!-- User Login Info -->
+				<div class="user-login-info">
+					<a href="#"><img
+						src="${pageContext.request.contextPath}/images/core-img/user.svg"
+						alt=""></a>
+				</div>
+				<div class="user-login-info">
+					<a href="#"><img
+						src="${pageContext.request.contextPath}/images/core-img/email.svg"
+						alt=""></a>
+				</div>
+
+
+			</div>
+
+		</div>
+	</header>
     <!-- ##### Header Area End ##### -->
 
  

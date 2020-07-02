@@ -216,17 +216,29 @@
 		<url-pattern>/deposit/deposit.do</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>RedemptionServlet</servlet-name>
+		<servlet-class>com.redemption.controller.RedemptionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RedemptionServlet</servlet-name>
+		<url-pattern>/redemption/redemption.do</url-pattern>
+	</servlet-mapping>
+	
+
 	<filter>
 		<filter-name>EmployeeFilter</filter-name>
 		<filter-class>com.filter.EmployeeFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>EmployeeFilter</filter-name>
+		<url-pattern>/back-end/information/*</url-pattern>
+		<url-pattern>/back-end/redemption/*</url-pattern>
 		<url-pattern>/back-end/employee/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
-	</filter-mapping>
+	</filter-mapping>	
 </web-app>

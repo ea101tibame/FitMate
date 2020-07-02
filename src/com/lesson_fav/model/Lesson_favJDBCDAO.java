@@ -56,20 +56,20 @@ public class Lesson_favJDBCDAO implements Lesson_favDAO_interface{
 			pstmt.executeUpdate();
 
 		}catch (SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}finally {
 			if (pstmt != null) {
 				try {
 					pstmt.close();
 				} catch (SQLException se) {
-					se.printStackTrace(System.err);
+//					se.printStackTrace(System.err);
 				}
 			}
 			if (con != null) {
 				try {
 					con.close();
 				} catch (Exception e) {
-					e.printStackTrace(System.err);
+//					e.printStackTrace(System.err);
 				}
 			}
 		}

@@ -41,14 +41,16 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/custom-css/lesson/selectLesson.css">
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
-table { 
-background-color: #ffffff; 
-font-size:16px;
-width: 100%; *
-margin: auto; 
-text-align: center; 
-} 
+table {
+	background-color: #ffffff;
+	font-size: 16px;
+	width: 100%; *
+	margin: auto;
+	text-align: center;
+}
 
 /* tr td { */
 /* 	border: 2px solid black; */
@@ -57,8 +59,6 @@ text-align: center;
 /* tr th { */
 /* 	border: 2px solid black; */
 /* } */
-
-
 .card-img-top {
 	height: 300px;
 	width: 100%;
@@ -83,7 +83,6 @@ text-align: center;
 	height: 300px;
 	width: 100%;
 }
-
 </style>
 
 </head>
@@ -114,20 +113,32 @@ text-align: center;
 					<!-- Nav Start -->
 					<div class="classynav">
 						<ul>
-							<li><a href="index.html">首頁</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/front-end/index.jsp">首頁</a></li>
 							<li><a href="blog.html">消息</a></li>
 
-							</li>
-
-
-							<li><a href="#">教練</a>
+							<li><a href="#">課程</a>
 								<ul class="dropdown">
-									<li><a href="index.html">個人資料</a></li>
-									<li><a href="coachTimeTable.jsp">查看課表</a></li>
-									<li><a href="addLesson.jsp">建立課程</a></li>
-									<li><a href="selectLesson.jsp">查看課程</a></li>
-									<li><a href=".html">點數兌換</a></li>
-
+									<li><a
+										href="${pageContext.request.contextPath}/front-end/lesson/listAll_lesson.jsp">課程總覽</a>
+									</li>
+								</ul>
+							<li><a href="#">教練專區</a>
+								<ul class="dropdown">
+									<li><a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a>
+									</li>
+									<li><a
+										href="${pageContext.request.contextPath}/front-end/lesson/coachTimeTable.jsp">查看課表</a>
+									</li>
+									<li><a
+										href="${pageContext.request.contextPath}/front-end/lesson/addLesson.jsp">建立課程</a>
+									</li>
+									<li><a
+										href="${pageContext.request.contextPath}/front-end/lesson/selectLesson.jsp">查詢與更新</a>
+									</li>
+									<li><a
+										href="${context}/front-end/redemption/redemption.jsp">點數兌換</a>
+									</li>
 								</ul></li>
 							<li><a href="blog.html">討論區</a></li>
 
@@ -180,6 +191,20 @@ text-align: center;
 				</c:forEach>
 			</ul>
 		</c:if>
+		<%-- 新增成功 --%>
+		<c:if test="${not empty insert}">
+			<script>
+				swal("新增課程成功", "", "success");
+			</script>
+		</c:if>
+
+		<%-- 時段修改成功 --%>
+		<c:if test="${not empty updateTime}">
+			<script>
+				swal("時段修改成功", "", "success");
+			</script>
+		</c:if>
+
 
 		<div class="container col-12">
 			<div class="row justify-content-center">
@@ -191,51 +216,56 @@ text-align: center;
 							<c:forEach var="lessonVO" items="${list}" begin="<%=pageIndex%>"
 								end="<%=pageIndex+rowsPerPage-1%>">
 								<table border="1"
-									 class="table table-striped table-dark  align-items-center align-middle" style="table-layout:fixed;word- wrap:break-word; word-break;break-all;">
+									class="table table-striped table-dark  align-items-center align-middle"
+									style="table-layout: fixed; word- wrap: break-word;">
 									<tr>
-										<td rowspan="8" style="width: 400px;height:250px"  >
-										<img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}" class="rounded float-right img-thumbnail">
+										<td rowspan="8" style="width: 400px; height: 250px"><img
+											src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}"
+											class="rounded float-right img-thumbnail">
 											<table id="innertable" class="table-secondary">
-											<tr>
-												<td>
-											<FORM METHOD="post"
-												ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
-												style="margin-bottom: 0px;">
-												<button type="submit" class="btn btn-warning" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>修改課程</button>
-												<input type="hidden" name="lessno"
-													value="${lessonVO.lessno}"> <input type="hidden"
-													name="requestURL" value="<%=request.getServletPath()%>">
-												<input type="hidden" name="action" value="getOne_For_Update">
-											</FORM>												
-												</td>
-												<td>
-											<FORM METHOD="post"
-												ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do"
-												style="margin-bottom: 0px;">
-												<button type="submit" class="btn btn-info" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>修改時段</button>
-												<input type="hidden" name="lessno"
-													value="${lessonVO.lessno}"> <input type="hidden"
-													name="action" value="getOneTime_For_Update">
-											</FORM>												
-												</td>
-												<td>
-											<FORM METHOD="post"
-												ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
-												style="margin-bottom: 0px;">
-												<button type="submit" class="btn btn-secondary"
-													<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>下架課程</button>
-												<input type="hidden" name="lessno"
-													value="${lessonVO.lessno}"> <input type="hidden"
-													name="action" value="off_lesson">
-											</FORM>												
-												</td>
-												
-											</tr>
-											
-											</table>
+												<tr>
+													<td>
+														<FORM METHOD="post"
+															ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
+															style="margin-bottom: 0px;">
+															<button type="submit" class="btn btn-warning"
+																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>修改課程</button>
+															<input type="hidden" name="lessno"
+																value="${lessonVO.lessno}"> <input type="hidden"
+																name="requestURL" value="<%=request.getServletPath()%>">
+															<input type="hidden" name="action"
+																value="getOne_For_Update">
+														</FORM>
+													</td>
+													<td>
+														<FORM METHOD="post"
+															ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do"
+															style="margin-bottom: 0px;">
+															<button type="submit" class="btn btn-info"
+																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>修改時段</button>
+															<input type="hidden" name="lessno"
+																value="${lessonVO.lessno}"> <input type="hidden"
+																name="action" value="getOneTime_For_Update">
+														</FORM>
+													</td>
+													<td>
+														<FORM METHOD="post"
+															ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
+															style="margin-bottom: 0px;">
+															<button type="button" class="btn btn-secondary"
+																id="offlesson"
+																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>下架課程</button>
+															<input type="hidden" name="lessno"
+																value="${lessonVO.lessno}"> <input type="hidden"
+																name="action" value="off_lesson">
+														</FORM>
 
-										
-									<tr  >
+													</td>
+
+												</tr>
+
+											</table>
+									<tr>
 										<td style="width: 130px">課程編號</td>
 										<td style="width: 130px">${lessonVO.lessno}</td>
 										<td style="width: 130px">課程名稱</td>
@@ -278,19 +308,19 @@ text-align: center;
 										<td>${lessonVO.lessprice}</td>
 									</tr>
 
-										
-										<tr>
+
+									<tr>
 										<td>課程說明</td>
 										<td colspan="3">${lessonVO.lessdesc}</td>
-										</tr>
-									</table>
-									
+									</tr>
+								</table>
 
-								
+
+
 
 							</c:forEach>
 							<%@ include file="pages/page2.file"%>
-							
+
 
 						</div>
 					</div>
@@ -341,6 +371,29 @@ text-align: center;
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/js/custom-js/lesson/selectLesson.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script>
+		$(document).ready(function() {
+
+			$("#offlesson").on("click", function(e) {
+				// 													
+				swal({
+					title : '請再次確認',
+					text : '課程下架後 無法回復',
+					icon : 'warning',
+					buttons : true,
+					dangerMode : false,
+				}).then(function(isConfirm) {
+					if (isConfirm) {
+						$("#offlesson").parent().submit();
+
+					}
+				});
+
+			});
+
+		});
+	</script>
 </body>
 
 </html>

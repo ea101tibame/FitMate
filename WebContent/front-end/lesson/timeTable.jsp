@@ -1,16 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@page import="com.activity.model.ActivityService"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+ 	pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.lesson.model.*"%>
-<%--<%@ page import="com.Coach.model.*"%> 尚未有MODEL--%>
 <%@ page import="org.json.JSONArray"%>
 <%
+
+	String coano = (String)session.getAttribute("coano");
 	LessonService lessonSvc = new LessonService();
-	JSONArray jsa = lessonSvc.getCoachAllLesson("C001");
+	JSONArray jsa = lessonSvc.getCoachAllLesson(coano);
 	pageContext.setAttribute("jsonDates", jsa);
 	List<LessonVO> list = lessonSvc.getAllLesson();
     pageContext.setAttribute("list",list);
+    
+    ActivityService actSvc = new ActivityService();
+    JSONArray actjsa = actSvc.getAllToCoachTable(coano);
+    pageContext.setAttribute("actDates", actjsa);
+   	
 %>
 
 
@@ -20,11 +27,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/custom-css/lesson/timeTable.css">
-<title>timeTable</title>
+<!-- <title>timeTable</title> -->
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 <style>
     .orange p {
+    	font-size: 15px !important;
+    } 
+    .green p {
     	font-size: 15px !important;
     } 
     #nextM, #lastM {
@@ -34,6 +44,12 @@
     	color: blue;
     	font-weight: 700;
     }
+    .monyyyy {
+    width: 750px;
+    height: 30px;
+    overflow: auto;
+    position: relative;
+}
 </style>
 
 </head>
@@ -1073,6 +1089,8 @@
 
 			<div class="caldot none"></div>
 			<p>可預約</p>
+			<div class="caldot green"></div>
+			<p>揪團中</p>
 			<br>
 		</div>
 	</div>
@@ -1250,7 +1268,7 @@
 			console.log(monthFirstday);
 			var week = monthFirstday.getDay();//今天的星期
 			
-
+/*教練課程*/
 		var oobar =
 	<%=pageContext.getAttribute("jsonDates")%>
 		console.log("oobar=" + oobar);
@@ -1323,6 +1341,83 @@
 					}
 				}
 			}
+			
+			/*教練揪團*/
+			var aoobar =
+	<%=pageContext.getAttribute("actDates")%>
+		console.log("aoobar=" + aoobar);
+			var aoobj = JSON.stringify(aoobar);
+			console.log("aoobj=" + aoobj);
+			var aoobdates = JSON.parse(aoobj);
+			console.log(aoobdates);
+			var aoobjarr = parseInt(aoobdates[0].actdate);
+			console.log(aoobjarr);
+			
+			var aobjlength = aoobdates.length;//array length
+			console.log("aobjlength=" + aobjlength);
+<%--oobj={"coano":"C002","actloc":"大安森林公園",
+"actcur":"0","actsta":"未上架","actno":"A004",
+"actss":"上午","acttype":"EXP002","actprice":"250",
+"actdate":"2020-09-06","stuno":"S004","actname":"TABATA"
+--%>
+			
+			for (var i = 0; i < aobjlength; i++) {
+				var ayy = parseInt(aoobdates[i].actdate.substring(0, 4));
+				console.log("ayy=" + ayy);
+				var amm = parseInt(aoobdates[i].actdate.substring(5, 7));
+				console.log("amm=" + amm);
+				var add = parseInt(aoobdates[i].actdate.substring(8, 10));
+				console.log("add=" + add);
+				var att = aoobdates[i].actss;
+				console.log("att=" + att);
+				var actname = aoobdates[i].actname;
+				console.log(actname);
+				var actcur = aoobdates[i].actcur;
+				var actprice = aoobdates[i].actprice;
+				var actno = aoobdates[i].actno;
+				console.log(actno);
+				var coano = aoobdates[i].coano;
+				console.log(coano);
+				if (ayy === year && (amm - 1) === month) {
+
+					var dayinner = add + week - 1;// dayinner   (week+day-1);
+					console.log("dayinner=" + dayinner);
+					var iddotsul = "dotsul" + (dayinner);
+					console.log("iddotsul=" + iddotsul);
+					var idopenul = "openul" + (dayinner);
+					console.log("idopenul=" + idopenul);
+					var head = "<%=request.getContextPath()%>";
+					var first = "/ActivityTimetableServlet?actno="
+					var middle = "&coano=";
+					var end="&action=show_lesson_detail";
+					var link = head+first+actno+middle+coano+end;
+					console.log(link);
+				
+					switch (tt) {
+					case "早上":
+						$("#"+iddotsul).find("li").eq(0).attr("class","green");
+						$("#"+idopenul).find("li").eq(0).attr("class","green l4 a1");
+						$("#"+idopenul).find("li").eq(0).attr("title","查看揪團");
+						$("#"+idopenul).find("p").eq(0).html("<a href="+link+">"+actname+'<br/>'+"<br/><br/>"+"點數:"+actprice+"</a>");
+						break;
+						
+					case "下午":
+						$("#"+iddotsul).find("li").eq(1).attr("class","green");
+						$("#"+idopenul).find("li").eq(1).attr("class","green l4 a1");
+						$("#"+idopenul).find("li").eq(1).attr("title","查看揪團");
+						$("#"+idopenul).find("p").eq(1).html("<a href="+link+">"+actname+'<br/>'+"<br/><br/>"+"點數:"+actprice+"</a>");
+						break;
+						
+					case "晚上":
+						$("#"+iddotsul).find("li").eq(2).attr("class","green");
+						$("#"+idopenul).find("li").eq(2).attr("class","green l4 a1");
+						$("#"+idopenul).find("li").eq(2).attr("title","查看揪團");
+						$("#"+idopenul).find("p").eq(2).html("<a href="+link+">"+actname+'<br/>'+"<br/><br/>"+"點數:"+actprice+"</a>");
+						break;
+					}
+				}
+			}
+			
 		}
 
 		add();
@@ -1331,5 +1426,4 @@
 	</script>
 	
 </body>
-</html>
 </html>

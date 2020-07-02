@@ -10,16 +10,31 @@ public class RedemptionService {
 		reddao = new RedemptionDAO();
 	}
 	
-	public RedemptionVO addRed (String coano , Integer redprice , String redsta) {
+	public RedemptionVO addRed (String coano , Integer redprice) {
 		RedemptionVO redVO = new RedemptionVO();
 		redVO.setCoano(coano);
 		redVO.setRedprice(redprice);
-		redVO.setRedsta(redsta);
 		reddao.insertRed(redVO);
 		return redVO ;
 	}
 	
 	public List<RedemptionVO> showAllRed(String coano){
 		return reddao.selectAllRed(coano);
+	}
+	
+	public List<RedemptionVO> showAll(){
+		return reddao.selectAll();
+	}
+	
+	public void alterRed (String redno) {
+		reddao.updateSta(redno);
+	}
+	
+	public void alterCoaPoint (String coano , Integer newpoint) {
+		reddao.updatePoint(coano, newpoint);
+	}
+	
+	public RedemptionVO getCoaByRed (String redno) {
+		return reddao.getCoaByRedno(redno); //含有時間&coano的VO
 	}
 }

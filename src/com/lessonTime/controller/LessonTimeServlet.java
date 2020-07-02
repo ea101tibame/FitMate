@@ -105,6 +105,7 @@ public class LessonTimeServlet extends HttpServlet {
 
 				String url = "/front-end/lesson/selectLesson.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				req.setAttribute("insert","新增課程成功");
 				successView.forward(req, res);
 				
 				
@@ -201,6 +202,7 @@ public class LessonTimeServlet extends HttpServlet {
 				req.setAttribute("lessonVO", lessonVO);
 				String url = "/front-end/lesson/selectLesson.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				req.setAttribute("updateTime","時段修改成功");
 				successView.forward(req, res);
 				
 				

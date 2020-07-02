@@ -27,6 +27,7 @@ public class EmployeeServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("text/html; charset=UTF-8");
 		String action = req.getParameter("action");
+		
 		// 找一個員工
 		if ("getOne_Display".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
@@ -70,8 +71,6 @@ public class EmployeeServlet extends HttpServlet {
 					errorMsgs.add("帳號格式錯誤,請輸入長度10以內的英數字");
 				}
 
-				String epsw = req.getParameter("epsw");
-
 				// 日期處理
 				java.sql.Date edate = null;
 				try {
@@ -99,6 +98,7 @@ public class EmployeeServlet extends HttpServlet {
 				EmployeeVO empVO = new EmployeeVO();
 				empVO.setEname(ename);
 				empVO.setEacc(eacc);
+				String epsw = getRandomString();
 				empVO.setEpsw(epsw);
 				empVO.setEmail(email);
 				empVO.setEdate(edate);
@@ -113,7 +113,14 @@ public class EmployeeServlet extends HttpServlet {
 				}
 
 				EmployeeService empSvc = new EmployeeService();
-				empVO = empSvc.addEmp(ename, eacc, email, edate, epic, esta);
+				empVO = empSvc.addEmp(ename, eacc, epsw , email , edate, epic, esta);
+				
+				//準備信件內容
+				String subject = "密碼通知信件";
+				String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
+				//送信
+				MailService mSvc = new MailService();
+				mSvc.sendMail(email, subject, messageText);
 
 				req.setAttribute("empVO", empVO);
 				String url = "/back-end/employee/showAllEmployee.jsp";
@@ -289,6 +296,7 @@ public class EmployeeServlet extends HttpServlet {
 
 				EmployeeService empSvc = new EmployeeService();
 				EmployeeVO empVO = empSvc.forgetPsw(eacc, email);
+				forgetPsw(empVO);
 
 				req.setAttribute("empVO", empVO);
 				String url = "/back-end/backend_index.jsp";
@@ -346,9 +354,30 @@ public class EmployeeServlet extends HttpServlet {
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		}
-	}	
+	}
 	
+	//生成隨機密碼
+	public String getRandomString() {
+		String str="abcdefghigklmnopkrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789";
+		Random random=new Random();
+		StringBuffer sf=new StringBuffer();
+		for(int i = 0 ; i <10 ; i++) {
+			int number=random.nextInt(62);
+			sf.append(str.charAt(number));
+		}
+		return sf.toString();
+	}
 	
+	public void forgetPsw (EmployeeVO empVO) {
+		String ename = empVO.getEname();
+		String to = empVO.getEmail();			
+		String epsw = empVO.getEpsw();
+		String subject = "忘記密碼通知信件";
+		String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
+		
+		MailService mSvc = new MailService();
+		mSvc.sendMail(to, subject, messageText);
+	}
 }
 
 

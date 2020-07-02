@@ -66,11 +66,17 @@ public class InformationServlet extends HttpServlet {
 				if (indesc == null || indesc.trim().length() == 0) {
 					errorMsgs.add("內容不可空白");
 				}
-
+				
+				String intype = req.getParameter("intype");
+				if (intype == null || intype.trim().length() == 0) {
+					errorMsgs.add("請選擇一個消息類別");
+				}
 				InformationVO infVO = new InformationVO();
+				
 				infVO.setIndate(indate);
 				infVO.setIntitle(intitle);
 				infVO.setIndesc(indesc);
+				infVO.setIntype(intype);
 
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("infVO", infVO);
@@ -80,7 +86,7 @@ public class InformationServlet extends HttpServlet {
 				}
 				// 用service呼叫dao包裝VO送給jsp
 				InformationService infSvc = new InformationService();
-				infVO = infSvc.addInf(indate, intitle, indesc);
+				infVO = infSvc.addInf(indate, intype ,intitle, indesc);
 
 				String url = "/back-end/information/showAllInformation.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -119,7 +125,7 @@ public class InformationServlet extends HttpServlet {
 
 			try {
 				String inno = req.getParameter("inno");
-
+			
 				java.sql.Date indate = null;
 				try {
 					indate = java.sql.Date.valueOf(req.getParameter("indate"));
@@ -127,19 +133,25 @@ public class InformationServlet extends HttpServlet {
 					indate = new java.sql.Date(System.currentTimeMillis());
 					errorMsgs.add("請輸入消息發布日期");
 				}
-
+				
 				String intitle = req.getParameter("intitle");
 				if (intitle == null || intitle.trim().length() == 0) {
 					errorMsgs.add("標題不可空白");
 				} 
-
+				
 				String indesc = req.getParameter("indesc");				
 				if (indesc == null || indesc.trim().length() == 0) {
 					errorMsgs.add("內容不可空白");
 				}
-
+				
+				String intype = req.getParameter("intype");
+				if (intype == null || intype.trim().length() == 0) {
+					errorMsgs.add("請選擇一個消息類別");
+				}
+				
 				InformationVO infVO = new InformationVO();
 				infVO.setInno(inno);
+				infVO.setIntype(intype);
 				infVO.setIndate(indate);
 				infVO.setIntitle(intitle);
 				infVO.setIndesc(indesc);
@@ -152,9 +164,10 @@ public class InformationServlet extends HttpServlet {
 				}
 
 				InformationService infSvc = new InformationService();
-				infVO = infSvc.alterInf(indate, intitle, indesc);
-
-				String url = "/back-end/information/showAllInformation.jsp";
+				infVO = infSvc.alterInf(indate, intype , intitle, indesc , inno);
+				
+				req.setAttribute("infVO", infVO);
+				String url = "/back-end/information/showOneInformation.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 

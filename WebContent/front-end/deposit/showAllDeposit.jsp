@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.deposit.model.*"%>
-<%@ page import="com.student.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 
 <%
-	List<DepositVO> deplist = (List<DepositVO>) request.getAttribute("deplist");
+	String stuno = (String)request.getAttribute("stuno");
+	DepositService depSvc = new DepositService();
+	List<DepositVO> deplist = depSvc.showAllDep(stuno);
+	pageContext.setAttribute("deplist", deplist);
 %>
 
 <html>
