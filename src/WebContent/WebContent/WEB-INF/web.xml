@@ -38,6 +38,15 @@
   </servlet-mapping>
   
   <servlet>
+  <servlet-name>ActivityOrderServlet_ajax</servlet-name>
+  <servlet-class>com.activity_order.controller.ActivityOrderServlet_ajax</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>ActivityOrderServlet_ajax</servlet-name>
+   <url-pattern>/front-end/activity_order/activity_order_sc.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
   <servlet-name>ActivityFavServlet</servlet-name>
   <servlet-class>com.activity_fav.controller.ActivityFavServlet</servlet-class>
   </servlet>

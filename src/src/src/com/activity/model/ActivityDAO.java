@@ -36,10 +36,11 @@ public class ActivityDAO implements ActivityDAO_interface {
 	
 	private static final String GET_STUDENT_PSTMT = "SELECT * FROM ACTIVITY WHERE ACTNO=?";
 	private static final String UPADTE_ACTIVITY_ACTCUR = "UPDATE ACTIVITY SET ACTCUR = ? , ACTSTA=? WHERE ACTNO = ?";
+	private static final String CHECKTIME="SELECT ACTDATE,ACTSS FROM ACTIVITY WHERE COANO=?";
 	/*Table activity order*/
 	private static final String INSERT_ORDER_PSTMT = "INSERT INTO　ACTIVITY_ORDER (aord_no,actno,stuno,aord_sc,aord_time)"
 			+ "VALUES (to_char(sysdate,'yyyymmdd')||'-AO'||LPAD(to_char(ACTIVITY_ORDER_seq.NEXTVAL), 3, '0'), ?, ?,?,CURRENT_TIMESTAMP)";
-
+	private static final String GET_ACTTYPE_STMT="SELECT * FROM　ACTIVITY WHERE ACTTYPE=?";
 	
 	/* 基本--------------------------------------- */
 	
@@ -782,5 +783,132 @@ public class ActivityDAO implements ActivityDAO_interface {
 		return baos.toByteArray();
 	}
 
+	@Override
+	public JSONArray checkTime(String coano) {
+		JSONArray allTimes = new JSONArray();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(CHECKTIME);
+
+			pstmt.setString(1, coano);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				JSONObject oneAct = new JSONObject();
+
+				for (int i = 1; i <= 2; i++) {
+					try {
+						java.sql.Date sqlDate = rs.getDate("actdate");
+						String actdate = sqlDate.toString();
+						oneAct.put("actdate", actdate);
+						oneAct.put("actss", rs.getString("actss"));
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				allTimes.put(oneAct);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+		return allTimes;
+	}
 	
+	
+//從活動類型找到活動
+	@Override
+	public List<ActivityVO> findByActType(String acttype) {
+		List<ActivityVO> list = new ArrayList<ActivityVO>();
+		ActivityVO activityVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ACTTYPE_STMT);
+			pstmt.setString(1, acttype);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				activityVO = new ActivityVO();
+				activityVO.setActno(rs.getString("actno"));
+				activityVO.setActname(rs.getString("actname"));
+				activityVO.setActloc(rs.getString("actloc"));
+				activityVO.setActdate(rs.getDate("actdate"));
+				activityVO.setActss(rs.getString("actss"));
+				activityVO.setActstart(rs.getDate("actstart"));
+				activityVO.setActend(rs.getDate("actend"));
+				activityVO.setActtype(rs.getString("acttype"));
+				activityVO.setActprice(rs.getInt("actprice"));
+				activityVO.setActmin(rs.getInt("actmin"));
+				activityVO.setActmax(rs.getInt("actmax"));
+				activityVO.setActcur(rs.getInt("actcur"));
+				activityVO.setActdesc(rs.getString("actdesc"));
+				activityVO.setActsta(rs.getString("actsta"));
+				activityVO.setActpic(rs.getBytes("actpic"));
+				activityVO.setStuno(rs.getString("stuno"));
+				activityVO.setCoano(rs.getString("coano"));
+				list.add(activityVO);
+			}
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
 }

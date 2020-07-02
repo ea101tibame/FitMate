@@ -1,28 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.activity.model.*"%>
-<%@ page import="com.expertise.model.*"%>
-<%
-	ActivityService activitySvc = new ActivityService();
-	List<ActivityVO> list = activitySvc.getAllForHost("S005");
-	pageContext.setAttribute("list", list);
-%>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
 <meta charset="UTF-8">
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
+
 <!-- Title  -->
-<title>查詢主揪發起全部活動 - listAllActivityForHost.jsp</title>
+<title>FitMate活動詳情 - listAllActivityForGuest.jsp</title>
 <!-- Favicon  -->
 <link rel="icon" href="img/core-img/favicon.ico">
 
@@ -60,6 +54,7 @@
 </style>
 
 </head>
+
 <body>
 	<!-- ##### Header Area Start ##### -->
 	<header class="header_area">
@@ -259,156 +254,73 @@
 	<!-- ##### Header Area End ##### -->
 
 	<!-- ##### Blog Wrapper Area Start ##### -->
+
 	<div class="single-blog-wrapper">
 
 		<!-- Single Blog Post Thumb -->
 		<div class="single-blog-post-thumb">
 			<img src="${pageContext.request.contextPath}/images/bg-img/actDetail1920.png" alt="">
 		</div>
-		<%-- 錯誤訊息表列 --%>
-		<c:if test="${not empty errorMsgs}">
-			<font style="color: red">請修正以下錯誤:</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color: red">${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
+		<jsp:useBean id="actSvc" scope="page" class="com.activity.model.ActivityService" />
+		<jsp:useBean id="expSvc" scope="page" class="com.expertise.model.ExpService" />
 
+		<div class="row justify-content-center" style="margin-top: 10px">
+			<c:forEach var="expVO" items="${expSvc.all}">
+				<input type="submit" value="${expVO.expdesc}" class="btn btn-primary">&nbsp;&nbsp;
+</c:forEach>
+		</div>
 		<div class="container col-12">
 			<div class="row justify-content-center">
-				<div class="col-12 col-md-12">
-					<div class="regular-page-content-wrapper section-padding-80">
-						<div class="regular-page-text">
-							<h2>查詢主揪發起全部活動</h2>
-							<%@ include file="page1.file"%>
-							<c:forEach var="activityVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-								<table border="1" class="table table-dark table align-items-center">
-									<tr>
-										<td rowspan="8" style="width: 480px; max-height: 100%">
-											<img src="<%=request.getContextPath()%>/activity/activitypic.do?actno=${activityVO.actno}" alt="活動圖片" class="rounded float-right img-thumbnail img-fluid">
-										</td>
-										<td style="width: 130px">活動編號</td>
-										<td style="width: 130px">${activityVO.actno}</td>
-										<td style="width: 130px">活動名稱</td>
-										<td style="width: 200px">${activityVO.actname}</td>
-									</tr>
-									<tr>
-										<td>活動類型</td>
-										<jsp:useBean id="actSvc" scope="page" class="com.activity.model.ActivityService" />
-										<jsp:useBean id="expSvc" scope="page" class="com.expertise.model.ExpService" />
-										<td>
-											<c:forEach var="expVO" items="${expSvc.all}">
-												<c:if test="${activityVO.acttype==expVO.expno}">${expVO.expdesc}</c:if>
-											</c:forEach>
-										</td>
-										<td>活動狀態</td>
-										<td>${activityVO.actsta}</td>
-									</tr>
-									<tr>
-										<td>活動日期</td>
-										<td>
-											<fmt:formatDate value="${activityVO.actdate}" pattern="yyyy-MM-dd" />
-										</td>
-										<td>活動時段</td>
-										<td>${activityVO.actss}</td>
-									</tr>
-									<tr>
-										<td>開始報名日期</td>
-										<td>
-											<fmt:formatDate value="${activityVO.actstart}" pattern="yyyy-MM-dd" />
-										</td>
 
-										<td>截止報名日期</td>
-										<td>
-											<fmt:formatDate value="${activityVO.actend}" pattern="yyyy-MM-dd" />
-										</td>
-									</tr>
-									<tr>
-										<td>最小成團人數</td>
-										<td>${activityVO.actmin}</td>
-										<td>最大上限人數</td>
-										<td>${activityVO.actmax}</td>
-									</tr>
-									<tr>
-										<td>目前報名人數</td>
-										<td>${activityVO.actcur}</td>
-										<td>活動點數</td>
-										<td>${activityVO.actprice}</td>
-									</tr>
-									<tr>
-										<td>學員編號</td>
-										<td>${activityVO.stuno}</td>
-										<td>教練編號</td>
-										<td>${activityVO.coano}</td>
-									</tr>
+				<%-- 錯誤訊息表列 --%>
+				<c:if test="${not empty errorMsgs}">
+					<font style="color: red">請修正以下錯誤:</font>
+					<ul>
+						<c:forEach var="message" items="${errorMsgs}">
+							<li style="color: red">${message}</li>
+						</c:forEach>
+					</ul>
+				</c:if>
 
-									<tr>
-										<td>活動地點</td>
-										<td colspan="3">${activityVO.actloc}</td>
-									</tr>
-									<tr>
-										<td>
-											<div class="row justify-content-center align-self-center">
-												<div class="col-2">
-													<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/activity/activity.do" style="margin-bottom: 0px;">
-														<button type="submit" class="btn btn-warning" <c:if test="${activityVO.actsta=='下架'}">value="Disabled" disabled</c:if>>下架</button>
-														<input type="hidden" name="actno" value="${activityVO.actno}">
-														<input type="hidden" name="action" value="offactivity">
-													</FORM>
-													<!-- 											<input type="submit" class="btn btn-warning" value="下架"> -->
+				<c:forEach var="activityVO" items="${activityVO}">
+					<div class="card-deck col-md-4">
 
-												</div>
-												<div class="col-2">
-													<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/activity/activity.do" style="margin-bottom: 0px;">
-														<input type="submit" class="btn btn-primary" value="修改">
-														<input type="hidden" name="actno" value="${activityVO.actno}">
-														<input type="hidden" name="action" value="getOne_For_Update">
-													</FORM>
-												</div>
-												<div class="col-2">
-													<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/activity/activity.do" style="margin-bottom: 0px;">
-														<input type="hidden" value="${activityVO.actno}" name="actno">
-														<%-- 												<% System.out.println("activityVO.actno"+activityVO.getActno()); %> --%>
-														<input type="hidden" value="S003" name="stuno">
-														<input type="hidden" name="action" value="listing">
-														<input type="submit" class="btn btn-danger" value="上架">
-														<%-- 												<div>${activityVO.actno}</div> --%>
-													</FORM>
-												</div>
-											</div>
-										</td>
-										<td>活動描述</td>
-										<td colspan="3">${activityVO.actdesc}</td>
-									</tr>
-								</table>
+						<div class="card">
 
+							<%--     <img src="<%=request.getContextPath()%>/activity/activitypic.do?actno=${activityVO.actno}" alt="" class="card-img-top" alt=""> --%>
+							<div class="card-img-top img-region" style="background:url('<%=request.getContextPath()%>/activity/activitypic.do?actno=${activityVO.actno}');background-size:cover;background-position: center;"></div>
 
-							</c:forEach>
+							<div class="card-body">
+								<h5 class="card-title">${activityVO.actname}</h5>
+								<p class="card-text">${activityVO.actdesc}</p>
+								<p class="card-text">
+									活動點數:${activityVO.actprice}
+									<small class="text-muted"></small>
+								</p>
+
+								<!--       <a href="#" class="btn btn-primary">GO買課程</a> -->
+
+								<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/activity/activity.do" style="margin-bottom: 0px;">
+									<input type="submit" value="更多詳情..." class="gosubmit" class="btn btn-outline-warning">
+									<input type="hidden" name="actno" value="${activityVO.actno}">
+									<input type="hidden" name="action" value="getOne_For_Guest">
+								</FORM>
+
+							</div>
+
 						</div>
+
 					</div>
-				</div>
+				</c:forEach>
+
+
+
 			</div>
 		</div>
 	</div>
-<c:if test="${not empty insert}">
-		<script>
-			swal("新增成功", "", "success");
-		</script>
-</c:if>
-<c:if test="${not empty update}">
-		<script>
-			swal("修改成功", "", "success");
-		</script>
-</c:if>
+	<!-- ##### Blog Wrapper Area End ##### -->
 
-<c:if test="${not empty listing}">
-		<script>
-			swal("上架成功", "", "success");
-		</script>
-</c:if>
-
-<!-- ##### Footer Area Start ##### -->
+	<!-- ##### Footer Area Start ##### -->
 	<footer class="footer_area clearfix">
 		<div class="container">
 
@@ -421,8 +333,9 @@
 						<script>
 							document.write(new Date().getFullYear());
 						</script>
-						by EA101G5 <i class="fa fa-heart-o" aria-hidden="true"></i> by
-						FitMate</a>
+						by EA101G5
+						<i class="fa fa-heart-o" aria-hidden="true"></i>
+						by FitMate
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 					</p>
 				</div>
@@ -435,8 +348,7 @@
 	<!-- jQuery (Necessary for All JavaScript Plugins) -->
 	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
 	<!-- Popper js -->
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
 	<!-- Bootstrap js -->
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<!-- Plugins js -->

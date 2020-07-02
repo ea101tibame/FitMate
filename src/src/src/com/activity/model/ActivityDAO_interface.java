@@ -33,6 +33,10 @@ public interface ActivityDAO_interface {
 	public void update_sta_byhost(String stuno,String actno);
 	/*活動狀態更新 成團人數不足系統自動更新活動狀態-->下架*/
 	public void update_sta_auto(String actno);
+	/*確認教練的活動日期時段*/
+	public JSONArray checkTime(String coano);
+	/*從活動類型查詢活動*/
+	public List<ActivityVO> findByActType(String acttype);
 	
 	
     

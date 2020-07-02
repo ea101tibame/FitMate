@@ -7,6 +7,8 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 
 import com.activity.model.*;
+import com.expertise.model.*;
+
 
 @MultipartConfig
 public class ActivityServlet extends HttpServlet {
@@ -487,7 +489,31 @@ public class ActivityServlet extends HttpServlet {
 				errorMsgs.add("更新狀態失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity/activity_selectallforhost.jsp");
 				failureView.forward(req, res);
+			}		
 			}
-		}
+			
+		if("getOneType".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				String acttype=req.getParameter("acttype");
+				System.out.println(acttype);
+			
+				ActivityService activitySvc = new ActivityService();
+				List<ActivityVO> activityVO =  activitySvc.findByActType(acttype);
+				String url = "/front-end/activity/activity_class.jsp";
+				req.setAttribute("activityVO", activityVO);
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+			} catch (Exception e) {
+				errorMsgs.add("狀態失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/front-end/activity/activity_selectallforhost.jsp");
+				failureView.forward(req, res);
+			}		
+			}
+			
+			
+
 	}
 }

@@ -15,12 +15,13 @@ public class Activity_orderService {
 		Activity_orderVO activity_orderVO = new Activity_orderVO();
 		activity_orderVO.setActno(actno);
 		activity_orderVO.setStuno(stuno);
+//		activity_orderVO.setAord_sc(aord_sc);
 		dao.insert(activity_orderVO);
 		return activity_orderVO;
 	}
 	
 	//修改
-	public Activity_orderVO updateActivityOrder(String aord_no,String actno,String stuno,Double aord_sc) {
+	public Activity_orderVO updateActivityOrder(String aord_no,String actno,String stuno,Integer aord_sc) {
 		Activity_orderVO activity_orderVO = new Activity_orderVO();
 		activity_orderVO.setAord_no(aord_no);
 		activity_orderVO.setActno(actno);
@@ -52,4 +53,11 @@ public class Activity_orderService {
 	public List<Activity_orderVO> findActivityBystuno(String stuno){
 		return dao.findActivityBystuno(stuno);
 	}
+	//更改活動教練評價(Ajax)
+	public Activity_orderVO update_activity_order_aord_sc(String aord_no, Integer aord_sc) {
+		return dao.update_activity_order_aord_sc(aord_no, aord_sc); 
+	}
+	
+		
+	
 }

@@ -107,15 +107,15 @@ public class ActivityOrderServlet extends HttpServlet {
 				if (stuno == null || stuno.trim().length() == 0) {
 					errorMsgs.add("請輸入學員編號");
 				}
-				Double aord_sc = null;
+				Integer aord_sc = null;
 				try {
-					aord_sc = new Double(req.getParameter("aord_sc").trim());
+					aord_sc = new Integer(req.getParameter("aord_sc").trim());
 					System.out.println(aord_sc);
 				} catch (NumberFormatException e) {
-					errorMsgs.add("教練評價數請給含小數點並且小於10.0的評價");
+					errorMsgs.add("教練評價數請給含小數點並且小於5的評價");
 				}
 				if (aord_sc > 10.0) {
-					errorMsgs.add("教練評價數請給含小數點並且小於10.0的評價");
+					errorMsgs.add("教練評價數請給含小數點並且小於5的評價");
 				}
 				
 				Activity_orderVO activity_orderVO = new Activity_orderVO();

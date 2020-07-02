@@ -13,7 +13,7 @@ public class Activity_orderJDBCDAO {
 		Activity_orderVO act_orVO1 = new Activity_orderVO();
 		act_orVO1.setActno("A002");
 		act_orVO1.setStuno("S005");
-		act_orVO1.setAord_sc(4.8);
+		act_orVO1.setAord_sc(4);
 		act_orVO1.setAord_time(new Timestamp(System.currentTimeMillis()));
 		dao.insert(act_orVO1);
 		System.out.println("新增成功");

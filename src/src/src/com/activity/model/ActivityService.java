@@ -58,7 +58,6 @@ public class ActivityService {
 		activityVO.setActprice(actprice);
 		activityVO.setActmin(actmin);
 		activityVO.setActmax(actmax);
-//		activityVO.setActcur(actcur);
 		activityVO.setActdesc(actdesc);
 		activityVO.setActsta(actsta);
 		activityVO.setActpic(actpic);
@@ -113,5 +112,8 @@ public class ActivityService {
 	public void update_sta_auto(String actno) {
 		dao.update_sta_auto(actno);
 	};
-	
+	//訪客以類型找活動
+	public List<ActivityVO> findByActType(String acttype){
+		return dao.findByActType(acttype);
+	}
 }

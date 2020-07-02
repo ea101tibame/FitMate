@@ -6,7 +6,7 @@ public class Activity_orderVO {
 	private String aord_no;
 	private String actno;
 	private String stuno;
-	private Double aord_sc;
+	private Integer aord_sc;
 	private Timestamp aord_time;
 	public String getAord_no() {
 		return aord_no;
@@ -26,10 +26,10 @@ public class Activity_orderVO {
 	public void setStuno(String stuno) {
 		this.stuno = stuno;
 	}
-	public Double getAord_sc() {
+	public Integer getAord_sc() {
 		return aord_sc;
 	}
-	public void setAord_sc(Double aord_sc) {
+	public void setAord_sc(Integer aord_sc) {
 		this.aord_sc = aord_sc;
 	}
 	public Timestamp getAord_time() {

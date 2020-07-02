@@ -22,7 +22,8 @@ public class Activity_orderDAO implements Acitivity_orderDAO_interface {
 	/*Table activity*/
 	private static final String GET_STUDENT_PSTMT = "SELECT * FROM ACTIVITY WHERE ACTNO=?";
 	private static final String UPADTE_ACTIVITY_ACTCUR = "UPDATE ACTIVITY SET ACTCUR = ? , ACTSTA=? WHERE ACTNO = ?";
-
+	
+	private static final String UPDATE_AORD_SC = "UPDATE ACTIVITY_ORDER SET AORD_SC = ? WHERE AORD_NO = ?";
 	// 新增(自增主鍵值綁定)
 	@SuppressWarnings("resource")
 	@Override
@@ -41,6 +42,7 @@ public class Activity_orderDAO implements Acitivity_orderDAO_interface {
 			pstmt = con.prepareStatement(INSERT_ORDER_PSTMT, cols);
 			pstmt.setString(1, activity_orderVO.getActno());
 			pstmt.setString(2, activity_orderVO.getStuno());
+//			pstmt.setInt(3, activity_orderVO.getAord_sc());
 
 			pstmt.executeUpdate();
 
@@ -57,6 +59,7 @@ public class Activity_orderDAO implements Acitivity_orderDAO_interface {
 			
 			System.out.println(activity_orderVO.getAord_no());
 			System.out.println(activity_orderVO.getActno());
+			System.out.println(activity_orderVO.getAord_sc());
 			
 
 			pstmt = con.prepareStatement(GET_STUDENT_PSTMT);
@@ -227,7 +230,7 @@ public class Activity_orderDAO implements Acitivity_orderDAO_interface {
 				activity_orderVO.setAord_no(rs.getString("aord_no"));
 				activity_orderVO.setActno(rs.getString("actno"));
 				activity_orderVO.setStuno(rs.getString("stuno"));
-				activity_orderVO.setAord_sc(rs.getDouble("aord_sc"));
+				activity_orderVO.setAord_sc(rs.getInt("aord_sc"));
 				activity_orderVO.setAord_time(rs.getTimestamp("aord_time"));
 			}
 
@@ -284,7 +287,7 @@ public class Activity_orderDAO implements Acitivity_orderDAO_interface {
 				activity_orderVO.setAord_no(rs.getString("aord_no"));
 				activity_orderVO.setActno(rs.getString("actno"));
 				activity_orderVO.setStuno(rs.getString("stuno"));
-				activity_orderVO.setAord_sc(rs.getDouble("aord_sc"));
+				activity_orderVO.setAord_sc(rs.getInt("aord_sc"));
 				activity_orderVO.setAord_time(rs.getTimestamp("aord_time"));
 				list.add(activity_orderVO);
 			}
@@ -340,7 +343,7 @@ public class Activity_orderDAO implements Acitivity_orderDAO_interface {
 				activity_orderVO.setAord_no(rs.getString("aord_no"));
 				activity_orderVO.setActno(rs.getString("actno"));
 				activity_orderVO.setStuno(rs.getString("stuno"));
-				activity_orderVO.setAord_sc(rs.getDouble("aord_sc"));
+				activity_orderVO.setAord_sc(rs.getInt("aord_sc"));
 				activity_orderVO.setAord_time(rs.getTimestamp("aord_time"));
 				list.add(activity_orderVO);
 			}
@@ -389,7 +392,7 @@ public class Activity_orderDAO implements Acitivity_orderDAO_interface {
 				activity_orderVO.setAord_no(rs.getString("aord_no"));
 				activity_orderVO.setActno(rs.getString("actno"));
 				activity_orderVO.setStuno(rs.getString("stuno"));
-				activity_orderVO.setAord_sc(rs.getDouble("aord_sc"));
+				activity_orderVO.setAord_sc(rs.getInt("aord_sc"));
 				activity_orderVO.setAord_time(rs.getTimestamp("aord_time"));
 				list.add(activity_orderVO);
 			}
@@ -415,6 +418,51 @@ public class Activity_orderDAO implements Acitivity_orderDAO_interface {
 			}
 		}
 		return list;
+	}
+	@Override
+	public Activity_orderVO update_activity_order_aord_sc(String aord_no, Integer aord_sc) {
+		Activity_orderVO activity_orderVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(UPDATE_AORD_SC);
+			pstmt.setInt(1, aord_sc);
+			pstmt.setString(2, aord_no);
+			pstmt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return activity_orderVO;
+
 	}
 
 }

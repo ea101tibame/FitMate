@@ -147,7 +147,28 @@ public class ActivityJDBCDAO {
 //		dao.update_sta_auto("A009");
 //		System.out.println("下架成功");
 	
-	
+//		查詢從活動編號查活動
+		List<ActivityVO> list1 = dao.findByActType("EXP004");
+		for (ActivityVO actVO4 : list1) {
+			System.out.print(actVO4.getActno() + ",");
+			System.out.print(actVO4.getActname() + ",");
+			System.out.print(actVO4.getActloc() + ",");
+			System.out.print(actVO4.getActdate() + ",");
+			System.out.print(actVO4.getActss() + ",");
+			System.out.print(actVO4.getActstart() + ",");
+			System.out.print(actVO4.getActend() + ",");
+			System.out.print(actVO4.getActtype() + ",");
+			System.out.print(actVO4.getActprice() + ",");
+			System.out.print(actVO4.getActmin() + ",");
+			System.out.print(actVO4.getActmax() + ",");
+			System.out.print(actVO4.getActcur() + ",");
+			System.out.print(actVO4.getActdesc() + ",");
+			System.out.print(actVO4.getActsta() + ",");
+			System.out.println(actVO4.getActpic() + ",");
+			System.out.print(actVO4.getStuno() + ",");
+			System.out.println(actVO4.getCoano() + ",");
+			System.out.println("查詢多筆成功");
+		}
 
 		
 	}
