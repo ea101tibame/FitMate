@@ -5,7 +5,8 @@
 <%@ page import="com.expertise_own.model.*"%>
 
 <!DOCTYPE html>
-<!-- TODO 新增成功後出現sweetalert -->
+<!-- TODO 新增成功後 sweetalert 出不來 -->
+<!-- TODO 資料輸入錯誤後跳回原頁面圖片不會保留(大頭照和證照) -->
 
 
 <head>
@@ -18,7 +19,7 @@
 
 <title>註冊成為教練 - addCoach.jsp</title>
 
-<!-- Favicon  -->
+<!-- FIT.ico  -->
 <link rel="icon" href="<%=request.getContextPath()%>/images/core-img/FIT.ico">
 
 <!-- Core Style CSS -->
@@ -26,7 +27,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/custom-css/coach/coach_form.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-
 
 
 
@@ -215,7 +215,6 @@
 
 </body>
 <script src="<%=request.getContextPath()%>/js/custom-js/coach/addCoach.js"></script>
-
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script> -->
 <script>
 	
@@ -258,6 +257,9 @@
 	$("#coaname").keyup(function() {
 		$("#title").html($(this).val());
 	});
+	
+	
 </script>
+
 
 </html>

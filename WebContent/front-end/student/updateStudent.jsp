@@ -5,7 +5,7 @@
 
 <!DOCTYPE html>
 <%
-	String stuno = (String)session.getAttribute("stuno");
+	String stuno = (String) session.getAttribute("stuno");
 
 	System.out.println("updateStudent page stuno: " + stuno);
 
@@ -25,7 +25,7 @@
 
 <title>學員資料修改 - updateStudent.jsp</title>
 
-<!-- Favicon  -->
+<!-- FIT.ico  -->
 <link rel="icon" href="<%=request.getContextPath()%>/images/core-img/FIT.ico">
 
 <!-- Core Style CSS -->
@@ -38,6 +38,11 @@
 
 
 <body>
+<c:if test="${not empty updateSuccessMsg}">
+<script>
+swal("${updateSuccessMsg}","","success");
+</script>
+</c:if>
 	<%@ include file="/front-end/header.jsp"%>
 
 	<div class="single-blog-wrapper" style="background-color: black;">
@@ -45,6 +50,7 @@
 			<img src="<%=request.getContextPath()%>/images//bg-img/STU1920.png" alt="">
 		</div>
 		<FORM class="form" METHOD="post" ACTION="<%=request.getContextPath()%>/student/student.do" name="form1" enctype="multipart/form-data">
+			<input type="hidden" name="stuno" value="${stuVO.stuno}">
 			<div class="container">
 				<div class="regular-page-content-wrapper section-padding-80">
 					<span class="oi oi-pencil" style="background-color: white;"></span>
@@ -151,27 +157,11 @@
 																			<div class="col">
 																				<div class="form-group">
 																					<label>生日</label>
-																					<input class="form-control" type="text" name="${stuVO.stubir}" id="f_date1" placeholder="請輸入生日">
+																					<input class="form-control" type="text" name=stubir value="${stuVO.stubir}" id="f_date1" placeholder="請輸入生日">
 																				</div>
 																			</div>
 																		</div>
 																		<div class="row">
-																			<div class="col">
-																				<div class="form-group">
-																					<label></label>
-																					<!-- <input class="form-control" type="password" placeholder="••••••"> -->
-																				</div>
-																			</div>
-																		</div>
-																		<div class="row">
-																			<div class="col">
-																				<div class="form-group">
-																					<label>
-																						<span class="d-none d-xl-inline"></span>
-																					</label>
-																					<!-- <input class="form-control" type="password" placeholder="••••••"> -->
-																				</div>
-																			</div>
 																		</div>
 																	</div>
 																	<div class="col-12 col-sm-5 offset-sm-1 mb-3">
@@ -180,7 +170,6 @@
 																		</div>
 																		<div class="row">
 																			<div class="col">
-																				<label></label>
 																				<div class="custom-controls-stacked px-2">
 																					<div class="custom-control custom-checkbox">
 																						<input type="radio" name="stusex" size="45" value="男" <%if (stuVO.getStusex().equals("男")) {%> checked <%}%> />
@@ -191,10 +180,37 @@
 																						<label>女</label>
 																					</div>
 																				</div>
+																			 </div>
+																		</div>
+																	</div>
+																</div>	
+																	<div class="row">
+																		<div class="col"><br>
+																			<label>
+																				<H6>更改密碼</H6>
+																			</label>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col">
+																			<div class="form-group">
+																				<input class="form-control" type="password" name="stupswOld" size="45" placeholder="請輸入舊密碼" />
+																				<p style="font-color: red;">${errorMsgs.coapsw}</p>
+																			</div>
+																		</div>
+																		<div class="col">
+																			<div class="form-group">
+																				<input class="form-control" type="password" name="stupswNew" size="45" placeholder="請輸入新密碼" />
+																				<p style="font-color: red;">${errorMsgs.coapsw}</p>
+																			</div>
+																		</div>
+																		<div class="col">
+																			<div class="form-group">
+																				<input class="form-control" type="password" name="stupswConfirm" size="45" placeholder="請再次輸入新密碼" />
+																				<p style="font-color: red;">${errorMsgs.coapsw}</p>
 																			</div>
 																		</div>
 																	</div>
-																</div>
 																<div class="row">
 																	<div class="col d-flex justify-content-end">
 																		<input type="hidden" name="action" value="update">

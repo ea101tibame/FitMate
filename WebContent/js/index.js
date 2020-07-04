@@ -10,7 +10,7 @@ $(document).ready(function() {
 			url : context + "/logout.do",
 			success : function(data, status) {
 				alert('登出成功');
-				location.reload();
+				window.location.href = context + "/front-end/index.jsp";
 			},
 			error : function() {
 				alert('登出失敗');

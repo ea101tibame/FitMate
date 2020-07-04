@@ -11,6 +11,7 @@
 	CoaService coaSvc = new CoaService();
 	List<CoaVO> list = coaSvc.getAll();
 	pageContext.setAttribute("list", list);
+
 %>
 
 <!DOCTYPE html>

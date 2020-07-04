@@ -97,10 +97,10 @@ public class CoaServlet extends HttpServlet {
 
 				String coapsw = StringUtil.genRamdomStr(6);
 				System.out.println("coapsw: " + coapsw);
-//				String coapswRege = "^[A-Za-z0-9]{6,10}$";
-//				if (coapsw == null || coapsw.trim().length() == 0) {
-//					errorMsgs.put("coapsw", "密碼: 只能是大寫或小寫英文字母和數字 , 且長度必需在6到10之間");
-//				}
+				String coapswRege = "^[A-Za-z0-9]{6,10}$";
+				if (coapsw == null || coapsw.trim().length() == 0 || !coapsw.trim().matches(coapswRege)) {
+					errorMsgs.put("coapsw", "密碼: 只能是大寫或小寫英文字母和數字 , 且長度必需在6到10之間");
+				}
 
 				String coamail = req.getParameter("coamail").trim();
 				System.out.println("coamail: " + coamail);
@@ -111,16 +111,16 @@ public class CoaServlet extends HttpServlet {
 
 				String coatel = req.getParameter("coatel").trim();
 				System.out.println("coatel: " + coatel);
-				String coatelRege = "/^09[0-9]{8}$/";
+				String coatelRege = "^09[0-9]{8}$";
 				if (coatel == null || coatel.trim().length() == 0 || !coatel.matches(coatelRege)) {
-					errorMsgs.put("coatel", "電話:必需是09開頭且後方接著0-9，共八個數字");
+					errorMsgs.put("coatel", "手機號碼:必需是09開頭，共10個數字");
 				}
 
 				String coaacc = req.getParameter("coaacc").trim();
 				System.out.println("coaacc: " + coaacc);
-				String coaaccRege = "/^[0-9]{12,14}$/";
-				if (coaacc == null || coaacc.trim().length() == 0) {
-					errorMsgs.put("coaacc", "帳戶:0-9的數字，12~14個數字");
+				String coaaccRege = "^[0-9]{12,14}$";
+				if (coaacc == null || coaacc.trim().length() == 0 || !coaacc.matches(coaaccRege)) {
+					errorMsgs.put("coaacc", "帳戶:12~14個數字");
 				}
 
 				InputStream picIn = null;
@@ -187,9 +187,9 @@ public class CoaServlet extends HttpServlet {
 				mailUtil.sendMail(coamail, "Sign Up success!", "your password is " + coapsw);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				req.setAttribute("successMsg", "sign up success!");
 				String url = "/front-end/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
+				req.setAttribute("successMsg", "註冊成功！");
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
@@ -215,7 +215,6 @@ public class CoaServlet extends HttpServlet {
 				CoaService coaSvc = new CoaService();
 				CoaVO coaVO = coaSvc.getOneCoa(coano);
 				coaVO.setCoapicStr(encoder.encode(coaVO.getCoapic()));
-
 				// get expertise data
 				ExpOwnService expOwnService = new ExpOwnService();
 				List<ExpOwnVO> expOwnVOs = expOwnService.getExpOwnsByCoano(coano);
@@ -233,6 +232,7 @@ public class CoaServlet extends HttpServlet {
 				String url = "BackendGetOneForView".equals(action) ? "/front-end/coach/listOneCoach_ForStudent.jsp"
 						: "/back-end/coach/listOneCoach.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
+				req.setAttribute("successMsg", "修改成功！");
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
@@ -273,6 +273,7 @@ public class CoaServlet extends HttpServlet {
 			Map<String, String> errorMsgs = new HashMap<String, String>();
 			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+
 				String coaname = req.getParameter("coaname").trim();
 				System.out.println("coaname: " + coaname);
 				String coanameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
@@ -281,13 +282,6 @@ public class CoaServlet extends HttpServlet {
 				} else if (!coaname.trim().matches(coanameReg)) {
 					errorMsgs.put("coaname", "教練姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 				}
-
-//				String coapsw = StringUtil.genRamdomStr(6);
-//				System.out.println("coapsw: " + coapsw);
-//				String coapswRege = "^[A-Za-z0-9]{6,10}$";
-//				if (coapsw == null || coapsw.trim().length() == 0 || !coapsw.matches(coapswRege)) {
-//					errorMsgs.put("coapsw", "密碼: 只能是大寫或小寫英文字母和數字 , 且長度必需在6到10之間");
-//				}
 
 				String coamail = req.getParameter("coamail").trim();
 				System.out.println("coamail: " + coamail);
@@ -298,16 +292,16 @@ public class CoaServlet extends HttpServlet {
 
 				String coatel = req.getParameter("coatel").trim();
 				System.out.println("coatel: " + coatel);
-				String coatelRege = "/^09[0-9]{8}$/";
+				String coatelRege = "^09[0-9]{8}$";
 				if (coatel == null || coatel.trim().length() == 0 || !coatel.matches(coatelRege)) {
-					errorMsgs.put("coatel", "電話:必需是09開頭且後方接著0-9，共10個數字");
+					errorMsgs.put("coatel", "手機號碼:必需是09開頭，共10個數字");
 				}
 
 				String coaacc = req.getParameter("coaacc").trim();
 				System.out.println("coaacc: " + coaacc);
-				String coaaccRege = "/^[0-9]{12,14}$/";
+				String coaaccRege = "^[0-9]{12,14}$";
 				if (coaacc == null || coaacc.trim().length() == 0 || !coaacc.matches(coaaccRege)) {
-					errorMsgs.put("coaacc", "帳戶:0-9的數字，12~14個數字");
+					errorMsgs.put("coaacc", "帳戶:12~14個數字");
 				}
 
 				InputStream picIn = null;
@@ -332,52 +326,81 @@ public class CoaServlet extends HttpServlet {
 					errorMsgs.put("coaintro", "請輸入內容！");
 				}
 
-//				// TODO Send the use back to the form, if there were errors
-//				if (!errorMsgs.isEmpty()) {// 如果有任何錯誤訊息
-//					CoaVO coaVO = new CoaVO();
-//
-//					coaVO.setCoaname(coaname);
-//					coaVO.setCoamail(coamail);
-//					coaVO.setCoatel(coatel);
-//					coaVO.setCoaacc(coaacc);
-//					coaVO.setCoapic(coapic);
-//					coaVO.setCoasex(coasex);
-//					coaVO.setCoaintro(coaintro);
-//
-//					req.setAttribute("coaVO", coaVO); // 含有輸入格式錯誤的coaVO物件,也存入req，左邊的coaVO來自addCoach.jsp的第6行，第6行跟第8行有關，而第8行跟第100行有關
-//					req.setAttribute("errorMsgs", errorMsgs);
-//					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/addCoach.jsp");
-//					failureView.forward(req, res);
-//					return;
-//				}
-
-				/*************************** 2.開始更新資料 ***************************************/
 				CoaService coaSvc = new CoaService();
 				String coano = req.getParameter("coano").trim();
 				CoaVO coaVO = coaSvc.getOneCoa(coano);
-				coaSvc.updateCoa(coano, coaname, coaVO.getCoapsw(), coamail, coatel, coaacc, coaVO.getCoapoint(),
-						coaVO.getCoasta(), coapic, coasex, coaintro, coaVO.getCoasctotal(), coaVO.getCoascqty());
 
-//				ExpOwnService expOwnService = new ExpOwnService();
-//				Integer expNumber = 1;
-//				while (req.getParameter("expno" + expNumber.toString()) != null) {
-//					// insert expown
-//					String expno = req.getParameter("expno" + expNumber.toString());
-//					Part expownPart = req.getPart("expown" + expNumber.toString());
-//					InputStream expownIn = expownPart.getInputStream();
-//					byte[] expown = new byte[expownIn.available()];
-//					expownIn.read(expown);
-//					expownIn.close();
-//					expOwnService.addExpOwn(coano, expno, expown);
-//					expNumber++;
-//				}
+				String coapswOld = req.getParameter("coapswOld").trim();
+				String coapswNew = req.getParameter("coapswNew").trim();
+				String coapswConfirm = req.getParameter("coapswConfirm").trim();
+				System.out.println("coapswOld: " + coapswOld);
+				System.out.println("coapswNew: " + coapswNew);
+				System.out.println("coapswConfirm: " + coapswConfirm);
+				String coapswRege = "^[A-Za-z0-9]{6,10}$";
+				if (!"".equals(coapswOld) || !"".equals(coapswNew) || !"".equals(coapswConfirm)) {
+					if (!coapswOld.equals(coaVO.getCoapsw())) {
+						errorMsgs.put("coapsw", "wrong old psw!");
+					} else if (!coapswNew.matches(coapswRege) || !coapswNew.equals(coapswConfirm)
+							|| !coapswNew.equals(coapswConfirm)) {
+						errorMsgs.put("coapsw", "密碼: psw not equal, 只能是大寫或小寫英文字母和數字 , 且長度必需在6到10之間");
+					}
+				}
 
-//				MailUtil mailUtil = new MailUtil();
-//				mailUtil.sendMail(coamail, "Sign Up success!", "your password is " + coapsw);
+				// TODO Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {// 如果有任何錯誤訊息
+					coaVO = new CoaVO();
+
+					coaVO.setCoaname(coaname);
+					coaVO.setCoamail(coamail);
+					coaVO.setCoatel(coatel);
+					coaVO.setCoaacc(coaacc);
+					coaVO.setCoapic(coapic);
+					coaVO.setCoasex(coasex);
+					coaVO.setCoaintro(coaintro);
+
+					req.setAttribute("coaVO", coaVO); // 含有輸入格式錯誤的coaVO物件,也存入req
+					req.setAttribute("errorMsgs", errorMsgs); // 傳入錯誤訊息並跳轉頁面
+					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/coach/updateCoach.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+
+				/*************************** 2.開始更新資料 ***************************************/
+				ExpOwnService expOwnService = new ExpOwnService();
+
+				String deleteExpnos = req.getParameter("deleteExpnos");
+				System.out.println("deleteExpnos: " + deleteExpnos);
+				if (deleteExpnos != null) {
+					for (String expno : deleteExpnos.split(",")) {
+						expOwnService.deleteExp(coano, expno);
+					}
+				}
+
+				String coasta = coaVO.getCoasta();
+				Integer expNumber = 1;
+				while (req.getParameter("expno" + expNumber.toString()) != null) {
+					// insert expown
+					String expno = req.getParameter("expno" + expNumber.toString());
+					Part expownPart = req.getPart("expown" + expNumber.toString());
+					InputStream expownIn = expownPart.getInputStream();
+					byte[] expown = new byte[expownIn.available()];
+					expownIn.read(expown);
+					expownIn.close();
+					expOwnService.addExpOwn(coano, expno, expown);
+					expNumber++;
+
+					// update coasta
+					coasta = "未授權";
+				}
+
+				coaSvc.updateCoa(coano, coaname, "".equals(coapswNew) ? coaVO.getCoapsw() : coapswNew, coamail, coatel,
+						coaacc, coaVO.getCoapoint(), coasta, coapic.length == 0 ? coaVO.getCoapic() : coapic, coasex,
+						coaintro, coaVO.getCoasctotal(), coaVO.getCoascqty());
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/front-end/coach/updateCoach.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
+				req.setAttribute("updateSuccessMsg", "修改成功！");
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/

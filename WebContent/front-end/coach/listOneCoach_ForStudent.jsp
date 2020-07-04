@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.coach.model.*"%>
 <%@ page import="com.expertise_own.model.*"%>
-<%@ page import="java.util.List"%>
 
 <!DOCTYPE html>
 <html>

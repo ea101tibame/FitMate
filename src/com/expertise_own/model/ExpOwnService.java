@@ -34,8 +34,8 @@ public class ExpOwnService {
 		return expownVO;
 	}
 
-	public void deleteExp(String expno, String coano) {
-		dao.delete(expno, coano);
+	public void deleteExp(String coano, String expno) {
+		dao.delete(coano, expno);
 	}
 
 	public ExpOwnVO getOneExpOwn(String expno, String coano) {

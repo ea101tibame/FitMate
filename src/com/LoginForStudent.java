@@ -40,16 +40,9 @@ public class LoginForStudent extends HttpServlet {
 			HttpSession session = req.getSession();
 			session.setAttribute("stuno", stuVO.getStuno());
 			session.setAttribute("stuname", stuVO.getStuname());
-//			session.setAttribute("stumail", stuVO.getStumail());
-//			session.setAttribute("stupsw", stuVO.getStupsw());
-			session.setAttribute("stusex", stuVO.getStusex());
-//			session.setAttribute("stutel", stuVO.getStutel());
-//			session.setAttribute("stuadd", stuVO.getStuadd());
-			session.setAttribute("stupoint", stuVO.getStupoint());
-			session.setAttribute("stusta", stuVO.getStusta());
-//			session.setAttribute("stubir", stuVO.getStubir());
-//			session.setAttribute("stupic", stuVO.getStupic());
 			session.setAttribute("role", "student");
+			session.setAttribute("stuVO", stuVO);
+
 			try {
 				String location = (String) session.getAttribute("location");
 				if (location != null) {

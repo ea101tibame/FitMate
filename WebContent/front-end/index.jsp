@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
+<!-- TODO 如果新增成功後的 SweetAlert寫在這裡，一開首頁就會跳出 -->
+
 <%
 	pageContext.setAttribute("context", request.getContextPath());
 	pageContext.setAttribute("role", session.getAttribute("role"));
@@ -19,8 +21,15 @@
 <link rel="stylesheet" type="text/css" href="${context}/css/custom-css/login.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
 <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </head>
 <body>
+<c:if test="${not empty successMsg}">
+<script>
+swal("${successMsg}","請至信箱收取密碼！","success");
+</script>
+</c:if>
 	<header class="header_area">
 		<div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
 			<nav class="classy-navbar" id="essenceNav">
@@ -416,9 +425,9 @@
 										<span>密碼</span>
 										<input type="password" name="coapsw" />
 									</label>
-									<p class="forgot-pass">忘記密碼?</p>
+									<p class="forgot-pass" id="forgot">忘記密碼?</p>
 									<button type="submit" class="submit">登入</button>
-									<button type="button" class="fb-btn" id="sign-up-coach">註冊教練</button>
+									<button type="button" class="fb-btn" id="sign-up-coach">註冊教練</button>							
 								</form>
 							</div>
 						</div>
@@ -435,14 +444,15 @@
 		<script src="${context}/js/index.js"></script>
 		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
 		<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
-		<script>
+	    <script>
 			var context = "${context}";
-			var successMsg = "${successMsg}";
+			/* var successMsg = "${successMsg}";
 			alert(successMsg);
 			if (successMsg !== "") {
 				swal("干得好", successMsg, "success");
-			}
+			} */
 		</script>
+		
 </body>
 
 </html>
