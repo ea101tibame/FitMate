@@ -269,6 +269,10 @@
 			<%@ include file="/front-end/front_msg.jsp"%>
 		</c:if>	
 		
+		<c:if test="${role == 'coach'}">
+			<%@ include file="/front-end/front_msg_coach.jsp"%>
+		</c:if>	
+		
 </body>
 
 </html>
