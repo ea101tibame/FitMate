@@ -86,24 +86,24 @@
 			<p>若需要進行任何操作請先點擊右上角進行登入</p>
 		</div>
 	<%}else{ %>	
-		<div class="main" id=loginsuccess>
+		<div class="main" id="loginsuccess">
 			<p>管理員 ${empVO.ename} 您好</p>
 			<br><br>
 			<p>請點選左邊選單進行功能操作</p>
 		</div>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		<script>
+	
+		$(document).ready(function(){
+			swal('こんにちは','FitMate管理システムへようこそ','success');
+	});
+
+</script>
+		
 	<%} %>
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 	</div>
 
-<script>
-
-	$(document).ready(function(){
-		$('#loginsuccess').show(function(){
-			swal('こんにちは','FitMate管理システムへようこそ','success');
-		});
-	});
-
-</script>
 
 </body>
 </html>

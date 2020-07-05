@@ -20,7 +20,6 @@
 
 </head>
 <body>
-<%@ include file="/front-end/header.jsp"%>
 
 <div class="single-blog-wrapper" style="background-color: black;">
         <div class="single-blog-post-thumb">

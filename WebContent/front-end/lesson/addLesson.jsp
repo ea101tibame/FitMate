@@ -50,6 +50,21 @@ margin-bottom:20px;
 .title{
 font-size:16px;
 }
+label {
+display:contents;
+}
+h2{
+    text-align: left;
+}
+.form-control {
+    text-align: left;
+    }
+    
+.btn-group-lg>.btn, .btn-lg {
+    padding: .0rem 0rem;
+    font-size: 1.25rem; 
+
+}
 </style>
 </head>
 

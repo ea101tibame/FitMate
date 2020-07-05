@@ -1,4 +1,3 @@
-<%@page import="com.lesson_order.model.Lesson_orderService"%>
 <%@page import="com.lesson_fav.model.Lesson_favService"%>
 <%@page import="java.util.List"%>
 <%@page import="com.lessonTime.model.LessonTimeService"%>
@@ -15,25 +14,6 @@
 
 	List<String> old = ltsvc.getOneTime(lessno);
 	pageContext.setAttribute("role", session.getAttribute("role"));
-	
-	String stuno = (String)session.getAttribute("stuno");
-	LessonService lessonSvc1 = new LessonService();
-	
-	String lesssta = lessonSvc1.getOneByPK(lessno).getLesssta();
-	pageContext.setAttribute("lesssta", lesssta);
-	
-	Lesson_orderService lesson_orderSvc = new Lesson_orderService();
-	boolean Y = lesson_orderSvc.getfindByStuno(stuno).stream().anyMatch( vo -> vo.getLessno().equals(lessno));
-	pageContext.setAttribute("Y", Y);
-
-	Lesson_favService lesson_favSvc = new Lesson_favService();
-	boolean LY = lesson_favSvc.getfindByStuno(stuno).stream().anyMatch(o ->o.getLessno().equals(lessno));
-	pageContext.setAttribute("LY", LY);
-	
-	
-	System.out.println("已購買"+Y);
-	System.out.println("已追蹤"+LY);
-	
 %>
 
 
@@ -113,10 +93,7 @@
 h4 {
 	font-size: 18px;
 }
-h4 {
-    color: black !important;
-    display: block !important;
-}
+
 </style>
 </head>
 
@@ -142,12 +119,8 @@ h4 {
 		</div>
 		<%-- 追蹤成功 --%>
 		<c:if test="${not empty followOK}">
-		
 			<script>
-			
-				$(document).ready(function(){
-					swal("追蹤成功", "", "success");
-				});
+				swal("追蹤成功", "", "success");
 			</script>
 		</c:if>
 
@@ -164,7 +137,7 @@ h4 {
 							<div class="caption">
 
 
-																<c:if test="${role == 'student'}">
+								<c:if test="${role == 'student'}">
 									
 									<div class="row buttons">
 									
@@ -175,7 +148,7 @@ h4 {
 											<button type="submit"
 												class="btn  col-sm-10 col-sm-offset-1 btn-lg"
 												style="background-color: #2894FF; color: #fff; font-size: 1em;"
-												  <c:if test='${lesssta == "下架" || LY}'> disabled="disabled" title="課程以下架或已追蹤" </c:if>    >
+												id="follow2">
 												<span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;加入追蹤
 											</button>
 											
@@ -187,10 +160,13 @@ h4 {
 												type="hidden" name="Stuno" value="${stuno}">
 											
 										</FORM>
+										
+																														
 										<FORM METHOD="post"
 											ACTION="<%=request.getContextPath()%>/front-end/lesson_order/lesson_order.do" class="col-6">
-										<button  class="btn col-sm-10 col-sm-offset-1 btn-lg"
-											style="background-color: #fb641b; color: #fff; font-size: 1em; " <c:if test='${lesssta == "下架" ||  Y}'> disabled="disabled" title="課程已下架或已購買" </c:if>   >
+										<button id="buy2" class="btn col-sm-10 col-sm-offset-1 btn-lg"
+											style="background-color: #fb641b; color: #fff; font-size: 1em; "
+											<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>
 											<i class="fa fa-bolt" style="font-size: 1.2em;"></i>&nbsp;立即購買
 
 										</button>
@@ -208,26 +184,18 @@ h4 {
 										<button type="submit"
 											class="btn  col-sm-4 col-sm-offset-2 btn-lg"
 											style="background-color: #2894FF; color: #fff; font-size: 1em;"
-											id="follow" <c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>
+											id="follow">
 
 											<span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;加入追蹤
 										</button>
 
-										<button class="btn col-sm-4 col-sm-offset-1 btn-lg" id="buy"
+										<button class="btn col-sm-4 col-sm-offset-1 btn-lg"
 											style="background-color: #fb641b; color: #fff; font-size: 1em;"
 											<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>
 											<i class="fa fa-bolt" style="font-size: 1.2em;"></i>&nbsp;立即購買
 										</button>
 									</div>
-											<script>
-			document.getElementById("follow").addEventListener("click", function() {
-				swal("提醒", "請先以學員身分登入", "warning");
-			});
-			document.getElementById("buy").addEventListener("click", function() {
-				swal("提醒", "請先以學員身分登入", "warning");
-			});
-	
-		</script>
+
 								</c:if>
 							</div>
 						</div>
@@ -246,8 +214,13 @@ h4 {
 								<div class="alert alert-primary">
 									<h3 class="alert alert-primary">此堂課程時段如下</h3>
 									<p>
-									<%@ include file="/front-end/lesson/showOneLessonTime.jsp" %>
-										
+										<%
+ 											for (String a : old) {
+ 												out.print(a);
+ 												out.print("<br>");
+ 											}
+										%>
+
 									</p>
 								</div>
 							</div>
@@ -355,11 +328,17 @@ h4 {
 	<script src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
 	<!-- Active js -->
 	<script src="${pageContext.request.contextPath}/js/active.js"></script>
-<!-- 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-
-
+	<script>
+		document.getElementById("follow").addEventListener("click", function() {
+			swal("提醒", "請先以學員身分登入", "warning");
+		});
+		document.getElementById("buy2").addEventListener("click", function() {
+			swal("購買", "測試", "success");
+		});
+		
+		
+	</script>
 	<script>
 		$(document).ready(function() {
 			$(".toggler").hide();

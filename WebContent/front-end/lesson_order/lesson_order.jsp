@@ -71,7 +71,11 @@ margin-bottom: 250px;
 </head>
 <body>
     
-   
+<div class="single-blog-wrapper" style="background-color: black;">
+        <div class="single-blog-post-thumb">
+            <img src="<%=request.getContextPath()%>/images//bg-img/STU1920.png" alt="">
+        </div>
+    </div>
     <!-- ##### Blog Wrapper Area Start ##### -->
     <div class="single-blog-wrapper">
 
@@ -132,7 +136,7 @@ margin-bottom: 250px;
     </div>
     
     
- 
+
          
     <!-- ##### Blog Wrapper Area End ##### -->
 <%@ include file="/front-end/footer.jsp" %>

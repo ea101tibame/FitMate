@@ -5,9 +5,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%	
-// 	CoaVO coaVO = (CoaVO)session.getAttribute("CoaVO");
 	String coano = (String)session.getAttribute("coano");
-	CoaService coaSvc = new CoaService();
+	CoaService coaSvc = new CoaService(); 
 	CoaVO coaVO = coaSvc.getOneCoa(coano);
 	pageContext.setAttribute("coaVO", coaVO);
 %>
@@ -21,7 +20,7 @@
 <body>
 	 
 	 	<h3>申請點數兌換</h3>
-	 	<a href="<%=request.getContextPath()%>/front-end/redemption/redemption_index.jsp">返回兌換首頁</a>
+	 	<a href="<%=request.getContextPath()%>/front-end/redemption/redemption_index.jsp">返回我的點數</a>
 	 	
 	 	<c:if test="${not empty errorMsgs}">
 			<a>看看你的錯:</a>
@@ -39,28 +38,28 @@
 					<td>目前擁有點數:<font color=red>${coaVO.coapoint}</font></td>
 				</tr>
 			</table>
-			<input type="button" value="送出申請" id="commit">
+			<input type="submit" value="送出申請" id="commit">
 			<input type="hidden" value="insert" name="action">
 			<input type="hidden" name="coano" value="${coaVO.coano}">
 		</form>
 <script>
 	$(document).ready(function(){
-		$('input:button').on('click',function(e){
+		$('input:submit').on('click',function(e){
 			e.preventDefault();
 			swal({
 				title:'注意',
-				text:'您確定要將這些點數兌換成現金嗎?',
+				text:'您確定要將這些點數兌換為現金嗎?',
 				icon:'warning',
 				buttons:true,
 				dangerMode:true
 			}).then(function(isConfirm){
 				if(isConfirm){
 					if('${coaVO.coapoint}' < $('#price').val()){
-						swal('注意','您的申請兌換點數超過持有點數','error');
+						swal('錯誤','申請點數超過目前持有點數','error');
 					} else {
-						swal('您已經完成兌換申請作業','FitMate審核通過後將寄信通知您','success');
+						swal('您已經完成兌換申請作業','FitMate審核通過後將以email通知您','success');
 						setTimeout(function(){
-							$('input:button').parent('form').submit();
+							$('input:submit').parent('form').submit();
 						},2000);
 					} 
 				} else {

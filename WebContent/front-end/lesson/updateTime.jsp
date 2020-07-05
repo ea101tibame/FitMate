@@ -1,14 +1,14 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.lesson.model.*"%>
 <%@ page import="com.expertise.model.*"%>
 <%@ page import="com.coach.model.*"%>
 <%@ page import="com.lessonTime.model.*"%>
-
+<%@ include file="/front-end/header.jsp" %>
 <%
 List<LessonTimeVO> Timelist = (List<LessonTimeVO>)request.getAttribute("Timelist");
 LessonVO lessonVO = (LessonVO)request.getAttribute("lessonVO");
@@ -59,100 +59,31 @@ pageContext.setAttribute("Timelist",Timelist);
     margin-left: 30px;
     font-size:18px;
     }
+    .err{
+	margin-bottom:20px;
+	}
+	label {
+display:contents;
+
+}
+h2{
+    text-align: left;
+}
+.form-control {
+    text-align: left;
+    }
+
+.btn-group-lg>.btn, .btn-lg {
+    padding: .0rem 0rem;
+    font-size: 1.25rem; 
+
+}
 </style>
 
 </head>
 
 <body>
-		<header class="header_area">
-		<div
-			class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
-			<!-- Classy Menu -->
-			<nav class="classy-navbar" id="essenceNav">
-				<!-- Logo -->
-				<a class="nav-brand" href="index.html"><img
-					src="${pageContext.request.contextPath}/images/core-img/logo.png"
-					alt=""></a>
-				<!-- Navbar Toggler -->
-				<div class="classy-navbar-toggler">
-					<span class="navbarToggler"><span></span><span></span><span></span></span>
-				</div>
-				<!-- Menu -->
-				<div class="classy-menu">
-					<!-- close btn -->
-					<div class="classycloseIcon">
-						<div class="cross-wrap">
-							<span class="top"></span><span class="bottom"></span>
-						</div>
-					</div>
-					<!-- Nav Start -->
-					<div class="classynav">
-						<ul>
-							<li><a href="${pageContext.request.contextPath}/front-end/index.jsp">首頁</a></li>
-							<li><a href="blog.html">消息</a></li>
-
-							<li>
-								<a href="#">課程</a>
-								<ul class="dropdown">
-									<li>
-										<a href="${pageContext.request.contextPath}/front-end/lesson/listAll_lesson.jsp">課程總覽</a>
-									</li>
-								</ul>
-
-
-							<li>
-									<a href="#">教練專區</a>
-									<ul class="dropdown">
-										<li>
-											<a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a>
-										</li>
-										<li>
-											<a href="${pageContext.request.contextPath}/front-end/lesson/coachTimeTable.jsp">查看課表</a>
-										</li>
-										<li>
-											<a href="${pageContext.request.contextPath}/front-end/lesson/addLesson.jsp">建立課程</a>
-										</li>
-										<li>
-											<a href="${pageContext.request.contextPath}/front-end/lesson/selectLesson.jsp">查詢與更新</a>
-										</li>
-										<li>
-											<a href="${context}/front-end/redemption/redemption.jsp">點數兌換</a>
-										</li>
-									</ul>
-								</li>
-							<li><a href="blog.html">討論區</a></li>
-
-						</ul>
-					</div>
-					<!-- Nav End -->
-				</div>
-			</nav>
-
-			<!-- Header Meta Data -->
-			<div class="header-meta d-flex clearfix justify-content-end">
-				<!-- Search Area -->
-
-				<!-- User Login Info -->
-				<div class="user-login-info">
-					<a href="#"><img
-						src="${pageContext.request.contextPath}/images/core-img/user.svg"
-						alt=""></a>
-				</div>
-				<div class="user-login-info">
-					<a href="#"><img
-						src="${pageContext.request.contextPath}/images/core-img/email.svg"
-						alt=""></a>
-				</div>
-
-
-			</div>
-
-		</div>
-	</header>
-	<!-- ##### Header Area End ##### -->
-
-
-
+		
 	<!-- ##### Blog Wrapper Area Start ##### -->
 	<div class="single-blog-wrapper">
 
@@ -317,26 +248,7 @@ pageContext.setAttribute("Timelist",Timelist);
 	</div>
 	<!-- ##### Blog Wrapper Area End ##### -->
 
-	<!-- ##### Footer Area Start ##### -->
-	<footer class="footer_area">
-		<div class="container">
-			<div class="row ">
-				<div class="col-md-12 text-center">
-					<p>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script>
-						by EA101G5 <i class="fa fa-heart-o" aria-hidden="true"></i> by
-						FitMate</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					</p>
-				</div>
-			</div>
-
-		</div>
-	</footer>
+	<%@ include file="/front-end/footer.jsp" %>
 	<!-- ##### Footer Area End ##### -->
 	<!-- jQuery (Necessary for All JavaScript Plugins) -->
 	<script

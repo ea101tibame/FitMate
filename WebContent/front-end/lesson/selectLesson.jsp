@@ -3,10 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.lesson.model.*"%>
+<%@ include file="/front-end/header.jsp" %>
 
 <%
+	String coano = (String)session.getAttribute("coano");
+	pageContext.setAttribute("coano",coano);
 	LessonService lessonService = new LessonService();
-	List<LessonVO> list = lessonService.getCoachLesson("C001");
+	List<LessonVO> list = lessonService.getCoachLesson(coano);
 	pageContext.setAttribute("list", list);
 %>
 
@@ -43,6 +46,7 @@
 	href="${pageContext.request.contextPath}/css/custom-css/lesson/selectLesson.css">
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <style>
 table {
 	background-color: #ffffff;
@@ -52,13 +56,9 @@ table {
 	text-align: center;
 }
 
-/* tr td { */
-/* 	border: 2px solid black; */
-/* } */
-
-/* tr th { */
-/* 	border: 2px solid black; */
-/* } */
+h2{
+    text-align: left;
+}
 .card-img-top {
 	height: 300px;
 	width: 100%;
@@ -75,103 +75,28 @@ table {
 }
 
 .row {
-	margin-right: 70px;
-	margin-left: 70px;
+	margin-right: 0px;
+	margin-left: 0px;
 }
 
 .img-region {
 	height: 300px;
 	width: 100%;
 }
+.btn{
+width:100px;
+}
+
+#okok {
+    width: 50px;
+    cursor: pointer;
+}
+
 </style>
 
 </head>
 
 <body>
-
-	<header class="header_area">
-		<div
-			class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
-			<!-- Classy Menu -->
-			<nav class="classy-navbar" id="essenceNav">
-				<!-- Logo -->
-				<a class="nav-brand" href="index.html"><img
-					src="${pageContext.request.contextPath}/images/core-img/logo.png"
-					alt=""></a>
-				<!-- Navbar Toggler -->
-				<div class="classy-navbar-toggler">
-					<span class="navbarToggler"><span></span><span></span><span></span></span>
-				</div>
-				<!-- Menu -->
-				<div class="classy-menu">
-					<!-- close btn -->
-					<div class="classycloseIcon">
-						<div class="cross-wrap">
-							<span class="top"></span><span class="bottom"></span>
-						</div>
-					</div>
-					<!-- Nav Start -->
-					<div class="classynav">
-						<ul>
-							<li><a
-								href="${pageContext.request.contextPath}/front-end/index.jsp">首頁</a></li>
-							<li><a href="blog.html">消息</a></li>
-
-							<li><a href="#">課程</a>
-								<ul class="dropdown">
-									<li><a
-										href="${pageContext.request.contextPath}/front-end/lesson/listAll_lesson.jsp">課程總覽</a>
-									</li>
-								</ul>
-							<li><a href="#">教練專區</a>
-								<ul class="dropdown">
-									<li><a href="${context}/front-end/coach/updateCoach.jsp">個人資料</a>
-									</li>
-									<li><a
-										href="${pageContext.request.contextPath}/front-end/lesson/coachTimeTable.jsp">查看課表</a>
-									</li>
-									<li><a
-										href="${pageContext.request.contextPath}/front-end/lesson/addLesson.jsp">建立課程</a>
-									</li>
-									<li><a
-										href="${pageContext.request.contextPath}/front-end/lesson/selectLesson.jsp">查詢與更新</a>
-									</li>
-									<li><a
-										href="${context}/front-end/redemption/redemption.jsp">點數兌換</a>
-									</li>
-								</ul></li>
-							<li><a href="blog.html">討論區</a></li>
-
-						</ul>
-					</div>
-					<!-- Nav End -->
-				</div>
-			</nav>
-
-			<!-- Header Meta Data -->
-			<div class="header-meta d-flex clearfix justify-content-end">
-				<!-- Search Area -->
-
-				<!-- User Login Info -->
-				<div class="user-login-info">
-					<a href="#"><img
-						src="${pageContext.request.contextPath}/images/core-img/user.svg"
-						alt=""></a>
-				</div>
-				<div class="user-login-info">
-					<a href="#"><img
-						src="${pageContext.request.contextPath}/images/core-img/email.svg"
-						alt=""></a>
-				</div>
-
-
-			</div>
-
-		</div>
-	</header>
-	<!-- ##### Header Area End ##### -->
-
-
 
 	<!-- ##### Blog Wrapper Area Start ##### -->
 	<div class="single-blog-wrapper">
@@ -215,56 +140,15 @@ table {
 							<%@ include file="pages/page1.file"%>
 							<c:forEach var="lessonVO" items="${list}" begin="<%=pageIndex%>"
 								end="<%=pageIndex+rowsPerPage-1%>">
+
+
 								<table border="1"
 									class="table table-striped table-dark  align-items-center align-middle"
 									style="table-layout: fixed; word- wrap: break-word;">
 									<tr>
-										<td rowspan="8" style="width: 400px; height: 250px"><img
-											src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}"
-											class="rounded float-right img-thumbnail">
-											<table id="innertable" class="table-secondary">
-												<tr>
-													<td>
-														<FORM METHOD="post"
-															ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
-															style="margin-bottom: 0px;">
-															<button type="submit" class="btn btn-warning"
-																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>修改課程</button>
-															<input type="hidden" name="lessno"
-																value="${lessonVO.lessno}"> <input type="hidden"
-																name="requestURL" value="<%=request.getServletPath()%>">
-															<input type="hidden" name="action"
-																value="getOne_For_Update">
-														</FORM>
-													</td>
-													<td>
-														<FORM METHOD="post"
-															ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do"
-															style="margin-bottom: 0px;">
-															<button type="submit" class="btn btn-info"
-																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>修改時段</button>
-															<input type="hidden" name="lessno"
-																value="${lessonVO.lessno}"> <input type="hidden"
-																name="action" value="getOneTime_For_Update">
-														</FORM>
-													</td>
-													<td>
-														<FORM METHOD="post"
-															ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
-															style="margin-bottom: 0px;">
-															<button type="button" class="btn btn-secondary"
-																id="offlesson"
-																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>>下架課程</button>
-															<input type="hidden" name="lessno"
-																value="${lessonVO.lessno}"> <input type="hidden"
-																name="action" value="off_lesson">
-														</FORM>
-
-													</td>
-
-												</tr>
-
-											</table>
+										<td rowspan="10" style="width: 400px; height: 250px; vertical-align:middle; ">
+										<img src="<%=request.getContextPath()%>/lesson/PicServletJDBC.do?lessno=${lessonVO.lessno}"
+											class="rounded float-right img-thumbnail"></td>
 									<tr>
 										<td style="width: 130px">課程編號</td>
 										<td style="width: 130px">${lessonVO.lessno}</td>
@@ -281,6 +165,7 @@ table {
 											</c:forEach></td>
 										<td>課程狀態</td>
 										<td>${lessonVO.lesssta}</td>
+
 									</tr>
 									<tr>
 										<td>課程堂數</td>
@@ -288,35 +173,64 @@ table {
 										<td>課程地點</td>
 										<td>${lessonVO.lessloc}</td>
 									</tr>
-									<tr>
-										<td>課程報名起始日</td>
-										<td>${lessonVO.lessstart}</td>
+									<td>課程報名起始日</td>
+									<td>${lessonVO.lessstart}</td>
 
-										<td>課程報名截止日</td>
-										<td>${lessonVO.lessend}</td>
-									</tr>
+									<td>課程報名截止日</td>
+									<td>${lessonVO.lessend}</td>
+									<tr></tr>
+									<td>最小成團人數</td>
+									<td>${lessonVO.lessmin}</td>
+									<td>最多上限人數</td>
+									<td>${lessonVO.lessmax}</td>
+									<tr></tr>
+									<td>目前報名人數</td>
+									<td>${lessonVO.lesscur}</td>
+									<td>課程點數價格</td>
+									<td>${lessonVO.lessprice}</td>
 									<tr>
-										<td>最小成團人數</td>
-										<td>${lessonVO.lessmin}</td>
-										<td>最多上限人數</td>
-										<td>${lessonVO.lessmax}</td>
-									</tr>
 									<tr>
-										<td>目前報名人數</td>
-										<td>${lessonVO.lesscur}</td>
-										<td>課程點數價格</td>
-										<td>${lessonVO.lessprice}</td>
-									</tr>
-
-
-									<tr>
+										<td rowspan="1" id="innertable" class="table-secondary">
+											<div class="container">
+												<div class="row">
+													<div class="col-4">
+														<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
+															<button type="submit" class="btn btn-warning"
+																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>
+																>修改課程</button>
+															<input type="hidden" name="lessno" value="${lessonVO.lessno}"> 
+															<input type="hidden" name="requestURL" value="<%=request.getServletPath()%>">
+															<input type="hidden" name="action" value="getOne_For_Update">
+														</FORM>
+													</div>
+													<div class="col-4">
+														<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lessonTime.do" style="margin-bottom: 0px;">
+															<button type="submit" class="btn btn-info"
+																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>
+																>修改時段</button>
+															<input type="hidden" name="lessno" value="${lessonVO.lessno}"> 
+															<input type="hidden" name="action" value="getOneTime_For_Update">
+														</FORM>
+													</div>
+													<div class="col-4">
+														<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
+															<input type="button" class="btn btn-secondary"
+																class="offlesson" value="下架課程"
+																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>
+																>
+															<input type="hidden" name="lessno" value="${lessonVO.lessno}"> 
+															<input type="hidden" name="action" value="off_lesson">
+														</FORM>
+													</div>
+												</div>
+											</div>
+										</td>
 										<td>課程說明</td>
 										<td colspan="3">${lessonVO.lessdesc}</td>
 									</tr>
+									<tr>
+									</tr>
 								</table>
-
-
-
 
 							</c:forEach>
 							<%@ include file="pages/page2.file"%>
@@ -333,25 +247,7 @@ table {
 
 
 	<!-- ##### Footer Area Start ##### -->
-	<footer class="footer_area">
-		<div class="container">
-			<div class="row ">
-				<div class="col-md-12 text-center">
-					<p>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script>
-						by EA101G5 <i class="fa fa-heart-o" aria-hidden="true"></i> by
-						FitMate</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					</p>
-				</div>
-			</div>
-
-		</div>
-	</footer>
+	<%@ include file="/front-end/footer.jsp" %>
 	<!-- ##### Footer Area End ##### -->
 
 	<!-- jQuery (Necessary for All JavaScript Plugins) -->
@@ -368,31 +264,29 @@ table {
 	<!-- Active js -->
 	<script src="${pageContext.request.contextPath}/js/active.js"></script>
 	<!-- 打勾修改完成 -->
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/js/custom-js/lesson/selectLesson.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
-		$(document).ready(function() {
 
-			$("#offlesson").on("click", function(e) {
-				// 													
+		$(document).ready(function(){
+			$('input:button').on("click", function(e) {									
+// 				e.preventDefault();	
 				swal({
-					title : '請再次確認',
-					text : '課程下架後 無法回復',
+					title : '確定下架？',
+					text : '按下下架後 課程會永久刪除 無法回復',
 					icon : 'warning',
 					buttons : true,
 					dangerMode : false,
 				}).then(function(isConfirm) {
 					if (isConfirm) {
-						$("#offlesson").parent().submit();
-
+						swal("完成!", "課程已經下架", "success");
+						$('input:button').parent('form').submit();
 					}
 				});
-
 			});
-
 		});
+		
 	</script>
 </body>
 

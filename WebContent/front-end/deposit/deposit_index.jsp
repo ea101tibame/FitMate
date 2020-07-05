@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.student.model.*"%>
-
+<%@ include file="/front-end/header.jsp"%>
 <%
 	StuVO stuVO = (StuVO) session.getAttribute("stuVO");
 %>
@@ -15,6 +15,12 @@
 </head>
 <body>
 
+
+<div class="single-blog-wrapper" style="background-color: black;">
+        <div class="single-blog-post-thumb">
+            <img src="<%=request.getContextPath()%>/images//bg-img/STU1920.png" alt="">
+        </div>
+        </div>
 	<div>
 	
 	<ul>
@@ -36,5 +42,6 @@
 	
 	</div>
 
+ <%@ include file="/front-end/footer.jsp"%>
 </body>
 </html>

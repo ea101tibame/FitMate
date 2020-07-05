@@ -94,16 +94,18 @@ body {
 						<td>${redVO.coano}</td>
 						<td><fmt:formatDate value="${redVO.reddate}" type="both"/></td>
 						<td>${redVO.redprice}</td>
-						<td id="sta">${redVO.redsta}</td>
+						<td>${redVO.redsta}</td>
 						<td>
 						
 						<form action="<%=request.getContextPath()%>/redemption/redemption.do" method="post">
-							<input id="check" type="button" value="審核" class="btn btn-outline-success my-2 my-sm-0">							
-							<input type="hidden" name="action" value="change" id="change">
+							<input type="submit" value="審核" class="btn btn-outline-success my-2 my-sm-0"
+							<c:if test="${redVO.redsta=='已審核'}"> value="Disabled" disabled
+                   			</c:if>>
+							<input type="hidden" name="action" value="change">
 							<input type="hidden" name="redno" value="${redVO.redno}">
 						</form>
 						
-						
+							
 						</td>
 					</tr>
 				</c:forEach>
@@ -117,26 +119,33 @@ body {
 <script>
 
 $(document).ready(function(){
-	$('#check').on('click',function(e){
-		
+	$('input:submit').on('click',function(e){
+		e.preventDefault();
 		swal({
 			title:'注意',
-			text:'你確定要通過該教練的兌換申請?',
+			text:'你確定要通過該筆兌換申請?',
 			icon:'warning',
 			buttons:true,
 			dangerMode:true
 		}).then(function(isConfirm){
 			if(isConfirm){
-				swal('成功','審核完畢','success');
+				$('input:submit').parent('form').submit();
+				swal({
+					title:'系統審核中',
+					text:'請勿隨意關閉視窗,以免資料損毀',
+					icon:'warning',
+					buttons:false,
+				});
 				setTimeout(function(){
-					$('#check').parent('form').submit();
-				},1500);
+					swal('成功','審核完畢 正在將通知信件寄送給教練','success');										
+					},3000);
 			} else {
 				swal('取消','取消審核','error');
 			}
 		});
 	});
 });
+
 
 </script>	
 </body>

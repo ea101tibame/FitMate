@@ -4,7 +4,10 @@
 <%@ page import="com.coach.model.*"%>
 
 <%
-	CoaVO coaVO = (CoaVO)session.getAttribute("coaVO");
+	String coano = (String)session.getAttribute("coano");
+	CoaService coaSvc = new CoaService(); 
+	CoaVO coaVO = coaSvc.getOneCoa(coano);
+	pageContext.setAttribute("coaVO", coaVO);
 %>
 <html>
 <head>

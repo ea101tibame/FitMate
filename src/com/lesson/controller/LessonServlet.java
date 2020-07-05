@@ -370,6 +370,7 @@ System.out.println("lesstype="+lesstype);
 			try {
 				/***************************1.接收請求參數****************************************/
 				String lessno = new String(req.getParameter("lessno"));
+				System.out.println(lessno);
 				/***************************2.開始查詢資料****************************************/
 				//手動下架課程 改狀態為下架  (課程不刪 只改狀態 )
 				LessonService lessonSvc = new LessonService();
@@ -380,6 +381,31 @@ System.out.println("lesstype="+lesstype);
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				
 				String url ="/front-end/lesson/selectLesson.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+				/***************************其他可能的錯誤處理************************************/
+
+			}catch(Exception e) {
+				throw new ServletException(e);
+			}
+		}
+		if("getListFromType".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			try {
+				/***************************1.接收請求參數****************************************/
+				String lesstype = new String(req.getParameter("lesstype"));
+				System.out.println("lesstype="+lesstype);
+				/***************************2.開始查詢資料****************************************/
+				LessonService lessonSvc = new LessonService();
+				List<LessonVO> getTypeList = lessonSvc.findLessonByLessonType(lesstype);
+				
+				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("gettype","gettype");
+				req.setAttribute("lesstype", lesstype);
+				req.setAttribute("getTypeList", getTypeList);
+				String url ="/front-end/lesson/listAll_lesson.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
 				/***************************其他可能的錯誤處理************************************/

@@ -35,10 +35,8 @@ public class DepositServlet extends HttpServlet {
 			
 			try {
 				String stuno = req.getParameter("stuno");
-				DepositService depSvc = new DepositService();
-				List<DepositVO> deplist = depSvc.showAllDep(stuno);
 				
-				req.setAttribute("deplist", deplist);
+				req.setAttribute("stuno", stuno);
 				String url = "/front-end/deposit/showAllDeposit.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -56,16 +54,17 @@ public class DepositServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			
+			
 			try {
 			String stuno = req.getParameter("stuno");	//input hidden
-			System.out.println(stuno);
+			
 			Integer depprice = null ;
 			try {
 				depprice = new Integer(req.getParameter("depprice").trim());
 			} catch (NumberFormatException e) {
 				depprice = 0 ;
 			}
-			System.out.println(depprice);
+			
 			DepositVO depVO = new DepositVO();
 			depVO.setStuno(stuno);
 			depVO.setDepprice(depprice);

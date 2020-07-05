@@ -73,17 +73,14 @@ public class RedemptionServlet extends HttpServlet {
 				CoaVO coaVO = coaSvc.getOneCoa(coano);
 				Integer coapoint = coaVO.getCoapoint();
 				//點數兌換判斷
-				if(redprice > coapoint) {
-					errorMsgs.add("申請點數超過您目前持有點數,請重新確認");
-				} else {
-					//新增記錄到後台表格
-					RedemptionService redSvc = new RedemptionService();
-					redVO = redSvc.addRed(coano, redprice);
-					//點數相減後更新到教練表格
-					Integer newpoint = coapoint - redprice ;
-					redSvc.alterCoaPoint(coano, newpoint);
-				}
-
+				
+				//新增記錄到後台表格
+				RedemptionService redSvc = new RedemptionService();
+				redVO = redSvc.addRed(coano, redprice);
+				//點數相減後更新到教練表格
+				Integer newpoint = coapoint - redprice ;
+				redSvc.alterCoaPoint(coano, newpoint);
+			
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("redVO", redVO); 
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/redemption/addOneRedemption.jsp");
@@ -109,17 +106,15 @@ public class RedemptionServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 					
 			try {
-				String redno = req.getParameter("redno").trim();
-				System.out.println("redno="+redno);
+				String redno = req.getParameter("redno");
+				System.out.println(redno);
 				RedemptionService redSvc = new RedemptionService();
 				redSvc.alterRed(redno);
 				
 				//取得redemption的教練編號&申請日期
 				RedemptionVO redVO = redSvc.getCoaByRed(redno);
 				String coano = redVO.getCoano();
-				
-				String reddate = new SimpleDateFormat("yyyy-MM-dd").format(redVO.getReddate());
-				System.out.println("reddate="+reddate);
+				String reddate = new SimpleDateFormat("yyyy-mm-dd").format(redVO.getReddate());
 				//取得教練VO抓name跟mail
 				CoaService coaSvc = new CoaService();
 				CoaVO coaVO = coaSvc.getOneCoa(coano);

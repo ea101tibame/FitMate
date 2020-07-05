@@ -29,7 +29,11 @@
 		</c:forEach>
 	</ul>
 </c:if>
-
+<div class="single-blog-wrapper" style="background-color: black;">
+        <div class="single-blog-post-thumb">
+            <img src="<%=request.getContextPath()%>/images//bg-img/STU1920.png" alt="">
+        </div>
+        </div>
 		<div id="main">
 			<h1>點數儲值</h1>
 			<a href="<%=request.getContextPath()%>/front-end/deposit/deposit_index.jsp">返回儲值首頁</a>
@@ -59,7 +63,7 @@
 				dangerMode:true
 			}).then(function(isConfirm){
 				if(isConfirm){
-				window.open('/EA101G5_All_0702_4/front-end/deposit/creditcard_index.html','線上刷卡',config='height=1080px,width=1920px');
+				window.open('<%=request.getContextPath()%>/front-end/deposit/creditcard_index.html','線上刷卡',config='height=1080px,width=1920px');
 				setTimeout(function(){
 					swal('成功','你已經完成儲值作業	請靜待頁面跳轉','success');
 				},1000);	

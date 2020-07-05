@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <% 
-// String lessno = (String)request.getAttribute("empno");
 pageContext.setAttribute("userName","System");
 
 %>
@@ -199,11 +198,11 @@ html, body {
 	color: #0EC879;
 }
 
-.floating-chat .chat .messages li.other:before {
-	left: -45px;
-	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg);
-	/*放學員照片*/
-}
+/* .floating-chat .chat .messages li.other:before { */
+/* 	left: -45px; */
+<%-- 	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg); --%>
+/* 	/*放學員照片*/ */
+/* } */
 
 .floating-chat .chat .messages li.other:after {
 	border-left: 10px solid transparent;
@@ -408,7 +407,7 @@ margin-right
 
 #conversation .panel li.other:before {
 	left: -45px;
-	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg);
+	background-image: url(<%=request.getContextPath()%>/images/backend_public/usermsg.jpg);
 	/*放學員照片*/
 }
 
@@ -429,7 +428,7 @@ margin-right
 
 #conversation .panel li.self:before {
 	right: -45px;
-	background-image: url(<%=request.getContextPath()%>/images/backend_public/gakki.jpg);
+	background-image: url(<%=request.getContextPath()%>/images/backend_public/backemp.jpg);
 	/*放管理員照片*/
 }
 
@@ -654,7 +653,7 @@ margin-top: 10px;
 			var add=`<div class="row sideBar-body">
 			<div class="col-sm-3 col-xs-3 sideBar-avatar">
             <div class="avatar-icon">
-              <img src="<%=request.getContextPath()%>/images/backend_public/emppic.jpg">
+              <img src="<%=request.getContextPath()%>/images/backend_public/usermsg.jpg">
             </div>
           </div>
           
