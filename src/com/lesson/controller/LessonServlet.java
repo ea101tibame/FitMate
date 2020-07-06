@@ -229,7 +229,7 @@ public class LessonServlet extends HttpServlet {
 				if(lesstype ==  null || lesstype.trim().length() == 0) {
 					errorMsgs.add("請選擇課堂類型");
 				}
-System.out.println("lesstype="+lesstype);
+//System.out.println("lesstype="+lesstype);
 				Integer lessmax = null;
 				try {
 					lessmax = new Integer(req.getParameter("lessmax"));
@@ -274,28 +274,29 @@ System.out.println("lesstype="+lesstype);
 				}
 
 				String lessdesc = req.getParameter("lessdesc");
-				//拿現在人數
+				//拿現在最新人數
 				int lesscur =0;
 				String lesssta = null;
 				String coano = null;
 				
 				//圖片
 				byte[] img=null;
+				//前端接收圖片 
 				Part part = req.getPart("lesspic");
 				InputStream in = part.getInputStream();
 				if(in.available()>0) {
 					img = new byte[in.available()];
 					in.read(img);
-					
+				//如果沒有圖片 就拿原本VO內的圖片	
 				}else {
 					LessonService lessSvc = new LessonService();
 					LessonVO lessVO = lessSvc.getOneByPK(lessno);
 					img = lessVO.getLesspic();
 					
-					//拿現在人數
+					//拿現在最新人數
 					lesscur = lessVO.getLesscur(); 
 //					img=LessonVO.getLesspic();
-					//拿現在狀態
+					//拿現在最新狀態
 					lesssta = lessVO.getLesssta();
 					//拿教練編號
 					coano = lessVO.getCoano();
@@ -303,7 +304,6 @@ System.out.println("lesstype="+lesstype);
 				
 				in.close();
 			
-				
 				LessonVO lessonVO = new LessonVO();
 				lessonVO.setCoano(coano);
 				lessonVO.setLessno(lessno);
@@ -321,11 +321,7 @@ System.out.println("lesstype="+lesstype);
 				lessonVO.setLessend(lessend);
 				lessonVO.setLesssta(lesssta);
 				lessonVO.setLesstimes(lesstimes);
-				
-//				Part part = req.getPart("lesspic");
-//				InputStream in = part.getInputStream();
-//				byte[] img = new byte[in.available()];
-//				in.read(img);
+
 				lessonVO.setLesspic(img);
 				
 
@@ -396,7 +392,7 @@ System.out.println("lesstype="+lesstype);
 			try {
 				/***************************1.接收請求參數****************************************/
 				String lesstype = new String(req.getParameter("lesstype"));
-				System.out.println("lesstype="+lesstype);
+//				System.out.println("lesstype="+lesstype);
 				/***************************2.開始查詢資料****************************************/
 				LessonService lessonSvc = new LessonService();
 				List<LessonVO> getTypeList = lessonSvc.findLessonByLessonType(lesstype);

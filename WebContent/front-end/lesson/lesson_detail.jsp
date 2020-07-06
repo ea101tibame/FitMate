@@ -30,9 +30,8 @@
 	boolean LY = lesson_favSvc.getfindByStuno(stuno).stream().anyMatch(o ->o.getLessno().equals(lessno));
 	pageContext.setAttribute("LY", LY);
 	
-	
-	System.out.println("已購買"+Y);
-	System.out.println("已追蹤"+LY);
+// 	System.out.println("已購買"+Y);
+// 	System.out.println("已追蹤"+LY);
 	
 %>
 

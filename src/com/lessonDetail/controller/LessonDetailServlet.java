@@ -24,7 +24,8 @@ public class LessonDetailServlet extends HttpServlet {
         super();
       
     }
-
+    
+    //用doGet 接收lessno跟coano參數 到lesson_detail 這共用頁面
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
@@ -50,7 +51,4 @@ public class LessonDetailServlet extends HttpServlet {
 			}
 		}
 	}
-
-
-
 }

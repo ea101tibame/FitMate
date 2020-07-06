@@ -91,6 +91,18 @@ label {
 .title {
 	font-size: 16px;
 }
+#search{
+    width: 300px;
+    margin-top: 5px;
+}
+#footer{
+margin-top:30px;
+}
+#fortype{
+margin-top:30px !important;
+font-size:18px;
+text-align:center;
+}
 </style>
 
 
@@ -116,19 +128,21 @@ label {
 					<div class="container col-12 " >
 						<div class="row justify-content-center">
 							<form method="post"
-							action="<%=request.getContextPath()%>/lesson/lesson.do">
+							action="<%=request.getContextPath()%>/lesson/lesson.do"  id="fortype" >
 							
-								<label for="country" class="title">依照課程類型分類:</label>
+								<labelclass="title">依照課程類型搜尋 :</label>
 							
 								<select class="custom-select d-block " name="lesstype">
 									<option value="" style="margin-left: 20px">請選擇喜歡的類型</option>
+									<option>所有課程</a></option>
 									<c:forEach var="expertiseVO" items="${lessonSvc.allExpByExpno}">
 										<option value="${expertiseVO.expno}">${expertiseVO.expdesc}
 										
 									</c:forEach>
+									
 								</select>
 								<input type="hidden" name="action" value="getListFromType">
-								<button  type="submit" >搜尋</button>	
+								<button  type="submit" id="search">搜尋</button>	
 								
 							</form>		
 						</div>
@@ -230,9 +244,10 @@ label {
 	<!-- ##### Blog Wrapper Area End ##### -->
 
 	<!-- ##### Footer Area Start ##### -->
+	<div id="footer">
 	<%@ include file="/front-end/footer.jsp"%>
 	<!-- ##### Footer Area End ##### -->
-
+</div>
 	<!-- jQuery (Necessary for All JavaScript Plugins) -->
 	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
 	<!-- Popper js -->
@@ -246,7 +261,6 @@ label {
 	<script src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
 	<!-- Active js -->
 	<script src="${pageContext.request.contextPath}/js/active.js"></script>
-
 
 </body>
 

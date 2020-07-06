@@ -12,9 +12,10 @@ public class LessonDetailService {
 	private LessonDetailDAO_interface dao;
 	
 	public LessonDetailService() {
-		dao = new LessonDetailDAO();//之後轉JNDI
+		dao = new LessonDetailDAO();//JNDI
 	}
-//不確定能不能拿到LessonDetailVO
+
+	/*新增時段明細 由新增時段呼叫 同步進行*/
 	public LessonDetailVO addLessonDetail(String lessno,String ltime_no, String ltime_ss,java.sql.Date ltime_date) {
 		LessonDetailVO LessonDetailVO = new LessonDetailVO();
 		

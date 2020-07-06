@@ -33,9 +33,11 @@ public class PicServletJDBC extends HttpServlet {
 			String lessno = req.getParameter("lessno");
 			LessonService lessonSvc = new LessonService();
 			LessonVO lessonVO = lessonSvc.getOneByPK(lessno);
+			//把DB查出來的照片 放進byte[] 
 			byte[] buf = lessonVO.getLesspic();
 			out.write(buf);
 		} catch (Exception e) {
+			//沒有圖片的話 給預設圖片 前台顯示無圖片
 			InputStream in = getServletContext().getResourceAsStream("images/NoData/null2.jpg");
 			byte [] b = new byte[in.available()];
 			in.read(b);

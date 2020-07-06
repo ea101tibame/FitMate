@@ -37,21 +37,21 @@ background-color:#E6E6F2;
 				<div class="col-12 col-sm-6 col-md-4">
 					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(${context}/images/bg-img/bg-2.jpg);">
 						<div class="catagory-content">
-							<a href="#">揪團運動</a>
+							<a href="${pageContext.request.contextPath}/front-end/activity/listAll_activity.jsp">揪團活動</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-4">
 					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(${context}/images/bg-img/bg-3.jpg);">
 						<div class="catagory-content">
-							<a href="#">購物商城</a>
+							<a href="${pageContext.request.contextPath}/front-end/product/product.jsp">購物商城</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 col-sm-6 col-md-4">
 					<div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(${context}/images/bg-img/bg-4.jpg);">
 						<div class="catagory-content">
-							<a href="#">專業教練課</a>
+							<a href="${pageContext.request.contextPath}/front-end/lesson/listAll_lesson.jsp">教練課程</a>
 						</div>
 					</div>
 				</div>
@@ -66,7 +66,7 @@ background-color:#E6E6F2;
 						<div class="h-100 d-flex align-items-center justify-content-end">
 							<div class="cta--text">
 								<h2>FIND YOUR FITMATE</h2>
-								<a href="#" class="btn essence-btn">查看活動</a>
+								<a href="${pageContext.request.contextPath}/front-end/coach/listAllCoach_ForStudent.jsp" class="btn essence-btn">尋找教練</a>
 							</div>
 						</div>
 					</div>
@@ -79,7 +79,7 @@ background-color:#E6E6F2;
 			<div class="row">
 				<div class="col-12">
 					<div class="section-heading text-center">
-						<h2>熱門課程</h2>
+						<h2>熱門教練</h2>
 					
 					</div>
 				</div>

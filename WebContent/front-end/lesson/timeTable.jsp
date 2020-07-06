@@ -5,9 +5,11 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.lesson.model.*"%>
 <%@ page import="org.json.JSONArray"%>
+<%@ page import="com.coach.model.CoaVO"%>
 <%
 
 	String coano = (String)session.getAttribute("coano");
+// 	String coano = ((CoaVO)request.getAttribute("coaVO")).getCoano();
 	LessonService lessonSvc = new LessonService();
 	JSONArray jsa = lessonSvc.getCoachAllLesson(coano);
 	pageContext.setAttribute("jsonDates", jsa);

@@ -59,6 +59,7 @@ public class LessonTimeServlet extends HttpServlet {
 				String ss1 =null;
 				List<LessonTimeVO> list= new ArrayList<LessonTimeVO>();
 				
+				//錯誤處理 第一版 (後來因為檢查時段 可以檢查是否為空)
 				for (int i = 0; i < ltime_date.length; i++) {
 					if("".equals(ltime_date[i])) {
 						errorMsgs.add("第" +(i+1)+ "時間不可為空!");
@@ -71,6 +72,7 @@ public class LessonTimeServlet extends HttpServlet {
 				}
 				
 				if(errorMsgs.isEmpty()) {
+					//如果時段不為空 就新增時段
 					for(int i =0;i<ltime_date.length;i++) {
 						date1 = ltime_date[i];
 						dates = java.sql.Date.valueOf(date1);
@@ -79,10 +81,10 @@ public class LessonTimeServlet extends HttpServlet {
 						lessonTimeVO.setLtime_date(dates);
 						lessonTimeVO.setLtime_ss(ss1);
 						/*************************** 2.開始新增資料 ***************************************/
+						//直接同時建DETAIL 時段明細
 						LessonTimeService lessonTimeService = new LessonTimeService();
 						lessonTimeService.addLessonTime(dates, ss1,lessno);
 						
-						//直接同時建DETAIL
 						list.add(lessonTimeVO);
 					}
 				}

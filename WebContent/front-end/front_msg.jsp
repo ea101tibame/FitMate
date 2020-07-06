@@ -223,12 +223,6 @@ html, body {
 	color: #0AD5C1;
 }
 
-/* .floating-chat .chat .messages li.self:before { */
-/* 	right: -45px; */
-<%-- 	background-image: url(<%=request.getContextPath()%>/images/backend_public/emppic.jpg); --%>
-/* 	/*放學員照片*/ */
-/* } */
-
 .floating-chat .chat .messages li.self:after {
 	border-right: 10px solid transparent;
 	right: -10px;
@@ -267,82 +261,59 @@ html, body {
 	background-color: rgba(25, 147, 147, 0.2);
 }
 
-@
-keyframes show-chat-even { 0% {
-	margin-left: -480px;
+@keyframes show-chat-even { 
+	0% {
+		margin-left: -480px;
+	}
+	100%{
+		margin-left:0;
+	}
 }
 
-100%
-{
-margin-left
-:
- 
-0;
-}
-}
-@
--moz-keyframes show-chat-even { 0% {
-	margin-left: -480px;
+@-moz-keyframes show-chat-even { 
+	0% {
+		margin-left: -480px;
+	}
+	
+	100%{
+		margin-left:0;
+	}
 }
 
-100%
-{
-margin-left
-:
- 
-0;
+@-webkit-keyframes show-chat-even { 
+	0% {
+		margin-left: -480px;
+	}
+	
+	100%{
+		margin-left:0;
+	}
 }
+@keyframes show-chat-odd { 
+	0% {
+		margin-right: -480px;
+	}
+	
+	100%{
+		margin-right:0;
+	}
 }
-@
--webkit-keyframes show-chat-even { 0% {
-	margin-left: -480px;
+@-moz-keyframes show-chat-odd { 
+	0% {
+		margin-right: -480px;
+	}
+	
+	100%{
+		margin-right:0;
+	}
 }
-
-100%
-{
-margin-left
-:
- 
-0;
-}
-}
-@
-keyframes show-chat-odd { 0% {
-	margin-right: -480px;
-}
-
-100%
-{
-margin-right
-:
- 
-0;
-}
-}
-@
--moz-keyframes show-chat-odd { 0% {
-	margin-right: -480px;
-}
-
-100%
-{
-margin-right
-:
- 
-0;
-}
-}
-@
--webkit-keyframes show-chat-odd { 0% {
-	margin-right: -480px;
-}
-100%
-{
-margin-right
-:
- 
-0;
-}
+@-webkit-keyframes show-chat-odd { 
+	0% {
+		margin-right: -480px;
+	}
+	100%{
+		margin-right:0;
+	}
 }
 
 .floating-chat .chat .panel {
@@ -440,37 +411,37 @@ margin-right
 	border-right: 10px solid transparent;
 	right: -10px;
 }
+
 #statusOutput{
-opacity: 0.5;
+	opacity: 0.5;
 }
 
 #row{
-opacity: 0.5;
+	opacity: 0.5;
 }
+
 .floating-chat .chat .footer .text-box{
     width: 500px;
     height: 20px;
     margin-bottom: 5px;
 }
 </style>
+
 </head>
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
 	<link href="https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=Coming+Soon&family=Noto+Sans+TC:wght@700&display=swap" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
 	</script>
-<!-- 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"> -->
 	</script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
-	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-	  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+
 <body onload="connect();" onunload="disconnect();">
-<h3 id="statusOutput" class="statusOutput"></h3>
-<div id="row" ></div>
+	<h3 id="statusOutput" class="statusOutput"></h3>
+	<div id="row" ></div>
 			
-		
-		
 	<!-- 客服聊天區-->
 	<div class="floating-chat">
 		<i class="fa fa-comments" aria-hidden="true"></i>
@@ -482,24 +453,14 @@ opacity: 0.5;
 				</button>
 
 			</div>
-			<ul class="messages">
-<!-- 				<li class="other">歡迎使用FitMate線上客服，收到訊息後，我們將會盡快回覆您！</li> -->
-<!-- 				<li class="self">這裡是會員的文字</li> -->
-			</ul>
+			<ul class="messages"></ul>
 			<div id="messagesArea" class="panel message-area" >
 				<li class="other">歡迎使用FitMate線上客服，收到訊息後，我們將會盡快回覆您！</li>
-				
 			</div>
 				
-			
-
 			<div class="footer">
-<!-- 				<div class="text-box" contenteditable="true" disabled="true" id="message" placeholder="Message" onkeydown="if (event.keyCode == 13) sendMessage();"></div> -->
 				<input id="message" class="text-box" class="text-field" type="text" placeholder="Message" onkeydown="if (event.keyCode == 13) sendMessage();" /> 
-				
 				<button id="sendMessage" type="submit" onclick="sendMessage();">Send</button>
-				
-<!-- 			<input type="submit" id="sendMessage" class="button" value="Send" onclick="sendMessage();" />  -->
 				<input type="hidden" id="connect" class="button" value="Connect" onclick="connect();" /> 
 				<input type="hidden" id="disconnect" class="button" value="Disconnect" onclick="disconnect();" />
 			</div>
@@ -513,6 +474,7 @@ opacity: 0.5;
 	<!-- 客服聊天區-->
 
 </body>
+
 <script>
 	var MyPoint = "/FriendWS/${userName}";
 	var host = window.location.host;
@@ -583,8 +545,6 @@ opacity: 0.5;
 		if (message === "") {
 			alert("Input a message");
 			inputMessage.focus();
-// 		} else if (friend === "") {
-// 			alert("Choose a friend");
 		} else {
 			var jsonObj = {
 				"type" : "chat",
@@ -598,23 +558,15 @@ opacity: 0.5;
 		}
 	}
 	
-	// 有好友上線或離線就更新列表
+	// 前台 只對客服
 	function refreshFriendList(jsonObj) {
 		var friends = jsonObj.users;
-// 		var row = document.getElementById("row");
 		row.innerHTML = '';
-// 		for (var i = 0; i < friends.length; i++) {
-// 			if (friends[i] === self) { continue; }
-// 			row.innerHTML +='<div id=' + i + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
-// 		}
 		addListener();
 	}
-	// 註冊列表點擊事件並抓取好友名字以取得歷史訊息
+	//客服是System 取得歷史訊息
 	function addListener() {
-// 		var container = document.getElementById("row");
-// 		container.addEventListener("mouseout", function(e) {
 			var friend = "System";
-// 			updateFriendName(friend);
 			var jsonObj = {
 					"type" : "history",
 					"sender" : self,
@@ -622,7 +574,6 @@ opacity: 0.5;
 					"message" : ""
 				};
 			webSocket.send(JSON.stringify(jsonObj));
-// 		});
 	}
 	
 	function disconnect() {
@@ -632,8 +583,5 @@ opacity: 0.5;
 		document.getElementById('disconnect').disabled = true;
 	}
 	
-// 	function updateFriendName(name) {
-// 		statusOutput.innerHTML = name;
-// 	}
 </script>
 </html>

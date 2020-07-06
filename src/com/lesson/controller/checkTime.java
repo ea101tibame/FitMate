@@ -29,7 +29,11 @@ public class checkTime extends HttpServlet {
 		doPost(req, res);
 	}
 
-	
+	/*比對新增的時段或修改的時段 是否有重複
+	 重覆要提示 請改時段
+	 比對 教練課程與揪團課程
+	 並排除 修改時 原本已經有的課程
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("json");
@@ -38,12 +42,12 @@ public class checkTime extends HttpServlet {
 		/*從前端接收*/ 
 		String[] jarr = req.getParameterValues("jarr");
 		String lessno = req.getParameter("lessno");
-		System.out.println("lessno="+lessno);
+//		System.out.println("lessno="+lessno);
 		String front = jarr[0];
 		JsonParser  parser = new JsonParser();
 	    JsonElement elem   = parser.parse( front );
 	    JsonArray elemArr = elem.getAsJsonArray();
-	    System.out.println("elemArr="+elemArr);
+//	    System.out.println("elemArr="+elemArr);
 	    List<String> f = new ArrayList<String>();
 	    for(int i=0;i<elemArr.size()-1;i++) {//扣掉最後一個空字串
 	    	JsonElement first1 = elemArr.get(i).getAsJsonObject().get("dateAndTime");
@@ -51,10 +55,10 @@ public class checkTime extends HttpServlet {
 			System.out.println("one="+one);
 			f.add(one);
 	    }
-	    System.out.println("前端LIST");
+//	    System.out.println("前端LIST");
 	    /*前端LIST*/
 	    for(int i = 0;i < f.size();i++){
-	    	System.out.println( f.get(i));
+//	    	System.out.println( f.get(i));
 	    }
 	    
 	    LessonTimeService ltsvc = new LessonTimeService();
@@ -62,7 +66,7 @@ public class checkTime extends HttpServlet {
 	    List<String> old = ltsvc.getOneTime(lessno);
 	    
 	    for(String a:old) {
-	    	System.out.println("後端原本課程時段="+a);
+//	    	System.out.println("後端原本課程時段="+a);
 	    }
 	    
 	    /*---------------------------------------------------------------------------*/
@@ -80,7 +84,7 @@ public class checkTime extends HttpServlet {
 				String ss = result.getString("ltime_ss");
 				String date1= result.getString("ltime_date");
 				String str = date1+ss;
-				System.out.println("教練課程="+str);
+//				System.out.println("教練課程="+str);
 				db.add(str);
 			}
 			
@@ -93,13 +97,13 @@ public class checkTime extends HttpServlet {
 				String ss = result.getString("actss");
 				String date1= result.getString("actdate");
 				String str = date1+ss;
-				System.out.println("揪團課程="+str);
+//				System.out.println("揪團課程="+str);
 				db.add(str);
 			}	
 			System.out.println("後端LIST");
 			 /*後端LIST*/
 			for(int j = 0;j < db.size();j++){
-		    	System.out.println(db.get(j));
+//		    	System.out.println(db.get(j));
 		    }
 			/*後端與原本時段比對*/
 			for(int i =0;i<old.size();i++) {
@@ -107,7 +111,7 @@ public class checkTime extends HttpServlet {
 				for(int j=0;j<db.size();j++) {
 					
 					if(old.get(i).equals(db.get(j))) {
-						System.out.println("想移除的="+db.remove(j));
+//						System.out.println("想移除的="+db.remove(j));
 						db.remove(j);
 						
 						break;
@@ -118,7 +122,7 @@ public class checkTime extends HttpServlet {
 
 			for (String  test: db) {
 		        
-		            System.out.println("db移除原時段後="+test);
+//		            System.out.println("db移除原時段後="+test);
 		       
 		    }
 			/*---------------------------------------------------------------------------*/

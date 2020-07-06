@@ -6,15 +6,18 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 public class JedisHandleMessage {
-	// 此範例key的設計為(發送者名稱:接收者名稱)，實際應採用(發送者會員編號:接收者會員編號)
+	// key的設計為(發送者名稱:接收者名稱)
 
 	private static JedisPool pool = JedisPoolUtil.getJedisPool();
 
+	//聊天內容
 	public static List<String> getHistoryMsg(String sender, String receiver) {
+		
 		String key = new StringBuilder(sender).append(":").append(receiver).toString();
 		Jedis jedis = null;
 		jedis = pool.getResource();
 		jedis.auth("123456");
+		//jedis 方法 0到最後一個
 		List<String> historyData = jedis.lrange(key, 0, -1);
 		jedis.close();
 		return historyData;
