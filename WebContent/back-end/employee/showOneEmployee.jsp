@@ -81,8 +81,8 @@ body {
 
 		<div id="main">
 			<h1>FitMate員工資料</h1>
-			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工列表</a> <a
-				href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
+			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工首頁</a> 
+				
 		</div>
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">

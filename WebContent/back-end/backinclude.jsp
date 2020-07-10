@@ -4,7 +4,7 @@
 <%@ page import="com.employee.model.*"%>
 
 <%
-	pageContext.setAttribute("empVO", session.getAttribute("empVO"));
+	pageContext.setAttribute("empVO",request.getAttribute("empVO"));
 %>
 <!DOCTYPE html>
 <html>

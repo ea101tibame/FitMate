@@ -164,18 +164,18 @@ body {
 				e.preventDefault();
 				swal({
 					title:'注意',
-					text:'你確定要刪除這名員工嗎?',
+					text:'你確定要清算這名員工嗎?',
 					icon:'warning',
 					buttons:true,
 					dangerMode:true
 				}).then(function(isConfirm){
 					if(isConfirm){
-						swal('成功','已將此名員工刪除','success');
+						swal('成功','已將此名員工做成消波塊','success');
 						setTimeout(function(){
 							$('input:button').parent().submit();
 						},1500);
 					} else {
-						swal('取消','你已經取消刪除作業','error');
+						swal('取消','你已經取消清算作業','error');
 					}
 				});
 			});

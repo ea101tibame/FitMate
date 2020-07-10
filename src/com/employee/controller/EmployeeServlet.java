@@ -141,10 +141,10 @@ public class EmployeeServlet extends HttpServlet {
 
 			try {
 				String empno = req.getParameter("empno");
-
+System.out.println(empno);
 				EmployeeService empSvc = new EmployeeService();
 				EmployeeVO empVO = empSvc.getOneEmp(empno);
-
+				System.out.println(empVO.getEmpno());
 				req.setAttribute("empVO", empVO);
 				String url = "/back-end/employee/alterOneEmp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -162,7 +162,7 @@ public class EmployeeServlet extends HttpServlet {
 
 			try {
 				String empno = req.getParameter("empno");
-
+				System.out.println(empno);
 				String ename = req.getParameter("ename");
 				String enameCheck = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{1,20}$"; // 含中文英文數字的正規表示法
 				if (ename == null || ename.trim().length() == 0) {
