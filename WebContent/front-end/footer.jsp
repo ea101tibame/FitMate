@@ -29,9 +29,7 @@
 		<script src="${context}/js/classy-nav.min.js"></script>
 		<script src="${context}/js/active.js"></script>
 		<script src="${context}/js/index.js"></script>
-<!-- 		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script> -->
-<!-- 		<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script> -->
-<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+
  		<script> 
  			var context = "${context}";
  		</script> 

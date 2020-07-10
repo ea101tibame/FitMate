@@ -41,8 +41,8 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 		private static final String UPDATE_STA = "UPDATE EMPLOYEE SET ENAME = ? , EACC = ? , EPSW = ? ,EMAIL = ? , EDATE = ?,EPIC = ?, ESTA = ?  WHERE EMPNO = ? ";
 		//忘記密碼查詢
 		private static final String FORGET_PSW = "SELECT EPSW , ENAME , EMAIL FROM EMPLOYEE WHERE EACC = ? AND EMAIL = ? ";
-		//登入驗證(給帳號讓servlet比對密碼)
-		private static final String LOGIN = "SELECT EMPNO , ENAME , EPSW FROM EMPLOYEE WHERE EACC = ? ";
+		//登入驗證(給帳號讓servlet比對密碼)(同步處理權限&對應功能開放)
+		private static final String LOGIN = "SELECT EMPNO , ENAME , ESTA , EPSW FROM EMPLOYEE WHERE EACC = ? ";
 		
 		@Override
 		public void insertEmp(EmployeeVO empVO) {
@@ -313,12 +313,13 @@ public class EmployeeDAO implements EmployeeDAO_interface{
 				pstmt.setString(1, eacc);
 				rs = pstmt.executeQuery();
 				
-				//loginSuccess顯示名字
+				//loginSuccess顯示名字,同步抓取權限判斷
 				while(rs.next()) {
 					empVO = new EmployeeVO();
 					empVO.setEmpno(rs.getString("empno"));
 					empVO.setEpsw(rs.getString("epsw"));
 					empVO.setEname(rs.getString("ename"));
+					empVO.setEsta(rs.getString("esta"));
 				}
 				
 			} catch (SQLException se) {

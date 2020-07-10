@@ -6,7 +6,7 @@ import com.lesson.model.*;
 //import com.lesson.model;
 public interface Lesson_orderDAO_interface {
 	
-	public void insert(Lesson_orderVO lesson_orderVO);
+public void insert(Lesson_orderVO lesson_orderVO, int stupoint);
 	public void delete(String lord_no);		
 	public List<Lesson_orderVO> getfindByLessno( String lessno);//查詢一個課程有多少學生
 	public List<Lesson_orderVO> getfindByStuno(String stuno);//查詢一個學生有多少課程

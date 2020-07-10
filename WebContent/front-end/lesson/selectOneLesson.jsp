@@ -5,9 +5,9 @@
 <%@ page import="com.lesson.model.*"%>
 
 <%
-	LessonVO lessonVO = (LessonVO) request.getAttribute("lessonVO");
-	LessonService lessonSvc = new LessonService();
-	LessonVO lessno = lessonSvc.getOneByPK(lessonVO.getLessno());
+LessonVO lessonVO = (LessonVO) request.getAttribute("lessonVO");
+LessonService lessonSvc = new LessonService();
+LessonVO lessno = lessonSvc.getOneByPK(lessonVO.getLessno());
 %>
 
 
@@ -182,11 +182,11 @@ font-size:18px;
 			</ul>
 		</c:if>
 		
-		<%-- 課程修改成功 --%>
+		<%--課程修改成功 --%>
 		<c:if test="${not empty updateLesson}">
 			<script>
 				swal("課程修改成功","","success");
-			</script>
+ 			</script> 
 		</c:if>
 		
 		<div class="container col-12">

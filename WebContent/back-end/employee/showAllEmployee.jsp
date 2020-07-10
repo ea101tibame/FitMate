@@ -66,6 +66,10 @@ body {
 #main {
 	margin-left: 5px;
 }
+
+.insert {
+	margin-left:90.3%;
+}
 </style>
 </head>
 
@@ -87,9 +91,13 @@ body {
 
 
 		<div id="main">
-			<h1>FitMate所有員工資料</h1>
-			<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
+			<h1>FitMate員工資料</h1>
+			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工首頁</a>
 		</div>
+		<div class="insert">
+			<input type="submit" value="新增員工" onclick="location.href='<%=request.getContextPath()%>/back-end/employee/insertOneEmp.jsp'" class="btn btn-warning">
+		</div>
+		<div class="container col-11">
 		<%@ include file="page1.file"%>
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
@@ -101,21 +109,23 @@ body {
 					<th>雇用日期</th>
 					<th>員工圖片</th>
 					<th>員工權限</th>
+					<th>更新資料</th>
+					<th>清算員工</th>
 				</tr>
 				<c:forEach var="empVO" items="${emplist}" begin="<%=pageIndex%>"
 					end="<%=pageIndex+rowsPerPage-1%>">
-
+				
 					<tr>
-						<td>${empVO.empno}</td>
-						<td>${empVO.ename}</td>
-						<td>${empVO.eacc}</td>
-						<td>${empVO.email}</td>
-						<td>${empVO.edate}</td>
+						<td class="align-middle">${empVO.empno}</td>
+						<td class="align-middle">${empVO.ename}</td>
+						<td class="align-middle">${empVO.eacc}</td>
+						<td class="align-middle">${empVO.email}</td>
+						<td class="align-middle">${empVO.edate}</td>
 						<td><img
 							src="<%=request.getContextPath()%>/employee/employeePic.do?empno=${empVO.empno}"
 							class="pic"></td>
-						<td>${empVO.esta}</td>
-						<td>
+						<td class="align-middle">${empVO.esta}</td>
+						<td class="align-middle">
 							<form 
 								action="<%=request.getContextPath()%>/employee/employee.do"
 								method="post" style="margin-bottom: 0px;">
@@ -127,9 +137,9 @@ body {
 									
 							</form>
 						</td>
-						<td>
+						<td class="align-middle">
 							<form action="<%=request.getContextPath()%>/employee/employee.do" method="post" style="margin-bottom: 0px;">
-								<input type="button" value="刪除資料" class="btn btn-outline-success my-2 my-sm-0"> 
+								<input type="button" value="清算員工" class="btn btn-outline-success my-2 my-sm-0"> 
 								<input type="hidden" name="empno" value="${empVO.empno}"> 
 <%-- 								<input type="hidden" name="requestURI" value="<%=request.getRequestURI()%>"> --%>
 <%-- 								<input type="hidden" name="whichPage" value="${whichPage}">  --%>
@@ -140,10 +150,11 @@ body {
 					</tr>
 				</c:forEach>
 			</table>
-			<%@ include file="page2.file"%>
 
 
 			<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
+		</div>
+			<%@ include file="page2.file"%>
 		</div>
 	</div>
 	<script>

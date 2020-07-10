@@ -31,9 +31,9 @@ public class RedemptionDAO implements RedemptionDAO_interface{
 		//點數兌換
 		private static final String INSERT_STMT = "INSERT INTO REDEMPTION VALUES (to_char(sysdate,'yyyymmdd')||'-RED'||LPAD(to_char(DEPOSIT_SEQ.nextval), 3, '0'),?,CURRENT_TIMESTAMP,?,'審核中')";
 		//查單一教練所有兌換紀錄(for教練)
-		private static final String SELECT_ALL_BYCOANO = "SELECT * FROM REDEMPTION WHERE COANO = ?";
+		private static final String SELECT_ALL_BYCOANO = "SELECT * FROM REDEMPTION WHERE COANO = ? ORDER BY REDDATE DESC";
 		//查教練所有兌換紀錄(for後台)
-		private static final String SELECT_ALL = "SELECT * FROM REDEMPTION ORDER BY REDNO DESC";
+		private static final String SELECT_ALL = "SELECT * FROM REDEMPTION ";
 		//更改兌換狀態
 		private static final String UPDATE_REDSTA = "UPDATE REDEMPTION SET REDSTA = '已審核' WHERE REDNO = ?";
 		//更改教練點數

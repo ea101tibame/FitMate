@@ -3,7 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.employee.model.*"%>
 
-
+<%
+	pageContext.setAttribute("empVO", session.getAttribute("empVO"));
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,6 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>include</title>
-
 <style>
 @import
 	url("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
@@ -187,31 +188,42 @@ ul.menu {
 		<h3 id="titleh3">FitMate管理後台</h3>
 		<div class="navbar">
 			<ul class="menu">
-				<li><a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp"><img src="<%=request.getContextPath()%>/images/backend_public/employee.png" alt="">
+			<!-- 系統管理員才開放員工管理超連結 --> 
+			<c:if test="${empVO.esta=='系統管理員'}">
+				<li><a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp"><img src="<%=request.getContextPath()%>/images/backend_public/employee.png" alt="">
 						平台員工管理</a>
 <!-- 					<ul class="sub-menu"> -->
 <!-- 						<li><a href="#">管理員權限設定</a></li> -->
 <!-- 					</ul> -->
 					</li>
-					
+			</c:if>
+			<c:if test="${empVO.esta=='一般管理員'}">
+				<li><a href="#" id="estafail"><img src="<%=request.getContextPath()%>/images/backend_public/employee.png" alt="">
+						平台員工管理</a>
+<!-- 					<ul class="sub-menu"> -->
+<!-- 						<li><a href="#">管理員權限設定</a></li> -->
+<!-- 					</ul> -->
+					</li>
+			</c:if>
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/news.png" alt="">
 						消息管理</a>
 					<ul class="sub-menu">
-						<li><a href="<%=request.getContextPath()%>/back-end/information/information_select_page.jsp">消息管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/information/showAllInformation.jsp">消息管理</a></li>
 					</ul></li>
 					
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/complain.png" alt="">
 						客服中心</a>
 					<ul class="sub-menu">
 						<li><a href="#">客訴管理</a></li>
-						<li><a href="<%=request.getContextPath()%>/back-end/back_msg.jsp" target="_blank">線上客服</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/back_msg/back_msg.jsp" target="_blank">線上客服</a></li>
 					</ul></li>
 
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/shopping.png" alt="">
 						商城管理</a>
 					<ul class="sub-menu">
-						<li><a href="#">商品資料管理</a></li>
-						<li><a href="#">商品訂單管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/product/productManage.jsp">商品資料管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/product/product_orderManage.jsp">商品訂單管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/back-end/product/sale_projectManage.jsp">促銷管理</a></li>
 					</ul></li>
 
 				<li><a href="#"><img src="<%=request.getContextPath()%>/images/backend_public/coach.png" alt="">
@@ -237,7 +249,6 @@ ul.menu {
 		<!-- label用來收合的不要亂移動 結束 -->
 	</div>
 	<!-- 左邊選單結束 -->
-
 	
 	<!-- 登入按鈕開始 -->
 	<div class="login">
@@ -307,6 +318,11 @@ ul.menu {
 		});
 	});
 	
+	$(document).ready(function(){
+		$('#estafail').click(function(){
+			swal('警告','此為系統管理員專用功能,您目前權限為一般管理員','error');
+		});
+	});
 </script>
 </body>
 </html>

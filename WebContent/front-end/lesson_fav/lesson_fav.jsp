@@ -103,7 +103,7 @@ margin-bottom: 220px;
                                   <th scope="col">課程類型</th>
                                    <th scope="col">課程點數</th>
                                    <th scope="col">刪除追蹤</th>
-                                   <th scope="col">馬上購買</th>
+                                   <th scope="col">GO買去</th>
                                 </tr>
                               </thead>
                        
@@ -184,12 +184,12 @@ margin-bottom: 220px;
 			</td>
 			
 	 		<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/lesson_order/lesson_order.do" style="margin-bottom: 0px;">
-			     <input type="submit" class="btn btn-secondary"  value="購買">
-			     <input type="hidden" name="Stuno"  value="${lesson_favVO.stuno}">
-			     <input type="hidden" name="Lessno" value="${lesson_favVO.lessno}">			
-			     <input type="hidden" name="action" value="insert">								     
-			     </FORM>
+
+				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px; width:133px">
+			     <input type="submit" class="btn btn-secondary"  value="查看詳情">
+			    
+			     <input type="hidden" name="lessno" value="${lesson_favVO.lessno}">			     
+			     <input type="hidden" name="action" value="show_lesson_detail"></FORM>
 			</td>
 
 	 		</tr>	 

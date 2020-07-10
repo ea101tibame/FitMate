@@ -85,18 +85,18 @@ body {
 
 <jsp:useBean id="infSvc" scope="page" class="com.information.model.InformationService" />
 
-<li>
-<form action="<%=request.getContextPath()%>/information/information.do" method="post">
-	<b>依編號選擇</b>
-	<select size="1" name="inno">
-		<c:forEach var="infVO" items="${infSvc.allInfByDate}">
-		<option value="${infVO.inno}">${infVO.inno}
-		</c:forEach>
-	</select>
-	<input type="hidden" name="action" value="getOne_Display">
-	<input type="submit" value="查詢">
-</form>
-</li>
+<!-- <li> -->
+<%-- <form action="<%=request.getContextPath()%>/information/information.do" method="post"> --%>
+<!-- 	<b>依編號選擇</b> -->
+<!-- 	<select size="1" name="inno"> -->
+<%-- 		<c:forEach var="infVO" items="${infSvc.allInfByDate}"> --%>
+<%-- 		<option value="${infVO.inno}">${infVO.inno} --%>
+<%-- 		</c:forEach> --%>
+<!-- 	</select> -->
+<!-- 	<input type="hidden" name="action" value="getOne_Display"> -->
+<!-- 	<input type="submit" value="查詢"> -->
+<!-- </form> -->
+<!-- </li> -->
 
 <li>
 <form action="<%=request.getContextPath()%>/information/information.do" method="post">

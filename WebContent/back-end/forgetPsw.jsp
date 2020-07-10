@@ -58,6 +58,11 @@
 <link rel='stylesheet'
 	href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/css/backend.css">
+<style>
+.container{
+	margin-top:150px;
+}
+</style>
 </head>
 
 <body>
@@ -74,7 +79,7 @@
 		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
 		<div id="main">
 			<h2>忘記密碼</h2>
-			<a href="employee_select_page.jsp">返回首頁</a>
+			<a href="<%=request.getContextPath()%>/back-end/backend_index.jsp">返回首頁</a>
 		</div>
 		
 		<c:if test="${not empty errorMsgs}">
@@ -82,7 +87,7 @@
 			<br>
 			<a><c:forEach var="message" items="${errorMsgs}">${message}</c:forEach></a>
 		</c:if>
-
+	<div class="container">
 		<form action="<%=request.getContextPath()%>/employee/employee.do" method="post">
 		
 		<table class="table align-items-center">
@@ -96,10 +101,10 @@
 			</tr>
 		</table>
 				<input type="hidden" name="action" value="forgetPsw">
-				<input type="submit" value="送出查詢" class="btn btn-outline-success my-2 my-sm-0" id="confirm">
+				<input type="submit" value="送出查詢" class="btn btn-success my-2 my-sm-0" id="confirm">
 		</form>
 		<br><br>
-		
+	</div>	
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 	</div>
 	

@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import java.sql.*;
 
+import com.deposit.model.DepositService;
 //import com.student.model;
 //import com.choah.model;
 import com.lesson.model.*;
@@ -48,7 +49,7 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 	
 	
 	@Override
-	public void insert(Lesson_orderVO Lesson_orderVO) {
+	public void insert(Lesson_orderVO lesson_orderVO ,int stupoint) {
 		
 		Connection con = null;
 		PreparedStatement pstmt =null;
@@ -65,11 +66,11 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 			pstmt = con.prepareStatement(INSERT_STMT , cols);
 			
 
-			pstmt.setString(1, Lesson_orderVO.getStuno());	
-			pstmt.setString(2, Lesson_orderVO.getLessno());		
-			pstmt.setInt(3, Lesson_orderVO.getLord_sc());
+			pstmt.setString(1, lesson_orderVO.getStuno());	
+			pstmt.setString(2, lesson_orderVO.getLessno());		
+			pstmt.setInt(3, lesson_orderVO.getLord_sc());
 		
-			pstmt.setTimestamp(4, Lesson_orderVO.getLord_time());
+			pstmt.setTimestamp(4, lesson_orderVO.getLord_time());
 
 			pstmt.executeUpdate();		
 			
@@ -87,10 +88,10 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 				System.out.println("未取得自增主鍵值");
 			}
 			
-			Lesson_orderVO.setLord_no(next_lord_no);
+			lesson_orderVO.setLord_no(next_lord_no);
 			
 			pstmt = con.prepareStatement(GET_LESSNO_STMT);
-			pstmt.setString(1, Lesson_orderVO.getLessno());
+			pstmt.setString(1, lesson_orderVO.getLessno());
 		
 
 			rs = pstmt.executeQuery();
@@ -101,17 +102,21 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
 			
 			while (rs.next()) {	
 	
-				if( rs.getInt("lesscur") > rs.getInt("lessmin") )
+				if( rs.getInt("lesscur")+1 >= rs.getInt("lessmin") )
 					sta = "已成團";
 				else
 					sta = "未成團";
 				
 				lessur_cont=rs.getInt("lesscur");
+				
 				lessur_cont ++;
 				
 				lessno = rs.getString("lessno");
 				
 				System.out.println(lessur_cont + lessno + sta);
+				System.out.println("sta="+sta);
+				System.out.println("lessmin="+rs.getInt("lessmin"));
+				System.out.println("lesscur="+lessur_cont);
 			}
 		
 			pstmt = con.prepareStatement(UPDATE_LESSON_LESSCUR);
@@ -122,6 +127,13 @@ public class Lesson_orderJDBCDAO implements Lesson_orderDAO_interface{
  
 			pstmt.executeUpdate();
 
+DepositService DepositSvc = new DepositService();
+			
+DepositSvc.alterStuPoint(lesson_orderVO.getStuno(), stupoint);				
+			
+			
+
+			
 			
 			con.commit();
 			con.setAutoCommit(true);

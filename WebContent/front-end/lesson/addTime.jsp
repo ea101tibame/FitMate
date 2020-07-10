@@ -20,6 +20,7 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 <html lang="en">
 
 <head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <meta charset="UTF-8">
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,6 +32,7 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 <title>FitMate</title>
 
 <!-- Favicon  -->
+
 <link rel="icon"
 	href="${pageContext.request.contextPath}/images/core-img/FIT.ico">
 
@@ -46,6 +48,7 @@ LessonVO lessonVO = lSvc.getOneByPK(lessno);
 	href="${pageContext.request.contextPath}/css/custom-css/lesson/addLesson.css">
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
 <style>
 	.title{
 	font-size:20px;
@@ -80,6 +83,10 @@ h2{
     padding: .0rem 0rem;
     font-size: 1.25rem; 
 
+}
+.swal2-title {
+    display: flex !important;
+    justify-content: center !important;
 }
 </style>
 
@@ -207,13 +214,13 @@ h2{
 												$("#show").css("color","red");
 											},
 											success:function(data){
-												swal("Check "+data, "時段確認 OK", "success");
+												swal.fire("Check "+data, "時段確認 OK", "success");
 												if(data=="Success!"){
 													$("#show").text(data);
 													$("#show").css("color","red");
 													$("#send").show();
 							                    }else{
-							                    	swal("請重新選擇時段", data, "error");
+							                    	swal.fire("請重新選擇時段", data, "error");
 							                    	$("#show").text(data);
 													$("#show").css("color","red");
 							                    }
@@ -305,7 +312,7 @@ $(function() {
   });
 
 </script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </body>
 
 </html>

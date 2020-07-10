@@ -46,7 +46,7 @@ public class EmployeeServlet extends HttpServlet {
 
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/employee_select_page.jsp");
+				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/showAllEmployee.jsp");
 				failView.forward(req, res);
 			}
 		}
@@ -117,7 +117,7 @@ public class EmployeeServlet extends HttpServlet {
 				
 				//準備信件內容
 				String subject = "密碼通知信件";
-				String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
+				String messageText = "FitMate員工 "+ename+" 您好,您的後台系統登入密碼為 "+epsw+" ,請務必保管好此信件,謝謝";
 				//送信
 				MailService mSvc = new MailService();
 				mSvc.sendMail(email, subject, messageText);
@@ -129,7 +129,7 @@ public class EmployeeServlet extends HttpServlet {
 
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/employee_select_page.jsp");
+				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/showAllEmployee.jsp");
 				failView.forward(req, res);
 			}
 		}
@@ -151,7 +151,7 @@ public class EmployeeServlet extends HttpServlet {
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/employee_select_page.jsp");
+				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/showAllEmployee.jsp");
 				failView.forward(req, res);
 			}
 		}
@@ -246,7 +246,7 @@ public class EmployeeServlet extends HttpServlet {
 
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/employee_select_page.jsp");
+				RequestDispatcher failView = req.getRequestDispatcher("/back-end/employee/showAllEmployee.jsp");
 				failView.forward(req, res);
 			}
 		}
@@ -334,7 +334,7 @@ public class EmployeeServlet extends HttpServlet {
 					res.sendRedirect(req.getContextPath() + "/back-end/loginFail.jsp");
 				} else {
 					HttpSession session = req.getSession();
-					session.setAttribute("empVO", empVO);
+					session.setAttribute("empVO", empVO);	//含有名字帳號密碼狀態的VO
 					try {
 						String location = (String) session.getAttribute("location");
 						if(location!=null) {
@@ -358,9 +358,9 @@ public class EmployeeServlet extends HttpServlet {
 	
 	//生成隨機密碼
 	public String getRandomString() {
-		String str="abcdefghigklmnopkrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789";
-		Random random=new Random();
-		StringBuffer sf=new StringBuffer();
+		String str = "abcdefghigklmnopkrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789";
+		Random random = new Random();
+		StringBuffer sf = new StringBuffer();
 		for(int i = 0 ; i <10 ; i++) {
 			int number=random.nextInt(62);
 			sf.append(str.charAt(number));
@@ -373,7 +373,7 @@ public class EmployeeServlet extends HttpServlet {
 		String to = empVO.getEmail();			
 		String epsw = empVO.getEpsw();
 		String subject = "忘記密碼通知信件";
-		String messageText = "FitMate員工"+ename+"您好,您的後台系統登入密碼為"+epsw+",請務必保管好此信件,謝謝";
+		String messageText = "FitMate員工 "+ename+" 您好,您的後台系統登入密碼為 "+epsw+" ,請務必保管好此信件,謝謝";
 		
 		MailService mSvc = new MailService();
 		mSvc.sendMail(to, subject, messageText);

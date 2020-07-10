@@ -86,8 +86,7 @@ body {
 
 		<div id="main">
 			<h1>修改員工資料</h1>
-			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工列表</a> 
-			<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
+			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工首頁</a> 
 		</div>
 		<c:if test="${not empty errorMsgs}">
 			<a>看看你的錯:</a>
@@ -137,7 +136,7 @@ body {
 				<br>
 			</div>
 			<br> <input type="button" value="修改送出"
-			 id="confirm" class="btn btn-outline-success my-2 my-sm-0"> <input
+			 id="confirm" class="btn btn-success my-2 my-sm-0"> <input
 				type="hidden" value="alter" name="action"> <input
 				type="hidden" name="empno" value="${empVO.empno}">
 		</form>

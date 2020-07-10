@@ -103,6 +103,36 @@ margin-top:30px !important;
 font-size:18px;
 text-align:center;
 }
+
+.fb-btn{
+    margin: 0 auto;
+    margin-top: 20px;
+    border-radius: 30px;
+}
+
+ .submit{
+    margin: 0 auto;
+ 
+    border-radius: 30px;
+}
+
+h4>span{
+    
+   display: flex;
+    justify-content: center;
+}
+input{
+width: 260px;
+    margin: 0 auto;
+
+}
+.modal-content {
+ 
+    background-color: black;
+}
+label>span{
+	margin-left: 305px;
+}
 </style>
 
 
@@ -210,13 +240,13 @@ text-align:center;
 										<h5 class="card-title">${lessonVO.lessname}</h5>
 										<p class="card-text">${lessonVO.lessdesc}</p>
 										<p class="card-text">
-											堂數:${lessonVO.lesstimes} 點數:${lessonVO.lessprice}<small
+											堂數:${lessonVO.lesstimes}   點數:${lessonVO.lessprice}<small
 												class="text-muted"></small>
 										</p>
 										<p class="card-text">
 											狀態:${lessonVO.lesssta}<small class="text-muted"></small>
 										</p>
-		
+										
 										<FORM METHOD="post"
 											ACTION="<%=request.getContextPath()%>/lesson/lesson.do"
 											style="margin-bottom: 0px;">
@@ -241,27 +271,19 @@ text-align:center;
 		</div>
 	</div>
 
-	<!-- ##### Blog Wrapper Area End ##### -->
-
 	<!-- ##### Footer Area Start ##### -->
 	<div id="footer">
 	<%@ include file="/front-end/footer.jsp"%>
 	<!-- ##### Footer Area End ##### -->
 </div>
-	<!-- jQuery (Necessary for All JavaScript Plugins) -->
-	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-	<!-- Popper js -->
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
-	<!-- Bootstrap js -->
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-	<!-- Plugins js -->
-	<script src="${pageContext.request.contextPath}/js/plugins.js"></script>
-	<!-- Classy Nav js -->
-	<script src="${pageContext.request.contextPath}/js/classy-nav.min.js"></script>
-	<!-- Active js -->
-	<script src="${pageContext.request.contextPath}/js/active.js"></script>
-
+<script>
+$(document).ready(function(){
+	$(".card-body").each(function(){
+		$(this).children().eq(2).css("color","red");
+		$(this).children().eq(3).css("color","blue");
+	});
+});
+</script>
 </body>
 
 </html>

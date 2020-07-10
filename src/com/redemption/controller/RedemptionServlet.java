@@ -34,11 +34,9 @@ public class RedemptionServlet extends HttpServlet {
 		if("showAll".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-			HttpSession session = req.getSession();
 			
-			try {
-				CoaVO coaVO = (CoaVO) session.getAttribute("coaVO");
-				String coano = coaVO.getCoano();
+			try {				
+				String coano = req.getParameter("coano");
 				
 				req.setAttribute("coano", coano);	//轉交coano到view層jsp,在view層new一個Service呼叫all給coano做查詢				
 				String url = "/front-end/redemption/showAllRedemption.jsp";
@@ -67,13 +65,12 @@ public class RedemptionServlet extends HttpServlet {
 				}
 				RedemptionVO redVO = new RedemptionVO();
 				redVO.setCoano(coano);
-				redVO.setRedprice(redprice);								
+				redVO.setRedprice(redprice);		
+				
 				//抓教練現有點數
 				CoaService coaSvc = new CoaService();
 				CoaVO coaVO = coaSvc.getOneCoa(coano);
 				Integer coapoint = coaVO.getCoapoint();
-				//點數兌換判斷
-				
 				//新增記錄到後台表格
 				RedemptionService redSvc = new RedemptionService();
 				redVO = redSvc.addRed(coano, redprice);
@@ -81,6 +78,7 @@ public class RedemptionServlet extends HttpServlet {
 				Integer newpoint = coapoint - redprice ;
 				redSvc.alterCoaPoint(coano, newpoint);
 			
+
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("redVO", redVO); 
 					RequestDispatcher failureView = req.getRequestDispatcher("/front-end/redemption/addOneRedemption.jsp");
@@ -107,10 +105,9 @@ public class RedemptionServlet extends HttpServlet {
 					
 			try {
 				String redno = req.getParameter("redno");
-				System.out.println(redno);
 				RedemptionService redSvc = new RedemptionService();
 				redSvc.alterRed(redno);
-				
+				System.out.println(redno);
 				//取得redemption的教練編號&申請日期
 				RedemptionVO redVO = redSvc.getCoaByRed(redno);
 				String coano = redVO.getCoano();

@@ -35,8 +35,10 @@ public class DepositServlet extends HttpServlet {
 			
 			try {
 				String stuno = req.getParameter("stuno");
+				DepositService depSvc = new DepositService();
+				List<DepositVO> deplist = depSvc.showAllDep(stuno);
 				
-				req.setAttribute("stuno", stuno);
+				req.setAttribute("deplist", deplist);
 				String url = "/front-end/deposit/showAllDeposit.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -87,13 +89,13 @@ public class DepositServlet extends HttpServlet {
 			depSvc.alterStuPoint(stuno, newpoint);
 			
 			req.setAttribute("depVO", depVO);
-			String url = "/front-end/deposit/deposit_index.jsp";
+			String url = "/front-end/deposit/showAllDeposit.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 			
 			} catch (Exception e) {
 				errorMsgs.add("系統提示:" + e.getMessage());
-				RequestDispatcher failView = req.getRequestDispatcher("/front-end/deposit/deposit_index.jsp");
+				RequestDispatcher failView = req.getRequestDispatcher("/front-end/deposit/showAllDeposit.jsp");
 				failView.forward(req, res);
 			}
 		}

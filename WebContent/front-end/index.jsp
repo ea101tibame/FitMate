@@ -15,7 +15,7 @@ background-color:#E6E6F2;
 </head>
 <body>
 <marquee class="marquee" onMouseOver="this.stop()" onMouseOut="this.start()" scrollamount="15">
-<b>FITMATE有限公司&nbsp;&nbsp;&nbsp;顧問:吳永志 吳冠宏 郭惠民&nbsp;&nbsp;&nbsp;董事長 aka&nbsp;JQuery達人:方品貴&nbsp;&nbsp;&nbsp;執行長:官庭昱&nbsp;&nbsp;&nbsp;藝術總監:黃聖珊  黃羽均&nbsp;&nbsp;&nbsp;系統架構師 aka女子力滿點:魏韶毅&nbsp;&nbsp;&nbsp;行銷經理:謝志琳&nbsp;&nbsp;&nbsp;業務經理:官民建 </b></marquee>
+<b>FITMATE有限公司&nbsp;&nbsp;&nbsp;顧問:吳永志 吳冠宏 郭惠民&nbsp;&nbsp;&nbsp;董事長 aka&nbsp;JQuery達人:方品貴&nbsp;&nbsp;&nbsp;執行長:官庭昱&nbsp;&nbsp;&nbsp;藝術總監:黃聖珊  黃羽均&nbsp;&nbsp;&nbsp;系統架構師 aka nbsp;達人:魏韶毅&nbsp;&nbsp;&nbsp;行銷經理:謝志琳&nbsp;&nbsp;&nbsp;業務經理:官民建 </b></marquee>
 	<%@ include file="/front-end/header.jsp" %>
 		
 	<section class="welcome_area bg-img background-overlay" style="background-image: url(${context}/images/bg-img/yoga.png);">

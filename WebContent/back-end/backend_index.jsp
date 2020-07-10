@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.employee.model.*"%>
+
 <%
  	EmployeeVO empVO = (EmployeeVO)session.getAttribute("empVO");
 	session.setAttribute("empVO", empVO);
@@ -20,10 +21,12 @@
 		background:url("<%=request.getContextPath()%>/images/backend_public/bg1ori.jpg");
 		background-position: center center;
 	}
+	
 	.main{
 		text-align:center;
 		margin-top:15%;
 	}
+	
 	
 </style>
 <link rel="stylesheet"
@@ -72,7 +75,7 @@
 	<div class="article side-open">
 		<!-- logo區開始 -->
 		<div id="logo">
-			<img src="<%=request.getContextPath()%>/images/backend_public/logo.png" alt="">
+			<img src="<%=request.getContextPath()%>/images/backend_public/logo.png" >
 		</div>
 		<!-- logo區結束 -->
 
@@ -81,29 +84,24 @@
 			<h2></h2>
 		</div>
 	<%if (session.getAttribute("empVO")==null) {%>	
+	
 		<div class="main">
 			<p>歡迎來到FitMate後臺管理頁面</p><br>
 			<p>若需要進行任何操作請先點擊右上角進行登入</p>
 		</div>
+	
 	<%}else{ %>	
-		<div class="main" id="loginsuccess">
+		<div class="main">
+			<script>
+			swal('こんにちは','FitMate管理システムへようこそ','success');
+			</script>
 			<p>管理員 ${empVO.ename} 您好</p>
 			<br><br>
 			<p>請點選左邊選單進行功能操作</p>
 		</div>
-		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-		<script>
-	
-		$(document).ready(function(){
-			swal('こんにちは','FitMate管理システムへようこそ','success');
-	});
-
-</script>
-		
 	<%} %>
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 	</div>
-
 
 </body>
 </html>

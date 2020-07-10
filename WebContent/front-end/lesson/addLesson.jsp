@@ -6,17 +6,18 @@
 <%@ page import="com.expertise.model.*"%>
 <%@ page import="com.coach.model.*"%>
 <%@ include file="/front-end/header.jsp" %>
+
 <%
 	LessonVO lessonVO = (LessonVO) request.getAttribute("lessonVO");
 	String coano = (String)session.getAttribute("coano");
 	pageContext.setAttribute("coano",coano);
-// 	out.print(coano);
 %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <meta charset="UTF-8">
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,6 +44,8 @@
 	href="${pageContext.request.contextPath}/css/custom-css/lesson/addLesson.css">
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+
 <style>
 .err{
 margin-bottom:20px;
@@ -65,6 +68,17 @@ h2{
     font-size: 1.25rem; 
 
 }
+.swal2-title {
+    display: flex !important;
+    justify-content: center !important;
+}
+#magic{
+	width:80px;
+	margin-left:1000px;
+}
+.regular-page-content-wrapper .regular-page-text h2 {
+   margin-bottom: 0px !important;
+}
 </style>
 </head>
 
@@ -86,6 +100,7 @@ h2{
 			<div class="row justify-content-center">
 				<div class="col-12 col-md-12">
 					<div class="regular-page-content-wrapper section-padding-80">
+					
 						<form method="post"
 							action="<%=request.getContextPath()%>/lesson/lesson.do"
 							
@@ -93,7 +108,8 @@ h2{
 							<div class="regular-page-text">
 								<h2>建立課程</h2>
 								<!--表單開始-->
-
+<!-- 							<input type="button" id="magic" value="神奇小按鈕"> -->
+							<img src="${pageContext.request.contextPath}/images/bg-img/sup.png" id="magic">
 						<%-- 錯誤表列 --%>
 								<c:if test="${not empty errorMsgs}">
 								<div class="err">
@@ -109,14 +125,14 @@ h2{
 									<div class="col-md-12 mb-3">
 										<label for="firstName" class="title">課程名稱</label> <input type="text"
 											class="form-control" name="lessname"
-											value="<%=(lessonVO == null) ? "" : lessonVO.getLessname()%>">
+											value="<%=(lessonVO == null) ? "" : lessonVO.getLessname()%>" id="lessname">
 
 									</div>
 									<div class="col-md-12 mb-3">
 										<label for="country" class="title">課程類型</label>
 										<jsp:useBean id="lessonSvc" scope="page"
 											class="com.lesson.model.LessonService" />
-										<select class="custom-select d-block " name="lesstype">
+										<select class="custom-select d-block " name="lesstype" id="lesstype">
 											<option value="">請選擇</option>
 											<c:forEach var="expertiseVO"
 												items="${lessonSvc.allExpByExpno}">
@@ -131,14 +147,14 @@ h2{
 									<div class="col-md-12 mb-3">
 										<label for="lastName" class="title">人數上限(最多幾位學生)</label> <input type="text"
 											class="form-control" name="lessmax"
-											value="<%=(lessonVO == null) ? "" : lessonVO.getLessmax()%>">
+											value="<%=(lessonVO == null) ? "" : lessonVO.getLessmax()%>" id="lessmax">
 
 									</div>
 
 									<div class="col-md-12 mb-3">
 										<label for="lastName" class="title">人數下限(下限人數到即開團)</label> <input
 											type="text" class="form-control" name="lessmin"
-											value="<%=(lessonVO == null) ? "" : lessonVO.getLessmin()%>">
+											value="<%=(lessonVO == null) ? "" : lessonVO.getLessmin()%>" id="lessmin">
 
 									</div>
 								</div>
@@ -148,7 +164,7 @@ h2{
 								<div class="mb-3">
 									<label for="address" class="title">課程欲售點數   <font style="color: red">注意:送出不可更改</font></label> <input type="text"
 										class="form-control" name="lessprice"
-										value="<%=(lessonVO == null) ? "" : lessonVO.getLessprice()%>">
+										value="<%=(lessonVO == null) ? "" : lessonVO.getLessprice()%>" id="lessprice">
 
 								</div>
 
@@ -160,7 +176,7 @@ h2{
 										<div class="f4" data-role="district"></div>
 									</div>
 									<input type="text" class="f13 address form-control"
-										name="lesslocAdd">
+										name="lesslocAdd" id="place">
 
 								</div>
 
@@ -180,7 +196,7 @@ h2{
 								<div class="mb-3">
 									<label for="address" class="title">課程堂數   <font style="color: red">注意:送出不可更改</font></label> <input type="text"
 										class="form-control" name="lesstimes"
-										value="<%=(lessonVO == null) ? "" : lessonVO.getLesstimes()%>">
+										value="<%=(lessonVO == null) ? "" : lessonVO.getLesstimes()%>" id="lesstimes">
 
 								</div>
 
@@ -216,8 +232,9 @@ h2{
 							<hr class="mb-4">
 							<input type="hidden" name="coano" value="${coano}">
 							<input type="hidden" name="action" value="insert">
-							<button class="btn btn-primary btn-lg btn-block" type="submit" id="insertBtn">課程建立>>>下一步 新增時段</button>
+							<button class="btn btn-primary btn-lg btn-block" type="submit" id="insertBtn" onclick="check()">課程建立>>>下一步 新增時段</button>
 						</form>
+						
 						<!--表單結束-->
 					</div>
 				</div>
@@ -250,30 +267,52 @@ h2{
 	<!-- 地址 -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 	
 	<script>
 	
 	$(document).ready(function(){
+		$('#magic').on('click',function(){
+			$('#lessname').val('SUP 立槳衝浪');
+			$('#lesstype').val('EXP005');
+			$('#lessmax').val('20');
+			$('#lessmin').val('5');
+			$('#lessprice').val('3000');
+			$('#from').val('2020-07-23');
+			$('#to').val('2020-07-30');
+			$('#place').val('我家後院的太平洋');
+			$('#lesstimes').val('2');
+			$('#exampleFormControlTextarea1').val('SUP立槳衝浪（Stand Up Paddle），它是一種結合衝浪和帆船滑行原理的板類運動，近年來在國外非常流行。衝浪者可以直接站在板子上，用槳划行及做衝浪的動作，簡單易學，只要經過專業教練的指導，無論是誰都能瀟灑、優雅地來趟海上乘風的SUP立槳航行。');
+		});
+	});
 
-		$("#insertBtn").on("click",function(e){
+	$(document).ready(function(){
+		const swalWithBootstrapButtons = Swal.mixin({
+			  customClass: {
+			    confirmButton: 'btn btn-success',
+			    cancelButton: 'btn btn-danger'
+			  },
+			  buttonsStyling: false
+			});
+		$("#insertBtn").click(function(e){
 			e.preventDefault();
-			swal({
+			swalWithBootstrapButtons.fire({
 				title:'請再次確認',
 				text:'課程欲售點數 與 課程堂數 新增後不可修改',
 				icon:'warning',
-				buttons:true,
+				showCancelButton: true,
 				dangerMode:false,
-			}).then(function(isConfirm){
-				if(isConfirm){
-					$("#insertBtn").parent().submit();
-					
-				}
-			});
-			
+				  confirmButtonText: '下一步',
+				  cancelButtonText: '取消!',
+				  reverseButtons: true
+			}).then((result) => {
+				  if (result.value) {
+					  $("#insertBtn").parent().submit();
+			}
 		});
-		
 	});
+	});
+
 	</script>
 	<script>
 		$("#zipcode3").twzipcode({

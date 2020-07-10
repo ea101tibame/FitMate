@@ -63,16 +63,9 @@
 		<!-- logo區結束 -->
 
 		<!-- ------------------------------------從這裡開始編輯喔各位！----------------------- -->
-		<div id="main">
-			<h2>首頁</h2>
-		</div>
-		<c:if test="${not empty errorMsgs}">
-			<a>看看你的錯:</a>
-			<br>
-			<a><c:forEach var="message" items="${errorMsgs}">${message}</c:forEach></a>
-		</c:if>
-		<p>登入失敗測試</p>
-		<p>請回<a href="<%=request.getContextPath()%>/backend_index.jsp">首頁</a>重新登入</p>
+		
+		<p>登入失敗</p>
+		<p>請點擊右上角重新登入</p>
 
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 	</div>

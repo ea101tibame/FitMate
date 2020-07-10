@@ -65,6 +65,10 @@ public class Lesson_orderServlet extends HttpServlet {
 					lesson_orderVO.setLord_sc(lord_sc);
 					//lesson_orderVO.setLord_no(lord_no);
 	
+String stupoint = req.getParameter("newpoint");
+					
+int point = Integer.parseInt(stupoint);
+					
 
 	
 					// Send the use back to the form, if there were errors
@@ -82,7 +86,7 @@ public class Lesson_orderServlet extends HttpServlet {
 					
 					//System.out.println(stuno+"," + coano +"," + comdate +"," + comdesc +"," + comsta);
 					
-					 lesson_orderVO = lesson_orderSvc.addLesson_order(stuno, lessno, lord_sc, lord_time);
+ lesson_orderVO = lesson_orderSvc.addLesson_order(lesson_orderVO ,  point);
 					
 					
 					/***************************3.新增完成,準備轉交(Send the Success view)***********/

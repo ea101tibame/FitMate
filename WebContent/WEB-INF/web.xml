@@ -235,10 +235,80 @@
 		<url-pattern>/back-end/information/*</url-pattern>
 		<url-pattern>/back-end/redemption/*</url-pattern>
 		<url-pattern>/back-end/employee/*</url-pattern>
+		<url-pattern>/back-end/product/*</url-pattern>
+		<url-pattern>/back-end/back_msg/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>	
+	<!-- 羽均 -->
+	<servlet>
+		<servlet-name>ProductServlet</servlet-name>
+		<servlet-class>com.product.controller.ProductServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProductServlet</servlet-name>
+		<url-pattern>/product/product.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ProdpicServlet</servlet-name>
+		<servlet-class>com.product.controller.ProdpicServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProdpicServlet</servlet-name>
+		<url-pattern>/product/product.pic</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>ShoppingServlet</servlet-name>
+		<servlet-class>com.product.controller.ShoppingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ShoppingServlet</servlet-name>
+		<url-pattern>/Shopping.html</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>product_orderServlet</servlet-name>
+		<servlet-class>com.product_order.controller.product_orderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>product_orderServlet</servlet-name>
+		<url-pattern>/product/product_order.html</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>Sale_projectServlet</servlet-name>
+		<servlet-class>com.sale_project.controller.Sale_projectServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Sale_projectServlet</servlet-name>
+		<url-pattern>/product/sale_project.html</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Product_favServlet</servlet-name>
+		<servlet-class>com.product_fav.controller.Product_favServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Product_favServlet</servlet-name>
+		<url-pattern>/back-end/product/product_fav.html</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>product_orderServlet_ajax</servlet-name>
+		<servlet-class>com.product_order.controller.product_orderServlet_ajax</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>product_orderServlet_ajax</servlet-name>
+		<url-pattern>/front-end/product/product_order.do</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

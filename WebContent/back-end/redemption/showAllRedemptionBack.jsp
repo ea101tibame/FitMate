@@ -76,7 +76,7 @@ body {
 		<!-- logo區結束 -->
 		<div id="main">
 			<h1>FitMate教練點數兌換申請審核</h1>
-		</div>
+		</div><br>
 <%-- 		<%@ include file="page1.file"%> --%>
 		<div class="table-responsive-sm table-hover table-success">
 			<table class="table align-items-center">
@@ -119,7 +119,7 @@ body {
 <script>
 
 $(document).ready(function(){
-	$('input:submit').on('click',function(e){
+	$('input:submit').on('click',function(e){	
 		e.preventDefault();
 		swal({
 			title:'注意',

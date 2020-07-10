@@ -88,7 +88,7 @@ body {
 
 		<div id="main">
 			<h1>新增員工資料</h1>
-			<a href="<%=request.getContextPath()%>/back-end/employee/employee_select_page.jsp">返回員工首頁</a>
+			<a href="<%=request.getContextPath()%>/back-end/employee/showAllEmployee.jsp">返回員工首頁</a>
 		</div>
 		<c:if test="${not empty errorMsgs}">
 			<a>看看你的錯:</a>
@@ -102,21 +102,21 @@ body {
 					<tr>
 						<td>員工姓名:</td>
 						<td><input type="text" name="ename"
-							value="<%= (empVO==null)? "" : empVO.getEname()%>"></td>
+							value="<%= (empVO==null)? "" : empVO.getEname()%>" id="ename"></td>
 					</tr>
 					<tr>
 						<td>員工帳號:</td>
 						<td><input type="text" name="eacc"
-							value="<%= (empVO==null)? "" : empVO.getEacc()%>"></td>
+							value="<%= (empVO==null)? "" : empVO.getEacc()%>" id="eacc"></td>
 					</tr>
 					<tr>
 						<td>員工信箱:<br><font color=red size=3px><b>*員工密碼信件將寄至此信箱</b></font></td>
-						<td><input type="email" name="email" value="<%= (empVO==null)? "" : empVO.getEmail()%>"></td>
+						<td><input type="email" name="email" value="<%= (empVO==null)? "" : empVO.getEmail()%>" id="email"></td>
 					</tr>
 					<tr>
 						<td>雇用日期:</td>
 						<td><input type="date" name="edate"
-							value="<%= (empVO==null)? "" : empVO.getEdate()%>"></td>
+							value="<%= (empVO==null)? "" : empVO.getEdate()%>" id="edate"></td>
 					</tr>
 					<tr>
 						<td>員工照片:</td>
@@ -128,7 +128,7 @@ body {
 					</tr>
 					<tr>
 						<td>員工權限:</td>
-						<td><select size="1" name="esta">
+						<td><select size="1" name="esta" id="esta">
 								<option value="系統管理員">系統管理員
 								<option value="一般管理員">一般管理員
 						</select></td>
@@ -138,10 +138,11 @@ body {
 			</div>
 			<br> 
 			<input type="hidden" name="action" value="insert">
-			<input type="button" value="新增送出" id="confirm"
-				 class="btn btn-outline-success my-2 my-sm-0">
+			<input type="submit" value="新增送出" id="confirm"
+				 class="btn btn-success my-2 my-sm-0">
 		</form>
-
+		
+			<input type="button" value="神奇小按鈕" id="magic" class="btn btn-outline-warning">
 
 		<!-- ------------------------------------從這裡結束編輯喔各位！----------------------- -->
 
@@ -163,7 +164,7 @@ function readURL(input){
 }
 
 $(document).ready(function(){
-	$('input:button').on('click',function(e){ //input的type不能用submit,擋不下送出
+	$('input:submit').on('click',function(e){ //input的type不能用submit,擋不下送出
 		e.preventDefault();	//避免form表單的預設送出
 		swal({
 			title:'注意',	//swal標準結構1
@@ -173,7 +174,13 @@ $(document).ready(function(){
 			dangerMode:true //確認button上紅色
 		}).then(function(isConfirm){ //.then()表示按了第一個swal後要接著做的事情,用匿名函式傳isConfirm=swal的確認值
 			if(isConfirm){ 
-				$('input:button').parent('form').submit();	//找到那個要傳出去的form表單標籤(不建議用id/class),用submit()執行送出
+				$('input:submit').parent('form').submit();	//找到那個要傳出去的form表單標籤(不建議用id/class),用submit()執行送出
+				swal({
+					title:'員工資料新增中',
+					text:'請勿隨意關閉視窗',
+					buttons:false,
+					icon:'warning'
+				});
 				setTimeout(function(){	//設定swal彈出的時間&順序
 					swal('成功','你已經新增一名員工','success');
 				},5000);
@@ -184,6 +191,15 @@ $(document).ready(function(){
 	});
 });
 
+$(document).ready(function(){
+	$('#magic').click(function(){
+		$('#ename').val('水樹奈奈');
+		$('#eacc').val('MizukiNana');
+		$('#email').val('cycu10014106@gmail.com');
+		$('#esta').val('一般管理員');
+		$('#edate').val('2020-07-23');
+	});
+});
 </script>
 
 </body>

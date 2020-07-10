@@ -19,6 +19,7 @@
 <html lang="en">
 
 <head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <meta charset="UTF-8">
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,7 +46,6 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/custom-css/lesson/selectLesson.css">
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style>
 table {
@@ -91,7 +91,13 @@ width:100px;
     width: 50px;
     cursor: pointer;
 }
-
+.swal2-select{
+display:none !important;
+}
+.swal2-title {
+    display: flex !important;
+    justify-content: center !important;
+}
 </style>
 
 </head>
@@ -119,14 +125,15 @@ width:100px;
 		<%-- 新增成功 --%>
 		<c:if test="${not empty insert}">
 			<script>
-				swal("新增課程成功", "", "success");
+				Swal.fire('新增課程' ,"成功", "success");
+				
 			</script>
 		</c:if>
 
 		<%-- 時段修改成功 --%>
 		<c:if test="${not empty updateTime}">
 			<script>
-				swal("時段修改成功", "", "success");
+				Swal.fire("時段 修改", "成功", "success");
 			</script>
 		</c:if>
 
@@ -214,12 +221,12 @@ width:100px;
 													</div>
 													<div class="col-4">
 														<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/lesson/lesson.do" style="margin-bottom: 0px;">
-															<input type="button" class="btn btn-secondary"
-																class="offlesson" value="下架課程"
+															<input type="submit" class="btn btn-secondary" value="下架課程"
 																<c:if test="${lessonVO.lesssta=='下架'}">value="Disabled" disabled</c:if>
 																>
 															<input type="hidden" name="lessno" value="${lessonVO.lessno}"> 
 															<input type="hidden" name="action" value="off_lesson">
+															
 														</FORM>
 													</div>
 												</div>
@@ -266,28 +273,34 @@ width:100px;
 	<!-- 打勾修改完成 -->
 	<script
 		src="${pageContext.request.contextPath}/js/custom-js/lesson/selectLesson.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 	<script>
-
-		$(document).ready(function(){
-			$('input:button').on("click", function(e) {									
-// 				e.preventDefault();	
-				swal({
-					title : '確定下架？',
-					text : '按下下架後 課程會永久刪除 無法回復',
-					icon : 'warning',
-					buttons : true,
-					dangerMode : false,
-				}).then(function(isConfirm) {
-					if (isConfirm) {
-						swal("完成!", "課程已經下架", "success");
-						$('input:button').parent('form').submit();
-					}
-				});
+	$(document).ready(function(){
+		const swalWithBootstrapButtons = Swal.mixin({
+			  customClass: {
+			    confirmButton: 'btn btn-success',
+			    cancelButton: 'btn btn-danger'
+			  },
+			  buttonsStyling: false
+			});													
+		$('input:submit').on('click',function(e){							
+			e.preventDefault();
+			swalWithBootstrapButtons.fire({
+				title : '確定下架？',
+				text : '按下下架後 課程會永久刪除 無法回復',
+				icon : 'warning',
+				showCancelButton: true,
+				confirmButtonText: '確定',
+				  cancelButtonText: '取消!',
+				  reverseButtons: true
+			}).then((result) => {
+				 if (result.value) {											
+				$(this).parent().submit();
+				}
 			});
 		});
-		
-	</script>
+	});
+</script> 
 </body>
 
 </html>

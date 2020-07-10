@@ -15,15 +15,12 @@
 <title>FitMate</title>
 
    <!-- Favicon  -->
-    <link rel="icon" href="${context}/images/core-img/FIT.ico">
+<link rel="icon" href="${context}/images/core-img/FIT.ico">
 <link rel="stylesheet" type="text/css" href="${context}/css/css/core-style.css">
 <link rel="stylesheet" type="text/css" href="${context}/css/custom-css/index.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" type="text/css" href="${context}/css/custom-css/login.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
-<!-- <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet"> -->
-<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
-
 
 <style>
  #scrollUp{ 
@@ -61,7 +58,7 @@
 								<a href="${context}/front-end/index.jsp">首頁</a>
 							</li>
 							<li>
-								<a href="${context}/front-end/blog.jsp">消息</a>
+								<a href="${context}/front-end/information/showAllInformation.jsp">消息</a>
 							</li>
 							<li>
 								<a href="#">商城</a>

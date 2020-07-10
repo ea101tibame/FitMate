@@ -11,18 +11,13 @@ public class Lesson_orderService {
 		dao = new Lesson_orderJDBCDAO();
 	}
 	
-	public Lesson_orderVO addLesson_order( String stuno, String lessno, Integer lord_sc, java.sql.Timestamp  lord_time) {
-		Lesson_orderVO lesson_orderVO = new Lesson_orderVO();
+public Lesson_orderVO addLesson_order( Lesson_orderVO lesson_orderVO , int stupoint ) {
+	/////	
+			dao.insert(lesson_orderVO ,stupoint);
+			
+			return lesson_orderVO;
 	
-		lesson_orderVO.setStuno(stuno);	
-		lesson_orderVO.setLessno(lessno);
-		lesson_orderVO.setLord_sc(lord_sc);	
-		
-		lesson_orderVO.setLord_time(new java.sql.Timestamp(System.currentTimeMillis()));
-		
-		dao.insert(lesson_orderVO);
-		
-		return lesson_orderVO;
+	
 	
 	}
 	

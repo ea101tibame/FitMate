@@ -125,6 +125,7 @@ public class LessonServlet extends HttpServlet {
 				InputStream in = part.getInputStream();
 				byte[] img = new byte[in.available()];
 				in.read(img);
+				in.close();
 				lessonVO.setLesspic(img);
 
 
@@ -192,7 +193,7 @@ public class LessonServlet extends HttpServlet {
 			try {
 				/***************************1.接收請求參數****************************************/
 				String lessno = new String(req.getParameter("lessno"));
-				String coano = new String(req.getParameter("coano"));
+//				String coano = new String(req.getParameter("coano"));
 				/***************************2.開始查詢資料****************************************/
 				LessonService lessonSvc = new LessonService();
 				LessonVO lessonVO = lessonSvc.getOneByPK(lessno);
@@ -229,7 +230,7 @@ public class LessonServlet extends HttpServlet {
 				if(lesstype ==  null || lesstype.trim().length() == 0) {
 					errorMsgs.add("請選擇課堂類型");
 				}
-//System.out.println("lesstype="+lesstype);
+
 				Integer lessmax = null;
 				try {
 					lessmax = new Integer(req.getParameter("lessmax"));
@@ -274,10 +275,17 @@ public class LessonServlet extends HttpServlet {
 				}
 
 				String lessdesc = req.getParameter("lessdesc");
-				//拿現在最新人數
+				
+				
 				int lesscur =0;
 				String lesssta = null;
 				String coano = null;
+				
+				LessonService lessSvc = new LessonService();
+				LessonVO lessVO = lessSvc.getOneByPK(lessno);
+				coano = lessVO.getCoano();
+				lesssta = lessVO.getLesssta();
+				lesscur = lessVO.getLesscur(); 
 				
 				//圖片
 				byte[] img=null;
@@ -287,22 +295,12 @@ public class LessonServlet extends HttpServlet {
 				if(in.available()>0) {
 					img = new byte[in.available()];
 					in.read(img);
+					in.close();
+					
 				//如果沒有圖片 就拿原本VO內的圖片	
 				}else {
-					LessonService lessSvc = new LessonService();
-					LessonVO lessVO = lessSvc.getOneByPK(lessno);
 					img = lessVO.getLesspic();
-					
-					//拿現在最新人數
-					lesscur = lessVO.getLesscur(); 
-//					img=LessonVO.getLesspic();
-					//拿現在最新狀態
-					lesssta = lessVO.getLesssta();
-					//拿教練編號
-					coano = lessVO.getCoano();
-				}
-				
-				in.close();
+				}				
 			
 				LessonVO lessonVO = new LessonVO();
 				lessonVO.setCoano(coano);
@@ -311,7 +309,7 @@ public class LessonServlet extends HttpServlet {
 				lessonVO.setLessmax(lessmax);
 				lessonVO.setLessmin(lessmin);
 				
-				lessonVO.setLesscur(lesscur);//撈目前資料
+				lessonVO.setLesscur(lesscur);
 				lessonVO.setLesstype(lesstype);
 				lessonVO.setLessloc(lessloc);
 				lessonVO.setLessprice(lessprice);
@@ -323,7 +321,7 @@ public class LessonServlet extends HttpServlet {
 				lessonVO.setLesstimes(lesstimes);
 
 				lessonVO.setLesspic(img);
-				
+				System.out.println(img);
 
 				if (!errorMsgs.isEmpty()) {
 					for (String str : errorMsgs) {
@@ -338,7 +336,7 @@ public class LessonServlet extends HttpServlet {
 
 				/*************************** 2.開始修改資料***************************************/
 				LessonService lessonSvc = new LessonService();
-				lessonVO = lessonSvc.updateLesson(lessno,coano,lessname, lessmax, lessmin,lesscur ,lesstype, lessloc, lessprice,
+				lessonVO = lessonSvc.updateLesson(lessno,coano,lessname, lessmax, lessmin,lesscur,lesstype, lessloc, lessprice,
 						lessdesc, lessstart, lessend, lesssta, lesstimes, img);
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) ***********/
@@ -375,7 +373,7 @@ public class LessonServlet extends HttpServlet {
 				LessonTimeService ltimeSvc = new LessonTimeService();
 				ltimeSvc.deleteLessonTime(lessno);
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-				
+				System.out.println("OK");
 				String url ="/front-end/lesson/selectLesson.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);

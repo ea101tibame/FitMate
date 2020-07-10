@@ -20,7 +20,7 @@ public class RedemptionJDBCDAO implements RedemptionDAO_interface{
 	//查單一教練所有兌換紀錄
 	private static final String SELECT_ALL_BYCOANO = "SELECT * FROM REDEMPTION WHERE COANO = ?";
 	//查教練所有兌換紀錄(for後台)
-	private static final String SELECT_ALL = "SELECT * FROM REDEMPTION ORDER BY REDNO DESC";
+	private static final String SELECT_ALL = "SELECT * FROM REDEMPTION ORDER BY REDDATE DESC";
 	//更改兌換狀態
 	private static final String UPDATE_STA = "UPDATE REDEMPTION SET REDSTA = '已審核' WHERE REDNO = ?";
 	//更改教練點數
@@ -313,20 +313,20 @@ public class RedemptionJDBCDAO implements RedemptionDAO_interface{
 //			dao.updateSta("20200629-RED014");
 //			System.out.println("修改成功");
 //			
-			List<RedemptionVO>redlist = dao.selectAll();
-			for(RedemptionVO red : redlist) {
-				System.out.println(red.getRedno());
-				System.out.println(red.getCoano());
-				System.out.println(red.getReddate());
-				System.out.println(red.getRedprice());
-				System.out.println(red.getRedsta());
-			}
+//			List<RedemptionVO>redlist = dao.selectAll();
+//			for(RedemptionVO red : redlist) {
+//				System.out.println(red.getRedno());
+//				System.out.println(red.getCoano());
+//				System.out.println(red.getReddate());
+//				System.out.println(red.getRedprice());
+//				System.out.println(red.getRedsta());
+//			}
 //			dao.updateSta("20200701-RED012");
 			
-//			redVO = dao.getCoaByRedno("20200702-RED011");
-//			System.out.println(redVO.getCoano());
-//			System.out.println(redVO.getReddate());
-//			System.out.println("success");
+			redVO = dao.getCoaByRedno("20200701-RED003");
+			System.out.println(redVO.getCoano());
+			System.out.println(redVO.getReddate());
+			System.out.println("success");
 		}
 	
 

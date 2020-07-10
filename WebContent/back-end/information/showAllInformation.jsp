@@ -53,10 +53,7 @@
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/css/css/backend.css">
 <style>
-.pic {
-	height: 140px;
-	width: 120px;
-}
+
 
 body {
 	background:
@@ -64,9 +61,10 @@ body {
 	background-position: center center;
 }
 
-#main {
-	margin-left: 5px;
+.insert {
+	margin-left:95%;
 }
+
 </style>
 </head>
 <body>
@@ -84,33 +82,39 @@ body {
 		<!-- logo區結束 -->
 
 		<div id="main">
-			<h1>FitMate消息管理</h1>
-			<a href="<%=request.getContextPath()%>/back-end/information/information_select_page.jsp">返回消息首頁</a>
+			<h1 style="margin-left:-94px">FitMate消息管理</h1>
+			<a href="<%=request.getContextPath()%>/back-end/information/showAllInformation.jsp" style="margin-left:-94px">返回消息首頁</a>
 		</div>
+		<div class="insert">
+			<input type="submit" value="新增消息" onclick="location.href='<%=request.getContextPath()%>/back-end/information/insertOneInformation.jsp'" class="btn btn-warning">
+		</div>
+		<br>
 		<div class="table-responsive-sm table-hover table-success">
 <table class="table align-items-center">
 	<tr>
-		<th>消息編號</th>
-		<th>發布日期</th>
-		<th>類別</th>
-		<th>標題</th>
+		<th>編號</th>
+		<th style="width:200px">發布日期</th>
+		<th style="width:100px">類別</th>
+		<th style="width:200px">標題</th>
 		<th>內容</th>
+		<th>更新</th>
+		<th>刪除</th>
 	</tr>
 <c:forEach var="infVO" items="${inflist}">	
 	<tr>
-		<td>${infVO.inno}</td>
-		<td>${infVO.indate}</td>
-		<td>${infVO.intype}</td>
-		<td>${infVO.intitle}</td>
-		<td>${infVO.indesc}</td>
-		<td>
+		<td class="align-middle">${infVO.inno}</td>
+		<td class="align-middle" style="width:200px">${infVO.indate}</td>
+		<td class="align-middle" style="width:100px">${infVO.intype}</td>
+		<td class="align-middle" style="width:200px">${infVO.intitle}</td>
+		<td class="align-middle" style="height:250px">${infVO.indesc}</td>
+		<td class="align-middle">
 			<form action="<%=request.getContextPath()%>/information/information.do" method="post" style="margin-bottom: 0px;">
 			<input type="submit" value="更新消息" class="btn btn-outline-success my-2 my-sm-0">
 			<input type="hidden" name="inno" value="${infVO.inno}">
 			<input type="hidden" name="action" value="alterOneInf">
 			</form>
 		</td>
-		<td>
+		<td class="align-middle">
 			<form action="<%=request.getContextPath()%>/information/information.do" method="post" style="margin-bottom: 0px;">
 			<input type="button" value="刪除消息" class="btn btn-outline-success my-2 my-sm-0">
 			<input type="hidden" name="inno" value="${infVO.inno}">

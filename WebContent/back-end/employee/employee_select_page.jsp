@@ -69,18 +69,11 @@ body {
 
 		<div id="main">
 			<img alt="" src="<%=request.getContextPath()%>/images/employee/logo1.png" width="100" height="100"
-				border="0">
-			<h1>FitMate Employees</h1>
+				border="0" style="margin-left:-68px;">
+			<h1 style="margin-left:-60px;">FitMate Employees</h1>
 		</div>
 
 		<h3>員工資料查詢</h3>
-
-		<c:if test="${not empty errorMsgs}">
-			<a>看看你的錯:</a>
-			<br>
-			<a> <c:forEach var="message" items="${errorMsgs}">${errorMsgs}</c:forEach>
-			</a>
-		</c:if>
 
 		<ul>
 			<li><a href='showAllEmployee.jsp'>員工列表</a>點這看全部!! <br>
